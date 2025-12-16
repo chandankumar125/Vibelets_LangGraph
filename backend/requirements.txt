@@ -1,0 +1,15 @@
+python-dotenv
+requests
+beautifulsoup4
+langchain_openai
+langchain_core
+langchain
+langchain_community
+langchain_classic
+langgraph
+elevenlabs
+fastapi
+uvicorn
+python-multipart
+google-genai
+pillow
