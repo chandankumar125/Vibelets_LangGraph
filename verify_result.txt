@@ -1,7 +1,0 @@
-Running route node...
-
-Result:
-{'navigation_intent': 'scrape', 'agent_message': "Great! I see that you've successfully inputted the product URL. Now, let's move on to the next step: analyzing the product. I'll do the heavy lifting here, but you might need to refine the results to better fit your vision. Let's get started!"}
-
-SUCCESS: agent_message found!
-Message: Great! I see that you've successfully inputted the product URL. Now, let's move on to the next step: analyzing the product. I'll do the heavy lifting here, but you might need to refine the results to better fit your vision. Let's get started!
