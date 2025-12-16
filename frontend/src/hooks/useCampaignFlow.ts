@@ -1,10 +1,11 @@
 import { useState, useCallback, useMemo } from 'react';
 import { CampaignState, CampaignStep, Message, ProductData, ScriptOption, AvatarOption, CreativeOption, CampaignConfig, AdAccount, InlineQuestion, AIRecommendation } from '@/types/campaign';
-import { mockProductData, mockCreatives, scriptOptions, avatarOptions, mockAdAccounts, campaignObjectives, ctaOptions } from '@/data/mockData';
+import { mockCreatives, avatarOptions, mockAdAccounts, campaignObjectives, ctaOptions } from '@/data/mockData';
 import { createMockPerformanceDashboard } from '@/data/mockPerformanceData';
 import { toast } from 'sonner';
 import { isValidUrl, sanitizeInput, validateCampaignConfig, formatErrorMessage } from '@/lib/validation';
 import { matchUserInputToOption, looksLikeUrl } from '@/lib/nlpMatcher';
+import { vibeletsAPI } from '@/lib/api';
 
 const STEP_ORDER: CampaignStep[] = [
   'welcome',
@@ -61,6 +62,8 @@ export const useCampaignFlow = () => {
   ]);
   const [isTyping, setIsTyping] = useState(false);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
+  const [generatedScripts, setGeneratedScripts] = useState<ScriptOption[]>([]);
+  const [generatedAvatars, setGeneratedAvatars] = useState<AvatarOption[]>([]);
 
   // Find the active question that can receive natural language input
   const activeQuestion: InlineQuestion | null = useMemo(() => {
@@ -187,6 +190,7 @@ export const useCampaignFlow = () => {
 
       addMessage('user', sanitizedContent);
 
+
       if (state.step === 'welcome' || state.step === 'product-url') {
         // Check if it looks like a URL
         if (sanitizedContent.includes('.') || sanitizedContent.includes('http')) {
@@ -200,29 +204,58 @@ export const useCampaignFlow = () => {
 
           await simulateTyping("Perfect! Analyzing your product page now... 🔍", { stepId: 'product-analysis' }, 1000);
 
-          await new Promise(resolve => setTimeout(resolve, 2500));
+          try {
+            // ✅ REAL API CALL - Scrape product
+            const scrapeResult = await vibeletsAPI.scrapeProduct(sanitizedContent);
 
-          // Simulate potential API failure (in production, this would be real API call)
-          if (Math.random() < 0.02) { // 2% simulated failure rate for demo
-            throw new Error('Failed to fetch product data. The page may be unavailable or blocking our requests.');
+            if (scrapeResult.error) {
+              throw new Error(scrapeResult.error);
+            }
+
+            const scrapedProduct = scrapeResult.product_data;
+
+            // ✅ REAL API CALL - Analyze product
+            const analysisResult = await vibeletsAPI.analyzeProduct();
+
+            if (analysisResult.error) {
+              throw new Error(analysisResult.error);
+            }
+
+            const productAnalysis = analysisResult.analysis;
+
+            // Convert backend response to frontend ProductData format
+            const productData: ProductData = {
+              title: scrapedProduct?.title || 'Product',
+              price: scrapedProduct?.price || '$0',
+              description: scrapedProduct?.description || '',
+              images: scrapedProduct?.images || [],
+              category: scrapedProduct?.category || '',
+              targetAudience: productAnalysis?.target_audience || '',
+              usps: productAnalysis?.usps || [],
+              marketingAngles: productAnalysis?.marketing_angles || []
+            };
+
+            setState(prev => ({ ...prev, productData, isStepLoading: false }));
+
+            const continueQuestion: InlineQuestion = {
+              id: 'product-continue',
+              question: 'Ready to create your ad?',
+              options: [
+                { id: 'continue', label: 'Continue', description: 'Proceed to script selection' },
+                { id: 'change', label: 'Change URL', description: 'Use a different product' }
+              ]
+            };
+
+            await simulateTyping(
+              `I've analyzed your product page and found some great insights!\n\n**${productData.title}** looks perfect for video ads. I've identified ${productData.images.length} high-quality images and extracted key product details.\n\nCheck the preview panel for full details. Ready to proceed?`,
+              { inlineQuestion: continueQuestion, stepId: 'product-analysis' },
+              1500
+            );
+          } catch (error) {
+            console.error('Product scraping/analysis error:', error);
+            setState(prev => ({ ...prev, isStepLoading: false }));
+            throw error;
           }
-
-          setState(prev => ({ ...prev, productData: mockProductData, isStepLoading: false }));
-
-          const continueQuestion: InlineQuestion = {
-            id: 'product-continue',
-            question: 'Ready to create your ad?',
-            options: [
-              { id: 'continue', label: 'Continue', description: 'Proceed to script selection' },
-              { id: 'change', label: 'Change URL', description: 'Use a different product' }
-            ]
-          };
-
-          await simulateTyping(
-            `I've analyzed your product page and found some great insights!\n\n**${mockProductData.title}** looks perfect for video ads. I've identified ${mockProductData.images.length} high-quality images and extracted key product details.\n\nCheck the preview panel for full details. Ready to proceed?`,
-            { inlineQuestion: continueQuestion, stepId: 'product-analysis' },
-            1500
-          );
         } else {
           // Check if there's an active question they might be answering
           if (activeQuestion) {
@@ -365,26 +398,48 @@ export const useCampaignFlow = () => {
           if (!skipUserMessage) addMessage('user', "Let's continue!");
           setState(prev => ({ ...prev, isStepLoading: true }));
 
-          // Check if we have script options
-          if (!scriptOptions || scriptOptions.length === 0) {
-            throw new Error('Script options not available');
+          try {
+            // ✅ REAL API CALL - Generate Scripts
+            const scriptsResult = await vibeletsAPI.generateScripts();
+
+            if (scriptsResult.error) {
+              throw new Error(scriptsResult.error);
+            }
+
+            // Convert backend response to frontend ScriptOption format
+            const backendScripts = scriptsResult.scripts || [];
+            const formattedScripts: ScriptOption[] = backendScripts.map((script: any, index: number) => ({
+              id: `script-${index}`,
+              name: script.name || `Script ${index + 1}`,
+              description: script.description || script.hook?.substring(0, 50) + '...' || '',
+              hook: script.hook || '',
+              body: script.body || '',
+              cta: script.cta || 'Shop Now',
+              tone: script.tone || 'Professional'
+            }));
+
+            setGeneratedScripts(formattedScripts);
+
+            const scriptQuestion: InlineQuestion = {
+              id: 'script-selection',
+              question: 'Choose a script style that matches your brand voice:',
+              options: [
+                ...formattedScripts.map(s => ({ id: s.id, label: s.name, description: s.description })),
+                { id: 'custom-script', label: '✍️ Write My Own', description: 'Create custom ad copy' }
+              ]
+            };
+
+            await simulateTyping(
+              `Great! I've generated ${formattedScripts.length} script options for you. Each one tells your product's story in a unique way:`,
+              { inlineQuestion: scriptQuestion, stepId: 'script-selection' },
+              800
+            );
+            setState(prev => ({ ...prev, step: 'script-selection', stepHistory: [...prev.stepHistory, 'script-selection'], isStepLoading: false }));
+          } catch (error) {
+            console.error('Script generation error:', error);
+            setState(prev => ({ ...prev, isStepLoading: false }));
+            throw error;
           }
-
-          const scriptQuestion: InlineQuestion = {
-            id: 'script-selection',
-            question: 'Choose a script style that matches your brand voice:',
-            options: [
-              ...scriptOptions.map(s => ({ id: s.id, label: s.name, description: s.description })),
-              { id: 'custom-script', label: '✍️ Write My Own', description: 'Create custom ad copy' }
-            ]
-          };
-
-          await simulateTyping(
-            `Great! Now let's choose how to tell your product's story:`,
-            { inlineQuestion: scriptQuestion, stepId: 'script-selection' },
-            800
-          );
-          setState(prev => ({ ...prev, step: 'script-selection', stepHistory: [...prev.stepHistory, 'script-selection'], isStepLoading: false }));
         } else {
           if (!skipUserMessage) addMessage('user', "I want to change the product URL.");
           setState(prev => ({ ...prev, step: 'product-url', productUrl: null, productData: null }));
@@ -400,7 +455,7 @@ export const useCampaignFlow = () => {
             800
           );
         } else {
-          const script = scriptOptions.find(s => s.id === answerId);
+          const script = generatedScripts.find(s => s.id === answerId);
           if (!script) {
             toast.error('Script not found', { description: 'Please select a valid script option' });
             return;
@@ -409,23 +464,47 @@ export const useCampaignFlow = () => {
           setState(prev => ({ ...prev, selectedScript: script, isStepLoading: true, isCustomScriptMode: false }));
           if (!skipUserMessage) addMessage('user', `I'll use the "${script.name}" script.`);
 
-          // Check if we have avatar options
-          if (!avatarOptions || avatarOptions.length === 0) {
-            throw new Error('Avatar options not available');
+          try {
+            // ✅ REAL API CALL - Get Avatars
+            const avatarsResult = await vibeletsAPI.getAvatars();
+
+            if (avatarsResult.error) {
+              throw new Error(avatarsResult.error);
+            }
+
+            // Convert backend response to AvatarOption format
+            const backendAvatars = avatarsResult.avatars || [];
+            const formattedAvatars: AvatarOption[] = backendAvatars.map((avatar: any) => ({
+              id: avatar.avatar_id || avatar.id,
+              name: avatar.avatar_name || avatar.name || 'Avatar',
+              style: avatar.preview_video_url ? 'Professional' : 'Casual',
+              image: avatar.preview_image_url || avatar.thumbnail || '',
+              thumbnail: avatar.preview_image_url || avatar.thumbnail || '',
+              previewVideo: avatar.preview_video_url || undefined
+            }));
+
+            setGeneratedAvatars(formattedAvatars);
+
+            // Fallback to mock avatars if backend returns empty
+            const avatarsToUse = formattedAvatars.length > 0 ? formattedAvatars : avatarOptions;
+
+            const avatarQuestion: InlineQuestion = {
+              id: 'avatar-selection',
+              question: 'Select an AI presenter for your video:',
+              options: avatarsToUse.map(a => ({ id: a.id, label: a.name, description: a.style }))
+            };
+
+            await simulateTyping(
+              `Great choice! The ${script.name} style is proven to drive conversions. 🎬\n\nNow let's pick an AI avatar to present your product:`,
+              { inlineQuestion: avatarQuestion, stepId: 'avatar-selection' },
+              1200
+            );
+            setState(prev => ({ ...prev, step: 'avatar-selection', stepHistory: [...prev.stepHistory, 'avatar-selection'], isStepLoading: false }));
+          } catch (error) {
+            console.error('Avatar fetching error:', error);
+            setState(prev => ({ ...prev, isStepLoading: false }));
+            throw error;
           }
-
-          const avatarQuestion: InlineQuestion = {
-            id: 'avatar-selection',
-            question: 'Select an AI presenter for your video:',
-            options: avatarOptions.map(a => ({ id: a.id, label: a.name, description: a.style }))
-          };
-
-          await simulateTyping(
-            `Great choice! The ${script.name} style is proven to drive conversions. 🎬\n\nNow let's pick an AI avatar to present your product:`,
-            { inlineQuestion: avatarQuestion, stepId: 'avatar-selection' },
-            1200
-          );
-          setState(prev => ({ ...prev, step: 'avatar-selection', stepHistory: [...prev.stepHistory, 'avatar-selection'], isStepLoading: false }));
         }
       } else if (questionId === 'avatar-selection') {
         const avatar = avatarOptions.find(a => a.id === answerId);

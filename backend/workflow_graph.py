@@ -9,13 +9,13 @@ from state_schema import WorkflowState
 from scraper import ProductScraper
 from agents import AnalysisAgent, ScriptGenerationAgent, ImageGenerationAgent, NavigationAgent, GuideAgent
 from audioGeneration import ElevenLabsVoiceGenerator
-from heygen import HeyGenAvatarIntegrator
-from facebook_agents import CampaignCreationAgent, CampaignPreviewAgent, CampaignModificationAgent
+from heygen_modified import HeyGenAvatarIntegrator
+# Facebook integration
+from facebook_agents import (
+    CampaignCreationAgent, CampaignPreviewAgent, CampaignModificationAgent,
+    authenticate_user, create_campaign, create_adset, create_video_ad, create_image_ad
+)
 from media_manager import MediaManager
-from facebook.auth import authenticate_user
-from facebook.campaigns import create_campaign
-from facebook.adsets import create_adset
-from facebook.ads import create_video_ad, create_image_ad
 import os
 import json
 
@@ -217,7 +217,6 @@ class AdCampaignWorkflow:
         """Scrape product/store URL"""
         # Update current_step in state
         state["current_step"] = "scrape"
-        
         url = state.get("url")
         
         # If no URL in state, check if the last message contains a URL
