@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from 'react';
-import { CampaignState, CampaignStep, Message, ProductData, ScriptOption, AvatarOption, CreativeOption, CampaignConfig, AdAccount, InlineQuestion, AIRecommendation } from '@/types/campaign';
-import { mockCreatives, avatarOptions, mockAdAccounts, campaignObjectives, ctaOptions } from '@/data/mockData';
+import { CampaignState, CampaignStep, Message, ProductData, ScriptOption, AvatarOption, CreativeOption, CampaignConfig, AdAccount, InlineQuestion, AIRecommendation, ProductInsight } from '@/types/campaign';
+import { mockCreatives, avatarOptions, mockAdAccounts, campaignObjectives, ctaOptions, scriptOptions, mockProductData } from '@/data/mockData';
 import { createMockPerformanceDashboard } from '@/data/mockPerformanceData';
 import { toast } from 'sonner';
 import { isValidUrl, sanitizeInput, validateCampaignConfig, formatErrorMessage } from '@/lib/validation';
@@ -214,7 +214,6 @@ export const useCampaignFlow = () => {
 
             const scrapedProduct = scrapeResult.product_data;
 
-            // ✅ REAL API CALL - Analyze product
             const analysisResult = await vibeletsAPI.analyzeProduct();
 
             if (analysisResult.error) {
@@ -223,16 +222,100 @@ export const useCampaignFlow = () => {
 
             const productAnalysis = analysisResult.analysis;
 
+            // Helper function to format insight values
+            const formatInsightValue = (value: any): string => {
+              if (typeof value === 'string') {
+                return value;
+              } else if (Array.isArray(value)) {
+                return value.join(', ');
+              } else if (typeof value === 'object' && value !== null) {
+                // Format object as readable text instead of JSON
+                return Object.entries(value)
+                  .map(([k, v]) => `${k}: ${v}`)
+                  .join(', ');
+              }
+              return String(value);
+            };
+
+            // Generate insights from analysis
+            const insights: ProductInsight[] = [];
+
+            if (productAnalysis) {
+              // Add category insight
+              if (productAnalysis.category) {
+                insights.push({
+                  label: 'Product Category',
+                  value: formatInsightValue(productAnalysis.category),
+                  icon: 'tag'
+                });
+              }
+
+              // Add target audience insight
+              if (productAnalysis.target_audience) {
+                insights.push({
+                  label: 'Target Audience',
+                  value: formatInsightValue(productAnalysis.target_audience),
+                  icon: 'users'
+                });
+              }
+
+              // Add USP insight  
+              if (productAnalysis.usps) {
+                const uspsValue = Array.isArray(productAnalysis.usps)
+                  ? productAnalysis.usps.join(', ')
+                  : formatInsightValue(productAnalysis.usps);
+                insights.push({
+                  label: 'Key USPs',
+                  value: uspsValue,
+                  icon: 'star'
+                });
+              }
+
+              // Add marketing angle insight
+              if (productAnalysis.marketing_angles) {
+                const anglesValue = Array.isArray(productAnalysis.marketing_angles)
+                  ? productAnalysis.marketing_angles.join(', ')
+                  : formatInsightValue(productAnalysis.marketing_angles);
+                insights.push({
+                  label: 'Marketing Angles',
+                  value: anglesValue,
+                  icon: 'trending-up'
+                });
+              }
+            }
+
             // Convert backend response to frontend ProductData format
+            // Add backend URL prefix to image paths
+            const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
+            // Debug logging
+            console.log('🔍 Backend scrape data:', scrapedProduct);
+            console.log('🔍 Downloaded images:', scrapedProduct?.downloaded_images);
+            console.log('🔍 Regular images:', scrapedProduct?.images);
+            console.log('🔍 Backend URL:', BACKEND_URL);
+
+            const productImages = (scrapedProduct?.downloaded_images || scrapedProduct?.images || []).map((imgPath: string) => {
+              // If path already has http, return as is
+              if (imgPath.startsWith('http')) {
+                return imgPath;
+              }
+              // Add backend URL prefix to relative paths
+              const fullUrl = `${BACKEND_URL}${imgPath.startsWith('/') ? '' : '/'}${imgPath}`;
+              console.log('🔍 Image path transformation:', imgPath, '→', fullUrl);
+              return fullUrl;
+            });
+
+            console.log('🔍 Final product images:', productImages);
+
             const productData: ProductData = {
               title: scrapedProduct?.title || 'Product',
               price: scrapedProduct?.price || '$0',
               description: scrapedProduct?.description || '',
-              images: scrapedProduct?.images || [],
-              category: scrapedProduct?.category || '',
-              targetAudience: productAnalysis?.target_audience || '',
-              usps: productAnalysis?.usps || [],
-              marketingAngles: productAnalysis?.marketing_angles || []
+              images: productImages, // Images with full URLs
+              sku: scrapedProduct?.sku || '',
+              category: productAnalysis?.category || scrapedProduct?.category || '',
+              pageScreenshot: productImages[0] || '', // Use first image as screenshot
+              insights: insights,
             };
 
             setState(prev => ({ ...prev, productData, isStepLoading: false }));
@@ -271,7 +354,7 @@ export const useCampaignFlow = () => {
     } catch (error) {
       handleError(error, 'Processing your message');
     }
-  }, [state.step, addMessage, simulateTyping, handleError]);
+  }, [state.step, activeQuestion, addMessage, simulateTyping, handleError]);
 
   const handleCampaignConfigComplete = useCallback(async (config: Record<string, string>) => {
     try {
@@ -652,7 +735,7 @@ export const useCampaignFlow = () => {
     } catch (error) {
       handleError(error, 'Processing your selection');
     }
-  }, [state.campaignConfig, state.selectedCreative, state.selectedAdAccount, addMessage, simulateTyping, handleError]);
+  }, [state.campaignConfig, state.selectedCreative, state.selectedAdAccount, generatedScripts, addMessage, simulateTyping, handleError]);
 
   // Public wrapper that always adds user message (used by chip clicks)
   const handleQuestionAnswer = useCallback(async (questionId: string, answerId: string) => {
