@@ -299,18 +299,65 @@ async def authenticate_user(access_token: str) -> Dict[str, Any]:
     Returns:
         Authentication result with user_id and ad_accounts
     """
-    # TODO: Implement actual Facebook Graph API authentication
-    # This is a stub for now to prevent import errors
-    
-    # For now, return a mock success response
-    # In production, this would call Facebook's Graph API:
-    # GET https://graph.facebook.com/v18.0/me?fields=id,name&access_token={access_token}
-    # GET https://graph.facebook.com/v18.0/me/adaccounts?fields=id,name,account_status&access_token={access_token}
-    
-    return {
-        "success": False,
-        "error": "Facebook authentication not yet implemented. Please configure Facebook Graph API credentials."
-    }
+    try:
+        import httpx
+        
+        # 1. Get User Info
+        async with httpx.AsyncClient() as client:
+            user_resp = await client.get(
+                "https://graph.facebook.com/v18.0/me",
+                params={"fields": "id,name", "access_token": access_token}
+            )
+            
+            if user_resp.status_code != 200:
+                error_data = user_resp.json()
+                return {
+                    "success": False,
+                    "error": error_data.get("error", {}).get("message", "Failed to authenticate with Facebook")
+                }
+            
+            user_data = user_resp.json()
+            user_id = user_data.get("id")
+            
+            # 2. Get Ad Accounts
+            accounts_resp = await client.get(
+                f"https://graph.facebook.com/v18.0/{user_id}/adaccounts",
+                params={
+                    "fields": "id,name,account_status,currency,timezone_name",
+                    "access_token": access_token
+                }
+            )
+            
+            if accounts_resp.status_code != 200:
+                return {
+                    "success": True, 
+                    "user_id": user_id, 
+                    "ad_accounts": [],
+                    "warning": "Authenticated but failed to fetch ad accounts"
+                }
+                
+            accounts_data = accounts_resp.json()
+            ad_accounts = accounts_data.get("data", [])
+            
+            # Map status code to string for easier frontend handling
+            # 1 = ACTIVE, 2 = DISABLED, 3 = UNSETTLED, 7 = PENDING_RISK_REVIEW, 8 = PENDING_SETTLEMENT, 9 = IN_GRACE_PERIOD, 100 = PENDING_CLOSURE, 101 = CLOSED, 201 = ANY_ACTIVE, 202 = ANY_CLOSED
+            for acc in ad_accounts:
+                status_map = {1: "ACTIVE", 2: "DISABLED"}
+                acc["status_code"] = acc.get("account_status")
+                acc["account_status"] = status_map.get(acc.get("account_status"), "INACTIVE")
+
+            return {
+                "success": True,
+                "user_id": user_id,
+                "ad_accounts": ad_accounts
+            }
+            
+    except Exception as e:
+        print(f"Facebook Auth Exception: {e}")
+        return {
+            "success": False,
+            "error": str(e)
+        }
 
 
 async def create_campaign(account_id: str, name: str, objective: str, access_token: str, special_ad_categories: Optional[List[str]] = None) -> Dict[str, Any]:
