@@ -568,7 +568,7 @@ export const useCampaignFlow = () => {
             }))
           ];
 
-          setState(prev => ({ ...prev, creatives, isStepLoading: false }));
+          setState(prev => ({ ...prev, creatives, generatedImages, isStepLoading: false }));
 
           const creativeQuestion: InlineQuestion = {
             id: 'creative-selection',
@@ -660,7 +660,25 @@ export const useCampaignFlow = () => {
           );
         } else {
           // Find creative from generated creatives (not mock)
-          const creative = state.creatives.find(c => c.id === answerId);
+          let creative = state.creatives.find(c => c.id === answerId);
+
+          // Fallback: If not found in creatives, try to reconstruct from generatedImages
+          if (!creative && answerId.startsWith('image-creative-') && state.generatedImages) {
+            const idx = parseInt(answerId.split('-').pop() || '0', 10);
+            const imgUrl = state.generatedImages[idx];
+            if (imgUrl) {
+              console.log(`♻️ Reconstructed creative ${answerId} from generatedImages fallback`);
+              creative = {
+                id: answerId,
+                type: 'image',
+                name: `Generated Image ${idx + 1}`,
+                thumbnail: imgUrl,
+                format: 'feed',
+                aspectRatio: '1:1'
+              };
+            }
+          }
+
           if (!creative) {
             toast.error('Creative not found', { description: 'Please select a valid creative' });
             return;

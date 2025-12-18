@@ -213,6 +213,7 @@ export interface CampaignState {
   productData: ProductData | null;
   selectedScript: ScriptOption | null;
   selectedAvatar: AvatarOption | null;
+  generatedImages?: string[];
   creatives: CreativeOption[];
   selectedCreative: CreativeOption | null;
   campaignConfig: CampaignConfig | null;
