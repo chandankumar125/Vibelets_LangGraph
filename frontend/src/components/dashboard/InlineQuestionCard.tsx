@@ -21,9 +21,9 @@ const iconMap: Record<string, LucideIcon> = {
 // Questions where selection is handled via floating chips (no inline buttons)
 const CHIP_HANDLED_QUESTIONS = [
   'product-continue',
-  'script-selection', 
-  'avatar-selection', 
-  'creative-selection', 
+  'script-selection',
+  // 'avatar-selection', // Removed to show inline cards
+  'creative-selection',
   'ad-account-selection'
 ];
 
@@ -68,7 +68,7 @@ export const InlineQuestionCard = ({ question, onAnswer, selectedAnswer }: Inlin
         {question.options.map((option, index) => {
           const isSelected = selectedAnswer === option.id;
           const IconComponent = option.icon ? iconMap[option.icon] : null;
-          
+
           return (
             <button
               key={option.id}
@@ -77,7 +77,7 @@ export const InlineQuestionCard = ({ question, onAnswer, selectedAnswer }: Inlin
               style={{ animationDelay: `${index * 50}ms` }}
               className={cn(
                 "group relative flex items-center gap-2.5 p-2.5 rounded-lg border text-left transition-all duration-200 w-full overflow-hidden animate-fade-in",
-                isSelected 
+                isSelected
                   ? "border-primary bg-primary/10 shadow-sm"
                   : selectedAnswer
                     ? "border-border/50 bg-muted/30 opacity-50 cursor-not-allowed"
@@ -87,7 +87,7 @@ export const InlineQuestionCard = ({ question, onAnswer, selectedAnswer }: Inlin
               {/* Icon or Radio */}
               <div className={cn(
                 "flex items-center justify-center w-6 h-6 rounded-md flex-shrink-0 transition-all duration-200",
-                isSelected 
+                isSelected
                   ? "bg-primary text-primary-foreground"
                   : "bg-muted text-muted-foreground group-hover:bg-primary/20 group-hover:text-primary"
               )}>
@@ -102,7 +102,7 @@ export const InlineQuestionCard = ({ question, onAnswer, selectedAnswer }: Inlin
                   )} />
                 )}
               </div>
-              
+
               {/* Content */}
               <div className="flex-1 min-w-0 overflow-hidden">
                 <span className={cn(

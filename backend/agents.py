@@ -16,7 +16,7 @@ class AnalysisAgent:
     
     def __init__(self):
         self.llm = ChatOpenAI(
-            model="gpt-4",
+            model="gpt-4o",
             temperature=0.7,
             openai_api_key=Config.OPENAI_API_KEY
         )
@@ -50,10 +50,10 @@ Format as JSON with keys: category, features, target_audience, usps, marketing_a
             
             chain = prompt | self.llm | StrOutputParser()
             result = await chain.ainvoke({
-                "title": product_data.get('title', ''),
-                "description": product_data.get('description', ''),
-                "price": product_data.get('price', ''),
-                "raw_text": product_data.get('raw_text', '')
+                "title": product_data.get('title', '')[:200],
+                "description": product_data.get('description', '')[:1000],
+                "price": product_data.get('price', '')[:20],
+                "raw_text": product_data.get('raw_text', '')[:3000]
             })
         else:
             # Refinement based on feedback
@@ -85,9 +85,40 @@ Refine the analysis addressing the user's feedback. Maintain the JSON format wit
             })
         
         try:
-            return json.loads(result)
-        except:
-            return {"analysis": result}
+            # 1. Try to extract JSON between markdown blocks
+            json_match = re.search(r'```json\s*(.*?)\s*```', result, re.DOTALL)
+            if json_match:
+                result = json_match.group(1)
+            else:
+                # Try just ``` blocks
+                json_match = re.search(r'```\s*(.*?)\s*```', result, re.DOTALL)
+                if json_match:
+                    result = json_match.group(1)
+            
+            # 2. Basic cleanup
+            cleaned = result.strip()
+            # Remove any non-JSON characters if they somehow remained at start/end
+            cleaned = re.sub(r'^[^{]*', '', cleaned)
+            cleaned = re.sub(r'[^}]*$', '', cleaned)
+            
+            data = json.loads(cleaned)
+            
+            # 3. Handle nesting if AI wrapped it
+            if isinstance(data, dict):
+                if list(data.keys()) == ["analysis"] and isinstance(data["analysis"], (dict, str)):
+                    inner = data["analysis"]
+                    if isinstance(inner, str):
+                        try:
+                            # Recursive check for stringified JSON inside
+                            inner_cleaned = re.sub(r'```json\s*|\s*```', '', inner).strip()
+                            return json.loads(inner_cleaned)
+                        except:
+                            pass
+                    return inner
+            return data
+        except Exception as e:
+            print(f"JSON parsing error in AnalysisAgent: {e}")
+            return {"analysis_raw": result}
 
 
 class ScriptGenerationAgent:
@@ -95,7 +126,7 @@ class ScriptGenerationAgent:
     
     def __init__(self):
         self.llm = ChatOpenAI(
-            model="gpt-4",
+            model="gpt-4o",
             temperature=0.8,
             openai_api_key=Config.OPENAI_API_KEY
         )
@@ -252,7 +283,7 @@ class ImageGenerationAgent:
     
     def __init__(self):
         self.llm = ChatOpenAI(
-            model="gpt-4",
+            model="gpt-4o",
             temperature=0.7,
             openai_api_key=Config.OPENAI_API_KEY
         )
@@ -328,12 +359,13 @@ Output only the prompt, no additional commentary.
             })
             return result.strip()
     
-    def generate_images(self, product_url: str, image_prompt: str, num_images: int = 2) -> List[str]:
+    def generate_images(self, product_url: str, image_prompt: str, num_images: int = 2, base_image: Any = None) -> List[str]:
         """Generate images using the refined prompt"""
         return self.image_gen.generate_ad_creatives_with_prompt(
             product_url, 
             image_prompt, 
-            num_images
+            num_images,
+            base_image=base_image
         )
 
 
@@ -342,7 +374,7 @@ class NavigationAgent:
     
     def __init__(self):
         self.llm = ChatOpenAI(
-            model="gpt-4",
+            model="gpt-4o",
             temperature=0,
             openai_api_key=Config.OPENAI_API_KEY
         )
@@ -423,7 +455,7 @@ class GuideAgent:
     
     def __init__(self):
         self.llm = ChatOpenAI(
-            model="gpt-4",
+            model="gpt-4o",
             temperature=0.7,
             openai_api_key=Config.OPENAI_API_KEY
         )

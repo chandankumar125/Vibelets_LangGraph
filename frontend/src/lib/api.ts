@@ -51,7 +51,7 @@ export interface ApiResponse<T = any> {
 }
 
 class VibeletsAPI {
-  private threadId: string | null = null;
+  private threadId: string | null = localStorage.getItem('vibelets_thread_id');
 
   /**
    * Get or create a thread ID for the session
@@ -59,6 +59,7 @@ class VibeletsAPI {
   private getThreadId(): string {
     if (!this.threadId) {
       this.threadId = crypto.randomUUID();
+      localStorage.setItem('vibelets_thread_id', this.threadId);
     }
     return this.threadId;
   }
@@ -68,6 +69,7 @@ class VibeletsAPI {
    */
   resetSession(): void {
     this.threadId = null;
+    localStorage.removeItem('vibelets_thread_id');
   }
 
   /**
@@ -89,6 +91,9 @@ class VibeletsAPI {
 
     const data = await response.json();
     this.threadId = data.thread_id;
+    if (this.threadId) {
+      localStorage.setItem('vibelets_thread_id', this.threadId);
+    }
     return data;
   }
 
@@ -283,6 +288,17 @@ class VibeletsAPI {
       throw new Error(`Failed to generate video: ${response.statusText}`);
     }
 
+    return await response.json();
+  }
+
+  /**
+   * Check status of video generation
+   */
+  async getVideoStatus(videoId: string): Promise<any> {
+    const response = await fetch(`${API_BASE_URL}/workflow/video_status/${videoId}`);
+    if (!response.ok) {
+      throw new Error(`Failed to check video status: ${response.statusText}`);
+    }
     return await response.json();
   }
 

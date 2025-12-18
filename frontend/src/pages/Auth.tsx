@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -12,10 +12,11 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState<'google' | 'facebook' | null>(null);
 
   // Redirect if already authenticated
-  if (isAuthenticated) {
-    navigate('/onboarding');
-    return null;
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/onboarding');
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleLogin = async (provider: 'google' | 'facebook') => {
     setIsLoading(provider);

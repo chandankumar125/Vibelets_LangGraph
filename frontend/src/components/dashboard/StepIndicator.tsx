@@ -3,37 +3,37 @@ import { cn } from '@/lib/utils';
 import { Check, Link, Sparkles, Settings, Rocket } from 'lucide-react';
 
 // Grouped step configuration - 4 main steps instead of 8
-const STEP_GROUPS: { 
-  id: string; 
-  label: string; 
+const STEP_GROUPS: {
+  id: string;
+  label: string;
   icon: React.ElementType;
   steps: CampaignStep[];
 }[] = [
-  { 
-    id: 'product', 
-    label: 'Product', 
-    icon: Link,
-    steps: ['product-analysis']
-  },
-  { 
-    id: 'content', 
-    label: 'Content', 
-    icon: Sparkles,
-    steps: ['script-selection', 'avatar-selection', 'creative-generation', 'creative-review']
-  },
-  { 
-    id: 'campaign', 
-    label: 'Campaign', 
-    icon: Settings,
-    steps: ['campaign-setup', 'facebook-integration', 'ad-account-selection']
-  },
-  { 
-    id: 'review', 
-    label: 'Review & Publish', 
-    icon: Rocket,
-    steps: ['campaign-preview', 'publishing', 'published']
-  },
-];
+    {
+      id: 'product',
+      label: 'Product',
+      icon: Link,
+      steps: ['welcome', 'product-url', 'product-analysis']
+    },
+    {
+      id: 'content',
+      label: 'Content',
+      icon: Sparkles,
+      steps: ['script-selection', 'avatar-selection', 'creative-generation', 'creative-generation:images', 'creative-generation:audio', 'creative-generation:video', 'creative-review']
+    },
+    {
+      id: 'campaign',
+      label: 'Campaign',
+      icon: Settings,
+      steps: ['campaign-setup', 'facebook-integration', 'ad-account-selection']
+    },
+    {
+      id: 'review',
+      label: 'Review & Publish',
+      icon: Rocket,
+      steps: ['campaign-preview', 'publishing', 'published']
+    },
+  ];
 
 interface StepIndicatorProps {
   currentStep: CampaignStep;
@@ -98,12 +98,12 @@ export const StepIndicator = ({ currentStep, onStepClick, disabled = false }: St
           {isFullyCompleted ? 'Completed' : `Step ${currentGroupIndex + 1} of ${STEP_GROUPS.length}`}
         </span>
         <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-          <div 
+          <div
             className="h-full bg-primary rounded-full transition-all duration-500 ease-out"
-            style={{ 
-              width: isFullyCompleted 
-                ? '100%' 
-                : `${((currentGroupIndex + 1) / STEP_GROUPS.length) * 100}%` 
+            style={{
+              width: isFullyCompleted
+                ? '100%'
+                : `${((currentGroupIndex + 1) / STEP_GROUPS.length) * 100}%`
             }}
           />
         </div>
@@ -116,7 +116,7 @@ export const StepIndicator = ({ currentStep, onStepClick, disabled = false }: St
           const isCurrent = index === currentGroupIndex && !isFullyCompleted;
           const isClickable = isCompleted && index < currentGroupIndex;
           const Icon = group.icon;
-          
+
           return (
             <button
               key={group.id}

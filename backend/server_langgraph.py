@@ -8,6 +8,8 @@ from typing import List, Dict, Optional, Any
 import os
 from dotenv import load_dotenv
 import uuid
+import json
+from pathlib import Path
 
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -28,6 +30,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+from fastapi.staticfiles import StaticFiles
+os.makedirs("static", exist_ok=True)
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -51,6 +57,39 @@ workflow = AdCampaignWorkflow()
 
 # Store active sessions (thread_id -> state)
 active_sessions: Dict[str, WorkflowState] = {}
+SESSION_FILE = "active_sessions.json"
+
+def save_sessions():
+    """Save active sessions to disk atomically"""
+    try:
+        serializable_sessions = {}
+        for tid, state in active_sessions.items():
+            serializable_sessions[tid] = dict(state)
+        
+        # Write to temporary file first to prevent corruption on crash/restart
+        temp_file = f"{SESSION_FILE}.tmp"
+        with open(temp_file, "w") as f:
+            json.dump(serializable_sessions, f, indent=2)
+        
+        # Rename temp file to actual file
+        os.replace(temp_file, SESSION_FILE)
+    except Exception as e:
+        print(f"Error saving sessions: {e}")
+
+def load_sessions():
+    """Load active sessions from disk"""
+    global active_sessions
+    try:
+        if os.path.exists(SESSION_FILE):
+            with open(SESSION_FILE, "r") as f:
+                data = json.load(f)
+                active_sessions = data
+                print(f"Loaded {len(active_sessions)} sessions from disk")
+    except Exception as e:
+        print(f"Error loading sessions: {e}")
+
+# Initial load
+load_sessions()
 
 # --- Pydantic Models ---
 
@@ -122,7 +161,7 @@ def get_or_create_thread(thread_id: Optional[str] = None) -> str:
     if thread_id not in active_sessions:
         # Initialize new state
         active_sessions[thread_id] = {
-            "current_step": "scrape",
+            "current_step": "product-url",
             "navigation_intent": None,
             "messages": [],
             "url": None,
@@ -140,7 +179,7 @@ def get_or_create_thread(thread_id: Optional[str] = None) -> str:
             "image_generation_prompt": None,
             "audio_file": None,
             "audio_url": None,
-            "available_avatars": None,
+            "available_avatars": [],
             "selected_avatar_id": None,
             "video_id": None,
             "video_url": None,
@@ -148,35 +187,39 @@ def get_or_create_thread(thread_id: Optional[str] = None) -> str:
             "error": None,
             "iteration_count": {}
         }
+        save_sessions()
     
     return thread_id
 
 def update_state_from_request(state: WorkflowState, request: WorkflowRequest) -> WorkflowState:
     """Update state from request parameters"""
+    # Clear any previous errors when starting a new operation
+    state["error"] = None
+    
     if request.navigation_intent:
         state["navigation_intent"] = request.navigation_intent
         # Parse navigation intent to set current_step
         intent_lower = request.navigation_intent.lower()
         if "scrape" in intent_lower or "start" in intent_lower:
-            state["current_step"] = "scrape"
+            state["current_step"] = "product-url"
         elif "analyze" in intent_lower or "analysis" in intent_lower:
-            state["current_step"] = "analyze"
+            state["current_step"] = "product-analysis"
         elif "script" in intent_lower and "generate" in intent_lower:
-            state["current_step"] = "generate_scripts"
+            state["current_step"] = "script-selection"
         elif "script" in intent_lower and ("select" in intent_lower or "choose" in intent_lower):
-            state["current_step"] = "select_script"
+            state["current_step"] = "script-selection"
         elif "script" in intent_lower and ("refine" in intent_lower or "tweak" in intent_lower):
-            state["current_step"] = "refine_script"
+            state["current_step"] = "script-selection"
         elif "image" in intent_lower and "generate" in intent_lower:
-            state["current_step"] = "generate_images"
+            state["current_step"] = "creative-generation"
         elif "image" in intent_lower and ("refine" in intent_lower or "edit" in intent_lower):
-            state["current_step"] = "refine_images"
+            state["current_step"] = "creative-review"
         elif "audio" in intent_lower:
-            state["current_step"] = "generate_audio"
+            state["current_step"] = "creative-generation"
         elif "avatar" in intent_lower:
-            state["current_step"] = "select_avatar"
+            state["current_step"] = "avatar-selection"
         elif "video" in intent_lower:
-            state["current_step"] = "generate_video"
+            state["current_step"] = "creative-generation"
     
     if request.message:
         # Add message to state for chat-based editing
@@ -195,17 +238,45 @@ async def scrape_product(request: ScrapeRequest):
     thread_id = get_or_create_thread(request.thread_id)
     state = active_sessions[thread_id]
     
+    # Ensure URL has a scheme for proper validation and scraping
+    url_to_scrape = request.url
+    if not url_to_scrape.startswith(('http://', 'https://')):
+        url_to_scrape = 'https://' + url_to_scrape
+        print(f"DEBUG: Prepended 'https://' to URL: {url_to_scrape}")
+
+    # Basic URL validation (simple check)
+    if '.' not in url_to_scrape or len(url_to_scrape) < 8:
+        error_msg = f"Invalid URL provided: {request.url}"
+        print(f"ERROR: {error_msg}")
+        state["error"] = error_msg
+        state["current_step"] = "product-url"
+        save_sessions()
+        return {
+            "thread_id": thread_id,
+            "state": state,
+            "current_step": state.get("current_step"),
+            "error": error_msg
+        }
+
     # Update state
-    state["url"] = request.url
-    state["current_step"] = "scrape"
+    state["url"] = url_to_scrape
+    state["current_step"] = "product-url"
+    state["navigation_intent"] = "scrape"
     state = update_state_from_request(state, request)
     
     # Run workflow step
     config = {"configurable": {"thread_id": thread_id}}
+    print(f"DEBUG: Scrape Start - Thread: {thread_id}, URL: {request.url}")
     result = await workflow.run_step(state, config)
+    print(f"DEBUG: Scrape End - Result keys: {list(result.keys())}")
+    if "product_data" in result:
+        print(f"DEBUG: Found product_data in result")
+    else:
+        print(f"DEBUG: NO product_data in result! Error: {result.get('error')}")
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -222,7 +293,8 @@ async def analyze_product(request: AnalyzeRequest):
     state = active_sessions[thread_id]
     
     # Update state
-    state["current_step"] = "analyze"
+    state["current_step"] = "product-analysis"
+    state["navigation_intent"] = "analyze"
     if request.feedback:
         state["analysis_feedback"].append(request.feedback)
         state["messages"].append({
@@ -233,13 +305,13 @@ async def analyze_product(request: AnalyzeRequest):
     
     # Run workflow step
     config = {"configurable": {"thread_id": thread_id}}
-    print(f"Calling workflow.run_step for thread {thread_id}")
+    print(f"DEBUG: Analyze Start - Thread: {thread_id}, Product Data in state: {'Yes' if state.get('product_data') else 'No'}")
     result = await workflow.run_step(state, config)
-    print(f"Result type: {type(result)}")
-    print(f"Result: {result}")
+    print(f"DEBUG: Analyze End - Error: {result.get('error')}")
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -256,7 +328,8 @@ async def generate_scripts(request: ScriptRequest):
     state = active_sessions[thread_id]
     
     # Update state
-    state["current_step"] = "generate_scripts"
+    state["current_step"] = "script-selection"
+    state["navigation_intent"] = "generate_scripts"
     if request.feedback:
         state["script_feedback"].append(request.feedback)
         state["messages"].append({
@@ -271,6 +344,7 @@ async def generate_scripts(request: ScriptRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -287,7 +361,8 @@ async def select_script(request: SelectScriptRequest):
     state = active_sessions[thread_id]
     
     # Update state
-    state["current_step"] = "select_script"
+    state["current_step"] = "script-selection"
+    state["navigation_intent"] = "select_script"
     state["selected_script_index"] = request.script_index
     state = update_state_from_request(state, request)
     
@@ -297,6 +372,7 @@ async def select_script(request: SelectScriptRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -313,7 +389,8 @@ async def refine_script(request: RefineScriptRequest):
     state = active_sessions[thread_id]
     
     # Update state
-    state["current_step"] = "refine_script"
+    state["current_step"] = "script-selection"
+    state["navigation_intent"] = "refine_script"
     state["messages"].append({
         "role": "user",
         "content": request.feedback
@@ -326,6 +403,7 @@ async def refine_script(request: RefineScriptRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -342,7 +420,8 @@ async def generate_images(request: GenerateImagesRequest):
     state = active_sessions[thread_id]
     
     # Update state
-    state["current_step"] = "generate_images"
+    state["current_step"] = "creative-generation:images"
+    state["navigation_intent"] = "generate_images"
     if request.feedback:
         state["image_feedback"].append(request.feedback)
         state["messages"].append({
@@ -357,6 +436,7 @@ async def generate_images(request: GenerateImagesRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -374,7 +454,8 @@ async def refine_images(request: RefineImagesRequest):
     state = active_sessions[thread_id]
     
     # Update state
-    state["current_step"] = "refine_images"
+    state["current_step"] = "creative-review"
+    state["navigation_intent"] = "refine_images"
     state["image_feedback"].append(request.feedback)
     state["messages"].append({
         "role": "user",
@@ -388,6 +469,7 @@ async def refine_images(request: RefineImagesRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -405,7 +487,8 @@ async def generate_audio(request: GenerateAudioRequest):
     state = active_sessions[thread_id]
     
     # Update state
-    state["current_step"] = "generate_audio"
+    state["current_step"] = "creative-generation:audio"
+    state["navigation_intent"] = "generate_audio"
     state = update_state_from_request(state, request)
     
     # Run workflow step
@@ -414,6 +497,7 @@ async def generate_audio(request: GenerateAudioRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -431,7 +515,8 @@ async def select_avatar(request: SelectAvatarRequest):
     state = active_sessions[thread_id]
     
     # Update state
-    state["current_step"] = "select_avatar"
+    state["current_step"] = "avatar-selection"
+    state["navigation_intent"] = "select_avatar"
     state["selected_avatar_id"] = request.avatar_id
     state = update_state_from_request(state, request)
     
@@ -441,6 +526,7 @@ async def select_avatar(request: SelectAvatarRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -477,7 +563,8 @@ async def generate_video(request: GenerateVideoRequest):
     state = active_sessions[thread_id]
     
     # Update state
-    state["current_step"] = "generate_video"
+    state["current_step"] = "creative-generation:video"
+    state["navigation_intent"] = "generate_video"
     state = update_state_from_request(state, request)
     
     # Run workflow step
@@ -486,6 +573,7 @@ async def generate_video(request: GenerateVideoRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -508,6 +596,14 @@ async def get_state(thread_id: str):
         "state": active_sessions[thread_id]
     }
 
+@app.get("/api/workflow/video_status/{video_id}")
+async def get_video_status(video_id: str):
+    """Check status of HeyGen video"""
+    from heygen import HeyGenAvatarIntegrator
+    heygen = HeyGenAvatarIntegrator()
+    status = heygen.check_video_status(video_id)
+    return status
+
 @app.post("/api/workflow/navigate")
 async def navigate(request: WorkflowRequest):
     """Navigate to any step in the workflow"""
@@ -523,6 +619,7 @@ async def navigate(request: WorkflowRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -560,6 +657,7 @@ async def chat(request: WorkflowRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -655,6 +753,7 @@ async def facebook_auth(request: FacebookAuthRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -682,6 +781,7 @@ async def select_ad_account(request: SelectAdAccountRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -711,6 +811,7 @@ async def select_media(request: SelectMediaRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -736,6 +837,7 @@ async def preview_campaign(request: WorkflowRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -766,6 +868,7 @@ async def refine_campaign(request: ReffineCampaignRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,
@@ -792,6 +895,7 @@ async def publish_campaign(request: PublishCampaignRequest):
     
     # Update session
     active_sessions[thread_id] = result
+    save_sessions()
     
     return {
         "thread_id": thread_id,

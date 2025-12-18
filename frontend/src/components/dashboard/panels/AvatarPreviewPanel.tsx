@@ -57,7 +57,7 @@ export const AvatarPreviewPanel = ({ avatars, selectedAvatar }: AvatarPreviewPan
               key={avatar.id}
               className={cn(
                 "relative rounded-xl border overflow-hidden transition-all group cursor-pointer animate-fade-in",
-                isSelected 
+                isSelected
                   ? "border-primary ring-2 ring-primary"
                   : "border-border bg-card hover:border-primary/50"
               )}
@@ -68,18 +68,18 @@ export const AvatarPreviewPanel = ({ avatars, selectedAvatar }: AvatarPreviewPan
                   <Check className="w-4 h-4 text-primary-foreground" />
                 </div>
               )}
-              
+
               {/* Vertical video-style preview - 9:16 aspect ratio like Facebook Reels */}
               <div className="relative aspect-[9/14] bg-muted overflow-hidden">
-                <img 
-                  src={avatar.image} 
+                <img
+                  src={avatar.image}
                   alt={avatar.name}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
-                
+
                 {/* Gradient overlay at bottom */}
                 <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background/90 to-transparent" />
-                
+
                 {/* Avatar info overlay at bottom */}
                 <div className="absolute inset-x-0 bottom-0 p-3">
                   <h3 className={cn(
@@ -92,7 +92,7 @@ export const AvatarPreviewPanel = ({ avatars, selectedAvatar }: AvatarPreviewPan
                     {avatar.style}
                   </p>
                 </div>
-                
+
                 {/* Play button overlay */}
                 {avatar.videoPreview && (
                   <button
@@ -121,7 +121,7 @@ export const AvatarPreviewPanel = ({ avatars, selectedAvatar }: AvatarPreviewPan
               >
                 <X className="w-4 h-4 text-foreground" />
               </button>
-              
+
               <div className="aspect-video bg-muted relative">
                 <video
                   ref={videoRef}
@@ -149,8 +149,8 @@ export const AvatarPreviewPanel = ({ avatars, selectedAvatar }: AvatarPreviewPan
               <div className="p-4 space-y-3">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-primary">
-                    <img 
-                      src={previewAvatar.image} 
+                    <img
+                      src={previewAvatar.image}
                       alt={previewAvatar.name}
                       className="w-full h-full object-cover"
                     />
@@ -161,7 +161,7 @@ export const AvatarPreviewPanel = ({ avatars, selectedAvatar }: AvatarPreviewPan
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Preview how this AI presenter delivers your product message. 
+                  Preview how this AI presenter delivers your product message.
                   Select this avatar in the chat to use them for your ad.
                 </p>
               </div>

@@ -1,16 +1,18 @@
-import { 
-  Globe, 
-  FileText, 
-  Users, 
-  Sparkles, 
-  Settings, 
-  Facebook, 
-  Eye, 
+import {
+  Globe,
+  FileText,
+  Users,
+  Sparkles,
+  Settings,
+  Facebook,
+  Eye,
   Rocket,
   Search,
   Wand2,
   Zap,
-  Brain
+  Brain,
+  Video as LucideVideo,
+  Image as LucideImage
 } from 'lucide-react';
 import { CampaignStep } from '@/types/campaign';
 
@@ -66,6 +68,39 @@ const STEP_LOADING_CONFIG: Record<string, {
       'Creating static images...',
       'Applying brand elements...',
       'Rendering final assets...'
+    ]
+  },
+  'creative-generation:images': {
+    icon: LucideImage,
+    title: 'Generating Images',
+    subtitle: 'Creating high-converting static creatives',
+    tasks: [
+      'Analyzing product visuals...',
+      'Generating AI image variations...',
+      'Optimizing for social feeds...',
+      'Readying for review...'
+    ]
+  },
+  'creative-generation:audio': {
+    icon: Wand2,
+    title: 'Synthesizing Audio',
+    subtitle: 'Generating professional AI voiceovers',
+    tasks: [
+      'Processing script text...',
+      'Matching voice style...',
+      'Generating high-fidelity audio...',
+      'Optimizing output quality...'
+    ]
+  },
+  'creative-generation:video': {
+    icon: LucideVideo,
+    title: 'Assembling Video',
+    subtitle: 'Combining avatar and audio into final video',
+    tasks: [
+      'Uploading audio assets...',
+      'Syncing AI avatar...',
+      'Rendering video content...',
+      'Finalizing MP4 file...'
     ]
   },
   'creative-review': {
@@ -135,10 +170,10 @@ export const StepLoadingAnimation = ({ step }: StepLoadingAnimationProps) => {
       <div className="relative mb-8">
         {/* Outer glow ring */}
         <div className="absolute inset-0 w-24 h-24 rounded-full bg-primary/20 animate-ping" />
-        
+
         {/* Middle pulsing ring */}
         <div className="absolute inset-0 w-24 h-24 rounded-full bg-primary/30 animate-pulse" />
-        
+
         {/* Icon container */}
         <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-lg">
           <Icon className="w-10 h-10 text-primary-foreground animate-pulse" />
@@ -167,7 +202,7 @@ export const StepLoadingAnimation = ({ step }: StepLoadingAnimationProps) => {
       {/* Animated task list */}
       <div className="w-full max-w-sm space-y-3">
         {config.tasks.map((task, index) => (
-          <div 
+          <div
             key={index}
             className="flex items-center gap-3 p-3 rounded-lg bg-muted/30 animate-fade-in"
             style={{ animationDelay: `${index * 300}ms` }}

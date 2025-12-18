@@ -35,6 +35,7 @@ class WorkflowState(TypedDict):
     
     # Step 1: Scraping
     url: Optional[str]
+    scraped_url: Optional[str]
     product_data: Optional[Dict[str, Any]]
     selected_product: Optional[Dict[str, Any]]
     

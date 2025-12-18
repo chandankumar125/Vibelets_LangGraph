@@ -13,7 +13,7 @@ class CampaignCreationAgent:
     def __init__(self):
         """Initialize the campaign creation agent"""
         self.llm = ChatOpenAI(
-            model="gpt-4",
+            model="gpt-4o",
             temperature=0.7,
             openai_api_key=Config.OPENAI_API_KEY
         )
@@ -159,7 +159,7 @@ class CampaignPreviewAgent:
     def __init__(self):
         """Initialize the campaign preview agent"""
         self.llm = ChatOpenAI(
-            model="gpt-4",
+            model="gpt-4o",
             temperature=0.7,
             openai_api_key=Config.OPENAI_API_KEY
         )
@@ -222,7 +222,7 @@ class CampaignModificationAgent:
     def __init__(self):
         """Initialize the campaign modification agent"""
         self.llm = ChatOpenAI(
-            model="gpt-4",
+            model="gpt-4o",
             temperature=0.7,
             openai_api_key=Config.OPENAI_API_KEY
         )
