@@ -30,295 +30,269 @@
   "28b63aa8-4611-461d-ae9d-f6bb9e3866ec": {
     "current_step": "creative-generation:video",
     "navigation_intent": "generate_video",
-    "agent_message": "Great news! The AI is now busy creating your final video. Hang tight, and soon you'll have a complete ad video ready to showcase your product!",
+    "agent_message": "We're on the final stretch! The AI is now creating your video using all the elements we've put together. Sit tight, and your video will be ready shortly!",
     "messages": [],
-    "url": "https://www.flipkart.com/casio-gm-110g-1a9dr-g-shock-gold-ip-dial-black-resin-strap-analog-digital-watch-men/p/itmc02fbd9d97434?pid=WATFZBRDR4HARJKZ&lid=LSTWATFZBRDR4HARJKZLNCOTS&marketplace=FLIPKART&q=watch&store=search.flipkart.com&srno=s_1_6&otracker=search&otracker1=search&fm=Search&iid=en_wBHCUKUyLodAHyoS3vOXEBCezTrsQfVQuNRmHcyupkeG06fHoQM1m6ypxw1EYUsHt_arn4KTfDW8ekNCiXon2IQEIsITtCzc4bHaOMTqL08%3D&ppt=sp&ppn=sp&ssid=foxyhu3jow0000001766057648916&qH=d2974c96dc96b3f3",
-    "scraped_url": "https://www.flipkart.com/casio-gm-110g-1a9dr-g-shock-gold-ip-dial-black-resin-strap-analog-digital-watch-men/p/itmc02fbd9d97434?pid=WATFZBRDR4HARJKZ&lid=LSTWATFZBRDR4HARJKZLNCOTS&marketplace=FLIPKART&q=watch&store=search.flipkart.com&srno=s_1_6&otracker=search&otracker1=search&fm=Search&iid=en_wBHCUKUyLodAHyoS3vOXEBCezTrsQfVQuNRmHcyupkeG06fHoQM1m6ypxw1EYUsHt_arn4KTfDW8ekNCiXon2IQEIsITtCzc4bHaOMTqL08%3D&ppt=sp&ppn=sp&ssid=foxyhu3jow0000001766057648916&qH=d2974c96dc96b3f3",
+    "url": "https://www.flipkart.com/casio-gm-2100-1adr-g-shock-silver-dial-black-resin-strap-analog-digital-watch-men/p/itma84f56e781cd9?pid=WATG79ZPUEPUGQ6J&lid=LSTWATG79ZPUEPUGQ6JNCTDMM&marketplace=FLIPKART&fm=productRecommendation%2Fsimilar&iid=en_YEZFjjixFupY6GcSUFl5AIocNEqbegRtYvsPwW2lQcu8S5B8IvoJOi8TN4Zf4KdT8bPTS6n4sz9SyD6s3NQnGA%3D%3D&ppt=pp&ppn=pp&ssid=foxyhu3jow0000001766057648916&otracker=pp_reco_Similar%2BProducts_4_34.productCard.PMU_HORIZONTAL_CASIO%2BGM-2100-1ADR%2BG-SHOCK%2BSilver%2BDial%2BBlack%2BResin%2BStrap%2BAnalog-Digital%2BWatch%2B%2B-%2BFor%2BMen_-1_productRecommendation%2Fsimilar_3&otracker1=pp_reco_PINNED_productRecommendation%2Fsimilar_Similar%2BProducts_GRID_productCard_cc_4_NA_view-all&cid=-1",
+    "scraped_url": "https://www.flipkart.com/casio-gm-2100-1adr-g-shock-silver-dial-black-resin-strap-analog-digital-watch-men/p/itma84f56e781cd9?pid=WATG79ZPUEPUGQ6J&lid=LSTWATG79ZPUEPUGQ6JNCTDMM&marketplace=FLIPKART&fm=productRecommendation%2Fsimilar&iid=en_YEZFjjixFupY6GcSUFl5AIocNEqbegRtYvsPwW2lQcu8S5B8IvoJOi8TN4Zf4KdT8bPTS6n4sz9SyD6s3NQnGA%3D%3D&ppt=pp&ppn=pp&ssid=foxyhu3jow0000001766057648916&otracker=pp_reco_Similar%2BProducts_4_34.productCard.PMU_HORIZONTAL_CASIO%2BGM-2100-1ADR%2BG-SHOCK%2BSilver%2BDial%2BBlack%2BResin%2BStrap%2BAnalog-Digital%2BWatch%2B%2B-%2BFor%2BMen_-1_productRecommendation%2Fsimilar_3&otracker1=pp_reco_PINNED_productRecommendation%2Fsimilar_Similar%2BProducts_GRID_productCard_cc_4_NA_view-all&cid=-1",
     "product_data": {
-      "url": "https://www.flipkart.com/casio-gm-110g-1a9dr-g-shock-gold-ip-dial-black-resin-strap-analog-digital-watch-men/p/itmc02fbd9d97434?pid=WATFZBRDR4HARJKZ&lid=LSTWATFZBRDR4HARJKZLNCOTS&marketplace=FLIPKART&q=watch&store=search.flipkart.com&srno=s_1_6&otracker=search&otracker1=search&fm=Search&iid=en_wBHCUKUyLodAHyoS3vOXEBCezTrsQfVQuNRmHcyupkeG06fHoQM1m6ypxw1EYUsHt_arn4KTfDW8ekNCiXon2IQEIsITtCzc4bHaOMTqL08%3D&ppt=sp&ppn=sp&ssid=foxyhu3jow0000001766057648916&qH=d2974c96dc96b3f3",
-      "title": "CASIO\u00a0G-SHOCK Gold Ip Dial Black Resin Strap Analog-Digital Watch  - For Men G1053 (GM-110G-1A9DR)",
-      "description": "CASIO GM-110G-1A9DR G-SHOCK Gold Ip Dial Black Resin Strap Analog-Digital Watch  - For Men - Buy CASIO GM-110G-1A9DR G-SHOCK Gold Ip Dial Black Resin Strap Analog-Digital Watch  - For Men  G1053 (GM-110G-1A9DR) Online at Rs.18995 in India Only at Flipkart.com. - Great Discounts, Only Genuine Products, 30 Day Replacement Guarantee, Free Shipping. Cash On Delivery!",
+      "url": "https://www.flipkart.com/casio-gm-2100-1adr-g-shock-silver-dial-black-resin-strap-analog-digital-watch-men/p/itma84f56e781cd9?pid=WATG79ZPUEPUGQ6J&lid=LSTWATG79ZPUEPUGQ6JNCTDMM&marketplace=FLIPKART&fm=productRecommendation%2Fsimilar&iid=en_YEZFjjixFupY6GcSUFl5AIocNEqbegRtYvsPwW2lQcu8S5B8IvoJOi8TN4Zf4KdT8bPTS6n4sz9SyD6s3NQnGA%3D%3D&ppt=pp&ppn=pp&ssid=foxyhu3jow0000001766057648916&otracker=pp_reco_Similar%2BProducts_4_34.productCard.PMU_HORIZONTAL_CASIO%2BGM-2100-1ADR%2BG-SHOCK%2BSilver%2BDial%2BBlack%2BResin%2BStrap%2BAnalog-Digital%2BWatch%2B%2B-%2BFor%2BMen_-1_productRecommendation%2Fsimilar_3&otracker1=pp_reco_PINNED_productRecommendation%2Fsimilar_Similar%2BProducts_GRID_productCard_cc_4_NA_view-all&cid=-1",
+      "title": "CASIO\u00a0G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men G1159 (GM-2100-1ADR)",
+      "description": "CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men - Buy CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men  G1159 (GM-2100-1ADR) Online at Rs.15995 in India Only at Flipkart.com. Mineral Glass::Neobrite Guard structure::Guard-less Button Structure::Dual Back Cover::Easily replaceable band::Dynamic face action::A bold face design::Easy-to-read display::High-impact design::Easy reading even in the dark::Double LED light::World time (31 time zones (48 cities + coordinated universal time), daylight saving on/off, Home city/World time city swapping)::1/100-second stopwatch::Countdown timer::5 daily alarms::Hourly time signal::Hand shift feature (Hands move out of the way to provide an unobstructed view of digital display contents.)::Full auto-calendar (to year 2099)::12/24-hour format::Button operation tone on/off::Regular timekeeping: Analog: 2 hands (hour, minute (hand moves every 20 seconds)), 1 dial (mode), Digital: Hour, minute, second, pm, month, date, day::Accuracy: 15 seconds per month - Great Discounts, Only Genuine Products, 30 Day Replacement Guarantee, Free Shipping. Cash On Delivery!",
       "price": "Price not found",
       "images": [
-        "http://rukmini1.flixcart.com/image/300/300/xif0q/watch/1/t/x/-original-imahhzj7kucga5hf.jpeg",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/1/t/x/-original-imahhzj7kucga5hf.jpeg?q=70&crop=false",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/t/t/8/-original-imahhzj7stam8yre.jpeg?q=70&crop=false",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/c/a/y/-original-imahhzj7zgnhh8g9.jpeg?q=70&crop=false",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/d/0/p/-original-imahhzj75vyjbgxt.jpeg?q=70&crop=false"
+        "http://rukmini1.flixcart.com/image/300/300/xif0q/watch/p/4/m/-original-imahg62wrkucrfsp.jpeg",
+        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/p/4/m/-original-imahg62wrkucrfsp.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/g/5/w/-original-imahg62wbkjegtfp.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/s/c/i/-original-imahg62wedjmkhhj.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/b/q/f/-original-imahg62wh5jxwv8h.jpeg?q=70&crop=false"
       ],
-      "is_store": true,
+      "is_store": false,
       "products": [],
-      "raw_text": "  CASIO GM-110G-1A9DR G-SHOCK Gold Ip Dial Black Resin Strap Analog-Digital Watch  - For Men - Buy CASIO GM-110G-1A9DR G-SHOCK Gold Ip Dial Black Resin Strap Analog-Digital Watch  - For Men G1053 (GM-110G-1A9DR) Online at Best Prices in India | Flipkart.com        Explore PlusLoginBecome a Seller More CartAdd to cart Buy NowHomeWatchesWrist WatchesCASIO Wrist WatchesCASIO GM-110G-1A9DR G-SHOCK Gold Ip Dial Black Resin Strap Analog-Digital Watch  - For Men\nShareCASIO\u00a0G-SHOCK Gold Ip Dial Black Resin Strap Analog-Digital Watch  - For Men G1053 (GM-110G-1A9DR)\u20b918,995iHurry, Only 3 left!4.3372 ratings and 28 reviewsStrap ColorBlackSilverPlease select a Strap Color to proceed\u2715Dial ColorBlackGoldSilvergoldenPlease select a Dial Color to proceed\u2715Available offersBank Offer5% cashback on Axis Bank Flipkart Debit Card up to \u20b9750T&CBank Offer5% cashback on Flipkart SBI Credit Card upto \u20b94,000 per calendar quarterT&CBank OfferFlat \u20b96000 off on BOBCARD EMI Transactions on orders of \u20b960,000 and aboveT&CCombo OfferBuy 2 items save 5%; Buy 3 save 7%; Buy 4+ save 10%See all productsT&C+16 more offers2 Years All India Manufacturer WarrantyKnow MoreDeliver toCheckDelivery by21 Dec, Sunday?if ordered before 5:59 PMView DetailsServices2 Years All India Manufacturer WarrantyCash on Delivery available?SellerBappaAssociates4.610 days return policy?See other sellersProduct DetailsBrandCASIOWatch TypeWrist WatchDisplay TypeAnalog-DigitalIdeal ForMenWater ResistantYesMechanismQuartzStyle CodeG1053 (GM-110G-1A9DR)SeriesG-SHOCK Gold Ip Dial Black Resin StrapOccasionSportsMovementQuartzPack of1Sales Package1 Box::1 Watch::1 Warranty Card With Serial Number::1 Warranty Term Sheet::1 User ManualShock ResistanceYesScratch ResistantNoModel NameGM-110G-1A9DRStrap ColorBlackNet Quantity1Watch FeaturesChronographWidth48.8 mmHeight51.9 mmThickness16.9 mmDiameter48.8 mmWeight93 gDomestic Warranty2 YearInternational Warranty1 YearWarranty Period2 YearsWarranty Service TypeCustomer Needs to Visit the Autho",
+      "raw_text": "  CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men - Buy CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men G1159 (GM-2100-1ADR) Online at Best Prices in India | Flipkart.com        Explore PlusLoginBecome a Seller More CartAdd to cart Buy NowHomeWatchesWrist WatchesCASIO Wrist WatchesCASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men\nShareCASIO\u00a0G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men G1159 (GM-2100-1ADR)\u20b915,994\u20b915,995i4.21,439 ratings and 87 reviewsStrap ColorBlackBrownGoldGreenGreySilverPlease select a Strap Color to proceed\u2715Dial ColorBlackBlueGoldGreenGreySilverPlease select a Dial Color to proceed\u2715Available offersBank Offer5% cashback on Axis Bank Flipkart Debit Card up to \u20b9750T&CBank Offer5% cashback on Flipkart SBI Credit Card upto \u20b94,000 per calendar quarterT&CBank OfferFlat \u20b96000 off on BOBCARD EMI Transactions on orders of \u20b960,000 and aboveT&CCombo OfferBuy 2 items save 5%; Buy 3 save 7%; Buy 4+ save 10%See all productsT&C+16 more offers2 Years All India Manufacturer WarrantyKnow MoreDeliver toCheckDelivery by21 Dec, Sunday?if ordered before 8:03 PMView DetailsServices2 Years All India Manufacturer WarrantyCash on Delivery available?SellerRetailNet4.310 days return policy?GST invoice available?See other sellersProduct DetailsBrandCASIOWatch TypeWrist WatchDisplay TypeAnalog-DigitalIdeal ForMenMechanismQuartzStyle CodeG1159 (GM-2100-1ADR)SeriesG-SHOCK Silver Dial Black Resin StrapOccasionCasualMovementQuartzPack of1Sales Package1 Box::1 Watch::1 Warranty Card With Serial Number::1 Warranty Term Sheet::1 User ManualShock ResistanceYesModel NameGM-2100-1ADRStrap ColorBlackNet Quantity1Watch FeaturesDate DisplayWidth44.4 mmHeight49.3 mmThickness11.8 mmDiameter44.4 mmWeight72 gDomestic Warranty2 YearWarranty Period2 YearsWarranty Service TypeCustomer Needs to Visit the Authorized Service Centre, along with Tax Paid Inv",
       "downloaded_images": [
-        "/static/scraped_products/-original-imahhzj7kucga5hf_0.jpeg",
+        "/static/scraped_products/-original-imahg62wrkucrfsp_0.jpeg",
         "/static/scraped_products/-original-imahfskqqdywhghe_1.jpeg",
-        "/static/scraped_products/8-art-276-8-trotus-blue-original-imahfv3bhz2hnhtx_2.jpeg",
-        "/static/scraped_products/6-biss-2031-blu-wht-40-bruton-blue-original-imahczyufwkmpeyq_3.jpeg"
+        "/static/scraped_products/6-biss-2031-blu-wht-40-bruton-blue-original-imahczyufwkmpeyq_2.jpeg",
+        "/static/scraped_products/xl-kcsh-remm110-ma-fubar-original-imahfkahu9f38ryj_3.jpeg"
       ],
-      "pageScreenshot": "/static/scraped_products/-original-imahhzj7kucga5hf_0.jpeg",
-      "current_analysis": {
-        "category": "Television",
-        "features": [
-          "43 inch Ultra HD (4K) LED display",
-          "Smart WebOS TV 2025 Edition",
-          "Alpha7 AI Processor 4K Gen8",
-          "4K Super Upscaling",
-          "AI Picture Pro",
-          "4K Expression Enhancer",
-          "AI Magic Remote Compatible",
-          "AI Search with MS Copilot",
-          "AI Sound Pro (9.1.2 channel)",
-          "Dolby Atmos",
-          "Chromecast Built-in",
-          "Exchange offer and 30-day replacement guarantee",
-          "Price: \u20b929,990 with offers"
-        ],
-        "target_audience": {
-          "demographics": {
-            "age_range": "25-45 years",
-            "income_level": "Middle to upper-middle class",
-            "location": "Urban and suburban areas in India",
-            "family_status": "Young families, tech-savvy individuals"
-          },
-          "psychographics": {
-            "lifestyle": "Technology enthusiasts, entertainment lovers",
-            "values": "Quality, innovation, convenience",
-            "interests": "Home entertainment, smart home technologies"
-          },
-          "pain_points": [
-            "Desire for high-quality viewing experiences",
-            "Need for smart home integration",
-            "Frustration with outdated technology"
-          ]
-        },
-        "usps": [
-          "Cutting-edge AI technology with Alpha7 AI Processor 4K Gen8",
-          "Enhanced viewing experience with 4K Super Upscaling and AI Picture Pro",
-          "Immersive sound experience with AI Sound Pro and Dolby Atmos",
-          "Smart features including AI Search with MS Copilot and Chromecast Built-in",
-          "Attractive pricing with special offers and exchange discounts"
-        ],
-        "marketing_angles": [
-          {
-            "angle": "Innovation and Technology",
-            "emotional_triggers": [
-              "Excitement",
-              "Curiosity"
-            ]
-          },
-          {
-            "angle": "Entertainment and Experience",
-            "emotional_triggers": [
-              "Joy",
-              "Satisfaction"
-            ]
-          },
-          {
-            "angle": "Value for Money",
-            "emotional_triggers": [
-              "Trust",
-              "Reliability"
-            ]
-          },
-          {
-            "angle": "Convenience and Integration",
-            "emotional_triggers": [
-              "Ease",
-              "Comfort"
-            ]
-          }
-        ],
-        "positioning": {
-          "competitive_landscape": "The LG AI TV UA8200 positions itself as a technologically advanced yet affordable option in the 4K Smart TV market, competing with brands like Samsung, Sony, and Xiaomi.",
-          "differentiation": "Focuses on AI-driven features and smart home compatibility, appealing to tech-savvy consumers looking for an integrated home entertainment solution."
-        }
-      },
-      "current_scripts": [
-        "[Scene opens with a fast-paced montage of outdated TVs with static and buffering issues. Quick cuts to frustrated reactions from a young family in a modern living room.]\n\n[Narrator Voiceover: Excited tone]\n\"Stuck in the past with old tech? Meet the future with LG's AI TV UA8200!\"\n\n[Cut to sleek shots of the LG AI TV, showing its thin frame and high-definition display.]\n\"Powered by the Alpha7 AI Processor 4K Gen8, your movies come to life with 4K Super Upscaling and AI Picture Pro.\"\n\n[Quick cuts to scenes of family members enjoying different shows with vibrant visuals and rich sound filling the room.]\n\"Feel the thrill of AI Sound Pro and Dolby Atmos\u2014it's not just watching, it's experiencing!\"\n\n[Text overlay: \u201cInnovation at an unmatched price!\u201d]\n\n[Narrator Voiceover: Enthusiastic]\n\"Upgrade with exclusive offers today!\"\n\n[CTA: \"Click now to revolutionize your viewing experience!\"]",
-        "[Scene opens with a peaceful living room setting. Soft ambient music plays. Slow-motion shots of a family gathering around the TV with snacks.]\n\n[Narrator Voiceover: Warm, joyful tone]\n\"Imagine family nights with cinema-quality entertainment.\"\n\n[Cut to close-up of the LG AI TV's screen displaying stunning visuals of a nature documentary.]\n\"With AI Picture Pro and 4K Expression Enhancer, every detail pops, bringing joy right to your home.\"\n\n[The family is seen interacting with the TV using the NEW AI Magic Remote, seamlessly switching between apps.]\n\"Enjoy the ease of AI Search with MS Copilot, making switching between your favorites a breeze.\"\n\n[Text overlay: \u201cJoy, simplicity, and unforgettable nights!\u201d]\n\n[Narrator Voiceover: Reassuring]\n\"Attractive pricing and exchange discounts make it possible.\"\n\n[CTA: \"Transform your living room\u2014order your LG AI TV now!\"]",
-        "[Scene opens with close-ups of a sleek modern living room setting. Soft ASMR sounds of the TV remote clicking and TV turning on.]\n\n[Text overlay: \u201cElevate Your Space\u201d]\n\n[Footage of the LG AI TV displaying a vibrant 4K cityscape. Relaxing music continues.]\n\"Discover seamless integration with Chromecast Built-in, turning your TV into a smart hub.\"\n\n[Cut to the TV's immersive sound echoing throughout the room. Visuals of sound waves moving through the air.]\n\"Let AI Sound Pro and Dolby Atmos envelop you in 9.1.2 channel sound.\"\n\n[Close-up of family members relaxing, browsing, and enjoying content effortlessly.]\n\"Convenience meets comfort with LG's AI-powered innovation.\"\n\n[Text overlay: \u201cReliability you can feel.\u201d]\n\n[Narrator Voiceover: Calm, inviting]\n\"Experience tech at its finest. Order now for exclusive deals!\"\n\n[CTA: \"Click to bring the future home.\"]"
-      ]
-    },
-    "selected_product": {
-      "url": "https://www.flipkart.com/casio-gm-110g-1a9dr-g-shock-gold-ip-dial-black-resin-strap-analog-digital-watch-men/p/itmc02fbd9d97434?pid=WATFZBRDR4HARJKZ&lid=LSTWATFZBRDR4HARJKZLNCOTS&marketplace=FLIPKART&q=watch&store=search.flipkart.com&srno=s_1_6&otracker=search&otracker1=search&fm=Search&iid=en_wBHCUKUyLodAHyoS3vOXEBCezTrsQfVQuNRmHcyupkeG06fHoQM1m6ypxw1EYUsHt_arn4KTfDW8ekNCiXon2IQEIsITtCzc4bHaOMTqL08%3D&ppt=sp&ppn=sp&ssid=foxyhu3jow0000001766057648916&qH=d2974c96dc96b3f3",
-      "title": "CASIO\u00a0G-SHOCK Gold Ip Dial Black Resin Strap Analog-Digital Watch  - For Men G1053 (GM-110G-1A9DR)",
-      "description": "CASIO GM-110G-1A9DR G-SHOCK Gold Ip Dial Black Resin Strap Analog-Digital Watch  - For Men - Buy CASIO GM-110G-1A9DR G-SHOCK Gold Ip Dial Black Resin Strap Analog-Digital Watch  - For Men  G1053 (GM-110G-1A9DR) Online at Rs.18995 in India Only at Flipkart.com. - Great Discounts, Only Genuine Products, 30 Day Replacement Guarantee, Free Shipping. Cash On Delivery!",
-      "price": "Price not found",
-      "images": [
-        "http://rukmini1.flixcart.com/image/300/300/xif0q/watch/1/t/x/-original-imahhzj7kucga5hf.jpeg",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/1/t/x/-original-imahhzj7kucga5hf.jpeg?q=70&crop=false",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/t/t/8/-original-imahhzj7stam8yre.jpeg?q=70&crop=false",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/c/a/y/-original-imahhzj7zgnhh8g9.jpeg?q=70&crop=false",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/d/0/p/-original-imahhzj75vyjbgxt.jpeg?q=70&crop=false"
-      ],
-      "is_store": true,
-      "products": [],
-      "raw_text": "  CASIO GM-110G-1A9DR G-SHOCK Gold Ip Dial Black Resin Strap Analog-Digital Watch  - For Men - Buy CASIO GM-110G-1A9DR G-SHOCK Gold Ip Dial Black Resin Strap Analog-Digital Watch  - For Men G1053 (GM-110G-1A9DR) Online at Best Prices in India | Flipkart.com        Explore PlusLoginBecome a Seller More CartAdd to cart Buy NowHomeWatchesWrist WatchesCASIO Wrist WatchesCASIO GM-110G-1A9DR G-SHOCK Gold Ip Dial Black Resin Strap Analog-Digital Watch  - For Men\nShareCASIO\u00a0G-SHOCK Gold Ip Dial Black Resin Strap Analog-Digital Watch  - For Men G1053 (GM-110G-1A9DR)\u20b918,995iHurry, Only 3 left!4.3372 ratings and 28 reviewsStrap ColorBlackSilverPlease select a Strap Color to proceed\u2715Dial ColorBlackGoldSilvergoldenPlease select a Dial Color to proceed\u2715Available offersBank Offer5% cashback on Axis Bank Flipkart Debit Card up to \u20b9750T&CBank Offer5% cashback on Flipkart SBI Credit Card upto \u20b94,000 per calendar quarterT&CBank OfferFlat \u20b96000 off on BOBCARD EMI Transactions on orders of \u20b960,000 and aboveT&CCombo OfferBuy 2 items save 5%; Buy 3 save 7%; Buy 4+ save 10%See all productsT&C+16 more offers2 Years All India Manufacturer WarrantyKnow MoreDeliver toCheckDelivery by21 Dec, Sunday?if ordered before 5:59 PMView DetailsServices2 Years All India Manufacturer WarrantyCash on Delivery available?SellerBappaAssociates4.610 days return policy?See other sellersProduct DetailsBrandCASIOWatch TypeWrist WatchDisplay TypeAnalog-DigitalIdeal ForMenWater ResistantYesMechanismQuartzStyle CodeG1053 (GM-110G-1A9DR)SeriesG-SHOCK Gold Ip Dial Black Resin StrapOccasionSportsMovementQuartzPack of1Sales Package1 Box::1 Watch::1 Warranty Card With Serial Number::1 Warranty Term Sheet::1 User ManualShock ResistanceYesScratch ResistantNoModel NameGM-110G-1A9DRStrap ColorBlackNet Quantity1Watch FeaturesChronographWidth48.8 mmHeight51.9 mmThickness16.9 mmDiameter48.8 mmWeight93 gDomestic Warranty2 YearInternational Warranty1 YearWarranty Period2 YearsWarranty Service TypeCustomer Needs to Visit the Autho",
-      "downloaded_images": [
-        "/static/scraped_products/-original-imahhzj7kucga5hf_0.jpeg",
-        "/static/scraped_products/-original-imahfskqqdywhghe_1.jpeg",
-        "/static/scraped_products/8-art-276-8-trotus-blue-original-imahfv3bhz2hnhtx_2.jpeg",
-        "/static/scraped_products/6-biss-2031-blu-wht-40-bruton-blue-original-imahczyufwkmpeyq_3.jpeg"
-      ],
-      "pageScreenshot": "/static/scraped_products/-original-imahhzj7kucga5hf_0.jpeg",
+      "pageScreenshot": "/static/scraped_products/-original-imahg62wrkucrfsp_0.jpeg",
       "current_analysis": {
         "category": "Wrist Watch",
-        "features": {
-          "brand": "CASIO",
-          "series": "G-SHOCK",
-          "model_name": "GM-110G-1A9DR",
-          "display_type": "Analog-Digital",
-          "strap_material": "Black Resin",
-          "dial_color": "Gold Ip",
-          "mechanism": "Quartz",
-          "water_resistant": "Yes",
-          "shock_resistant": "Yes",
-          "chronograph": "Yes",
-          "dimensions": {
-            "width": "48.8 mm",
-            "height": "51.9 mm",
-            "thickness": "16.9 mm",
-            "diameter": "48.8 mm"
-          },
-          "weight": "93 g",
-          "warranty": {
-            "domestic": "2 Years",
-            "international": "1 Year"
-          }
-        },
+        "features": [
+          "Analog-Digital display",
+          "Silver Dial",
+          "Black Resin Strap",
+          "Mineral Glass",
+          "Neobrite for easy reading in the dark",
+          "Guard structure and Guard-less Button Structure",
+          "Dual Back Cover and easily replaceable band",
+          "High-impact, bold face design",
+          "Double LED light",
+          "World time with 31 time zones",
+          "1/100-second stopwatch",
+          "Countdown timer",
+          "5 daily alarms and hourly time signal",
+          "Hand shift feature for unobstructed view",
+          "Full auto-calendar (to year 2099)",
+          "12/24-hour format",
+          "Shock Resistance",
+          "Quartz Movement",
+          "Water-resistant"
+        ],
         "target_audience": {
           "demographics": {
             "gender": "Men",
-            "age_range": "18-45",
-            "income_level": "Medium to High",
-            "location": "Urban areas in India"
+            "age_range": "18-45 years",
+            "income_level": "Middle to upper-middle class",
+            "location": "Urban areas, India"
           },
           "psychographics": {
-            "lifestyle": "Active, sporty, fashionable",
-            "values": "Durability, style, technology",
-            "interests": "Sports, technology, fashion"
+            "lifestyle": "Active, adventurous, technology-savvy",
+            "values": "Durability, functionality, style",
+            "interests": "Outdoor activities, sports, gadgets"
           },
           "pain_points": [
-            "Need for a durable, stylish watch that suits both casual and sports settings",
-            "Desire for a reliable brand with a solid warranty"
+            "Need for durable and reliable watches",
+            "Desire for multifunctional timepieces",
+            "Preference for stylish yet practical accessories"
           ]
         },
         "usps": [
-          "Combination of analog and digital display for versatility",
-          "Durable G-SHOCK series known for shock resistance",
-          "Water-resistant and chronograph features ideal for active lifestyles",
-          "Stylish gold dial with a robust black resin strap"
+          "Combination of analog and digital functionalities",
+          "Robust and shock-resistant design",
+          "Advanced timekeeping features including world time and alarms",
+          "Stylish design with practical features like easy readability in the dark"
         ],
         "marketing_angles": [
-          "Emphasize the ruggedness and durability for outdoor and sports enthusiasts",
-          "Highlight the stylish gold dial that complements both casual and formal attire",
-          "Promote the reliability and trust associated with the CASIO G-SHOCK brand",
-          "Leverage the appeal of the watch's technological features and advanced design"
+          "Emphasize the rugged and durable design, ideal for adventure and sports enthusiasts",
+          "Highlight the multifunctionality that caters to the tech-savvy individuals",
+          "Appeal to style-conscious consumers with its bold design"
         ],
         "positioning": {
-          "direct_competitors": [
-            "Seiko Prospex",
-            "Citizen Eco-Drive",
-            "Timex Expedition"
-          ],
-          "positioning_statement": "The CASIO G-SHOCK GM-110G-1A9DR is positioned as a premium, durable, and stylish wristwatch designed for the active, fashionable man who values a blend of technology and style in his accessories."
+          "competitive_landscape": "Competes with other rugged and multifunctional watches in the G-SHOCK line and similar brands like Timex Ironman, Suunto, and Garmin",
+          "differentiation": "Offers a unique blend of style, durability, and advanced functionality at a competitive price point"
         }
       },
       "current_scripts": [
-        "[Opening shot: Quick cuts of a man running, cycling, and lifting weights]\n\n[Text overlay: \"From the streets to the gym...\"]\n\n[Close-up of the CASIO G-SHOCK on wrist]\n\nNarrator (voiceover): \"Meet the watch that never quits.\"\n\n[Cut to: Watch hitting the ground but remaining unscathed]\n\nNarrator (voiceover): \"Built for the toughest challenges.\"\n\n[Text overlay: \"Shockproof. Water-resistant.\"]\n\n[Scene shift: Man transitions from gym wear to a smart casual outfit]\n\n[Close-up: Gold dial glimmers under the sunlight]\n\nNarrator (voiceover): \"Style that seamlessly transitions with you.\"\n\n[Text overlay: \"CASIO G-SHOCK\"]\n\nNarrator (voiceover): \"Tough. Timeless. Trusted.\"\n\n[Closing shot: Man confidently adjusting the watch, smiling]\n\n[Text overlay: \"Get yours today!\"]\n\n[CTA: \"Shop now at your nearest store or online.\"]",
-        "[Opening shot: Man in a suit at a rooftop party, city lights in the background]\n\n[Text overlay: \"Step into style.\"]\n\n[Close-up: CASIO G-SHOCK gold dial reflecting light]\n\nNarrator (voiceover): \"When elegance meets endurance.\"\n\n[Quick montage: Close-ups of the watch's analog and digital features, rotating]\n\nNarrator (voiceover): \"Advanced design with dual display technology.\"\n\n[Scene shift: Man at a sports event, cheering wildly]\n\nNarrator (voiceover): \"Ready for any adventure.\"\n\n[Text overlay: \"Chronograph. Water-resistant.\"]\n\n[Scene shift: Man at a tech store, picking up the watch]\n\nNarrator (voiceover): \"Backed by the reliability of CASIO.\"\n\n[Text overlay: \"Durability in every moment.\"]\n\n[Closing shot: Man proudly showing off the watch to friends]\n\n[Text overlay: \"Elevate your game.\"]\n\n[CTA: \"Discover the power of G-SHOCK today.\"]",
-        "[Opening shot: Fast-paced clips of urban life\u2014busy streets, bustling cafes, vibrant nightlife]\n\n[Text overlay: \"For the fast-paced lifestyle...\"]\n\n[Close-up: CASIO G-SHOCK's intricate details]\n\nASMR whisper (voiceover): \"Feel the power of precision.\"\n\n[Scene shift: Slow-motion of the watch in water droplets, highlighting water resistance]\n\nASMR whisper (voiceover): \"Engineered for endurance.\"\n\n[Scene shift: Man coolly walking in a black leather jacket, watch on display]\n\nASMR whisper (voiceover): \"A statement piece.\"\n\n[Text overlay: \"Gold meets black.\"]\n\n[Slow pan: The watch's digital and analog elements in motion]\n\nASMR whisper (voiceover): \"Technology at your wrist.\"\n\n[Scene shift: Close-up of watch clasping on wrist]\n\n[Text overlay: \"CASIO G-SHOCK\"]\n\n[Closing shot: Man winks at camera, watch in focus]\n\n[Text overlay: \"Unleash your style.\"]\n\n[CTA: \"Get it now. Be unbreakable.\"]"
+        "[Style: Problem/Solution]\n\n[Opening: Fast-paced montage of outdoor activities\u2014hiking, running, biking. Text overlay: \"Tired of watches that can\u2019t keep up?\"]\n\n[Cut to: Close-up of the CASIO\u00a0G-SHOCK Gold Ip Dial Black Resin Strap Watch]\n\nNarrator (V.O.): \"Meet the G-SHOCK GM-110G-1A9DR\u2014a perfect blend of style and durability.\"\n\n[Scene: A man hits the watch intentionally against a rock during a hike. The watch remains unscratched.]\n\nNarrator (V.O.): \"Built for the toughest terrains with shock resistance. Go anywhere, do anything.\"\n\n[Scene: Quick cuts of the watch in different settings\u2014office, gym, night out.]\n\nNarrator (V.O.): \"From boardroom to the wild, its gold dial and sleek resin strap make a statement.\"\n\n[Scene: Close-up of the analog-digital display lighting up.]\n\nNarrator (V.O.): \"Get the best of both worlds with its multifunctional display, perfect for the tech-savvy adventurer.\"\n\n[Ending: User fastening the watch and heading out the door. Text overlay: \u201cReady to conquer? Get yours today!\u201d]\n\nCTA: \"Tap the link to elevate your adventure with CASIO G-SHOCK.\"",
+        "[Style: UGC Style]\n\n[Opening: Selfie-style video of a man holding the CASIO G-SHOCK watch. Text overlay: \"You won't believe what this can do!\"]\n\nMan: \"Hey guys! Just got my new G-SHOCK, and it's a game-changer!\"\n\n[Scene: Man showcasing the gold dial under different lighting. Close-up shots of the watch catching the light.]\n\nMan: \"Check out this gold dial. Super stylish, right?\"\n\n[Scene: Cut to the man jogging outdoors, showing the watch on his wrist as he moves.]\n\nMan: \"But it's not just about looks. This thing is TOUGH. I\u2019ve already put it through some serious tests!\"\n\n[Scene: Quick cuts of the watch facing splashes of water, dust, and knocks.]\n\nMan: \"Shock resistant and ready for anything. And the best part? It\u2019s both analog and digital. Perfect for my busy lifestyle.\"\n\n[Ending: The man gives a thumbs-up to the camera. Text overlay: \u201cWhy wait? Join the G-SHOCK family today!\u201d]\n\nCTA: \"Swipe up to get yours now!\"",
+        "[Style: ASMR/Aesthetic]\n\n[Opening: Close-up sounds of the watch strap being fastened, followed by a soft click. Text overlay: \"A sound of style & strength.\"]\n\n[Scene: Slow-motion video of the watch under running water. The droplets glisten on the gold dial.]\n\n[Background sound: Gentle rain ambiance mixed with soothing synth music.]\n\n[Scene: Close-up of the digital display switching functions. The smooth mechanical clicks are audible.]\n\nNarrator (whispering): \"Engineered for extremes, the G-SHOCK is your ultimate companion.\"\n\n[Scene: The watch against a backdrop of a sunset, highlighting the black resin strap.]\n\nNarrator (whispering): \"A perfect fusion of elegance and endurance.\"\n\n[Scene: Slow pan across the watch face as the light dances on the surface.]\n\nNarrator (whispering): \"Multifunctional brilliance meets rugged resilience.\"\n\n[Ending: The watch resting on a rock by a flowing stream. Text overlay: \u201cDiscover your edge.\u201d]\n\nCTA: \"Follow the link to feel the power of CASIO G-SHOCK.\""
+      ]
+    },
+    "selected_product": {
+      "url": "https://www.flipkart.com/casio-gm-2100-1adr-g-shock-silver-dial-black-resin-strap-analog-digital-watch-men/p/itma84f56e781cd9?pid=WATG79ZPUEPUGQ6J&lid=LSTWATG79ZPUEPUGQ6JNCTDMM&marketplace=FLIPKART&fm=productRecommendation%2Fsimilar&iid=en_YEZFjjixFupY6GcSUFl5AIocNEqbegRtYvsPwW2lQcu8S5B8IvoJOi8TN4Zf4KdT8bPTS6n4sz9SyD6s3NQnGA%3D%3D&ppt=pp&ppn=pp&ssid=foxyhu3jow0000001766057648916&otracker=pp_reco_Similar%2BProducts_4_34.productCard.PMU_HORIZONTAL_CASIO%2BGM-2100-1ADR%2BG-SHOCK%2BSilver%2BDial%2BBlack%2BResin%2BStrap%2BAnalog-Digital%2BWatch%2B%2B-%2BFor%2BMen_-1_productRecommendation%2Fsimilar_3&otracker1=pp_reco_PINNED_productRecommendation%2Fsimilar_Similar%2BProducts_GRID_productCard_cc_4_NA_view-all&cid=-1",
+      "title": "CASIO\u00a0G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men G1159 (GM-2100-1ADR)",
+      "description": "CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men - Buy CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men  G1159 (GM-2100-1ADR) Online at Rs.15995 in India Only at Flipkart.com. Mineral Glass::Neobrite Guard structure::Guard-less Button Structure::Dual Back Cover::Easily replaceable band::Dynamic face action::A bold face design::Easy-to-read display::High-impact design::Easy reading even in the dark::Double LED light::World time (31 time zones (48 cities + coordinated universal time), daylight saving on/off, Home city/World time city swapping)::1/100-second stopwatch::Countdown timer::5 daily alarms::Hourly time signal::Hand shift feature (Hands move out of the way to provide an unobstructed view of digital display contents.)::Full auto-calendar (to year 2099)::12/24-hour format::Button operation tone on/off::Regular timekeeping: Analog: 2 hands (hour, minute (hand moves every 20 seconds)), 1 dial (mode), Digital: Hour, minute, second, pm, month, date, day::Accuracy: 15 seconds per month - Great Discounts, Only Genuine Products, 30 Day Replacement Guarantee, Free Shipping. Cash On Delivery!",
+      "price": "Price not found",
+      "images": [
+        "http://rukmini1.flixcart.com/image/300/300/xif0q/watch/p/4/m/-original-imahg62wrkucrfsp.jpeg",
+        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/p/4/m/-original-imahg62wrkucrfsp.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/g/5/w/-original-imahg62wbkjegtfp.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/s/c/i/-original-imahg62wedjmkhhj.jpeg?q=70&crop=false",
+        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/b/q/f/-original-imahg62wh5jxwv8h.jpeg?q=70&crop=false"
+      ],
+      "is_store": false,
+      "products": [],
+      "raw_text": "  CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men - Buy CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men G1159 (GM-2100-1ADR) Online at Best Prices in India | Flipkart.com        Explore PlusLoginBecome a Seller More CartAdd to cart Buy NowHomeWatchesWrist WatchesCASIO Wrist WatchesCASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men\nShareCASIO\u00a0G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men G1159 (GM-2100-1ADR)\u20b915,994\u20b915,995i4.21,439 ratings and 87 reviewsStrap ColorBlackBrownGoldGreenGreySilverPlease select a Strap Color to proceed\u2715Dial ColorBlackBlueGoldGreenGreySilverPlease select a Dial Color to proceed\u2715Available offersBank Offer5% cashback on Axis Bank Flipkart Debit Card up to \u20b9750T&CBank Offer5% cashback on Flipkart SBI Credit Card upto \u20b94,000 per calendar quarterT&CBank OfferFlat \u20b96000 off on BOBCARD EMI Transactions on orders of \u20b960,000 and aboveT&CCombo OfferBuy 2 items save 5%; Buy 3 save 7%; Buy 4+ save 10%See all productsT&C+16 more offers2 Years All India Manufacturer WarrantyKnow MoreDeliver toCheckDelivery by21 Dec, Sunday?if ordered before 8:03 PMView DetailsServices2 Years All India Manufacturer WarrantyCash on Delivery available?SellerRetailNet4.310 days return policy?GST invoice available?See other sellersProduct DetailsBrandCASIOWatch TypeWrist WatchDisplay TypeAnalog-DigitalIdeal ForMenMechanismQuartzStyle CodeG1159 (GM-2100-1ADR)SeriesG-SHOCK Silver Dial Black Resin StrapOccasionCasualMovementQuartzPack of1Sales Package1 Box::1 Watch::1 Warranty Card With Serial Number::1 Warranty Term Sheet::1 User ManualShock ResistanceYesModel NameGM-2100-1ADRStrap ColorBlackNet Quantity1Watch FeaturesDate DisplayWidth44.4 mmHeight49.3 mmThickness11.8 mmDiameter44.4 mmWeight72 gDomestic Warranty2 YearWarranty Period2 YearsWarranty Service TypeCustomer Needs to Visit the Authorized Service Centre, along with Tax Paid Inv",
+      "downloaded_images": [
+        "/static/scraped_products/-original-imahg62wrkucrfsp_0.jpeg",
+        "/static/scraped_products/-original-imahfskqqdywhghe_1.jpeg",
+        "/static/scraped_products/6-biss-2031-blu-wht-40-bruton-blue-original-imahczyufwkmpeyq_2.jpeg",
+        "/static/scraped_products/xl-kcsh-remm110-ma-fubar-original-imahfkahu9f38ryj_3.jpeg"
+      ],
+      "pageScreenshot": "/static/scraped_products/-original-imahg62wrkucrfsp_0.jpeg",
+      "current_analysis": {
+        "category": "Wrist Watch",
+        "features": [
+          "Analog-Digital display",
+          "Silver Dial",
+          "Black Resin Strap",
+          "Mineral Glass",
+          "Neobrite for easy reading in the dark",
+          "Guard structure and Guard-less Button Structure",
+          "Dual Back Cover and easily replaceable band",
+          "High-impact, bold face design",
+          "Double LED light",
+          "World time with 31 time zones",
+          "1/100-second stopwatch",
+          "Countdown timer",
+          "5 daily alarms and hourly time signal",
+          "Hand shift feature for unobstructed view",
+          "Full auto-calendar (to year 2099)",
+          "12/24-hour format",
+          "Shock Resistance",
+          "Quartz Movement",
+          "Water-resistant"
+        ],
+        "target_audience": {
+          "demographics": {
+            "gender": "Men",
+            "age_range": "18-45 years",
+            "income_level": "Middle to upper-middle class",
+            "location": "Urban areas, India"
+          },
+          "psychographics": {
+            "lifestyle": "Active, adventurous, technology-savvy",
+            "values": "Durability, functionality, style",
+            "interests": "Outdoor activities, sports, gadgets"
+          },
+          "pain_points": [
+            "Need for durable and reliable watches",
+            "Desire for multifunctional timepieces",
+            "Preference for stylish yet practical accessories"
+          ]
+        },
+        "usps": [
+          "Combination of analog and digital functionalities",
+          "Robust and shock-resistant design",
+          "Advanced timekeeping features including world time and alarms",
+          "Stylish design with practical features like easy readability in the dark"
+        ],
+        "marketing_angles": [
+          "Emphasize the rugged and durable design, ideal for adventure and sports enthusiasts",
+          "Highlight the multifunctionality that caters to the tech-savvy individuals",
+          "Appeal to style-conscious consumers with its bold design"
+        ],
+        "positioning": {
+          "competitive_landscape": "Competes with other rugged and multifunctional watches in the G-SHOCK line and similar brands like Timex Ironman, Suunto, and Garmin",
+          "differentiation": "Offers a unique blend of style, durability, and advanced functionality at a competitive price point"
+        }
+      },
+      "current_scripts": [
+        "[Style: Problem/Solution]\n\n[Opening: Fast-paced montage of outdoor activities\u2014hiking, running, biking. Text overlay: \"Tired of watches that can\u2019t keep up?\"]\n\n[Cut to: Close-up of the CASIO\u00a0G-SHOCK Gold Ip Dial Black Resin Strap Watch]\n\nNarrator (V.O.): \"Meet the G-SHOCK GM-110G-1A9DR\u2014a perfect blend of style and durability.\"\n\n[Scene: A man hits the watch intentionally against a rock during a hike. The watch remains unscratched.]\n\nNarrator (V.O.): \"Built for the toughest terrains with shock resistance. Go anywhere, do anything.\"\n\n[Scene: Quick cuts of the watch in different settings\u2014office, gym, night out.]\n\nNarrator (V.O.): \"From boardroom to the wild, its gold dial and sleek resin strap make a statement.\"\n\n[Scene: Close-up of the analog-digital display lighting up.]\n\nNarrator (V.O.): \"Get the best of both worlds with its multifunctional display, perfect for the tech-savvy adventurer.\"\n\n[Ending: User fastening the watch and heading out the door. Text overlay: \u201cReady to conquer? Get yours today!\u201d]\n\nCTA: \"Tap the link to elevate your adventure with CASIO G-SHOCK.\"",
+        "[Style: UGC Style]\n\n[Opening: Selfie-style video of a man holding the CASIO G-SHOCK watch. Text overlay: \"You won't believe what this can do!\"]\n\nMan: \"Hey guys! Just got my new G-SHOCK, and it's a game-changer!\"\n\n[Scene: Man showcasing the gold dial under different lighting. Close-up shots of the watch catching the light.]\n\nMan: \"Check out this gold dial. Super stylish, right?\"\n\n[Scene: Cut to the man jogging outdoors, showing the watch on his wrist as he moves.]\n\nMan: \"But it's not just about looks. This thing is TOUGH. I\u2019ve already put it through some serious tests!\"\n\n[Scene: Quick cuts of the watch facing splashes of water, dust, and knocks.]\n\nMan: \"Shock resistant and ready for anything. And the best part? It\u2019s both analog and digital. Perfect for my busy lifestyle.\"\n\n[Ending: The man gives a thumbs-up to the camera. Text overlay: \u201cWhy wait? Join the G-SHOCK family today!\u201d]\n\nCTA: \"Swipe up to get yours now!\"",
+        "[Style: ASMR/Aesthetic]\n\n[Opening: Close-up sounds of the watch strap being fastened, followed by a soft click. Text overlay: \"A sound of style & strength.\"]\n\n[Scene: Slow-motion video of the watch under running water. The droplets glisten on the gold dial.]\n\n[Background sound: Gentle rain ambiance mixed with soothing synth music.]\n\n[Scene: Close-up of the digital display switching functions. The smooth mechanical clicks are audible.]\n\nNarrator (whispering): \"Engineered for extremes, the G-SHOCK is your ultimate companion.\"\n\n[Scene: The watch against a backdrop of a sunset, highlighting the black resin strap.]\n\nNarrator (whispering): \"A perfect fusion of elegance and endurance.\"\n\n[Scene: Slow pan across the watch face as the light dances on the surface.]\n\nNarrator (whispering): \"Multifunctional brilliance meets rugged resilience.\"\n\n[Ending: The watch resting on a rock by a flowing stream. Text overlay: \u201cDiscover your edge.\u201d]\n\nCTA: \"Follow the link to feel the power of CASIO G-SHOCK.\""
       ]
     },
     "analysis": {
       "category": "Wrist Watch",
-      "features": {
-        "brand": "CASIO",
-        "series": "G-SHOCK",
-        "model": "GM-110G-1A9DR",
-        "display_type": "Analog-Digital",
-        "ideal_for": "Men",
-        "strap_color": "Black",
-        "dial_color": "Gold",
-        "water_resistant": "Yes",
-        "mechanism": "Quartz",
-        "shock_resistant": "Yes",
-        "scratch_resistant": "No",
-        "chronograph": "Yes",
-        "dimensions": {
-          "width": "48.8 mm",
-          "height": "51.9 mm",
-          "thickness": "16.9 mm",
-          "diameter": "48.8 mm"
-        },
-        "weight": "93 g",
-        "warranty": {
-          "domestic": "2 Years",
-          "international": "1 Year"
-        },
-        "price": "\u20b918,995"
-      },
+      "features": [
+        "Analog-Digital Display",
+        "Shock Resistant",
+        "Mineral Glass",
+        "Neobrite Guard Structure",
+        "Dual Back Cover",
+        "Easily Replaceable Band",
+        "Dynamic Face Design",
+        "Double LED Light",
+        "World Time (31 time zones, 48 cities)",
+        "1/100-second Stopwatch",
+        "Countdown Timer",
+        "5 Daily Alarms",
+        "Hourly Time Signal",
+        "Hand Shift Feature",
+        "Full Auto-Calendar (to year 2099)",
+        "12/24-hour Format",
+        "Button Operation Tone On/Off",
+        "Water Resistant",
+        "Quartz Movement"
+      ],
       "target_audience": {
         "demographics": {
           "gender": "Male",
-          "age_range": "18-45",
-          "income_level": "Middle to High Income",
-          "location": "Urban Areas in India",
-          "occupation": "Professionals, Fitness Enthusiasts, Trendsetters"
+          "age_range": "18-45 years",
+          "income_level": "Middle to Upper-Middle Class",
+          "geographic_location": "Urban areas in India"
         },
         "psychographics": {
-          "lifestyle": "Active, Trend-Conscious",
-          "values": "Quality, Reliability, Style",
-          "interests": "Sports, Fashion, Technology"
+          "lifestyle": "Active, Tech-Savvy",
+          "interests": "Outdoor Activities, Sports, Gadgets",
+          "values": "Durability, Functionality, Style"
         },
-        "pain_points": {
-          "durability": "Need for a durable and reliable timepiece",
-          "style": "Desire for a stylish and modern accessory",
-          "functionality": "Need for multi-functional watch features"
-        }
-      },
-      "usps": [
-        "Combination of Analog and Digital Display",
-        "Renowned G-SHOCK Shock Resistance",
-        "Stylish Gold Ip Dial with Black Resin Strap",
-        "Water Resistant and Chronograph Features",
-        "CASIO Brand Reliability"
-      ],
-      "marketing_angles": {
-        "emotional_triggers": [
-          "Feeling of confidence and style with a bold watch",
-          "Security and trust in the durability of a G-SHOCK",
-          "Pride in owning a versatile and functional timepiece"
-        ],
-        "practical_triggers": [
-          "Versatile for sports and professional settings",
-          "Resilient to shocks and water exposure",
-          "Long-term investment with a 2-year warranty"
+        "pain_points": [
+          "Need for a rugged and durable watch",
+          "Desire for modern and versatile timekeeping",
+          "Preference for a watch that combines style with functionality"
         ]
       },
+      "usps": [
+        "High-impact design with shock resistance",
+        "Combination of analog and digital displays for versatility",
+        "Multiple timekeeping features for global travelers",
+        "Durable and stylish with easily replaceable band"
+      ],
+      "marketing_angles": [
+        {
+          "angle": "Durability",
+          "emotional_trigger": "Reliability in all environments and conditions"
+        },
+        {
+          "angle": "Style",
+          "emotional_trigger": "Confidence and boldness in appearance"
+        },
+        {
+          "angle": "Functionality",
+          "emotional_trigger": "Empowerment through advanced features"
+        },
+        {
+          "angle": "Innovation",
+          "emotional_trigger": "Owning the latest in timekeeping technology"
+        }
+      ],
       "positioning": {
-        "competitive_landscape": "The CASIO G-SHOCK competes in the mid-range watch market, known for its durability and style. It is favored by consumers looking for a balance of functionality and fashion.",
-        "differentiation": "The unique combination of ruggedness and design aesthetics sets it apart from competitors, appealing to those who desire a robust watch without compromising on style."
+        "competitive_landscape": "The CASIO G-SHOCK series competes with other rugged watch brands like Timex Ironman and Suunto.",
+        "differentiation": "Emphasizes a combination of shock resistance and stylish design, appealing to both functionality and fashion-forward consumers.",
+        "brand_reputation": "Leveraging CASIO's long-standing reputation for durability and innovation in timepieces."
       }
     },
     "analysis_feedback": [],
     "scripts": [
-      "[Style: Fast-paced/Hype]\n\n[Opening shot: Quick cuts of a bustling cityscape and a stylish man confidently walking down the street]\n\n[Text overlay: \"Unleash the Urban Warrior\"]\n\n[Cut to close-up of the CASIO G-SHOCK on his wrist, catching the light with a golden glint]\n\nNarrator (energetic voice): \"Step up your game with the G-SHOCK Gold Ip Dial. Where style meets unstoppable strength.\"\n\n[Visual: Quick montage of the watch enduring extreme conditions\u2014splashes of water, impacts]\n\n[Text overlay: \"Shock Resistant, Water Ready\"]\n\nNarrator: \"Engineered for the bold\u2014whether you're in boardrooms or breaking your limits.\"\n\n[Quick cuts: Man checking his watch during a workout, then in a business meeting]\n\n[Text overlay: \"Analog-Digital Mastery\"]\n\nNarrator: \"For those who demand more. Style, precision, reliability.\"\n\n[Closing shot: Man glancing at his watch with a confident smile]\n\n[Text overlay with CTA: \"Own Your Moment. Own the G-SHOCK. [Shop Now]\"]",
-      "[Style: Problem/Solution]\n\n[Opening shot: A professional man frustrated with a broken watch on his desk]\n\n[Text overlay: \"Tired of ordinary failing?\"]\n\nNarrator (calm, reassuring voice): \"Meet the solution for your active lifestyle...\"\n\n[Cut to: Close-up of the CASIO G-SHOCK's intricate gold dial and durable strap]\n\nNarrator: \"The CASIO G-SHOCK, designed to endure.\"\n\n[Split-screen: One side shows the G-SHOCK in a gym environment, the other in a sleek office]\n\nNarrator: \"From your morning grind to evening meetings, it's your versatile ally.\"\n\n[Visuals: Watch stopwatch feature in use during a workout, then highlighting the water resistance during a swim]\n\n[Text overlay: \"Chronograph Precision, Water Resistance\"]\n\nNarrator: \"Built for the modern man who values functionality and style.\"\n\n[Closing shot: Man wearing the G-SHOCK, smiling confidently]\n\n[Text overlay with CTA: \"Invest in Reliability. [Order Now]\"]",
-      "[Style: ASMR/Aesthetic]\n\n[Opening shot: Close-up slow pan over the gold dial's texture, soft ambient sounds of a ticking watch and rustling resin]\n\n[Text overlay: \"Feel the Elegance\"]\n\nNarrator (soft whisper): \"Embrace the power of precision and style with the G-SHOCK Gold Ip Dial.\"\n\n[Visual: Slow-motion water droplets gliding off the watch surface]\n\n[Text overlay: \"Water Resistant, Shock Proof\"]\n\nNarrator: \"Designed for the discerning, crafted for the unstoppable.\"\n\n[Visual: Close-up of the strap, feeling the texture, then the digital display lighting up]\n\n[Text overlay: \"Analog-Digital Symphony\"]\n\nNarrator: \"An exquisite blend of form and function, in every tick.\"\n\n[Closing shot: A serene moment of the watch resting on a polished surface]\n\n[Text overlay with CTA: \"Experience the Elegance. [Shop Now]\"]"
+      "[Style: Fast-paced/Hype]\n\n[Scene: A hiker atop a rugged mountain, sunrise in the background]\n[Text overlay: \"Conquer every peak\"]\n\n[Cut to close-up of the G-SHOCK watch]\nNarrator (energetic voice): \"Meet your ultimate adventure partner\u2014the G-SHOCK Silver Dial Watch!\"\n\n[Scene: Quick cuts of a cyclist, a climber, and a runner, all wearing the watch]\nNarrator: \"Built tough for the thrill-seeker in you. Shock-resistant. Adventure-ready.\"\n\n[Scene: Close-up of the watch face, lights illuminating in the dark]\nNarrator: \"Analog and digital fusion. Advanced features like world time and alarms\u2014because you\u2019re always on the move.\"\n\n[Scene: The watch submerged in water]\nNarrator: \"Style meets endurance. Feel the power of durability.\"\n\n[Text overlay: \"Explore More. G-SHOCK. Shop Now.\"]\nCTA: \"Click the link to gear up for your next adventure!\"",
+      "[Style: UGC style]\n\n[Scene: A young man in his urban apartment, filming himself with a smartphone]\n[Text overlay: \"Why I love my G-SHOCK\"]\n\nGuy (speaking directly to the camera): \"Hey guys, I just got my G-SHOCK Silver Dial, and it\u2019s insane!\"\n\n[Scene: Close-up on the watch as he shows it to the camera]\nGuy: \"Check this out\u2014analog and digital in one. Perfect for keeping track of multiple time zones when I travel.\"\n\n[Scene: Guy demonstrating setting an alarm on the watch]\nGuy: \"And setting alarms? A breeze. This watch is made for the tech-savvy, like us!\"\n\n[Scene: Quick shots of the watch in the gym, on a bike, and at a coffee shop]\nGuy: \"Whether I'm at the gym or just grabbing coffee, it fits every part of my life.\"\n\n[Text overlay: \"Stylish. Durable. Essential.\"]\nCTA: \"Swipe up to make it yours!\"",
+      "[Style: ASMR/Aesthetic]\n\n[Scene: Close-up of the watch resting on a sleek wooden table]\n[Gentle tapping sound as fingers run over the watch]\n\n[Text overlay: \"Listen to the strength\"]\n\n[Scene: Slow motion of the watch being picked up and worn]\nNarrator (soft voice): \"Feel the power of resilience. The G-SHOCK Silver Dial.\"\n\n[Scene: Transition to the watch under water, bubbles rising]\nNarrator: \"Robust design meets elegant style. Shock-resistant for your every move.\"\n\n[Scene: Watch glowing in a dimly lit room]\nNarrator: \"See the world\u2014anywhere, anytime.\"\n\n[Scene: Watch against a backdrop of city lights at night]\nNarrator: \"For the style-conscious, tech-savvy man.\"\n\n[Text overlay: \"Elevate your wrist game.\"]\nCTA: \"Discover more. Tap to shop now.\""
     ],
     "script_feedback": [],
     "selected_script_index": 1,
-    "selected_script": "[Style: Problem/Solution]\n\n[Opening shot: A professional man frustrated with a broken watch on his desk]\n\n[Text overlay: \"Tired of ordinary failing?\"]\n\nNarrator (calm, reassuring voice): \"Meet the solution for your active lifestyle...\"\n\n[Cut to: Close-up of the CASIO G-SHOCK's intricate gold dial and durable strap]\n\nNarrator: \"The CASIO G-SHOCK, designed to endure.\"\n\n[Split-screen: One side shows the G-SHOCK in a gym environment, the other in a sleek office]\n\nNarrator: \"From your morning grind to evening meetings, it's your versatile ally.\"\n\n[Visuals: Watch stopwatch feature in use during a workout, then highlighting the water resistance during a swim]\n\n[Text overlay: \"Chronograph Precision, Water Resistance\"]\n\nNarrator: \"Built for the modern man who values functionality and style.\"\n\n[Closing shot: Man wearing the G-SHOCK, smiling confidently]\n\n[Text overlay with CTA: \"Invest in Reliability. [Order Now]\"]",
+    "selected_script": "[Style: UGC style]\n\n[Scene: A young man in his urban apartment, filming himself with a smartphone]\n[Text overlay: \"Why I love my G-SHOCK\"]\n\nGuy (speaking directly to the camera): \"Hey guys, I just got my G-SHOCK Silver Dial, and it\u2019s insane!\"\n\n[Scene: Close-up on the watch as he shows it to the camera]\nGuy: \"Check this out\u2014analog and digital in one. Perfect for keeping track of multiple time zones when I travel.\"\n\n[Scene: Guy demonstrating setting an alarm on the watch]\nGuy: \"And setting alarms? A breeze. This watch is made for the tech-savvy, like us!\"\n\n[Scene: Quick shots of the watch in the gym, on a bike, and at a coffee shop]\nGuy: \"Whether I'm at the gym or just grabbing coffee, it fits every part of my life.\"\n\n[Text overlay: \"Stylish. Durable. Essential.\"]\nCTA: \"Swipe up to make it yours!\"",
     "script_refinement_feedback": [],
     "generated_images": [
-      "/static/generated_images/ad_creative_5ff0709a-9a2d-4d36-80ca-c08ee0a02ba8.png",
-      "/static/generated_images/ad_creative_e7055e0f-d87f-41e1-9649-f8c5faaf3c35.png"
+      "/static/generated_images/ad_creative_9bf5a6ec-a916-43f1-8092-f18b6668c4c0.png",
+      "/static/generated_images/ad_creative_c66b2c4d-ce84-47a1-ab90-dedc82452ebd.png"
     ],
     "image_feedback": [],
-    "image_generation_prompt": "**Prompt for Image Generation:**\n\nCreate a high-quality, professional commercial advertisement static featuring the CASIO G-SHOCK Gold Ip Dial Black Resin Strap Analog-Digital Watch for Men. The setting is a sleek, modern office with urban city skylines visible through floor-to-ceiling windows, emphasizing the watch's appeal to young professionals. \n\n**Focus:**\n\n- The watch is prominently displayed on a polished mahogany desk, surrounded by stylish tech gadgets and a leather-bound planner, symbolizing its integration into a professional lifestyle.\n- The watch face should be zoomed in to highlight the luxurious gold IP dial and robust black resin strap, showcasing its sophisticated yet rugged design.\n\n**Mood & Lighting:**\n\n- Use a blend of natural and soft studio lighting to create a warm, inviting atmosphere that enhances the watch's golden tones and highlights its intricate details. \n- The lighting should reflect off the gold dial, creating an aura of elegance and prestige.\n\n**Mood:**\n\n- The mood is confident and aspirational, capturing the target audience's desire for a product that exudes reliability and style.\n- The background is slightly blurred to ensure the watch is the clear focal point, drawing attention to its bold and versatile design.\n\n**Style:**\n\n- The photography style should be modern and premium, with a clean, minimalist aesthetic that aligns with high-end commercial marketing.\n- Consider adding a subtle text overlay at the bottom, \"For those who demand more than ordinary,\" in an elegant, sans-serif font to reinforce the emotional and practical triggers of owning a G-SHOCK watch.\n\n**End Note:**\n\n- The overall composition should evoke feelings of confidence, security, and pride, making it clear that the CASIO G-SHOCK is an essential accessory for the modern, active man who values both style and functionality.",
-    "audio_file": "static/audio/generated_audio_0.mp3",
-    "audio_url": "/static/audio/generated_audio_0.mp3",
+    "image_generation_prompt": "Create an image for a professional commercial advertisement featuring the CASIO G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch for Men (GM-2100-1ADR). The setting is a high-rise urban apartment with a panoramic view of a bustling cityscape, symbolizing an active and tech-savvy lifestyle. The focal point is the watch, elegantly showcased on the wrist of a young man in his mid-20s, who exudes confidence and style. The man is dressed in casual yet trendy attire, suggesting a blend of ruggedness and sophistication.\n\nThe watch is prominently displayed in a close-up shot, highlighting its silver dial, black resin strap, and the intricate details of its analog-digital interface. The double LED light feature is subtly emphasized, casting a soft and sophisticated glow over the watch face, enhancing its readability and highlighting its functionality even in dim lighting. The background is softly blurred to keep the attention on the watch, with the city lights in the distance adding depth and a sense of innovation and modernity.\n\nThe lighting is warm and dynamic, creating a high-impact and stylish mood that aligns with the themes of durability, style, functionality, and innovation. The overall composition is clean and minimalistic, with a premium commercial photography style that appeals to the target audience's sense of empowerment and desire for the latest in timekeeping technology.\n\nInclude subtle text overlays with phrases such as \"Durability Meets Style,\" \"Empower Your Time,\" and \"Innovation on Your Wrist\" to reinforce the product's key marketing angles and emotional triggers.",
+    "audio_file": "static/audio/generated_audio_1.mp3",
+    "audio_url": "/static/audio/generated_audio_1.mp3",
     "available_avatars": [
       {
         "avatar_id": "ec58b128feb2498ba52ded454a35141f",
@@ -14764,22 +14738,22 @@
         "default_voice_id": null
       }
     ],
-    "selected_avatar_id": "Amanda_in_Grey_Shirt_Left",
-    "video_id": "b59a11b34c3645ea8389bad656a5f397",
+    "selected_avatar_id": "Amanda_in_Blue_Shirt_Left",
+    "video_id": "02845389ab5a4b33a0dd2dcaa79bf4fc",
     "video_url": null,
     "video_status": "pending",
     "error": null,
     "iteration_count": {
-      "scrape": 3,
-      "analyze": 11,
-      "generate_scripts": 10,
-      "generate_images": 10,
-      "generate_audio": 1,
-      "generate_video": 8
+      "scrape": 4,
+      "analyze": 15,
+      "generate_scripts": 12,
+      "generate_images": 12,
+      "generate_audio": 2,
+      "generate_video": 11
     },
     "selected_media": {
-      "type": "video",
-      "url": "https://www.w3schools.com/html/mov_bbb.mp4"
+      "type": "image",
+      "url": "/static/generated_images/ad_creative_9bf5a6ec-a916-43f1-8092-f18b6668c4c0.png"
     }
   }
 }

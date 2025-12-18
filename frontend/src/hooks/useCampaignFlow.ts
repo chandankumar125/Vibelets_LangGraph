@@ -790,7 +790,7 @@ export const useCampaignFlow = () => {
     } catch (error) {
       handleError(error, 'Processing your selection');
     }
-  }, [state.campaignConfig, state.selectedCreative, state.selectedAdAccount, generatedScripts, generatedAvatars, addMessage, simulateTyping, handleError]);
+  }, [state.campaignConfig, state.selectedCreative, state.selectedAdAccount, state.creatives, state.generatedImages, generatedScripts, generatedAvatars, addMessage, simulateTyping, handleError]);
 
   // Public wrapper that always adds user message (used by chip clicks)
   const handleQuestionAnswer = useCallback(async (questionId: string, answerId: string) => {
