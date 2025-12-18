@@ -1014,29 +1014,109 @@ export const useCampaignFlow = () => {
   const handleFacebookConnect = useCallback(async () => {
     try {
       addMessage('user', "Connecting Facebook account...");
-      setState(prev => ({ ...prev, facebookConnected: true, isStepLoading: true }));
+      setState(prev => ({ ...prev, isStepLoading: true }));
 
-      // Simulate OAuth popup return
-      await simulateTyping("Redirecting to Facebook...", {}, 500);
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      // Check for ad accounts
-      if (!mockAdAccounts || mockAdAccounts.length === 0) {
-        throw new Error('No ad accounts found. Please ensure you have at least one Facebook Ad Account.');
+      const appId = import.meta.env.VITE_FACEBOOK_APP_ID;
+      if (!appId) {
+        throw new Error("Facebook App ID not configured");
       }
 
-      const accountQuestion: InlineQuestion = {
-        id: 'ad-account-selection',
-        question: 'Which ad account should we use?',
-        options: mockAdAccounts.map(a => ({ id: a.id, label: a.name, description: `Status: ${a.status}` }))
+      const redirectUri = window.location.origin + '/facebook-callback';
+      const scope = 'ads_management,ads_read,pages_read_engagement';
+      const stateParam = state.step; // Use current step or random str
+
+      // Open OAuth Popup
+      const width = 600;
+      const height = 700;
+      const left = window.screen.width / 2 - width / 2;
+      const top = window.screen.height / 2 - height / 2;
+
+      const authUrl = `https://www.facebook.com/v18.0/dialog/oauth?client_id=${appId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${stateParam}&scope=${scope}&response_type=token`;
+
+      const popup = window.open(
+        authUrl,
+        'Facebook Login',
+        `width=${width},height=${height},left=${left},top=${top}`
+      );
+
+      // Listen for message from popup
+      const messageHandler = async (event: MessageEvent) => {
+        if (event.origin !== window.location.origin) return;
+
+        if (event.data.type === 'FACEBOOK_AUTH_SUCCESS') {
+          const accessToken = event.data.accessToken;
+          window.removeEventListener('message', messageHandler);
+
+          simulateTyping("Facebook connected! Fetching ad accounts...", {}, 500);
+
+          try {
+            // 🚀 Call Backend to Authenticate & Get Accounts
+            console.log('Validating token with backend...');
+            const authResult = await vibeletsAPI.authenticateFacebook(accessToken);
+
+            if (authResult.error) throw new Error(authResult.error);
+
+            const realAdAccounts = authResult.ad_accounts || []; // Expecting [{id, name, status, ...}]
+
+            if (realAdAccounts.length === 0) {
+              toast.warning('No Ad Accounts found', { description: 'Please create an ad account in your Facebook Business Manager.' });
+              setState(prev => ({ ...prev, facebookConnected: true, isStepLoading: false }));
+              return;
+            }
+
+            // Map backend accounts to frontend type if needed
+            const mappedAccounts: AdAccount[] = realAdAccounts.map((acc: any) => ({
+              id: acc.id,
+              name: acc.name,
+              status: acc.account_status === 1 ? 'Active' : 'Inactive', // simple mapping guess, adjust as needed
+              currency: acc.currency,
+              timezone: acc.timezone_name
+            }));
+
+            console.log('✅ Real Ad Accounts:', mappedAccounts);
+
+            setState(prev => ({ ...prev, facebookConnected: true, isStepLoading: true }));
+
+            const accountQuestion: InlineQuestion = {
+              id: 'ad-account-selection',
+              question: 'Which ad account should we use?',
+              options: mappedAccounts.map(a => ({ id: a.id, label: a.name, description: `Status: ${a.status}` }))
+            };
+
+            await simulateTyping(
+              `Facebook connected! 🔗\n\nI found ${mappedAccounts.length} ad accounts. Select one to continue:`,
+              { inlineQuestion: accountQuestion, stepId: 'ad-account-selection' },
+              800
+            );
+            setState(prev => ({ ...prev, step: 'ad-account-selection', stepHistory: [...prev.stepHistory, 'ad-account-selection'], isStepLoading: false }));
+
+          } catch (backendError) {
+            console.error("Backend Auth Error:", backendError);
+            handleError(backendError, 'Fetching Ad Accounts');
+            setState(prev => ({ ...prev, facebookConnected: false }));
+          }
+        } else if (event.data.type === 'FACEBOOK_AUTH_ERROR') {
+          window.removeEventListener('message', messageHandler);
+          handleError(new Error(event.data.error), 'Facebook Connection');
+          setState(prev => ({ ...prev, facebookConnected: false }));
+        }
       };
 
-      await simulateTyping(
-        `Facebook connected! 🔗\n\nI found ${mockAdAccounts.length} ad accounts. Select one to continue:`,
-        { inlineQuestion: accountQuestion, stepId: 'ad-account-selection' },
-        800
-      );
-      setState(prev => ({ ...prev, step: 'ad-account-selection', stepHistory: [...prev.stepHistory, 'ad-account-selection'], isStepLoading: false }));
+      window.addEventListener('message', messageHandler);
+
+      // Check if popup closed manually
+      const checkPopup = setInterval(() => {
+        if (!popup || popup.closed) {
+          clearInterval(checkPopup);
+          setState(prev => {
+            // Only reset loading if we haven't connected yet (message handler handles success)
+            if (!prev.facebookConnected) return { ...prev, isStepLoading: false };
+            return prev;
+          });
+          window.removeEventListener('message', messageHandler);
+        }
+      }, 1000);
+
     } catch (error) {
       handleError(error, 'Connecting to Facebook');
       setState(prev => ({ ...prev, facebookConnected: false }));
