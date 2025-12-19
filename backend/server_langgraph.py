@@ -34,6 +34,7 @@ app.add_middleware(
 from fastapi.staticfiles import StaticFiles
 os.makedirs("static", exist_ok=True)
 app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/api/static", StaticFiles(directory="static"), name="api_static")
 
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -733,36 +734,69 @@ async def stream_workflow(thread_id: str, message: Optional[str] = None):
 
 # --- Facebook Campaign Endpoints ---
 
+
 @app.post("/api/workflow/facebook_auth")
 async def facebook_auth(request: FacebookAuthRequest):
     """Authenticate with Facebook and get ad accounts"""
     thread_id = get_or_create_thread(request.thread_id)
     state = active_sessions[thread_id]
     
-    # Update state
-    state["current_step"] = "facebook_auth"
-    state["messages"].append({
-        "role": "user",
-        "content": request.access_token
-    })
-    state = update_state_from_request(state, request)
-    
-    # Run workflow step
-    config = {"configurable": {"thread_id": thread_id}}
-    result = await workflow.run_step(state, config)
-    
-    # Update session
-    active_sessions[thread_id] = result
-    save_sessions()
-    
-    return {
-        "thread_id": thread_id,
-        "state": result,
-        "current_step": result.get("current_step"),
-        "facebook_user_id": result.get("facebook_user_id"),
-        "ad_accounts": result.get("ad_accounts"),
-        "error": result.get("error")
-    }
+    try:
+        # Import the authentication function
+        from facebook_agents import authenticate_user
+        
+        # Call Facebook Graph API to authenticate and get ad accounts
+        auth_result = await authenticate_user(request.access_token)
+        
+        if not auth_result.get("success"):
+            error_msg = auth_result.get("error", "Failed to authenticate with Facebook")
+            state["error"] = error_msg
+            state["current_step"] = "facebook_auth"
+            active_sessions[thread_id] = state
+            save_sessions()
+            
+            return {
+                "thread_id": thread_id,
+                "state": state,
+                "current_step": "facebook_auth",
+                "error": error_msg
+            }
+        
+        # Store Facebook data in state
+        state["facebook_user_id"] = auth_result.get("user_id")
+        state["facebook_access_token"] = request.access_token
+        state["ad_accounts"] = auth_result.get("ad_accounts", [])
+        state["current_step"] = "ad-account-selection"
+        state["error"] = None
+        
+        # Update session
+        active_sessions[thread_id] = state
+        save_sessions()
+        
+        return {
+            "thread_id": thread_id,
+            "state": state,
+            "current_step": state.get("current_step"),
+            "facebook_user_id": state.get("facebook_user_id"),
+            "ad_accounts": state.get("ad_accounts"),
+            "error": None
+        }
+        
+    except Exception as e:
+        error_msg = f"Facebook authentication error: {str(e)}"
+        print(f"ERROR: {error_msg}")
+        state["error"] = error_msg
+        state["current_step"] = "facebook_auth"
+        active_sessions[thread_id] = state
+        save_sessions()
+        
+        return {
+            "thread_id": thread_id,
+            "state": state,
+            "current_step": "facebook_auth",
+            "error": error_msg
+        }
+
 
 @app.post("/api/workflow/select_ad_account")
 async def select_ad_account(request: SelectAdAccountRequest):
