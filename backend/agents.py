@@ -262,7 +262,7 @@ IMPORTANT: Return exactly 3 scripts using the SAME format:
             ("human", """
 Current Script:
 {current_script}
-
+can we w
 User Request: {feedback}
 
 Provide the modified script (30-45 seconds when read aloud). Output only the script content without labels or commentary.
