@@ -14,3 +14,4 @@ python-multipart
 google-genai
 pillow
 facebook-business
+httpx
