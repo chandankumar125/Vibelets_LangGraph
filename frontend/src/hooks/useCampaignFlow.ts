@@ -58,15 +58,21 @@ const createMessage = (
   ...options
 });
 
+// Create initial welcome message once to prevent duplicate IDs on re-renders
+const INITIAL_WELCOME_MESSAGE = createMessage(
+  'assistant',
+  "Hey! 👋 I'm your Vibelets AI assistant. I'll help you create a high-converting ad campaign in minutes.\n\nJust paste your product URL below to get started.",
+  { stepId: 'welcome' }
+);
+
 export const useCampaignFlow = () => {
   const [state, setState] = useState<CampaignState>(initialState);
-  const [messages, setMessages] = useState<Message[]>([
-    createMessage('assistant', "Hey! 👋 I'm your Vibelets AI assistant. I'll help you create a high-converting ad campaign in minutes.\n\nJust paste your product URL below to get started.", { stepId: 'welcome' })
-  ]);
+  const [messages, setMessages] = useState<Message[]>([INITIAL_WELCOME_MESSAGE]);
   const [isTyping, setIsTyping] = useState(false);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
   const [generatedScripts, setGeneratedScripts] = useState<ScriptOption[]>([]);
   const [generatedAvatars, setGeneratedAvatars] = useState<AvatarOption[]>([]);
+  const [fetchedAdAccounts, setFetchedAdAccounts] = useState<AdAccount[]>([]);
 
   // Find the active question that can receive natural language input
   const activeQuestion: InlineQuestion | null = useMemo(() => {
@@ -105,14 +111,235 @@ export const useCampaignFlow = () => {
     addMessage('assistant', `Sorry, something went wrong while ${context.toLowerCase()}. Please try again or contact support if the issue persists.`);
   }, [addMessage]);
 
-  const goToStep = useCallback((targetStep: CampaignStep) => {
+  // Sync state from backend response
+  const syncStateFromBackend = useCallback((backendState: any) => {
+    if (!backendState) return;
+
+    setState(prev => {
+      const newState = { ...prev };
+
+      // Update current step if changed
+      if (backendState.current_step && backendState.current_step !== prev.step) {
+        // Map backend step names to frontend step names if needed
+        const stepMapping: Record<string, CampaignStep> = {
+          'scrape': 'product-url',
+          'analyze': 'product-analysis',
+          'generate_scripts': 'script-selection',
+          'select_script': 'script-selection',
+          'refine_script': 'script-selection',
+          'generate_images': 'creative-generation:images',
+          'refine_images': 'creative-generation:images',
+          'generate_audio': 'creative-generation:audio',
+          'select_avatar': 'avatar-selection',
+          'generate_video': 'creative-generation:video',
+          'facebook_auth': 'facebook-integration',
+          'select_ad_account': 'ad-account-selection',
+          'select_media': 'creative-review',
+          'preview_campaign': 'campaign-preview',
+          'refine_campaign': 'campaign-preview',
+          'publish_campaign': 'publishing'
+        };
+
+        const mappedStep = stepMapping[backendState.current_step] || backendState.current_step as CampaignStep;
+
+        // Only update if it's a valid frontend step
+        if (STEP_ORDER.includes(mappedStep)) {
+          newState.step = mappedStep;
+          if (!newState.stepHistory.includes(mappedStep)) {
+            newState.stepHistory = [...newState.stepHistory, mappedStep];
+          }
+        }
+      }
+
+      // Update data fields
+      if (backendState.product_data) newState.productData = backendState.product_data;
+      if (backendState.selected_script) newState.selectedScript = backendState.selected_script;
+
+      // Handle generated scripts
+      if (backendState.scripts && Array.isArray(backendState.scripts)) {
+        // Frontend expects specific format, might need conversion if not matching
+        // Assuming backend returns array of strings, we need to map to ScriptOption if not already done
+        const formattedScripts: ScriptOption[] = backendState.scripts.map((scriptText: string, index: number) => {
+          // Check if it's already an object or just string
+          if (typeof scriptText === 'object') return scriptText;
+
+          const desc = scriptText.length > 100 ? scriptText.substring(0, 100) + '...' : scriptText;
+          return {
+            id: `script-${index}`,
+            name: `Script ${index + 1}`,
+            description: desc,
+            duration: '30-60 seconds',
+            style: 'Engaging',
+            body: scriptText,
+            hook: scriptText.split('\n')[0] || '',
+            cta: 'Shop Now',
+            tone: 'Professional'
+          };
+        });
+        setGeneratedScripts(formattedScripts);
+      }
+
+      if (backendState.generated_images) newState.generatedImages = backendState.generated_images;
+
+      // Handle error from backend state
+      if (backendState.error) {
+        toast.error(backendState.error);
+      }
+
+      return newState;
+    });
+  }, []);
+
+
+  const handleUserMessage = useCallback(async (content: string) => {
+    const sanitizedContent = content.trim();
+    if (!sanitizedContent) return;
+
+    // 1. Check if input is a URL (specific handling for scraping flow)
+    // We prioritize this for 'welcome' and 'product-url' steps to ensure robust scraping
+    const urlMatch = sanitizedContent.match(/(https?:\/\/[^\s]+)/g);
+    const potentialUrl = urlMatch ? urlMatch[0] : sanitizedContent;
+    const isUrl = isValidUrl(potentialUrl);
+
+    if (isUrl && (state.step === 'welcome' || state.step === 'product-url')) {
+      addMessage('user', sanitizedContent);
+      setState(prev => ({ ...prev, productUrl: potentialUrl, step: 'product-analysis', isStepLoading: true }));
+
+      await simulateTyping("Perfect! Analyzing your product page now... 🔍", { stepId: 'product-analysis' }, 1000);
+
+      try {
+        // CALL BACKEND - Scrape product
+        const scrapeResult = await vibeletsAPI.scrapeProduct(potentialUrl);
+
+        if (scrapeResult.error) {
+          throw new Error(scrapeResult.error);
+        }
+
+        const scrapedProduct = scrapeResult.product_data;
+
+        // CALL BACKEND - Analyze product
+        const analysisResult = await vibeletsAPI.analyzeProduct();
+
+        if (analysisResult.error) {
+          throw new Error(analysisResult.error);
+        }
+
+        const productAnalysis = analysisResult.analysis;
+
+        // Helper function to format insight values
+        const formatInsightValue = (value: any): string => {
+          if (typeof value === 'string') {
+            return value;
+          } else if (Array.isArray(value)) {
+            return value.join(', ');
+          } else if (typeof value === 'object' && value !== null) {
+            return Object.entries(value)
+              .map(([k, v]) => `${k}: ${v}`)
+              .join(', ');
+          }
+          return String(value);
+        };
+
+        // Generate insights from analysis
+        const insights: ProductInsight[] = [];
+
+        if (productAnalysis) {
+          if (productAnalysis.category) {
+            insights.push({
+              label: 'Product Category',
+              value: formatInsightValue(productAnalysis.category),
+              icon: 'tag'
+            });
+          }
+          if (productAnalysis.target_audience) {
+            insights.push({
+              label: 'Target Audience',
+              value: formatInsightValue(productAnalysis.target_audience),
+              icon: 'users'
+            });
+          }
+          if (productAnalysis.usps) {
+            const uspsValue = Array.isArray(productAnalysis.usps) ? productAnalysis.usps.join(', ') : formatInsightValue(productAnalysis.usps);
+            insights.push({ label: 'Key USPs', value: uspsValue, icon: 'star' });
+          }
+          if (productAnalysis.marketing_angles) {
+            const anglesValue = Array.isArray(productAnalysis.marketing_angles) ? productAnalysis.marketing_angles.join(', ') : formatInsightValue(productAnalysis.marketing_angles);
+            insights.push({ label: 'Marketing Angles', value: anglesValue, icon: 'trending-up' });
+          }
+        }
+
+        // Process images (add backend prefix if needed)
+        const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+        const productImages = (scrapedProduct?.downloaded_images || scrapedProduct?.images || []).map((imgPath: string) => {
+          if (imgPath.startsWith('http')) return imgPath;
+          return `${BACKEND_URL}${imgPath.startsWith('/') ? '' : '/'}${imgPath}`;
+        });
+
+        const productData: ProductData = {
+          title: scrapedProduct?.title || 'Product',
+          price: scrapedProduct?.price || '$0',
+          description: scrapedProduct?.description || '',
+          images: productImages,
+          sku: scrapedProduct?.sku || '',
+          category: productAnalysis?.category || scrapedProduct?.category || '',
+          pageScreenshot: productImages[0] || '',
+          insights: insights,
+        };
+
+        setState(prev => ({ ...prev, productData, isStepLoading: false }));
+
+        const continueQuestion: InlineQuestion = {
+          id: 'product-continue',
+          question: 'Ready to create your ad?',
+          options: [
+            { id: 'continue', label: 'Continue', description: 'Proceed to script selection' },
+            { id: 'change', label: 'Change URL', description: 'Use a different product' }
+          ]
+        };
+
+        await simulateTyping(
+          `I've analyzed your product page and found some great insights!\n\n**${productData.title}** looks perfect for video ads. Ready to proceed?`,
+          { inlineQuestion: continueQuestion, stepId: 'product-analysis' },
+          1500
+        );
+        return; // Stop here, don't call chat
+      } catch (error) {
+        handleError(error, 'Analyzing product');
+        setState(prev => ({ ...prev, isStepLoading: false }));
+        return;
+      }
+    }
+
+    // 2. For non-URL messages, use Backend Chat for intent/navigation
+    addMessage('user', sanitizedContent);
+    setState(prev => ({ ...prev, isStepLoading: true }));
+
+    try {
+      const response = await vibeletsAPI.chat(sanitizedContent);
+
+      if (response.error) {
+        throw new Error(response.error);
+      }
+
+      syncStateFromBackend(response.state);
+      setState(prev => ({ ...prev, isStepLoading: false }));
+
+    } catch (error) {
+      handleError(error, 'Processing your message');
+    }
+  }, [state.step, addMessage, handleError, syncStateFromBackend, simulateTyping]);
+
+
+  const goToStep = useCallback(async (targetStep: CampaignStep) => {
+    // legacy goToStep for sidebar clicks - now should ideally notify backend too
     const targetIndex = STEP_ORDER.indexOf(targetStep);
     const currentIndex = STEP_ORDER.indexOf(state.step);
 
     if (targetIndex < currentIndex) {
+      // Allow going back purely on frontend for UI speed, but sync with backend
       setState(prev => {
         const newState = { ...prev, step: targetStep };
-
+        // ... (existing reset logic) ...
         if (targetIndex <= STEP_ORDER.indexOf('product-analysis')) {
           newState.productData = null;
           newState.selectedScript = null;
@@ -139,12 +366,38 @@ export const useCampaignFlow = () => {
         } else if (targetIndex <= STEP_ORDER.indexOf('campaign-setup')) {
           newState.campaignConfig = null;
         }
-
         newState.stepHistory = [...prev.stepHistory, targetStep];
         return newState;
       });
 
       addMessage('assistant', `No problem! Let's go back and make changes. ${getStepPrompt(targetStep)}`, { stepId: targetStep });
+
+      // Notify backend of navigation (best effort)
+      try {
+        // Map frontend step back to backend step name
+        const backendStepMapping: Record<CampaignStep, string> = {
+          'product-url': 'scrape',
+          'product-analysis': 'analyze',
+          'script-selection': 'script-selection',
+          'avatar-selection': 'avatar-selection',
+          'creative-generation': 'generate_images', // approx
+          'creative-generation:images': 'generate_images',
+          'creative-generation:audio': 'generate_audio',
+          'creative-generation:video': 'generate_video',
+          'creative-review': 'select_media',
+          'campaign-setup': 'refine_campaign', // approx
+          'facebook-integration': 'facebook_auth',
+          'ad-account-selection': 'select_ad_account',
+          'campaign-preview': 'preview_campaign',
+          'publishing': 'publish_campaign',
+          'published': 'publish_campaign',
+          'welcome': 'scrape'
+        };
+        const backendStep = backendStepMapping[targetStep] || targetStep;
+        await vibeletsAPI.navigate(backendStep);
+      } catch (e) {
+        console.warn("Failed to sync navigation with backend", e);
+      }
     }
   }, [state.step, addMessage]);
 
@@ -417,13 +670,18 @@ export const useCampaignFlow = () => {
               ];
             }
 
-            setGeneratedAvatars(avatarsToUse);
+            // Deduplicate avatars by ID to prevent React duplicate key warnings
+            const uniqueAvatars = Array.from(
+              new Map(avatarsToUse.map(avatar => [avatar.id, avatar])).values()
+            );
+
+            setGeneratedAvatars(uniqueAvatars);
             console.log('🎭 Avatar selection options ready');
 
             const avatarQuestion: InlineQuestion = {
               id: 'avatar-selection',
               question: 'Select a pre-recorded video slot:',
-              options: avatarsToUse.map(a => ({ id: a.id, label: a.name, description: a.style }))
+              options: uniqueAvatars.map(a => ({ id: a.id, label: a.name, description: a.style }))
             };
 
             await simulateTyping(
@@ -716,14 +974,22 @@ export const useCampaignFlow = () => {
           }
         }
       } else if (questionId === 'ad-account-selection') {
-        const account = mockAdAccounts.find(a => a.id === answerId);
+        console.log('🏦 Selecting ad account:', answerId);
+        console.log('📋 Available accounts:', fetchedAdAccounts);
+
+        // Try to find in fetched accounts first, fallback to mock
+        const account = fetchedAdAccounts.find(a => a.id === answerId) || mockAdAccounts.find(a => a.id === answerId);
+
         if (!account) {
+          console.error('❌ Ad account not found:', answerId);
           toast.error('Ad account not found', { description: 'Please select a valid ad account' });
           return;
         }
 
+        console.log('✅ Selected account:', account);
+
         // Check account status
-        if (account.status !== 'Active') {
+        if (account.status !== 'Active' && account.status !== 'ACTIVE') {
           toast.warning('Account not active', {
             description: `${account.name} is ${account.status}. You may need to activate it in Facebook Business Manager.`
           });
@@ -732,21 +998,31 @@ export const useCampaignFlow = () => {
         setState(prev => ({ ...prev, selectedAdAccount: account, isStepLoading: true }));
         if (!skipUserMessage) addMessage('user', `Using "${account.name}" account.`);
 
-        const publishQuestion: InlineQuestion = {
-          id: 'publish-confirm',
-          question: 'Ready to launch your campaign?',
-          options: [
-            { id: 'publish', label: 'Publish Campaign', description: 'Submit for Facebook review', icon: 'play' },
-            { id: 'preview', label: 'Review Details', description: 'Check campaign summary first', icon: 'target' }
-          ]
-        };
+        try {
+          // Call backend to save ad account selection
+          console.log('📡 Calling backend to save ad account selection...');
+          await vibeletsAPI.selectAdAccount(account.id);
+          console.log('✅ Ad account selection saved');
 
-        await simulateTyping(
-          `Great! I've selected **${account.name}** and auto-fetched:\n✅ Facebook Pixel\n✅ Business Page\n\nYour campaign is ready! What would you like to do?`,
-          { inlineQuestion: publishQuestion, stepId: 'campaign-preview' },
-          1500
-        );
-        setState(prev => ({ ...prev, step: 'campaign-preview', stepHistory: [...prev.stepHistory, 'campaign-preview'], isStepLoading: false }));
+          const publishQuestion: InlineQuestion = {
+            id: 'publish-confirm',
+            question: 'Ready to launch your campaign?',
+            options: [
+              { id: 'publish', label: 'Publish Campaign', description: 'Submit for Facebook review', icon: 'play' },
+              { id: 'preview', label: 'Review Details', description: 'Check campaign summary first', icon: 'target' }
+            ]
+          };
+
+          await simulateTyping(
+            `Great! I've selected **${account.name}** and auto-fetched:\n✅ Facebook Pixel\n✅ Business Page\n\nYour campaign is ready! What would you like to do?`,
+            { inlineQuestion: publishQuestion, stepId: 'campaign-preview' },
+            1500
+          );
+          setState(prev => ({ ...prev, step: 'campaign-preview', stepHistory: [...prev.stepHistory, 'campaign-preview'], isStepLoading: false }));
+        } catch (error) {
+          console.error('❌ Error selecting ad account:', error);
+          handleError(error, 'Selecting ad account');
+        }
       } else if (questionId === 'publish-confirm') {
         if (answerId === 'publish') {
           // Validate campaign is complete
@@ -790,7 +1066,7 @@ export const useCampaignFlow = () => {
     } catch (error) {
       handleError(error, 'Processing your selection');
     }
-  }, [state.campaignConfig, state.selectedCreative, state.selectedAdAccount, state.creatives, state.generatedImages, generatedScripts, generatedAvatars, addMessage, simulateTyping, handleError]);
+  }, [state.campaignConfig, state.selectedCreative, state.selectedAdAccount, state.creatives, state.generatedImages, generatedScripts, generatedAvatars, fetchedAdAccounts, addMessage, simulateTyping, handleError]);
 
   // Public wrapper that always adds user message (used by chip clicks)
   const handleQuestionAnswer = useCallback(async (questionId: string, answerId: string) => {
@@ -826,143 +1102,6 @@ export const useCampaignFlow = () => {
     await handleQuestionAnswerInternal('publish-confirm', 'publish', false);
   }, [handleQuestionAnswerInternal]);
 
-  const handleUserMessage_deprecated = useCallback(async (content: string) => {
-    const sanitizedContent = content.trim();
-    if (!sanitizedContent) return;
-
-    addMessage('user', sanitizedContent);
-
-    try {
-      // 1. Detect navigation intent (back/next)
-      const navIntent = detectNavigationIntent(sanitizedContent);
-
-      if (navIntent === 'back') {
-        const currentIndex = STEP_ORDER.indexOf(state.step);
-        if (currentIndex > 0) {
-          let prevIndex = currentIndex - 1;
-          // Skip intermediate generation steps when going back
-          while (prevIndex > 0 &&
-            (STEP_ORDER[prevIndex] === 'product-analysis' ||
-              STEP_ORDER[prevIndex] === 'creative-generation' ||
-              STEP_ORDER[prevIndex] === 'publishing')) {
-            prevIndex--;
-          }
-          goToStep(STEP_ORDER[prevIndex]);
-          return;
-        }
-      }
-
-      // 2. Try match to option in active question
-      if (activeQuestion) {
-        // Special case: "go ahead" or affirmative when something is already selected
-        const isAffirmative = /^(yes|yeah|sure|go ahead|proceed|continue|next|ok|okay|do it|looks good|let's go)$/i.test(sanitizedContent);
-
-        if (isAffirmative) {
-          // If we have a selection in state, proceed with it
-          if (activeQuestion.id === 'script-selection' && state.selectedScript) {
-            await handleQuestionAnswerInternal(activeQuestion.id, state.selectedScript.id);
-            return;
-          }
-          if (activeQuestion.id === 'avatar-selection' && state.selectedAvatar) {
-            await handleQuestionAnswerInternal(activeQuestion.id, state.selectedAvatar.id);
-            return;
-          }
-          if (activeQuestion.id === 'creative-selection' && state.selectedCreative) {
-            await handleQuestionAnswerInternal(activeQuestion.id, state.selectedCreative.id);
-            return;
-          }
-
-          // Fallback: pick the first option if nothing selected or just "yes"
-          if (activeQuestion.options.length > 0) {
-            await handleQuestionAnswerInternal(activeQuestion.id, activeQuestion.options[0].id);
-            return;
-          }
-        }
-
-        const match = matchUserInputToOption(sanitizedContent, activeQuestion);
-        if (match.optionId) {
-          await handleQuestionAnswerInternal(activeQuestion.id, match.optionId);
-          return;
-        }
-      }
-
-      // 3. Global handlers for specific steps
-      if (state.step === 'product-url') {
-        if (looksLikeUrl(sanitizedContent)) {
-          setState(prev => ({
-            ...prev,
-            url: sanitizedContent,
-            step: 'product-analysis',
-            isStepLoading: true,
-            stepHistory: [...prev.stepHistory, 'product-analysis']
-          }));
-
-          await simulateTyping("Great! I'm analyzing that product URL now. This usually takes about 30 seconds... 🔍", { stepId: 'product-analysis' }, 1000);
-
-          try {
-            const result = await vibeletsAPI.scrapeProduct(sanitizedContent);
-            setState(prev => ({
-              ...prev,
-              productData: result.product_data || result.state?.product_data,
-              isStepLoading: false
-            }));
-
-            // Auto-trigger analysis
-            await simulateTyping("Scraping complete! Now generating marketing analysis and creative angles...", {}, 800);
-            const analysisResult = await vibeletsAPI.analyzeProduct();
-
-            const analysis = analysisResult.analysis || analysisResult.state?.analysis;
-            setState(prev => ({ ...prev, productAnalysis: analysis }));
-
-            await simulateTyping(
-              `Analysis complete! I've identified your target audience and 3 high-converting marketing angles. 📈\n\nReady to see some script options?`,
-              { stepId: 'script-selection' },
-              1500
-            );
-
-            // Move to script generation
-            setState(prev => ({ ...prev, step: 'script-selection', isStepLoading: true }));
-            const scriptsResult = await vibeletsAPI.generateScripts();
-            const scripts = scriptsResult.scripts || scriptsResult.state?.scripts || [];
-
-            setGeneratedScripts(scripts);
-
-            const scriptQuestion: InlineQuestion = {
-              id: 'script-selection',
-              question: 'Which script style would you like to use?',
-              options: scripts.map((s: any) => ({
-                id: s.id || `script-${Math.random()}`,
-                label: s.name,
-                description: s.style
-              }))
-            };
-
-            await simulateTyping(
-              "I've generated 2 custom scripts for your product. Which one fits your brand best?",
-              { inlineQuestion: scriptQuestion, stepId: 'script-selection' },
-              1000
-            );
-            setState(prev => ({ ...prev, isStepLoading: false }));
-
-          } catch (error) {
-            handleError(error, 'Analyzing product');
-          }
-        } else {
-          // Check if there's an active question they might be answering
-          if (activeQuestion) {
-            await simulateTyping(`I didn't quite catch that. You can type something like "the first one", "Script A", or click a suggestion below.`, {}, 800);
-          } else {
-            await simulateTyping("Please share your product URL (e.g., https://yourstore.com/product) and I'll analyze it for you.");
-          }
-        }
-      } else if (activeQuestion) {
-        // There's an active question but we couldn't match - provide helpful guidance
-        await simulateTyping(`I didn't quite understand. Try typing the option name (like "${activeQuestion.options[0]?.label}") or use the suggestions below.`, {}, 800);
-      }
-    } catch (error) {
-      handleError(error, 'Processing your message');
-    }
-  }, [state.step, state.selectedScript, state.selectedAvatar, state.selectedCreative, activeQuestion, addMessage, simulateTyping, handleQuestionAnswerInternal, goToStep, handleError]);
 
   const handleCampaignConfigComplete = useCallback(async (config: Record<string, string>) => {
 
@@ -1017,13 +1156,23 @@ export const useCampaignFlow = () => {
       setState(prev => ({ ...prev, isStepLoading: true }));
 
       const appId = import.meta.env.VITE_FACEBOOK_APP_ID;
+      console.log('🔍 Facebook App ID:', appId ? `${appId.substring(0, 4)}...` : 'MISSING');
+
       if (!appId) {
-        throw new Error("Facebook App ID not configured");
+        console.error("❌ Missing VITE_FACEBOOK_APP_ID");
+        toast.error("Configuration Missing", {
+          description: "Facebook App ID not found. Please add VITE_FACEBOOK_APP_ID to your frontend/.env file.",
+          duration: 5000
+        });
+        setState(prev => ({ ...prev, isStepLoading: false }));
+        return;
       }
 
       const redirectUri = window.location.origin + '/facebook-callback';
       const scope = 'ads_management,ads_read,pages_read_engagement';
       const stateParam = state.step; // Use current step or random str
+
+      console.log('🔗 OAuth Config:', { redirectUri, scope });
 
       // Open OAuth Popup
       const width = 600;
@@ -1033,32 +1182,50 @@ export const useCampaignFlow = () => {
 
       const authUrl = `https://www.facebook.com/v18.0/dialog/oauth?client_id=${appId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${stateParam}&scope=${scope}&response_type=token`;
 
+      console.log('🚀 Opening Facebook OAuth popup...');
       const popup = window.open(
         authUrl,
         'Facebook Login',
         `width=${width},height=${height},left=${left},top=${top}`
       );
 
+      if (!popup) {
+        console.error('❌ Popup blocked!');
+        toast.error('Popup Blocked', {
+          description: 'Please allow popups for this site to connect Facebook.',
+        });
+        setState(prev => ({ ...prev, isStepLoading: false }));
+        return;
+      }
+
       // Listen for message from popup
       const messageHandler = async (event: MessageEvent) => {
+        console.log('📨 Received message:', event.data.type);
         if (event.origin !== window.location.origin) return;
 
         if (event.data.type === 'FACEBOOK_AUTH_SUCCESS') {
           const accessToken = event.data.accessToken;
+          console.log('✅ Access token received:', accessToken ? `${accessToken.substring(0, 10)}...` : 'MISSING');
           window.removeEventListener('message', messageHandler);
 
           simulateTyping("Facebook connected! Fetching ad accounts...", {}, 500);
 
           try {
             // 🚀 Call Backend to Authenticate & Get Accounts
-            console.log('Validating token with backend...');
+            console.log('📡 Calling backend /api/workflow/facebook_auth...');
             const authResult = await vibeletsAPI.authenticateFacebook(accessToken);
+            console.log('📥 Backend response:', authResult);
 
-            if (authResult.error) throw new Error(authResult.error);
+            if (authResult.error) {
+              console.error('❌ Backend error:', authResult.error);
+              throw new Error(authResult.error);
+            }
 
             const realAdAccounts = authResult.ad_accounts || []; // Expecting [{id, name, status, ...}]
+            console.log('📊 Ad accounts received:', realAdAccounts.length, realAdAccounts);
 
             if (realAdAccounts.length === 0) {
+              console.warn('⚠️ No ad accounts found');
               toast.warning('No Ad Accounts found', { description: 'Please create an ad account in your Facebook Business Manager.' });
               setState(prev => ({ ...prev, facebookConnected: true, isStepLoading: false }));
               return;
@@ -1073,18 +1240,26 @@ export const useCampaignFlow = () => {
               timezone: acc.timezone_name
             }));
 
-            console.log('✅ Real Ad Accounts:', mappedAccounts);
+            // Deduplicate accounts by ID to prevent React duplicate key warnings
+            const uniqueAccounts = Array.from(
+              new Map(mappedAccounts.map(acc => [acc.id, acc])).values()
+            );
+
+            console.log('✅ Real Ad Accounts:', uniqueAccounts);
+
+            // Store fetched accounts in state for later use
+            setFetchedAdAccounts(uniqueAccounts);
 
             setState(prev => ({ ...prev, facebookConnected: true, isStepLoading: true }));
 
             const accountQuestion: InlineQuestion = {
               id: 'ad-account-selection',
               question: 'Which ad account should we use?',
-              options: mappedAccounts.map(a => ({ id: a.id, label: a.name, description: `Status: ${a.status}` }))
+              options: uniqueAccounts.map(a => ({ id: a.id, label: a.name, description: `Status: ${a.status}` }))
             };
 
             await simulateTyping(
-              `Facebook connected! 🔗\n\nI found ${mappedAccounts.length} ad accounts. Select one to continue:`,
+              `Facebook connected! 🔗\n\nI found ${uniqueAccounts.length} ad accounts. Select one to continue:`,
               { inlineQuestion: accountQuestion, stepId: 'ad-account-selection' },
               800
             );
@@ -1158,6 +1333,7 @@ export const useCampaignFlow = () => {
   const resetFlow = useCallback(() => {
     setState(initialState);
     setSelectedAnswers({});
+    // Create a new message with unique ID for each reset
     setMessages([
       createMessage('assistant', "Ready for your next campaign! 🚀 Paste a product URL to get started.", { stepId: 'welcome' })
     ]);
@@ -1520,231 +1696,7 @@ export const useCampaignFlow = () => {
     addMessage('assistant', "No problem! Here are the AI-generated creative options:", { inlineQuestion: creativeQuestion, stepId: 'creative-review' });
   }, [addMessage]);
 
-  const handleUserMessage = useCallback(async (content: string) => {
-    try {
-      const sanitizedContent = sanitizeInput(content);
-      if (!sanitizedContent) {
-        toast.error('Invalid input', { description: 'Please enter a valid message' });
-        return;
-      }
 
-      // 1. Detect Navigation Intents (Back / Next)
-      const navIntent = detectNavigationIntent(sanitizedContent);
-      if (navIntent === 'back') {
-        const currentIndex = STEP_ORDER.indexOf(state.step);
-        if (currentIndex > 0) {
-          const prevStep = STEP_ORDER[currentIndex - 1];
-          // Skip internal generation steps when going back manually
-          const targetStep = (prevStep === 'creative-generation' || prevStep === 'product-analysis' || prevStep === 'publishing')
-            ? STEP_ORDER[currentIndex - 2]
-            : prevStep;
-
-          addMessage('user', sanitizedContent);
-          goToStep(targetStep);
-          return;
-        }
-      }
-
-      // 2. Try natural language matching for selection options
-      if (!looksLikeUrl(sanitizedContent) && activeQuestion) {
-        let matchResult = matchUserInputToOption(sanitizedContent, activeQuestion);
-
-        // Enhance "go ahead/next" logic: if it matched a default option but we have an existing selection, prefer that
-        const isAffirmative = /^(next|continue|proceed|go|go ahead|let'?s go|confirm|yes|yep|yeah|sure|ok|okay|next step|looks good|perfect)$/i.test(sanitizedContent.toLowerCase().trim());
-
-        if (isAffirmative || (matchResult.matched && matchResult.optionId)) {
-          addMessage('user', sanitizedContent);
-
-          let selectedId = matchResult.optionId;
-
-          // Selection resolution logic
-          if (isAffirmative) {
-            // Priority: 1. Current selection in state, 2. First option
-            if (activeQuestion.id === 'script-selection' && state.selectedScript) {
-              selectedId = state.selectedScript.id;
-            } else if (activeQuestion.id === 'avatar-selection' && state.selectedAvatar) {
-              selectedId = state.selectedAvatar.id;
-            } else if (activeQuestion.id === 'creative-selection' && state.selectedCreative) {
-              selectedId = state.selectedCreative.id;
-            } else if (!selectedId) {
-              selectedId = activeQuestion.options[0]?.id;
-            }
-          }
-
-          if (selectedId) {
-            await handleQuestionAnswerInternal(activeQuestion.id, selectedId, true);
-            return;
-          }
-        }
-      }
-
-      addMessage('user', sanitizedContent);
-
-
-      if (state.step === 'welcome' || state.step === 'product-url') {
-        // Check if it looks like a URL
-        if (sanitizedContent.includes('.') || sanitizedContent.includes('http')) {
-          // Validate URL format
-          if (!isValidUrl(sanitizedContent)) {
-            await simulateTyping("That doesn't look like a valid URL. Please provide a complete product URL (e.g., https://yourstore.com/product).");
-            return;
-          }
-
-          setState(prev => ({ ...prev, step: 'product-analysis', productUrl: sanitizedContent, stepHistory: [...prev.stepHistory, 'product-analysis'], isStepLoading: true }));
-
-          await simulateTyping("Perfect! Analyzing your product page now... 🔍", { stepId: 'product-analysis' }, 1000);
-
-          try {
-            // ✅ REAL API CALL - Scrape product
-            const scrapeResult = await vibeletsAPI.scrapeProduct(sanitizedContent);
-
-            if (scrapeResult.error) {
-              throw new Error(scrapeResult.error);
-            }
-
-            const scrapedProduct = scrapeResult.product_data;
-
-            const analysisResult = await vibeletsAPI.analyzeProduct();
-
-            if (analysisResult.error) {
-              throw new Error(analysisResult.error);
-            }
-
-            const productAnalysis = analysisResult.analysis;
-
-            // Helper function to format insight values
-            const formatInsightValue = (value: any): string => {
-              if (typeof value === 'string') {
-                return value;
-              } else if (Array.isArray(value)) {
-                return value.join(', ');
-              } else if (typeof value === 'object' && value !== null) {
-                // Format object as readable text instead of JSON
-                return Object.entries(value)
-                  .map(([k, v]) => `${k}: ${v}`)
-                  .join(', ');
-              }
-              return String(value);
-            };
-
-            // Generate insights from analysis
-            const insights: ProductInsight[] = [];
-
-            if (productAnalysis) {
-              // Add category insight
-              if (productAnalysis.category) {
-                insights.push({
-                  label: 'Product Category',
-                  value: formatInsightValue(productAnalysis.category),
-                  icon: 'tag'
-                });
-              }
-
-              // Add target audience insight
-              if (productAnalysis.target_audience) {
-                insights.push({
-                  label: 'Target Audience',
-                  value: formatInsightValue(productAnalysis.target_audience),
-                  icon: 'users'
-                });
-              }
-
-              // Add USP insight  
-              if (productAnalysis.usps) {
-                const uspsValue = Array.isArray(productAnalysis.usps)
-                  ? productAnalysis.usps.join(', ')
-                  : formatInsightValue(productAnalysis.usps);
-                insights.push({
-                  label: 'Key USPs',
-                  value: uspsValue,
-                  icon: 'star'
-                });
-              }
-
-              // Add marketing angle insight
-              if (productAnalysis.marketing_angles) {
-                const anglesValue = Array.isArray(productAnalysis.marketing_angles)
-                  ? productAnalysis.marketing_angles.join(', ')
-                  : formatInsightValue(productAnalysis.marketing_angles);
-                insights.push({
-                  label: 'Marketing Angles',
-                  value: anglesValue,
-                  icon: 'trending-up'
-                });
-              }
-            }
-
-            // Convert backend response to frontend ProductData format
-            // Add backend URL prefix to image paths
-            const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
-
-            // Debug logging
-            console.log('🔍 Backend scrape data:', scrapedProduct);
-            console.log('🔍 Downloaded images:', scrapedProduct?.downloaded_images);
-            console.log('🔍 Regular images:', scrapedProduct?.images);
-            console.log('🔍 Backend URL:', BACKEND_URL);
-
-            const productImages = (scrapedProduct?.downloaded_images || scrapedProduct?.images || []).map((imgPath: string) => {
-              // If path already has http, return as is
-              if (imgPath.startsWith('http')) {
-                return imgPath;
-              }
-              // Add backend URL prefix to relative paths
-              const fullUrl = `${BACKEND_URL}${imgPath.startsWith('/') ? '' : '/'}${imgPath}`;
-              console.log('🔍 Image path transformation:', imgPath, '→', fullUrl);
-              return fullUrl;
-            });
-
-            console.log('🔍 Final product images:', productImages);
-
-            const productData: ProductData = {
-              title: scrapedProduct?.title || 'Product',
-              price: scrapedProduct?.price || '$0',
-              description: scrapedProduct?.description || '',
-              images: productImages, // Images with full URLs
-              sku: scrapedProduct?.sku || '',
-              category: productAnalysis?.category || scrapedProduct?.category || '',
-              pageScreenshot: productImages[0] || '', // Use first image as screenshot
-              insights: insights,
-            };
-
-            setState(prev => ({ ...prev, productData, isStepLoading: false }));
-
-            const continueQuestion: InlineQuestion = {
-              id: 'product-continue',
-              question: 'Ready to create your ad?',
-              options: [
-                { id: 'continue', label: 'Continue', description: 'Proceed to script selection' },
-                { id: 'change', label: 'Change URL', description: 'Use a different product' }
-              ]
-            };
-
-            await simulateTyping(
-              `I've analyzed your product page and found some great insights!\n\n**${productData.title}** looks perfect for video ads. I've identified ${productData.images.length} high-quality images and extracted key product details.\n\nCheck the preview panel for full details. Ready to proceed?`,
-              { inlineQuestion: continueQuestion, stepId: 'product-analysis' },
-              1500
-            );
-          } catch (error) {
-            console.error('Product scraping/analysis error:', error);
-            setState(prev => ({ ...prev, isStepLoading: false }));
-            throw error;
-          }
-        } else {
-          // Check if there's an active question they might be answering
-          if (activeQuestion) {
-            await simulateTyping(`I didn't quite catch that. You can type something like "the first one", "Script A", or click a suggestion below.`, {}, 800);
-          } else {
-            await simulateTyping("Please share your product URL (e.g., https://yourstore.com/product) and I'll analyze it for you.");
-          }
-        }
-      } else if (activeQuestion) {
-        // There's an active question but we couldn't match - provide helpful guidance
-        await simulateTyping(`I didn't quite understand. Try typing the option name (like "${activeQuestion.options[0]?.label}") or use the suggestions below.`, {}, 800);
-      }
-    } catch (error) {
-      handleError(error, 'Processing your message');
-    }
-  }, [state.step, state.selectedScript, state.selectedAvatar, state.selectedCreative, activeQuestion, addMessage, simulateTyping, handleQuestionAnswerInternal, goToStep, handleError]);
 
   return {
     state,
