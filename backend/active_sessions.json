@@ -30,267 +30,505 @@
   "28b63aa8-4611-461d-ae9d-f6bb9e3866ec": {
     "current_step": "creative-generation:video",
     "navigation_intent": "generate_video",
-    "agent_message": "We're on the final stretch! The AI is now creating your video using all the elements we've put together. Sit tight, and your video will be ready shortly!",
-    "messages": [],
-    "url": "https://www.flipkart.com/casio-gm-2100-1adr-g-shock-silver-dial-black-resin-strap-analog-digital-watch-men/p/itma84f56e781cd9?pid=WATG79ZPUEPUGQ6J&lid=LSTWATG79ZPUEPUGQ6JNCTDMM&marketplace=FLIPKART&fm=productRecommendation%2Fsimilar&iid=en_YEZFjjixFupY6GcSUFl5AIocNEqbegRtYvsPwW2lQcu8S5B8IvoJOi8TN4Zf4KdT8bPTS6n4sz9SyD6s3NQnGA%3D%3D&ppt=pp&ppn=pp&ssid=foxyhu3jow0000001766057648916&otracker=pp_reco_Similar%2BProducts_4_34.productCard.PMU_HORIZONTAL_CASIO%2BGM-2100-1ADR%2BG-SHOCK%2BSilver%2BDial%2BBlack%2BResin%2BStrap%2BAnalog-Digital%2BWatch%2B%2B-%2BFor%2BMen_-1_productRecommendation%2Fsimilar_3&otracker1=pp_reco_PINNED_productRecommendation%2Fsimilar_Similar%2BProducts_GRID_productCard_cc_4_NA_view-all&cid=-1",
-    "scraped_url": "https://www.flipkart.com/casio-gm-2100-1adr-g-shock-silver-dial-black-resin-strap-analog-digital-watch-men/p/itma84f56e781cd9?pid=WATG79ZPUEPUGQ6J&lid=LSTWATG79ZPUEPUGQ6JNCTDMM&marketplace=FLIPKART&fm=productRecommendation%2Fsimilar&iid=en_YEZFjjixFupY6GcSUFl5AIocNEqbegRtYvsPwW2lQcu8S5B8IvoJOi8TN4Zf4KdT8bPTS6n4sz9SyD6s3NQnGA%3D%3D&ppt=pp&ppn=pp&ssid=foxyhu3jow0000001766057648916&otracker=pp_reco_Similar%2BProducts_4_34.productCard.PMU_HORIZONTAL_CASIO%2BGM-2100-1ADR%2BG-SHOCK%2BSilver%2BDial%2BBlack%2BResin%2BStrap%2BAnalog-Digital%2BWatch%2B%2B-%2BFor%2BMen_-1_productRecommendation%2Fsimilar_3&otracker1=pp_reco_PINNED_productRecommendation%2Fsimilar_Similar%2BProducts_GRID_productCard_cc_4_NA_view-all&cid=-1",
+    "agent_message": "Great news! Your video is being created based on everything you've put together so far. Just sit tight for a moment while the magic happens!",
+    "messages": [
+      {
+        "role": "user",
+        "content": "https://www.flipkart.com/doctor-extra-soft-running-shoes-men/p/itmab75f7927390d?pid=SHOH7SF7GHAZHGFH&lid=LSTSHOH7SF7GHAZHGFHM4ZCN5&marketplace=FLIPKART&store=osp%2Fcil%2F1cu&srno=b_1_2&otracker=browse&fm=productRecommendation%2Fsimilar&iid=en_VQtadJTNcwSBIyQpaM-WH5TGjKCxLoSjmmxnMfMbWWis8xnZlv-S6Z5MMxoJsSBQN0JGPDRD8XuNxyxWvudPWg%3D%3D&ppt=browse&ppn=browse&ssid=wuctzyzo9c0000001766063867959"
+      },
+      {
+        "role": "user",
+        "content": "https://www.flipkart.com/doctor-extra-soft-running-shoes-men/p/itmab75f7927390d?pid=SHOH7SF7GHAZHGFH&lid=LSTSHOH7SF7GHAZHGFHM4ZCN5&marketplace=FLIPKART&store=osp%2Fcil%2F1cu&srno=b_1_2&otracker=browse&fm=productRecommendation%2Fsimilar&iid=en_VQtadJTNcwSBIyQpaM-WH5TGjKCxLoSjmmxnMfMbWWis8xnZlv-S6Z5MMxoJsSBQN0JGPDRD8XuNxyxWvudPWg%3D%3D&ppt=browse&ppn=browse&ssid=wuctzyzo9c0000001766063867959"
+      },
+      {
+        "role": "user",
+        "content": "https://www.flipkart.com/doctor-extra-soft-running-shoes-men/p/itmab75f7927390d?pid=SHOH7SF7GHAZHGFH&lid=LSTSHOH7SF7GHAZHGFHM4ZCN5&marketplace=FLIPKART&store=osp%2Fcil%2F1cu&srno=b_1_2&otracker=browse&fm=productRecommendation%2Fsimilar&iid=en_VQtadJTNcwSBIyQpaM-WH5TGjKCxLoSjmmxnMfMbWWis8xnZlv-S6Z5MMxoJsSBQN0JGPDRD8XuNxyxWvudPWg%3D%3D&ppt=browse&ppn=browse&ssid=wuctzyzo9c0000001766063867959"
+      },
+      {
+        "role": "user",
+        "content": "go to next step"
+      },
+      {
+        "role": "user",
+        "content": "campaign step"
+      },
+      {
+        "role": "user",
+        "content": "connect facebook ads"
+      },
+      {
+        "role": "user",
+        "content": "EAAQeYqt2zH4BQEk0b5qZCCKnXgcgUNiSZB0J5194gtOQ1jjYl8yOBxGm3m4W0ly9lyuaoP2HFwZBWbMOc9nEfoZBjyAdGNVzxeBc530s3x1H5bXdkgswazkvzDecTEagWwtshFsBKPBQOUUp5O2R8FIWYSpUDvzWkX0Q1QA9LoooC61ggB9A3m48mxRS94cBWFW5PZCBjvhieuZBbZCPklEWFgmdr1HZCm9HXe3FJaZArBgtkeMMxcJxVUeGZCWCZApPXi2HpAcnv8ZAovscTLTpvqqOwEmwcoEaYAZDZD"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "publish ads"
+      },
+      {
+        "role": "user",
+        "content": "EAAQeYqt2zH4BQIggY9R7XOKdRTgRZAk6Rr7Cucosa6v8q3UotksWgaDfPeBZBkAj7d9RZCtwo3QopJ25uz46TYIdr1SiamMawYcXpYKfwTqirmGUZCitIZBJFNKZCeigTjtWaYLZBrrmtfX30J3yX7qUypZBv3Mdl7URnVHkrOrIN83PMXc5pOKjgFlvscab4XsTPyWrJZADqFZBhz4KZAFCvHTKzXFa1INbpGDfiKfykavPYTfnEZBe0pFuRMk9vxjWB7SHp1C0z8W896ik40EAI5oWmcX92VrC"
+      },
+      {
+        "role": "user",
+        "content": "EAAQeYqt2zH4BQE7mTAWfC3seAGOChlRRf21dNudxBJsCCVZCkfSdJYPVve8wg2R8m2ygLf54I2WKMuNqWb00lxYKpoZByHdi0DkMSWvsuZCS4QJBFkXFcVQ2g3lZAJG4yj89m6oR6rwTiUDsvcLkyvQ84rtCH0fCmBaLD6aZAZB7TZBocZCApZBuuVVBIMQFokeVI6XUwuF6jRFXiKeujmXUbdf9kxXjvGSK8CTUKht4N97VnfT9CnNotz7YPjKZAmLg8V5kjLDceZCHACA7HxoOxpjxWf1xzdZC5wZDZD"
+      },
+      {
+        "role": "user",
+        "content": "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF"
+      },
+      {
+        "role": "user",
+        "content": "choose another facebook account"
+      },
+      {
+        "role": "user",
+        "content": "1"
+      }
+    ],
+    "url": "https://www.flipkart.com/bosch-368-l-frost-free-double-door-2-star-convertible-refrigerator-large-led-display-inverter-integrated-handle-vitafresh-technology-10-day-freshness-handle/p/itma4d20b11ba929?pid=RFRHDXSNHZX2DUW7&lid=LSTRFRHDXSNHZX2DUW7V4CRCU&marketplace=FLIPKART&fm=factBasedRecommendation%2FrecentlyViewed&iid=R%3Arv%3Bpt%3App%3Buid%3A96356553-dcad-11f0-9fe6-5b9745e6ccff%3B.RFRHDXSNHZX2DUW7&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Recently%2BViewed_3_42.productCard.RECENTLY_VIEWED_BOSCH%2B368%2BL%2BFrost%2BFree%2BDouble%2BDoor%2B2%2BStar%2BConvertible%2BRefrigerator%2B%2Bwith%2BLarge%2BLED%2BDisplay%252C%2BInverter%2BFrost%2BFree%2B%252C%2BIntegrated%2BHandle%252C%2BVitaFresh%2BTechnology%2Bfor%2B10%2BDay%2BFreshness%252C%2BIntegrated%2BHandle_RFRHDXSNHZX2DUW7_factBasedRecommendation%2FrecentlyViewed_2&otracker1=pp_reco_PINNED_factBasedRecommendation%2FrecentlyViewed_Recently%2BViewed_DESKTOP_HORIZONTAL_productCard_cc_3_NA_view-all&cid=RFRHDXSNHZX2DUW7",
+    "scraped_url": "https://www.flipkart.com/bosch-368-l-frost-free-double-door-2-star-convertible-refrigerator-large-led-display-inverter-integrated-handle-vitafresh-technology-10-day-freshness-handle/p/itma4d20b11ba929?pid=RFRHDXSNHZX2DUW7&lid=LSTRFRHDXSNHZX2DUW7V4CRCU&marketplace=FLIPKART&fm=factBasedRecommendation%2FrecentlyViewed&iid=R%3Arv%3Bpt%3App%3Buid%3A96356553-dcad-11f0-9fe6-5b9745e6ccff%3B.RFRHDXSNHZX2DUW7&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Recently%2BViewed_3_42.productCard.RECENTLY_VIEWED_BOSCH%2B368%2BL%2BFrost%2BFree%2BDouble%2BDoor%2B2%2BStar%2BConvertible%2BRefrigerator%2B%2Bwith%2BLarge%2BLED%2BDisplay%252C%2BInverter%2BFrost%2BFree%2B%252C%2BIntegrated%2BHandle%252C%2BVitaFresh%2BTechnology%2Bfor%2B10%2BDay%2BFreshness%252C%2BIntegrated%2BHandle_RFRHDXSNHZX2DUW7_factBasedRecommendation%2FrecentlyViewed_2&otracker1=pp_reco_PINNED_factBasedRecommendation%2FrecentlyViewed_Recently%2BViewed_DESKTOP_HORIZONTAL_productCard_cc_3_NA_view-all&cid=RFRHDXSNHZX2DUW7",
     "product_data": {
-      "url": "https://www.flipkart.com/casio-gm-2100-1adr-g-shock-silver-dial-black-resin-strap-analog-digital-watch-men/p/itma84f56e781cd9?pid=WATG79ZPUEPUGQ6J&lid=LSTWATG79ZPUEPUGQ6JNCTDMM&marketplace=FLIPKART&fm=productRecommendation%2Fsimilar&iid=en_YEZFjjixFupY6GcSUFl5AIocNEqbegRtYvsPwW2lQcu8S5B8IvoJOi8TN4Zf4KdT8bPTS6n4sz9SyD6s3NQnGA%3D%3D&ppt=pp&ppn=pp&ssid=foxyhu3jow0000001766057648916&otracker=pp_reco_Similar%2BProducts_4_34.productCard.PMU_HORIZONTAL_CASIO%2BGM-2100-1ADR%2BG-SHOCK%2BSilver%2BDial%2BBlack%2BResin%2BStrap%2BAnalog-Digital%2BWatch%2B%2B-%2BFor%2BMen_-1_productRecommendation%2Fsimilar_3&otracker1=pp_reco_PINNED_productRecommendation%2Fsimilar_Similar%2BProducts_GRID_productCard_cc_4_NA_view-all&cid=-1",
-      "title": "CASIO\u00a0G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men G1159 (GM-2100-1ADR)",
-      "description": "CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men - Buy CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men  G1159 (GM-2100-1ADR) Online at Rs.15995 in India Only at Flipkart.com. Mineral Glass::Neobrite Guard structure::Guard-less Button Structure::Dual Back Cover::Easily replaceable band::Dynamic face action::A bold face design::Easy-to-read display::High-impact design::Easy reading even in the dark::Double LED light::World time (31 time zones (48 cities + coordinated universal time), daylight saving on/off, Home city/World time city swapping)::1/100-second stopwatch::Countdown timer::5 daily alarms::Hourly time signal::Hand shift feature (Hands move out of the way to provide an unobstructed view of digital display contents.)::Full auto-calendar (to year 2099)::12/24-hour format::Button operation tone on/off::Regular timekeeping: Analog: 2 hands (hour, minute (hand moves every 20 seconds)), 1 dial (mode), Digital: Hour, minute, second, pm, month, date, day::Accuracy: 15 seconds per month - Great Discounts, Only Genuine Products, 30 Day Replacement Guarantee, Free Shipping. Cash On Delivery!",
-      "price": "Price not found",
+      "url": "https://www.flipkart.com/bosch-368-l-frost-free-double-door-2-star-convertible-refrigerator-large-led-display-inverter-integrated-handle-vitafresh-technology-10-day-freshness-handle/p/itma4d20b11ba929?pid=RFRHDXSNHZX2DUW7&lid=LSTRFRHDXSNHZX2DUW7V4CRCU&marketplace=FLIPKART&fm=factBasedRecommendation%2FrecentlyViewed&iid=R%3Arv%3Bpt%3App%3Buid%3A96356553-dcad-11f0-9fe6-5b9745e6ccff%3B.RFRHDXSNHZX2DUW7&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Recently%2BViewed_3_42.productCard.RECENTLY_VIEWED_BOSCH%2B368%2BL%2BFrost%2BFree%2BDouble%2BDoor%2B2%2BStar%2BConvertible%2BRefrigerator%2B%2Bwith%2BLarge%2BLED%2BDisplay%252C%2BInverter%2BFrost%2BFree%2B%252C%2BIntegrated%2BHandle%252C%2BVitaFresh%2BTechnology%2Bfor%2B10%2BDay%2BFreshness%252C%2BIntegrated%2BHandle_RFRHDXSNHZX2DUW7_factBasedRecommendation%2FrecentlyViewed_2&otracker1=pp_reco_PINNED_factBasedRecommendation%2FrecentlyViewed_Recently%2BViewed_DESKTOP_HORIZONTAL_productCard_cc_3_NA_view-all&cid=RFRHDXSNHZX2DUW7",
+      "title": "BOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle\u00a0\u00a0(Black pearl, CTC39K22NI)",
+      "description": "Buy BOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle only for Rs. 63790 Free installation, 30 day replacement guarantee with free shipping only at Flipkart.com",
+      "price": "\u20b944,990",
+      "sku": "",
       "images": [
-        "http://rukmini1.flixcart.com/image/300/300/xif0q/watch/p/4/m/-original-imahg62wrkucrfsp.jpeg",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/p/4/m/-original-imahg62wrkucrfsp.jpeg?q=70&crop=false",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/g/5/w/-original-imahg62wbkjegtfp.jpeg?q=70&crop=false",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/s/c/i/-original-imahg62wedjmkhhj.jpeg?q=70&crop=false",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/b/q/f/-original-imahg62wh5jxwv8h.jpeg?q=70&crop=false"
+        "http://rukmini1.flixcart.com/image/300/300/xif0q/refrigerator-new/1/c/k/-original-imahehyykhzcakp2.jpeg"
       ],
       "is_store": false,
       "products": [],
-      "raw_text": "  CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men - Buy CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men G1159 (GM-2100-1ADR) Online at Best Prices in India | Flipkart.com        Explore PlusLoginBecome a Seller More CartAdd to cart Buy NowHomeWatchesWrist WatchesCASIO Wrist WatchesCASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men\nShareCASIO\u00a0G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men G1159 (GM-2100-1ADR)\u20b915,994\u20b915,995i4.21,439 ratings and 87 reviewsStrap ColorBlackBrownGoldGreenGreySilverPlease select a Strap Color to proceed\u2715Dial ColorBlackBlueGoldGreenGreySilverPlease select a Dial Color to proceed\u2715Available offersBank Offer5% cashback on Axis Bank Flipkart Debit Card up to \u20b9750T&CBank Offer5% cashback on Flipkart SBI Credit Card upto \u20b94,000 per calendar quarterT&CBank OfferFlat \u20b96000 off on BOBCARD EMI Transactions on orders of \u20b960,000 and aboveT&CCombo OfferBuy 2 items save 5%; Buy 3 save 7%; Buy 4+ save 10%See all productsT&C+16 more offers2 Years All India Manufacturer WarrantyKnow MoreDeliver toCheckDelivery by21 Dec, Sunday?if ordered before 8:03 PMView DetailsServices2 Years All India Manufacturer WarrantyCash on Delivery available?SellerRetailNet4.310 days return policy?GST invoice available?See other sellersProduct DetailsBrandCASIOWatch TypeWrist WatchDisplay TypeAnalog-DigitalIdeal ForMenMechanismQuartzStyle CodeG1159 (GM-2100-1ADR)SeriesG-SHOCK Silver Dial Black Resin StrapOccasionCasualMovementQuartzPack of1Sales Package1 Box::1 Watch::1 Warranty Card With Serial Number::1 Warranty Term Sheet::1 User ManualShock ResistanceYesModel NameGM-2100-1ADRStrap ColorBlackNet Quantity1Watch FeaturesDate DisplayWidth44.4 mmHeight49.3 mmThickness11.8 mmDiameter44.4 mmWeight72 gDomestic Warranty2 YearWarranty Period2 YearsWarranty Service TypeCustomer Needs to Visit the Authorized Service Centre, along with Tax Paid Inv",
+      "raw_text": "  BOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle Online at Best Price in India | Flipkart.com        Explore PlusLoginBecome a Seller More CartAdd to cart Buy NowHomeHome & KitchenHome AppliancesRefrigeratorsBOSCH RefrigeratorsBOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle (Black pearl, CTC39K22NI)\nCompareShareBOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle\u00a0\u00a0(Black pearl, CTC39K22NI)4.2202 Ratings\u00a0&\u00a017 ReviewsSpecial price\u20b944,990\u20b963,79029% offi+ \u20b9206 Protect Promise Fee\u00a0Learn moreSecure delivery by 22 Dec, MondayAvailable offersBank Offer5% cashback on Axis Bank Flipkart Debit Card up to \u20b9750T&CBank Offer5% cashback on Flipkart SBI Credit Card upto \u20b94,000 per calendar quarterT&CBank Offer10% off up to \u20b91,500 on BOBCARD EMI Transactions,  Min Txn Value: \u20b95,000T&CSpecial PriceGet extra 29% offT&CView 12 more offersBuy without Exchange\u20b944,990Buy with Exchangeup to \u20b98,590 offEnter pincode to check if exchange is available1 year comprehensive product warranty + 10 years compressor warrantyKnow MoreDeliveryCheckEnter pincodeDelivery by22 Dec, Monday?if ordered before 3:26 PMInstallation & Demo  by25 Dec, ThursdayView Details Learn more about Flipkart delivery and installation process Watch VideoColorBlack pearlFine SteelSPARKLY STEELSmoky SteelPlease select a Color to proceed\u2715Star Rating2233Please select a Star Rating to proceed\u2715Capacity243 L243 L334 L334 L368 L368 LPlease select a Capacity to proceed\u2715BEE Year2021202120252025Please select a BEE Year to proceed\u2715Highlights368 L : Good for families of 3-5 membersSmart inverter compressor2 Star",
       "downloaded_images": [
-        "/static/scraped_products/-original-imahg62wrkucrfsp_0.jpeg",
-        "/static/scraped_products/-original-imahfskqqdywhghe_1.jpeg",
-        "/static/scraped_products/6-biss-2031-blu-wht-40-bruton-blue-original-imahczyufwkmpeyq_2.jpeg",
-        "/static/scraped_products/xl-kcsh-remm110-ma-fubar-original-imahfkahu9f38ryj_3.jpeg"
+        "/static/scraped_products/og_image.jpg"
       ],
-      "pageScreenshot": "/static/scraped_products/-original-imahg62wrkucrfsp_0.jpeg",
+      "pageScreenshot": "/static/scraped_products/og_image.jpg",
       "current_analysis": {
-        "category": "Wrist Watch",
+        "category": "Refrigerators",
         "features": [
-          "Analog-Digital display",
-          "Silver Dial",
-          "Black Resin Strap",
-          "Mineral Glass",
-          "Neobrite for easy reading in the dark",
-          "Guard structure and Guard-less Button Structure",
-          "Dual Back Cover and easily replaceable band",
-          "High-impact, bold face design",
-          "Double LED light",
-          "World time with 31 time zones",
-          "1/100-second stopwatch",
-          "Countdown timer",
-          "5 daily alarms and hourly time signal",
-          "Hand shift feature for unobstructed view",
-          "Full auto-calendar (to year 2099)",
-          "12/24-hour format",
-          "Shock Resistance",
-          "Quartz Movement",
-          "Water-resistant"
+          "368 L capacity ideal for medium to large households",
+          "Frost Free Double Door Design",
+          "Large LED Display for easy temperature control",
+          "Inverter Technology for energy efficiency",
+          "Integrated Handle for sleek appearance",
+          "VitaFresh Technology to keep food fresh for up to 10 days",
+          "Black Pearl Finish",
+          "Free Shipping",
+          "30-Day Replacement Guarantee",
+          "Quiet Operation",
+          "Convertible Feature for flexible storage options",
+          "Efficient Cooling System"
         ],
         "target_audience": {
           "demographics": {
-            "gender": "Men",
-            "age_range": "18-45 years",
-            "income_level": "Middle to upper-middle class",
-            "location": "Urban areas, India"
+            "gender": "All",
+            "age_range": "25-55 years",
+            "income_level": "Middle to High Class",
+            "geographic_location": "Urban Areas"
           },
           "psychographics": {
-            "lifestyle": "Active, adventurous, technology-savvy",
-            "values": "Durability, functionality, style",
-            "interests": "Outdoor activities, sports, gadgets"
+            "lifestyle": "Busy Professionals, Families",
+            "interests": "Modern Home Appliances, Energy Efficiency, Food Freshness",
+            "values": "Convenience, Freshness, Reliability"
           },
           "pain_points": [
-            "Need for durable and reliable watches",
-            "Desire for multifunctional timepieces",
-            "Preference for stylish yet practical accessories"
+            "Need for a refrigerator with sufficient capacity to store family groceries",
+            "Desire for energy-efficient appliances to reduce utility bills",
+            "Preference for features that keep food fresh for extended periods",
+            "Interest in a quiet refrigerator that doesn't disrupt household activities",
+            "Concerns about ease of use and available customer support",
+            "Feedback on the need for clearer user instructions for convertible features",
+            "Reports of occasional temperature control issues",
+            "Need for an intuitive user experience to minimize confusion",
+            "Difficulty in navigating customer support channels"
           ]
         },
         "usps": [
-          "Combination of analog and digital functionalities",
-          "Robust and shock-resistant design",
-          "Advanced timekeeping features including world time and alarms",
-          "Stylish design with practical features like easy readability in the dark"
+          "Large 368 L capacity suitable for family-sized grocery storage",
+          "VitaFresh Technology for superior food freshness up to 10 days",
+          "Convertible design providing versatile storage options",
+          "Energy-efficient operation with inverter technology",
+          "Quiet operation, ensuring minimal disturbance in the home",
+          "Comprehensive customer support with a 30-day replacement guarantee",
+          "Free shipping adds value and convenience",
+          "Durable build quality from a reputable brand like BOSCH",
+          "Enhanced user instructions for better ease of use",
+          "Responsive customer support addressing user queries efficiently"
         ],
         "marketing_angles": [
-          "Emphasize the rugged and durable design, ideal for adventure and sports enthusiasts",
-          "Highlight the multifunctionality that caters to the tech-savvy individuals",
-          "Appeal to style-conscious consumers with its bold design"
+          {
+            "angle": "Family-Sized Storage",
+            "emotional_trigger": "Store more with the spacious 368 L capacity"
+          },
+          {
+            "angle": "Freshness Guaranteed",
+            "emotional_trigger": "Keep your groceries fresh for longer with VitaFresh Technology"
+          },
+          {
+            "angle": "Versatile Convenience",
+            "emotional_trigger": "Adapt your fridge to your needs with the convertible feature"
+          },
+          {
+            "angle": "Eco-Friendly Savings",
+            "emotional_trigger": "Save on utilities with energy-efficient inverter technology"
+          },
+          {
+            "angle": "Peaceful Performance",
+            "emotional_trigger": "Enjoy a quieter home with low-noise operation"
+          },
+          {
+            "angle": "Risk-Free Purchase",
+            "emotional_trigger": "Benefit from a 30-day replacement guarantee for peace of mind"
+          },
+          {
+            "angle": "Convenience Delivered",
+            "emotional_trigger": "Experience hassle-free shopping with free delivery"
+          },
+          {
+            "angle": "Durability Assured",
+            "emotional_trigger": "Trust in the lasting quality of BOSCH appliances"
+          },
+          {
+            "angle": "User-Friendly Design",
+            "emotional_trigger": "Effortlessly control your fridge with intuitive instructions and interface"
+          },
+          {
+            "angle": "Customer-Centric Support",
+            "emotional_trigger": "Receive prompt assistance for a seamless experience"
+          }
         ],
         "positioning": {
-          "competitive_landscape": "Competes with other rugged and multifunctional watches in the G-SHOCK line and similar brands like Timex Ironman, Suunto, and Garmin",
-          "differentiation": "Offers a unique blend of style, durability, and advanced functionality at a competitive price point"
+          "competitive_landscape": "BOSCH competes with brands like LG, Samsung, and Whirlpool in the high-end refrigerator market.",
+          "differentiation": "Combines large capacity, advanced freshness technology, and energy efficiency with reliable performance and customer support, now with improved user guidance.",
+          "brand_reputation": "BOSCH is known for delivering high-quality, innovative home appliances. The brand appeals to consumers seeking reliability and performance. User feedback highlights areas for improvement, such as enhancing user manual clarity and addressing occasional temperature control issues. BOSCH is committed to continuous product refinement, ensuring a superior user experience through responsive customer support and product updates."
         }
       },
       "current_scripts": [
-        "[Style: Problem/Solution]\n\n[Opening: Fast-paced montage of outdoor activities\u2014hiking, running, biking. Text overlay: \"Tired of watches that can\u2019t keep up?\"]\n\n[Cut to: Close-up of the CASIO\u00a0G-SHOCK Gold Ip Dial Black Resin Strap Watch]\n\nNarrator (V.O.): \"Meet the G-SHOCK GM-110G-1A9DR\u2014a perfect blend of style and durability.\"\n\n[Scene: A man hits the watch intentionally against a rock during a hike. The watch remains unscratched.]\n\nNarrator (V.O.): \"Built for the toughest terrains with shock resistance. Go anywhere, do anything.\"\n\n[Scene: Quick cuts of the watch in different settings\u2014office, gym, night out.]\n\nNarrator (V.O.): \"From boardroom to the wild, its gold dial and sleek resin strap make a statement.\"\n\n[Scene: Close-up of the analog-digital display lighting up.]\n\nNarrator (V.O.): \"Get the best of both worlds with its multifunctional display, perfect for the tech-savvy adventurer.\"\n\n[Ending: User fastening the watch and heading out the door. Text overlay: \u201cReady to conquer? Get yours today!\u201d]\n\nCTA: \"Tap the link to elevate your adventure with CASIO G-SHOCK.\"",
-        "[Style: UGC Style]\n\n[Opening: Selfie-style video of a man holding the CASIO G-SHOCK watch. Text overlay: \"You won't believe what this can do!\"]\n\nMan: \"Hey guys! Just got my new G-SHOCK, and it's a game-changer!\"\n\n[Scene: Man showcasing the gold dial under different lighting. Close-up shots of the watch catching the light.]\n\nMan: \"Check out this gold dial. Super stylish, right?\"\n\n[Scene: Cut to the man jogging outdoors, showing the watch on his wrist as he moves.]\n\nMan: \"But it's not just about looks. This thing is TOUGH. I\u2019ve already put it through some serious tests!\"\n\n[Scene: Quick cuts of the watch facing splashes of water, dust, and knocks.]\n\nMan: \"Shock resistant and ready for anything. And the best part? It\u2019s both analog and digital. Perfect for my busy lifestyle.\"\n\n[Ending: The man gives a thumbs-up to the camera. Text overlay: \u201cWhy wait? Join the G-SHOCK family today!\u201d]\n\nCTA: \"Swipe up to get yours now!\"",
-        "[Style: ASMR/Aesthetic]\n\n[Opening: Close-up sounds of the watch strap being fastened, followed by a soft click. Text overlay: \"A sound of style & strength.\"]\n\n[Scene: Slow-motion video of the watch under running water. The droplets glisten on the gold dial.]\n\n[Background sound: Gentle rain ambiance mixed with soothing synth music.]\n\n[Scene: Close-up of the digital display switching functions. The smooth mechanical clicks are audible.]\n\nNarrator (whispering): \"Engineered for extremes, the G-SHOCK is your ultimate companion.\"\n\n[Scene: The watch against a backdrop of a sunset, highlighting the black resin strap.]\n\nNarrator (whispering): \"A perfect fusion of elegance and endurance.\"\n\n[Scene: Slow pan across the watch face as the light dances on the surface.]\n\nNarrator (whispering): \"Multifunctional brilliance meets rugged resilience.\"\n\n[Ending: The watch resting on a rock by a flowing stream. Text overlay: \u201cDiscover your edge.\u201d]\n\nCTA: \"Follow the link to feel the power of CASIO G-SHOCK.\""
+        "[Style: Fast-paced/Hype]\n\n[Scene: A dynamic close-up of the BOSCH 368 L Frost Free Double Door Convertible Refrigerator, showcasing its modern black pearl finish]\n[Text overlay: \"Transform Your Kitchen\"]\n\n[Cut to various scenes: A family effortlessly organizing groceries for the week, a couple enjoying the sleek integrated handle, and someone preparing fresh meals with confidence]\nNarrator (energetic voice): \"Upgrade to lasting freshness with BOSCH\u2019s 368 L Frost Free Convertible Refrigerator!\"\n\n[Scene: Close-up of the refrigerator\u2019s stylish design, emphasizing its energy-saving inverter technology and quiet operation]\nNarrator: \"Designed for your modern lifestyle. Spacious. Energy-efficient. Whisper-quiet.\"\n\n[Scene: Highlighting the VitaFresh Technology ensuring food freshness for up to 10 days]\nNarrator: \"Cutting-edge freshness technology keeping your food crisp and delicious.\"\n\n[Scene: Showcasing the intuitive user interface and convertible storage options]\nNarrator: \"Adaptable to your needs with an intuitive experience.\"\n\n[Text overlay: \"Elevate Your Kitchen. Experience BOSCH.\"]\nCTA: \"Order online for free shipping and a seamless installation. Enjoy comprehensive support with our 30-day replacement guarantee!\"",
+        "[Style: UGC style]\n\n[Scene: A busy professional in their kitchen, filming themselves with a smartphone]\n[Text overlay: \"Our Kitchen Essential\"]\n\nPerson (speaking directly to the camera): \"Hi everyone! We\u2019ve embraced innovation with the new BOSCH Refrigerator, and it\u2019s been a lifesaver for our busy household!\"\n\n[Scene: Close-up on the fridge, highlighting its spacious interior and elegant design]\nPerson: \"This fridge fits perfectly into our kitchen and comes packed with features that make life easier!\"\n\n[Scene: Person demonstrating the VitaFresh Technology, convertible storage, and energy-efficient operation]\nPerson: \"Our food stays fresh longer, plus we save on energy bills!\"\n\n[Scene: Quick shots of them organizing groceries, enjoying the quiet operation, and preparing meals]\nPerson: \"It\u2019s efficient, reliable, and a perfect match for our lifestyle.\"\n\n[Text overlay: \"Fresh. Efficient. Adaptable.\"]\nCTA: \"Swipe up to get yours with free shipping. Follow us for modern home tips and updates!\"",
+        "[Style: ASMR/Aesthetic]\n\n[Scene: Close-up of the BOSCH Refrigerator's sleek edges, highlighting the refined black pearl finish]\n[Gentle tapping sound as fingers trace the integrated handle]\n\n[Text overlay: \"A Touch of Elegance\"]\n\n[Scene: Slow motion of the fridge door opening, revealing a beautifully organized and well-lit interior]\nNarrator (soft voice): \"Step into the future of freshness with BOSCH.\"\n\n[Scene: Focus on the VitaFresh Technology and the quiet operation, addressing user needs for consistent performance and minimal noise]\nNarrator: \"Experience peace with even cooling and silent operation.\"\n\n[Scene: The seamless operation of the convertible storage system in a calm, dimly lit kitchen]\nNarrator: \"Versatile storage that adapts to your every need.\"\n\n[Scene: The refrigerator perfectly complementing an urban kitchen setting]\nNarrator: \"Where style meets practicality in your culinary space.\"\n\n[Text overlay: \"Redefine Your Kitchen Experience.\"]\nCTA: \"Explore your kitchen's new centerpiece with effortless installation and a 30-day replacement guarantee. Click to shop and stay informed on the latest innovations!\""
       ]
     },
     "selected_product": {
-      "url": "https://www.flipkart.com/casio-gm-2100-1adr-g-shock-silver-dial-black-resin-strap-analog-digital-watch-men/p/itma84f56e781cd9?pid=WATG79ZPUEPUGQ6J&lid=LSTWATG79ZPUEPUGQ6JNCTDMM&marketplace=FLIPKART&fm=productRecommendation%2Fsimilar&iid=en_YEZFjjixFupY6GcSUFl5AIocNEqbegRtYvsPwW2lQcu8S5B8IvoJOi8TN4Zf4KdT8bPTS6n4sz9SyD6s3NQnGA%3D%3D&ppt=pp&ppn=pp&ssid=foxyhu3jow0000001766057648916&otracker=pp_reco_Similar%2BProducts_4_34.productCard.PMU_HORIZONTAL_CASIO%2BGM-2100-1ADR%2BG-SHOCK%2BSilver%2BDial%2BBlack%2BResin%2BStrap%2BAnalog-Digital%2BWatch%2B%2B-%2BFor%2BMen_-1_productRecommendation%2Fsimilar_3&otracker1=pp_reco_PINNED_productRecommendation%2Fsimilar_Similar%2BProducts_GRID_productCard_cc_4_NA_view-all&cid=-1",
-      "title": "CASIO\u00a0G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men G1159 (GM-2100-1ADR)",
-      "description": "CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men - Buy CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men  G1159 (GM-2100-1ADR) Online at Rs.15995 in India Only at Flipkart.com. Mineral Glass::Neobrite Guard structure::Guard-less Button Structure::Dual Back Cover::Easily replaceable band::Dynamic face action::A bold face design::Easy-to-read display::High-impact design::Easy reading even in the dark::Double LED light::World time (31 time zones (48 cities + coordinated universal time), daylight saving on/off, Home city/World time city swapping)::1/100-second stopwatch::Countdown timer::5 daily alarms::Hourly time signal::Hand shift feature (Hands move out of the way to provide an unobstructed view of digital display contents.)::Full auto-calendar (to year 2099)::12/24-hour format::Button operation tone on/off::Regular timekeeping: Analog: 2 hands (hour, minute (hand moves every 20 seconds)), 1 dial (mode), Digital: Hour, minute, second, pm, month, date, day::Accuracy: 15 seconds per month - Great Discounts, Only Genuine Products, 30 Day Replacement Guarantee, Free Shipping. Cash On Delivery!",
-      "price": "Price not found",
+      "url": "https://www.flipkart.com/bosch-368-l-frost-free-double-door-2-star-convertible-refrigerator-large-led-display-inverter-integrated-handle-vitafresh-technology-10-day-freshness-handle/p/itma4d20b11ba929?pid=RFRHDXSNHZX2DUW7&lid=LSTRFRHDXSNHZX2DUW7V4CRCU&marketplace=FLIPKART&fm=factBasedRecommendation%2FrecentlyViewed&iid=R%3Arv%3Bpt%3App%3Buid%3A96356553-dcad-11f0-9fe6-5b9745e6ccff%3B.RFRHDXSNHZX2DUW7&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Recently%2BViewed_3_42.productCard.RECENTLY_VIEWED_BOSCH%2B368%2BL%2BFrost%2BFree%2BDouble%2BDoor%2B2%2BStar%2BConvertible%2BRefrigerator%2B%2Bwith%2BLarge%2BLED%2BDisplay%252C%2BInverter%2BFrost%2BFree%2B%252C%2BIntegrated%2BHandle%252C%2BVitaFresh%2BTechnology%2Bfor%2B10%2BDay%2BFreshness%252C%2BIntegrated%2BHandle_RFRHDXSNHZX2DUW7_factBasedRecommendation%2FrecentlyViewed_2&otracker1=pp_reco_PINNED_factBasedRecommendation%2FrecentlyViewed_Recently%2BViewed_DESKTOP_HORIZONTAL_productCard_cc_3_NA_view-all&cid=RFRHDXSNHZX2DUW7",
+      "title": "BOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle\u00a0\u00a0(Black pearl, CTC39K22NI)",
+      "description": "Buy BOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle only for Rs. 63790 Free installation, 30 day replacement guarantee with free shipping only at Flipkart.com",
+      "price": "\u20b944,990",
+      "sku": "",
       "images": [
-        "http://rukmini1.flixcart.com/image/300/300/xif0q/watch/p/4/m/-original-imahg62wrkucrfsp.jpeg",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/p/4/m/-original-imahg62wrkucrfsp.jpeg?q=70&crop=false",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/g/5/w/-original-imahg62wbkjegtfp.jpeg?q=70&crop=false",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/s/c/i/-original-imahg62wedjmkhhj.jpeg?q=70&crop=false",
-        "https://rukminim2.flixcart.com/image/128/128/xif0q/watch/b/q/f/-original-imahg62wh5jxwv8h.jpeg?q=70&crop=false"
+        "http://rukmini1.flixcart.com/image/300/300/xif0q/refrigerator-new/1/c/k/-original-imahehyykhzcakp2.jpeg"
       ],
       "is_store": false,
       "products": [],
-      "raw_text": "  CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men - Buy CASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men G1159 (GM-2100-1ADR) Online at Best Prices in India | Flipkart.com        Explore PlusLoginBecome a Seller More CartAdd to cart Buy NowHomeWatchesWrist WatchesCASIO Wrist WatchesCASIO GM-2100-1ADR G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men\nShareCASIO\u00a0G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch  - For Men G1159 (GM-2100-1ADR)\u20b915,994\u20b915,995i4.21,439 ratings and 87 reviewsStrap ColorBlackBrownGoldGreenGreySilverPlease select a Strap Color to proceed\u2715Dial ColorBlackBlueGoldGreenGreySilverPlease select a Dial Color to proceed\u2715Available offersBank Offer5% cashback on Axis Bank Flipkart Debit Card up to \u20b9750T&CBank Offer5% cashback on Flipkart SBI Credit Card upto \u20b94,000 per calendar quarterT&CBank OfferFlat \u20b96000 off on BOBCARD EMI Transactions on orders of \u20b960,000 and aboveT&CCombo OfferBuy 2 items save 5%; Buy 3 save 7%; Buy 4+ save 10%See all productsT&C+16 more offers2 Years All India Manufacturer WarrantyKnow MoreDeliver toCheckDelivery by21 Dec, Sunday?if ordered before 8:03 PMView DetailsServices2 Years All India Manufacturer WarrantyCash on Delivery available?SellerRetailNet4.310 days return policy?GST invoice available?See other sellersProduct DetailsBrandCASIOWatch TypeWrist WatchDisplay TypeAnalog-DigitalIdeal ForMenMechanismQuartzStyle CodeG1159 (GM-2100-1ADR)SeriesG-SHOCK Silver Dial Black Resin StrapOccasionCasualMovementQuartzPack of1Sales Package1 Box::1 Watch::1 Warranty Card With Serial Number::1 Warranty Term Sheet::1 User ManualShock ResistanceYesModel NameGM-2100-1ADRStrap ColorBlackNet Quantity1Watch FeaturesDate DisplayWidth44.4 mmHeight49.3 mmThickness11.8 mmDiameter44.4 mmWeight72 gDomestic Warranty2 YearWarranty Period2 YearsWarranty Service TypeCustomer Needs to Visit the Authorized Service Centre, along with Tax Paid Inv",
+      "raw_text": "  BOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle Online at Best Price in India | Flipkart.com        Explore PlusLoginBecome a Seller More CartAdd to cart Buy NowHomeHome & KitchenHome AppliancesRefrigeratorsBOSCH RefrigeratorsBOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle (Black pearl, CTC39K22NI)\nCompareShareBOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle\u00a0\u00a0(Black pearl, CTC39K22NI)4.2202 Ratings\u00a0&\u00a017 ReviewsSpecial price\u20b944,990\u20b963,79029% offi+ \u20b9206 Protect Promise Fee\u00a0Learn moreSecure delivery by 22 Dec, MondayAvailable offersBank Offer5% cashback on Axis Bank Flipkart Debit Card up to \u20b9750T&CBank Offer5% cashback on Flipkart SBI Credit Card upto \u20b94,000 per calendar quarterT&CBank Offer10% off up to \u20b91,500 on BOBCARD EMI Transactions,  Min Txn Value: \u20b95,000T&CSpecial PriceGet extra 29% offT&CView 12 more offersBuy without Exchange\u20b944,990Buy with Exchangeup to \u20b98,590 offEnter pincode to check if exchange is available1 year comprehensive product warranty + 10 years compressor warrantyKnow MoreDeliveryCheckEnter pincodeDelivery by22 Dec, Monday?if ordered before 3:26 PMInstallation & Demo  by25 Dec, ThursdayView Details Learn more about Flipkart delivery and installation process Watch VideoColorBlack pearlFine SteelSPARKLY STEELSmoky SteelPlease select a Color to proceed\u2715Star Rating2233Please select a Star Rating to proceed\u2715Capacity243 L243 L334 L334 L368 L368 LPlease select a Capacity to proceed\u2715BEE Year2021202120252025Please select a BEE Year to proceed\u2715Highlights368 L : Good for families of 3-5 membersSmart inverter compressor2 Star",
       "downloaded_images": [
-        "/static/scraped_products/-original-imahg62wrkucrfsp_0.jpeg",
-        "/static/scraped_products/-original-imahfskqqdywhghe_1.jpeg",
-        "/static/scraped_products/6-biss-2031-blu-wht-40-bruton-blue-original-imahczyufwkmpeyq_2.jpeg",
-        "/static/scraped_products/xl-kcsh-remm110-ma-fubar-original-imahfkahu9f38ryj_3.jpeg"
+        "/static/scraped_products/og_image.jpg"
       ],
-      "pageScreenshot": "/static/scraped_products/-original-imahg62wrkucrfsp_0.jpeg",
+      "pageScreenshot": "/static/scraped_products/og_image.jpg",
       "current_analysis": {
-        "category": "Wrist Watch",
+        "category": "Refrigerators",
         "features": [
-          "Analog-Digital display",
-          "Silver Dial",
-          "Black Resin Strap",
-          "Mineral Glass",
-          "Neobrite for easy reading in the dark",
-          "Guard structure and Guard-less Button Structure",
-          "Dual Back Cover and easily replaceable band",
-          "High-impact, bold face design",
-          "Double LED light",
-          "World time with 31 time zones",
-          "1/100-second stopwatch",
-          "Countdown timer",
-          "5 daily alarms and hourly time signal",
-          "Hand shift feature for unobstructed view",
-          "Full auto-calendar (to year 2099)",
-          "12/24-hour format",
-          "Shock Resistance",
-          "Quartz Movement",
-          "Water-resistant"
+          "368 L capacity ideal for medium to large households",
+          "Frost Free Double Door Design",
+          "Large LED Display for easy temperature control",
+          "Inverter Technology for energy efficiency",
+          "Integrated Handle for sleek appearance",
+          "VitaFresh Technology to keep food fresh for up to 10 days",
+          "Black Pearl Finish",
+          "Free Installation",
+          "30-Day Replacement Guarantee",
+          "Quiet Operation",
+          "Convertible Feature for flexible storage options",
+          "Efficient Cooling System"
         ],
         "target_audience": {
           "demographics": {
-            "gender": "Men",
-            "age_range": "18-45 years",
-            "income_level": "Middle to upper-middle class",
-            "location": "Urban areas, India"
+            "gender": "All",
+            "age_range": "25-55 years",
+            "income_level": "Middle to High Class",
+            "geographic_location": "Urban Areas"
           },
           "psychographics": {
-            "lifestyle": "Active, adventurous, technology-savvy",
-            "values": "Durability, functionality, style",
-            "interests": "Outdoor activities, sports, gadgets"
+            "lifestyle": "Busy Professionals, Families",
+            "interests": "Modern Home Appliances, Energy Efficiency, Food Freshness",
+            "values": "Convenience, Freshness, Reliability"
           },
           "pain_points": [
-            "Need for durable and reliable watches",
-            "Desire for multifunctional timepieces",
-            "Preference for stylish yet practical accessories"
+            "Need for a refrigerator with sufficient capacity to store family groceries",
+            "Desire for energy-efficient appliances to reduce utility bills",
+            "Preference for features that keep food fresh for extended periods",
+            "Interest in a quiet refrigerator that doesn't disrupt household activities",
+            "Concerns about ease of use and available customer support",
+            "Need for clearer user instructions for the convertible features",
+            "Reports of occasional temperature control issues",
+            "Need for an intuitive user experience to minimize confusion",
+            "Difficulty in navigating customer support channels",
+            "Confusion in accessing support via social media platforms",
+            "Need for better integration with social media for support access"
           ]
         },
         "usps": [
-          "Combination of analog and digital functionalities",
-          "Robust and shock-resistant design",
-          "Advanced timekeeping features including world time and alarms",
-          "Stylish design with practical features like easy readability in the dark"
+          "Large 368 L capacity suitable for family-sized grocery storage",
+          "VitaFresh Technology for superior food freshness up to 10 days",
+          "Convertible design providing versatile storage options",
+          "Energy-efficient operation with inverter technology",
+          "Quiet operation, ensuring minimal disturbance in the home",
+          "Comprehensive customer support with a 30-day replacement guarantee",
+          "Free installation and shipping add value and convenience",
+          "Durable build quality from a reputable brand like BOSCH",
+          "Enhanced user instructions for better ease of use",
+          "Responsive customer support addressing user queries efficiently",
+          "Improved social media support accessibility"
         ],
         "marketing_angles": [
-          "Emphasize the rugged and durable design, ideal for adventure and sports enthusiasts",
-          "Highlight the multifunctionality that caters to the tech-savvy individuals",
-          "Appeal to style-conscious consumers with its bold design"
+          {
+            "angle": "Family-Sized Storage",
+            "emotional_trigger": "Store more with the spacious 368 L capacity"
+          },
+          {
+            "angle": "Freshness Guaranteed",
+            "emotional_trigger": "Keep your groceries fresh for longer with VitaFresh Technology"
+          },
+          {
+            "angle": "Versatile Convenience",
+            "emotional_trigger": "Adapt your fridge to your needs with the convertible feature"
+          },
+          {
+            "angle": "Eco-Friendly Savings",
+            "emotional_trigger": "Save on utilities with energy-efficient inverter technology"
+          },
+          {
+            "angle": "Peaceful Performance",
+            "emotional_trigger": "Enjoy a quieter home with low-noise operation"
+          },
+          {
+            "angle": "Risk-Free Purchase",
+            "emotional_trigger": "Benefit from a 30-day replacement guarantee for peace of mind"
+          },
+          {
+            "angle": "Convenience Delivered",
+            "emotional_trigger": "Experience hassle-free shopping with free delivery and installation"
+          },
+          {
+            "angle": "Durability Assured",
+            "emotional_trigger": "Trust in the lasting quality of BOSCH appliances"
+          },
+          {
+            "angle": "User-Friendly Design",
+            "emotional_trigger": "Effortlessly control your fridge with intuitive instructions and interface"
+          },
+          {
+            "angle": "Customer-Centric Support",
+            "emotional_trigger": "Receive prompt assistance for a seamless experience, now with improved social media support"
+          }
         ],
         "positioning": {
-          "competitive_landscape": "Competes with other rugged and multifunctional watches in the G-SHOCK line and similar brands like Timex Ironman, Suunto, and Garmin",
-          "differentiation": "Offers a unique blend of style, durability, and advanced functionality at a competitive price point"
+          "competitive_landscape": "BOSCH competes with brands like LG, Samsung, and Whirlpool in the high-end refrigerator market.",
+          "differentiation": "Combines large capacity, advanced freshness technology, and energy efficiency with reliable performance and customer support, now with improved user guidance and enhanced online support.",
+          "brand_reputation": "BOSCH is known for delivering high-quality, innovative home appliances. The brand appeals to consumers seeking reliability and performance. User feedback highlights areas for improvement, such as enhancing user manual clarity, addressing occasional temperature control issues, and improving social media support access. BOSCH is committed to continuous product refinement, ensuring a superior user experience through responsive customer support and product updates."
         }
       },
       "current_scripts": [
-        "[Style: Problem/Solution]\n\n[Opening: Fast-paced montage of outdoor activities\u2014hiking, running, biking. Text overlay: \"Tired of watches that can\u2019t keep up?\"]\n\n[Cut to: Close-up of the CASIO\u00a0G-SHOCK Gold Ip Dial Black Resin Strap Watch]\n\nNarrator (V.O.): \"Meet the G-SHOCK GM-110G-1A9DR\u2014a perfect blend of style and durability.\"\n\n[Scene: A man hits the watch intentionally against a rock during a hike. The watch remains unscratched.]\n\nNarrator (V.O.): \"Built for the toughest terrains with shock resistance. Go anywhere, do anything.\"\n\n[Scene: Quick cuts of the watch in different settings\u2014office, gym, night out.]\n\nNarrator (V.O.): \"From boardroom to the wild, its gold dial and sleek resin strap make a statement.\"\n\n[Scene: Close-up of the analog-digital display lighting up.]\n\nNarrator (V.O.): \"Get the best of both worlds with its multifunctional display, perfect for the tech-savvy adventurer.\"\n\n[Ending: User fastening the watch and heading out the door. Text overlay: \u201cReady to conquer? Get yours today!\u201d]\n\nCTA: \"Tap the link to elevate your adventure with CASIO G-SHOCK.\"",
-        "[Style: UGC Style]\n\n[Opening: Selfie-style video of a man holding the CASIO G-SHOCK watch. Text overlay: \"You won't believe what this can do!\"]\n\nMan: \"Hey guys! Just got my new G-SHOCK, and it's a game-changer!\"\n\n[Scene: Man showcasing the gold dial under different lighting. Close-up shots of the watch catching the light.]\n\nMan: \"Check out this gold dial. Super stylish, right?\"\n\n[Scene: Cut to the man jogging outdoors, showing the watch on his wrist as he moves.]\n\nMan: \"But it's not just about looks. This thing is TOUGH. I\u2019ve already put it through some serious tests!\"\n\n[Scene: Quick cuts of the watch facing splashes of water, dust, and knocks.]\n\nMan: \"Shock resistant and ready for anything. And the best part? It\u2019s both analog and digital. Perfect for my busy lifestyle.\"\n\n[Ending: The man gives a thumbs-up to the camera. Text overlay: \u201cWhy wait? Join the G-SHOCK family today!\u201d]\n\nCTA: \"Swipe up to get yours now!\"",
-        "[Style: ASMR/Aesthetic]\n\n[Opening: Close-up sounds of the watch strap being fastened, followed by a soft click. Text overlay: \"A sound of style & strength.\"]\n\n[Scene: Slow-motion video of the watch under running water. The droplets glisten on the gold dial.]\n\n[Background sound: Gentle rain ambiance mixed with soothing synth music.]\n\n[Scene: Close-up of the digital display switching functions. The smooth mechanical clicks are audible.]\n\nNarrator (whispering): \"Engineered for extremes, the G-SHOCK is your ultimate companion.\"\n\n[Scene: The watch against a backdrop of a sunset, highlighting the black resin strap.]\n\nNarrator (whispering): \"A perfect fusion of elegance and endurance.\"\n\n[Scene: Slow pan across the watch face as the light dances on the surface.]\n\nNarrator (whispering): \"Multifunctional brilliance meets rugged resilience.\"\n\n[Ending: The watch resting on a rock by a flowing stream. Text overlay: \u201cDiscover your edge.\u201d]\n\nCTA: \"Follow the link to feel the power of CASIO G-SHOCK.\""
+        "[Style: Fast-paced/Hype]\n\n[Scene: A dynamic close-up of the BOSCH 368 L Frost Free Double Door Convertible Refrigerator, showcasing its modern black pearl finish]\n[Text overlay: \"Elevate Your Kitchen Experience\"]\n\n[Cut to various scenes: A family effortlessly organizing groceries for the week, a couple admiring the sleek integrated handle, and someone preparing fresh meals with confidence]\nNarrator (energetic voice): \"Revolutionize your kitchen with the BOSCH 368 L Frost Free Convertible Refrigerator!\"\n\n[Scene: Close-up of the refrigerator\u2019s stylish design, emphasizing its energy-saving inverter technology and whisper-quiet operation]\nNarrator: \"Crafted for today\u2019s lifestyle. Energy-efficient, spacious, and quietly powerful.\"\n\n[Scene: Highlighting the VitaFresh Technology ensuring food freshness for up to 10 days]\nNarrator: \"Keep your food crisp longer with state-of-the-art freshness technology.\"\n\n[Scene: Showcasing the intuitive user interface and convertible storage options]\nNarrator: \"Versatile and easy to use, adapting to your every need seamlessly.\"\n\n[Scene: Brief demonstration of the easy-to-navigate temperature controls]\nNarrator: \"Experience ultimate control with intuitive settings.\"\n\n[Text overlay: \"Discover the BOSCH Difference\"]\nCTA: \"Order online for free shipping and hassle-free installation. Enjoy peace of mind with our 30-day replacement guarantee and responsive customer support!\"",
+        "[Style: UGC style]\n\n[Scene: A busy professional in their kitchen, filming themselves with a smartphone]\n[Text overlay: \"Your Kitchen's New Best Friend\"]\n\nPerson (speaking directly to the camera): \"Hey there! We've upgraded our kitchen with the BOSCH Refrigerator\u2014it's a real game-changer for our busy household!\"\n\n[Scene: Close-up on the fridge, highlighting its spacious interior and elegant design]\nPerson: \"This fridge fits perfectly in our kitchen, with features that simplify life.\"\n\n[Scene: Person demonstrating the VitaFresh Technology, convertible storage, and energy-efficient operation]\nPerson: \"Our food stays fresher longer, and we're saving on energy bills too!\"\n\n[Scene: Quick shots of them organizing groceries, enjoying the quiet operation, and preparing meals]\nPerson: \"Efficient, reliable, and just what our lifestyle needed.\"\n\n[Scene: Person highlighting the easy customer support access via smartphone]\nPerson: \"And if you need help, BOSCH's support is just a call or click away!\"\n\n[Text overlay: \"Fresh. Efficient. Adaptable.\"]\nCTA: \"Swipe up to get yours with free shipping. Follow us for modern home tips and stay connected with easy-to-follow instructions!\"",
+        "[Style: ASMR/Aesthetic]\n\n[Scene: Close-up of the BOSCH Refrigerator's sleek edges, highlighting the refined black pearl finish]\n[Gentle tapping sound as fingers trace the integrated handle]\n\n[Text overlay: \"A Symphony of Elegance\"]\n\n[Scene: Slow motion of the fridge door opening, revealing a beautifully organized and well-lit interior]\nNarrator (soft voice): \"Step into the future of freshness with BOSCH.\"\n\n[Scene: Focus on the VitaFresh Technology and the quiet operation, meeting user needs for consistent performance and minimal noise]\nNarrator: \"Enjoy serenity with even cooling and silent operation.\"\n\n[Scene: The seamless operation of the convertible storage system in a calm, dimly lit kitchen]\nNarrator: \"Adaptable storage that meets your every need effortlessly.\"\n\n[Scene: Gentle demonstration of the intuitive user interface and temperature controls]\nNarrator: \"Experience effortless ease with intuitive control.\"\n\n[Scene: The refrigerator perfectly complementing an urban kitchen setting]\nNarrator: \"Where style meets functionality in your culinary space.\"\n\n[Text overlay: \"Redefine Your Kitchen Experience.\"]\nCTA: \"Explore your kitchen's new centerpiece with effortless installation and a 30-day replacement guarantee. Click to shop and benefit from unparalleled customer support!\""
       ]
     },
     "analysis": {
-      "category": "Wrist Watch",
+      "category": "Refrigerators",
       "features": [
-        "Analog-Digital Display",
-        "Shock Resistant",
-        "Mineral Glass",
-        "Neobrite Guard Structure",
-        "Dual Back Cover",
-        "Easily Replaceable Band",
-        "Dynamic Face Design",
-        "Double LED Light",
-        "World Time (31 time zones, 48 cities)",
-        "1/100-second Stopwatch",
-        "Countdown Timer",
-        "5 Daily Alarms",
-        "Hourly Time Signal",
-        "Hand Shift Feature",
-        "Full Auto-Calendar (to year 2099)",
-        "12/24-hour Format",
-        "Button Operation Tone On/Off",
-        "Water Resistant",
-        "Quartz Movement"
+        "368 L capacity ideal for medium to large households",
+        "Frost Free Double Door Design",
+        "Large LED Display for easy temperature control",
+        "Inverter Technology for energy efficiency",
+        "Integrated Handle for sleek appearance",
+        "VitaFresh Technology to keep food fresh for up to 10 days",
+        "Black Pearl Finish",
+        "Free Installation",
+        "30-Day Replacement Guarantee",
+        "Quiet Operation",
+        "Convertible Feature for flexible storage options",
+        "Efficient Cooling System"
       ],
       "target_audience": {
         "demographics": {
-          "gender": "Male",
-          "age_range": "18-45 years",
-          "income_level": "Middle to Upper-Middle Class",
-          "geographic_location": "Urban areas in India"
+          "gender": "All",
+          "age_range": "25-55 years",
+          "income_level": "Middle to High Class",
+          "geographic_location": "Urban Areas"
         },
         "psychographics": {
-          "lifestyle": "Active, Tech-Savvy",
-          "interests": "Outdoor Activities, Sports, Gadgets",
-          "values": "Durability, Functionality, Style"
+          "lifestyle": "Busy Professionals, Families",
+          "interests": "Modern Home Appliances, Energy Efficiency, Food Freshness",
+          "values": "Convenience, Freshness, Reliability"
         },
         "pain_points": [
-          "Need for a rugged and durable watch",
-          "Desire for modern and versatile timekeeping",
-          "Preference for a watch that combines style with functionality"
+          "Need for a refrigerator with sufficient capacity to store family groceries",
+          "Desire for energy-efficient appliances to reduce utility bills",
+          "Preference for features that keep food fresh for extended periods",
+          "Interest in a quiet refrigerator that doesn't disrupt household activities",
+          "Concerns about ease of use and available customer support",
+          "Need for clearer user instructions for the convertible features",
+          "Reports of occasional temperature control issues",
+          "Need for an intuitive user experience to minimize confusion",
+          "Difficulty in navigating customer support channels",
+          "Confusion in accessing support via social media platforms",
+          "Need for better integration with social media for support access"
         ]
       },
       "usps": [
-        "High-impact design with shock resistance",
-        "Combination of analog and digital displays for versatility",
-        "Multiple timekeeping features for global travelers",
-        "Durable and stylish with easily replaceable band"
+        "Large 368 L capacity suitable for family-sized grocery storage",
+        "VitaFresh Technology for superior food freshness up to 10 days",
+        "Convertible design providing versatile storage options",
+        "Energy-efficient operation with inverter technology",
+        "Quiet operation, ensuring minimal disturbance in the home",
+        "Comprehensive customer support with a 30-day replacement guarantee",
+        "Free installation and shipping add value and convenience",
+        "Durable build quality from a reputable brand like BOSCH",
+        "Enhanced user instructions for better ease of use",
+        "Responsive customer support addressing user queries efficiently",
+        "Improved social media support accessibility"
       ],
       "marketing_angles": [
         {
-          "angle": "Durability",
-          "emotional_trigger": "Reliability in all environments and conditions"
+          "angle": "Family-Sized Storage",
+          "emotional_trigger": "Store more with the spacious 368 L capacity"
         },
         {
-          "angle": "Style",
-          "emotional_trigger": "Confidence and boldness in appearance"
+          "angle": "Freshness Guaranteed",
+          "emotional_trigger": "Keep your groceries fresh for longer with VitaFresh Technology"
         },
         {
-          "angle": "Functionality",
-          "emotional_trigger": "Empowerment through advanced features"
+          "angle": "Versatile Convenience",
+          "emotional_trigger": "Adapt your fridge to your needs with the convertible feature"
         },
         {
-          "angle": "Innovation",
-          "emotional_trigger": "Owning the latest in timekeeping technology"
+          "angle": "Eco-Friendly Savings",
+          "emotional_trigger": "Save on utilities with energy-efficient inverter technology"
+        },
+        {
+          "angle": "Peaceful Performance",
+          "emotional_trigger": "Enjoy a quieter home with low-noise operation"
+        },
+        {
+          "angle": "Risk-Free Purchase",
+          "emotional_trigger": "Benefit from a 30-day replacement guarantee for peace of mind"
+        },
+        {
+          "angle": "Convenience Delivered",
+          "emotional_trigger": "Experience hassle-free shopping with free delivery and installation"
+        },
+        {
+          "angle": "Durability Assured",
+          "emotional_trigger": "Trust in the lasting quality of BOSCH appliances"
+        },
+        {
+          "angle": "User-Friendly Design",
+          "emotional_trigger": "Effortlessly control your fridge with intuitive instructions and interface"
+        },
+        {
+          "angle": "Customer-Centric Support",
+          "emotional_trigger": "Receive prompt assistance for a seamless experience, now with improved social media support"
         }
       ],
       "positioning": {
-        "competitive_landscape": "The CASIO G-SHOCK series competes with other rugged watch brands like Timex Ironman and Suunto.",
-        "differentiation": "Emphasizes a combination of shock resistance and stylish design, appealing to both functionality and fashion-forward consumers.",
-        "brand_reputation": "Leveraging CASIO's long-standing reputation for durability and innovation in timepieces."
+        "competitive_landscape": "BOSCH competes with brands like LG, Samsung, and Whirlpool in the high-end refrigerator market.",
+        "differentiation": "Combines large capacity, advanced freshness technology, and energy efficiency with reliable performance and customer support, now with improved user guidance and enhanced online support.",
+        "brand_reputation": "BOSCH is known for delivering high-quality, innovative home appliances. The brand appeals to consumers seeking reliability and performance. User feedback highlights the need for clearer instructions and more effective customer support channels, especially on social media. BOSCH is committed to addressing these issues to enhance user experience through ongoing product updates and responsive service."
       }
     },
-    "analysis_feedback": [],
-    "scripts": [
-      "[Style: Fast-paced/Hype]\n\n[Scene: A hiker atop a rugged mountain, sunrise in the background]\n[Text overlay: \"Conquer every peak\"]\n\n[Cut to close-up of the G-SHOCK watch]\nNarrator (energetic voice): \"Meet your ultimate adventure partner\u2014the G-SHOCK Silver Dial Watch!\"\n\n[Scene: Quick cuts of a cyclist, a climber, and a runner, all wearing the watch]\nNarrator: \"Built tough for the thrill-seeker in you. Shock-resistant. Adventure-ready.\"\n\n[Scene: Close-up of the watch face, lights illuminating in the dark]\nNarrator: \"Analog and digital fusion. Advanced features like world time and alarms\u2014because you\u2019re always on the move.\"\n\n[Scene: The watch submerged in water]\nNarrator: \"Style meets endurance. Feel the power of durability.\"\n\n[Text overlay: \"Explore More. G-SHOCK. Shop Now.\"]\nCTA: \"Click the link to gear up for your next adventure!\"",
-      "[Style: UGC style]\n\n[Scene: A young man in his urban apartment, filming himself with a smartphone]\n[Text overlay: \"Why I love my G-SHOCK\"]\n\nGuy (speaking directly to the camera): \"Hey guys, I just got my G-SHOCK Silver Dial, and it\u2019s insane!\"\n\n[Scene: Close-up on the watch as he shows it to the camera]\nGuy: \"Check this out\u2014analog and digital in one. Perfect for keeping track of multiple time zones when I travel.\"\n\n[Scene: Guy demonstrating setting an alarm on the watch]\nGuy: \"And setting alarms? A breeze. This watch is made for the tech-savvy, like us!\"\n\n[Scene: Quick shots of the watch in the gym, on a bike, and at a coffee shop]\nGuy: \"Whether I'm at the gym or just grabbing coffee, it fits every part of my life.\"\n\n[Text overlay: \"Stylish. Durable. Essential.\"]\nCTA: \"Swipe up to make it yours!\"",
-      "[Style: ASMR/Aesthetic]\n\n[Scene: Close-up of the watch resting on a sleek wooden table]\n[Gentle tapping sound as fingers run over the watch]\n\n[Text overlay: \"Listen to the strength\"]\n\n[Scene: Slow motion of the watch being picked up and worn]\nNarrator (soft voice): \"Feel the power of resilience. The G-SHOCK Silver Dial.\"\n\n[Scene: Transition to the watch under water, bubbles rising]\nNarrator: \"Robust design meets elegant style. Shock-resistant for your every move.\"\n\n[Scene: Watch glowing in a dimly lit room]\nNarrator: \"See the world\u2014anywhere, anytime.\"\n\n[Scene: Watch against a backdrop of city lights at night]\nNarrator: \"For the style-conscious, tech-savvy man.\"\n\n[Text overlay: \"Elevate your wrist game.\"]\nCTA: \"Discover more. Tap to shop now.\""
+    "analysis_feedback": [
+      "https://www.flipkart.com/doctor-extra-soft-running-shoes-men/p/itmab75f7927390d?pid=SHOH7SF7GHAZHGFH&lid=LSTSHOH7SF7GHAZHGFHM4ZCN5&marketplace=FLIPKART&store=osp%2Fcil%2F1cu&srno=b_1_2&otracker=browse&fm=productRecommendation%2Fsimilar&iid=en_VQtadJTNcwSBIyQpaM-WH5TGjKCxLoSjmmxnMfMbWWis8xnZlv-S6Z5MMxoJsSBQN0JGPDRD8XuNxyxWvudPWg%3D%3D&ppt=browse&ppn=browse&ssid=wuctzyzo9c0000001766063867959",
+      "https://www.flipkart.com/doctor-extra-soft-running-shoes-men/p/itmab75f7927390d?pid=SHOH7SF7GHAZHGFH&lid=LSTSHOH7SF7GHAZHGFHM4ZCN5&marketplace=FLIPKART&store=osp%2Fcil%2F1cu&srno=b_1_2&otracker=browse&fm=productRecommendation%2Fsimilar&iid=en_VQtadJTNcwSBIyQpaM-WH5TGjKCxLoSjmmxnMfMbWWis8xnZlv-S6Z5MMxoJsSBQN0JGPDRD8XuNxyxWvudPWg%3D%3D&ppt=browse&ppn=browse&ssid=wuctzyzo9c0000001766063867959",
+      "connect facebook ads",
+      "connect facebook ads",
+      "connect facebook ads",
+      "connect facebook ads",
+      "publish ads",
+      "publish ads",
+      "EAAQeYqt2zH4BQIggY9R7XOKdRTgRZAk6Rr7Cucosa6v8q3UotksWgaDfPeBZBkAj7d9RZCtwo3QopJ25uz46TYIdr1SiamMawYcXpYKfwTqirmGUZCitIZBJFNKZCeigTjtWaYLZBrrmtfX30J3yX7qUypZBv3Mdl7URnVHkrOrIN83PMXc5pOKjgFlvscab4XsTPyWrJZADqFZBhz4KZAFCvHTKzXFa1INbpGDfiKfykavPYTfnEZBe0pFuRMk9vxjWB7SHp1C0z8W896ik40EAI5oWmcX92VrC",
+      "EAAQeYqt2zH4BQIggY9R7XOKdRTgRZAk6Rr7Cucosa6v8q3UotksWgaDfPeBZBkAj7d9RZCtwo3QopJ25uz46TYIdr1SiamMawYcXpYKfwTqirmGUZCitIZBJFNKZCeigTjtWaYLZBrrmtfX30J3yX7qUypZBv3Mdl7URnVHkrOrIN83PMXc5pOKjgFlvscab4XsTPyWrJZADqFZBhz4KZAFCvHTKzXFa1INbpGDfiKfykavPYTfnEZBe0pFuRMk9vxjWB7SHp1C0z8W896ik40EAI5oWmcX92VrC",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "1",
+      "1",
+      "1"
     ],
-    "script_feedback": [],
+    "scripts": [
+      "[Style: Fast-paced/Hype]\n\n[Scene: A dynamic close-up of the BOSCH 368 L Frost Free Double Door Convertible Refrigerator, showcasing its modern black pearl finish]\n[Text overlay: \"Elevate Your Kitchen Experience\"]\n\n[Cut to various scenes: A family effortlessly organizing groceries for the week, a couple admiring the sleek integrated handle, and someone preparing fresh meals with confidence]\nNarrator (energetic voice): \"Revolutionize your kitchen with the BOSCH 368 L Frost Free Convertible Refrigerator!\"\n\n[Scene: Close-up of the refrigerator\u2019s stylish design, emphasizing its energy-saving inverter technology and whisper-quiet operation]\nNarrator: \"Crafted for today\u2019s lifestyle\u2014energy-efficient, spacious, and quieter than a whisper.\"\n\n[Scene: Highlighting the VitaFresh Technology ensuring food freshness for up to 10 days]\nNarrator: \"Keep your food crisp longer with state-of-the-art freshness technology.\"\n\n[Scene: Showcasing the intuitive user interface and convertible storage options]\nNarrator: \"Versatile and easy to use, adapting to your every need seamlessly.\"\n\n[Scene: Brief demonstration of the easy-to-navigate temperature controls]\nNarrator: \"Experience ultimate control with intuitive settings.\"\n\n[Scene: Quick shot of a customer service interaction on a smartphone, highlighting ease of access]\nNarrator: \"And with customer support just a tap away, assistance is always at your fingertips.\"\n\n[Text overlay: \"Discover the BOSCH Difference\"]\nCTA: \"Order online for free shipping and hassle-free installation. Enjoy peace of mind with our 30-day replacement guarantee and responsive customer support!\"",
+      "[Style: UGC style]\n\n[Scene: A busy professional in their kitchen, filming themselves with a smartphone]\n[Text overlay: \"Your Kitchen's New Best Friend\"]\n\nPerson (speaking directly to the camera): \"Hey there! We've upgraded our kitchen with the BOSCH Refrigerator\u2014it's a real game-changer for our busy household!\"\n\n[Scene: Close-up on the fridge, highlighting its spacious interior and elegant design]\nPerson: \"This fridge fits perfectly in our kitchen, with features that simplify life.\"\n\n[Scene: Person demonstrating the VitaFresh Technology, convertible storage, and energy-efficient operation]\nPerson: \"Our food stays fresher longer, and we're saving on energy bills too!\"\n\n[Scene: Quick shots of them organizing groceries, enjoying the quiet operation, and preparing meals]\nPerson: \"Efficient, reliable, and remarkably quiet\u2014just what our lifestyle needed.\"\n\n[Scene: Person highlighting the easy customer support access via smartphone]\nPerson: \"And if you need help, BOSCH's support is just a call or click away, super simple!\"\n\n[Text overlay: \"Fresh. Efficient. Adaptable.\"]\nCTA: \"Swipe up to get yours with free shipping. Follow us for modern home tips and stay connected with easy-to-follow instructions!\"",
+      "[Style: ASMR/Aesthetic]\n\n[Scene: Close-up of the BOSCH Refrigerator's sleek edges, highlighting the refined black pearl finish]\n[Gentle tapping sound as fingers trace the integrated handle]\n\n[Text overlay: \"A Symphony of Elegance\"]\n\n[Scene: Slow motion of the fridge door opening, revealing a beautifully organized and well-lit interior]\nNarrator (soft voice): \"Step into the future of freshness with BOSCH.\"\n\n[Scene: Focus on the VitaFresh Technology ensuring food freshness and the whisper-quiet operation]\nNarrator: \"Enjoy serenity with even cooling and virtually silent operation.\"\n\n[Scene: The seamless operation of the convertible storage system in a calm, dimly lit kitchen]\nNarrator: \"Adaptable storage that meets your every need effortlessly.\"\n\n[Scene: Gentle demonstration of the intuitive user interface and temperature controls]\nNarrator: \"Experience effortless ease with intuitive control.\"\n\n[Scene: A quick shot of a user easily accessing customer support through their smartphone]\nNarrator: \"Assistance is just a touch away, ensuring peace of mind.\"\n\n[Scene: The refrigerator perfectly complementing an urban kitchen setting]\nNarrator: \"Where style meets functionality in your culinary space.\"\n\n[Text overlay: \"Redefine Your Kitchen Experience.\"]\nCTA: \"Explore your kitchen's new centerpiece with effortless installation and a 30-day replacement guarantee. Click to shop and benefit from unparalleled customer support!\""
+    ],
+    "script_feedback": [
+      "https://www.flipkart.com/doctor-extra-soft-running-shoes-men/p/itmab75f7927390d?pid=SHOH7SF7GHAZHGFH&lid=LSTSHOH7SF7GHAZHGFHM4ZCN5&marketplace=FLIPKART&store=osp%2Fcil%2F1cu&srno=b_1_2&otracker=browse&fm=productRecommendation%2Fsimilar&iid=en_VQtadJTNcwSBIyQpaM-WH5TGjKCxLoSjmmxnMfMbWWis8xnZlv-S6Z5MMxoJsSBQN0JGPDRD8XuNxyxWvudPWg%3D%3D&ppt=browse&ppn=browse&ssid=wuctzyzo9c0000001766063867959",
+      "connect facebook ads",
+      "connect facebook ads",
+      "publish ads",
+      "EAAQeYqt2zH4BQIggY9R7XOKdRTgRZAk6Rr7Cucosa6v8q3UotksWgaDfPeBZBkAj7d9RZCtwo3QopJ25uz46TYIdr1SiamMawYcXpYKfwTqirmGUZCitIZBJFNKZCeigTjtWaYLZBrrmtfX30J3yX7qUypZBv3Mdl7URnVHkrOrIN83PMXc5pOKjgFlvscab4XsTPyWrJZADqFZBhz4KZAFCvHTKzXFa1INbpGDfiKfykavPYTfnEZBe0pFuRMk9vxjWB7SHp1C0z8W896ik40EAI5oWmcX92VrC",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "choose another facebook account",
+      "1"
+    ],
     "selected_script_index": 1,
-    "selected_script": "[Style: UGC style]\n\n[Scene: A young man in his urban apartment, filming himself with a smartphone]\n[Text overlay: \"Why I love my G-SHOCK\"]\n\nGuy (speaking directly to the camera): \"Hey guys, I just got my G-SHOCK Silver Dial, and it\u2019s insane!\"\n\n[Scene: Close-up on the watch as he shows it to the camera]\nGuy: \"Check this out\u2014analog and digital in one. Perfect for keeping track of multiple time zones when I travel.\"\n\n[Scene: Guy demonstrating setting an alarm on the watch]\nGuy: \"And setting alarms? A breeze. This watch is made for the tech-savvy, like us!\"\n\n[Scene: Quick shots of the watch in the gym, on a bike, and at a coffee shop]\nGuy: \"Whether I'm at the gym or just grabbing coffee, it fits every part of my life.\"\n\n[Text overlay: \"Stylish. Durable. Essential.\"]\nCTA: \"Swipe up to make it yours!\"",
+    "selected_script": "[Style: UGC style]\n\n[Scene: A busy professional in their kitchen, filming themselves with a smartphone]\n[Text overlay: \"Your Kitchen's New Best Friend\"]\n\nPerson (speaking directly to the camera): \"Hey there! We've upgraded our kitchen with the BOSCH Refrigerator\u2014it's a real game-changer for our busy household!\"\n\n[Scene: Close-up on the fridge, highlighting its spacious interior and elegant design]\nPerson: \"This fridge fits perfectly in our kitchen, with features that simplify life.\"\n\n[Scene: Person demonstrating the VitaFresh Technology, convertible storage, and energy-efficient operation]\nPerson: \"Our food stays fresher longer, and we're saving on energy bills too!\"\n\n[Scene: Quick shots of them organizing groceries, enjoying the quiet operation, and preparing meals]\nPerson: \"Efficient, reliable, and remarkably quiet\u2014just what our lifestyle needed.\"\n\n[Scene: Person highlighting the easy customer support access via smartphone]\nPerson: \"And if you need help, BOSCH's support is just a call or click away, super simple!\"\n\n[Text overlay: \"Fresh. Efficient. Adaptable.\"]\nCTA: \"Swipe up to get yours with free shipping. Follow us for modern home tips and stay connected with easy-to-follow instructions!\"",
     "script_refinement_feedback": [],
     "generated_images": [
-      "/static/generated_images/ad_creative_9bf5a6ec-a916-43f1-8092-f18b6668c4c0.png",
-      "/static/generated_images/ad_creative_c66b2c4d-ce84-47a1-ab90-dedc82452ebd.png"
+      "/static/generated_images/ad_creative_ea2d09c7-5e60-4525-a029-d71573e2790a.png",
+      "/static/generated_images/ad_creative_101af71f-68e8-446a-89a2-0717dc255436.png"
     ],
-    "image_feedback": [],
-    "image_generation_prompt": "Create an image for a professional commercial advertisement featuring the CASIO G-SHOCK Silver Dial Black Resin Strap Analog-Digital Watch for Men (GM-2100-1ADR). The setting is a high-rise urban apartment with a panoramic view of a bustling cityscape, symbolizing an active and tech-savvy lifestyle. The focal point is the watch, elegantly showcased on the wrist of a young man in his mid-20s, who exudes confidence and style. The man is dressed in casual yet trendy attire, suggesting a blend of ruggedness and sophistication.\n\nThe watch is prominently displayed in a close-up shot, highlighting its silver dial, black resin strap, and the intricate details of its analog-digital interface. The double LED light feature is subtly emphasized, casting a soft and sophisticated glow over the watch face, enhancing its readability and highlighting its functionality even in dim lighting. The background is softly blurred to keep the attention on the watch, with the city lights in the distance adding depth and a sense of innovation and modernity.\n\nThe lighting is warm and dynamic, creating a high-impact and stylish mood that aligns with the themes of durability, style, functionality, and innovation. The overall composition is clean and minimalistic, with a premium commercial photography style that appeals to the target audience's sense of empowerment and desire for the latest in timekeeping technology.\n\nInclude subtle text overlays with phrases such as \"Durability Meets Style,\" \"Empower Your Time,\" and \"Innovation on Your Wrist\" to reinforce the product's key marketing angles and emotional triggers.",
+    "image_feedback": [
+      "https://www.flipkart.com/doctor-extra-soft-running-shoes-men/p/itmab75f7927390d?pid=SHOH7SF7GHAZHGFH&lid=LSTSHOH7SF7GHAZHGFHM4ZCN5&marketplace=FLIPKART&store=osp%2Fcil%2F1cu&srno=b_1_2&otracker=browse&fm=productRecommendation%2Fsimilar&iid=en_VQtadJTNcwSBIyQpaM-WH5TGjKCxLoSjmmxnMfMbWWis8xnZlv-S6Z5MMxoJsSBQN0JGPDRD8XuNxyxWvudPWg%3D%3D&ppt=browse&ppn=browse&ssid=wuctzyzo9c0000001766063867959",
+      "connect facebook ads",
+      "publish ads",
+      "EAAQeYqt2zH4BQIggY9R7XOKdRTgRZAk6Rr7Cucosa6v8q3UotksWgaDfPeBZBkAj7d9RZCtwo3QopJ25uz46TYIdr1SiamMawYcXpYKfwTqirmGUZCitIZBJFNKZCeigTjtWaYLZBrrmtfX30J3yX7qUypZBv3Mdl7URnVHkrOrIN83PMXc5pOKjgFlvscab4XsTPyWrJZADqFZBhz4KZAFCvHTKzXFa1INbpGDfiKfykavPYTfnEZBe0pFuRMk9vxjWB7SHp1C0z8W896ik40EAI5oWmcX92VrC",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
+      "1",
+      "1"
+    ],
+    "image_generation_prompt": "**Image Generation Prompt:**\n\n**Title: \"Elevate Your Kitchen Experience with BOSCH\"**\n\n**Setting:** A sleek, modern kitchen with a minimalist design, featuring clean lines and a neutral color palette. The kitchen is well-lit with natural light streaming in from a large window, creating a warm and inviting atmosphere. The BOSCH 368 L Frost Free Double Door Refrigerator is prominently placed as the focal point, positioned against a pristine white wall to accentuate its elegant Black Pearl finish.\n\n**Composition:** The refrigerator is centrally positioned in the frame, slightly angled to showcase both its integrated handle and the Large LED Display. The door of the refrigerator is partially open, revealing the organized, spacious interior that highlights the VitaFresh Technology features, such as fresh fruits and vegetables that appear crisp and vibrant.\n\n**Style:** The advertisement carries a contemporary, high-end aesthetic, reflecting the premium quality and innovative technology of the BOSCH refrigerator. The setting is styled to suggest a sophisticated yet approachable lifestyle, resonating with busy professionals and modern families.\n\n**Lighting:** Soft, diffused lighting enhances the texture and color of the refrigerator, casting subtle reflections on its surface. The natural light complements the artificial lighting inside the refrigerator, which emits a gentle, inviting glow, emphasizing the product's features and functionality.\n\n**Mood:** The overall mood is one of elegance and efficiency, conveying the message that the BOSCH refrigerator is both a stylish addition to any kitchen and a practical solution for maintaining freshness. The atmosphere should evoke feelings of trust, reliability, and modern luxury.\n\n**Text Overlay:** Positioned at the top and bottom of the image in a sleek, modern font. Top text reads: \"Your Kitchen's New Best Friend,\" and bottom text reads: \"BOSCH 368 L Frost Free Refrigerator - Where Style Meets Functionality.\"\n\n**Product Focus:** The image should ensure that the refrigerator remains the main focus, with all elements of the composition working to draw attention to its cutting-edge features and design.",
     "audio_file": "static/audio/generated_audio_1.mp3",
     "audio_url": "/static/audio/generated_audio_1.mp3",
     "available_avatars": [
@@ -14738,22 +14976,51 @@
         "default_voice_id": null
       }
     ],
-    "selected_avatar_id": "Amanda_in_Blue_Shirt_Left",
-    "video_id": "02845389ab5a4b33a0dd2dcaa79bf4fc",
+    "selected_avatar_id": "Adriana_Business_Front_public",
+    "video_id": "90951798413a4cd5a83f87b563a50440",
     "video_url": null,
     "video_status": "pending",
     "error": null,
     "iteration_count": {
-      "scrape": 4,
-      "analyze": 15,
-      "generate_scripts": 12,
-      "generate_images": 12,
+      "scrape": 14,
+      "analyze": 58,
+      "generate_scripts": 28,
+      "generate_images": 22,
       "generate_audio": 2,
-      "generate_video": 11
+      "generate_video": 43
     },
+    "facebook_access_token": "EAAQeYqt2zH4BQJOAN57c7m8V2ROJyhr4pzKyx1ZBOv0JHphJzm0WCdH6MO9U5D6cCmjFz6dHuVgeszUSI9ZAaoSkZCMBd6T4awD0KMOwjEKbg1IUhdZBTL8Q2ayIa4N6fsesml083Lj59Ntoe1iYia3a5CJexVn17I29Qo37xzViObWmZCBFPhkykiTknfZBqZCagZCYWVOiipQZBooqkmdqbwig80ZCnjL050akwz3wI50QZAXEkL9a59EMxzs8q7UBihULZB1SgqdNoHS3eILEnhwF3WHtRKpecgZDZD",
+    "facebook_user_id": "3690463941089445",
+    "ad_accounts": [
+      {
+        "id": "act_1324697116076599",
+        "name": "CH Shoes Shop",
+        "account_status": "ACTIVE",
+        "currency": "INR",
+        "timezone_name": "Asia/Kolkata",
+        "status_code": 1
+      },
+      {
+        "id": "act_1506815553902348",
+        "name": "Chandan Kumar Gupta",
+        "account_status": "INACTIVE",
+        "currency": "INR",
+        "timezone_name": "Asia/Kolkata",
+        "status_code": 3
+      },
+      {
+        "id": "act_1474982116977652",
+        "name": "ADS-ADX_SG_071025_EST_USD_035",
+        "account_status": "ACTIVE",
+        "currency": "USD",
+        "timezone_name": "EST",
+        "status_code": 1
+      }
+    ],
+    "selected_ad_account_id": "act_1474982116977652",
     "selected_media": {
       "type": "image",
-      "url": "/static/generated_images/ad_creative_9bf5a6ec-a916-43f1-8092-f18b6668c4c0.png"
+      "url": "/static/generated_images/ad_creative_101af71f-68e8-446a-89a2-0717dc255436.png"
     }
   }
 }
