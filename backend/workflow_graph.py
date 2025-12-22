@@ -346,6 +346,11 @@ class AdCampaignWorkflow:
         if not analysis:
             state["error"] = "No analysis available. Please analyze product first."
             return state
+
+        # CHECK FOR EXISTING DATA: If scripts already exist, don't regenerate
+        if state.get("scripts") and len(state.get("scripts")) > 0:
+            print("DEBUG: Scripts already exist, skipping regeneration.")
+            return state
         
         # Get feedback history
         feedback_history = state.get("script_feedback", [])
@@ -464,6 +469,19 @@ class AdCampaignWorkflow:
         if not selected_script:
             state["error"] = "No script selected. Please select a script first."
             return state
+
+        # CHECK FOR EXISTING DATA: If images already exist, don't regenerate
+        # Unless refinement is explicitly requested (checked by verifying if we are in refine_images or receiving new feedback)
+        # For now, strict check: if images exist in state, return them.
+        existing_images = state.get("generated_images", [])
+        if existing_images and len(existing_images) > 0:
+             # Check if this is a refinement step or just navigation
+             # If step is specifically 'refine_images', we might want to proceed IF there's new feedback
+             # But basic 'back/next' navigation shouldn't trigger this.
+             # We can check if the last message was a "navigation" intent vs "refinement" intent
+             # For safety, if images exist, we default to skipping unless there's a strong signal.
+             print("DEBUG: Images already exist, skipping regeneration.")
+             return state
         
         # Generate or refine image prompt
         image_feedback = state.get("image_feedback", [])
@@ -605,6 +623,11 @@ class AdCampaignWorkflow:
         if not avatar_id:
             state["error"] = "No avatar selected. Please select an avatar first."
             return state
+
+        # CHECK FOR EXISTING DATA: If video already exists (ID is present), don't regenerate
+        if state.get("video_id"):
+             print(f"DEBUG: Video already exists ({state.get('video_id')}), skipping regeneration.")
+             return state
         
         # Upload audio to HeyGen if not already uploaded
         # For now, we'll assume the audio needs to be uploaded each time
@@ -634,9 +657,14 @@ class AdCampaignWorkflow:
                         background_url = img
                         break
 
-            print(f"🎬 Creating HeyGen video with background: {background_url}")
+            print(f"🎬 Creating HeyGen video with background: {background_url} and aspect ratio: {state.get('video_aspect_ratio', '9:16')}")
             
-            result = self.heygen.create_avatar_video(asset_id, avatar_id=avatar_id, background_url=background_url)
+            result = self.heygen.create_avatar_video(
+                asset_id, 
+                avatar_id=avatar_id, 
+                background_url=background_url,
+                video_aspect_ratio=state.get('video_aspect_ratio', '9:16')
+            )
             
             if "error" in result:
                 print(f"⚠️ Initial video generation failed: {result['error']}")
@@ -644,7 +672,12 @@ class AdCampaignWorkflow:
                 # Retry without background if that was the issue, OR just fall back to mock
                 if background_url:
                     print(f"🔄 Retrying video generation WITHOUT background...")
-                    result = self.heygen.create_avatar_video(asset_id, avatar_id=avatar_id, background_url=None)
+                    result = self.heygen.create_avatar_video(
+                        asset_id, 
+                        avatar_id=avatar_id, 
+                        background_url=None,
+                        video_aspect_ratio=state.get('video_aspect_ratio', '9:16')
+                    )
             
             if "video_id" in result:
                 state["video_id"] = result["video_id"]
@@ -947,6 +980,10 @@ class AdCampaignWorkflow:
         # Run the graph
         result = await self.app.ainvoke(state, config)
         return result
+    
+    def update_state(self, config: Dict, values: Dict):
+        """Proxy to update the state of the compiled graph"""
+        return self.app.update_state(config, values)
     
     def get_state(self, thread_id: str = "default") -> WorkflowState:
         """Get current state for a thread"""

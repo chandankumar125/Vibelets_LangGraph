@@ -1,32 +1,27 @@
 Traceback (most recent call last):
-  File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
-    return self.receive_nowait()
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\venv\Lib\site-packages\anyio\streams\memory.py", line 93, in receive_nowait
-    raise WouldBlock
-anyio.WouldBlock
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
   File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\venv\Lib\site-packages\starlette\middleware\base.py", line 78, in call_next
     message = await recv_stream.receive()
               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\venv\Lib\site-packages\anyio\streams\memory.py", line 118, in receive
+  File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\venv\Lib\site-packages\anyio\streams\memory.py", line 98, in receive
+    return self.receive_nowait()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\venv\Lib\site-packages\anyio\streams\memory.py", line 91, in receive_nowait
     raise EndOfStream
 anyio.EndOfStream
 
 During handling of the above exception, another exception occurred:
 
 Traceback (most recent call last):
-  File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\backend\server_langgraph.py", line 46, in exception_logging_middleware
+  File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\backend\server_langgraph.py", line 53, in exception_logging_middleware
     return await call_next(request)
            ^^^^^^^^^^^^^^^^^^^^^^^^
   File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
     raise app_exc
   File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
     await self.app(scope, receive_or_disconnect, send_no_error)
-  File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\venv\Lib\site-packages\starlette\middleware\cors.py", line 83, in __call__
+  File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
     await self.app(scope, receive, send)
   File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
     raise exc
@@ -49,7 +44,10 @@ Traceback (most recent call last):
   File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
     return await dependant.call(**values)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\backend\server_langgraph.py", line 803, in chat
-    workflow.app.update_state(config, state)
-    ^^^^^^^^^^^^^^^^^^^^^
-AttributeError: 'AdCampaignWorkflow' object has no attribute 'update_state'
+  File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\backend\server_langgraph.py", line 633, in get_video_status
+    status = heygen.check_video_status(video_id)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Akshita\Desktop\Vibelets_LangGraph\backend\heygen.py", line 138, in check_video_status
+    print(f"DEBUG: HeyGen Status Check Failed: {response.statusText} - {response.text}")
+                                                ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Response' object has no attribute 'statusText'

@@ -135,9 +135,10 @@ class ScriptGenerationAgent:
         """Parse scripts from LLM output using robust regex"""
         scripts = []
         
-        # Pattern to match "### SCRIPT [N] ###" or similar headers and capture content until next header or end
-        # This handles variations like "### SCRIPT 1 ###", "### SCRIPT [1]", "Script 1:", etc.
-        pattern = r'(?:###\s*SCRIPT\s*(?:\[?\d+\]?)?\s*###|SCRIPT\s*(?:\[?\d+\]?)?:?)(.*?)(?=(?:###\s*SCRIPT|SCRIPT\s*(?:\[?\d+\]?)?:?)|$)'
+        # Pattern to match "### SCRIPT [N] ###" headers and capture content until next header or end
+        # We look specifically for the triple hash prefix for the next script to avoid cutting off 
+        # inside a script that might mention the word "script"
+        pattern = r'###\s*SCRIPT\s*(?:\[?\d+\]?)?\s*###(.*?)(?=###\s*SCRIPT|$)'
         
         matches = re.findall(pattern, text, re.DOTALL | re.IGNORECASE)
         
@@ -170,7 +171,7 @@ class ScriptGenerationAgent:
             prompt = ChatPromptTemplate.from_messages([
                 ("system", "You are a creative copywriter specializing in short-form video ad scripts for social media (TikTok, Reels, Shorts)."),
                 ("human", """
-Create exactly 3 unique short-form video ad scripts (30-60 seconds each) for this product:
+Create exactly 3 unique short-form video ad scripts with specific duration ranges for this product:
 
 Product: {title}
 Target Audience: {target_audience}
@@ -181,23 +182,42 @@ CRITICAL INSTRUCTIONS:
 - You MUST tailor the scripts specifically to the defined Target Audience.
 - You MUST highlight the provided USPs.
 - You MUST utilize the suggested Marketing Angles.
-- Do not generate generic scripts; use the specific product analysis provided above.
+- DO NOT TRUNCATE the scripts. Provide the FULL script content, word for word.
+
+Generate the following 3 variations:
+
+1. **Script 1 (15-30 Seconds - Fast & Punchy)**
+   - Style: Fast-paced / Hype / unexpected hook
+   - Duration: 15-30 seconds
+   - Focus: Grab attention immediately
+
+2. **Script 2 (30-45 Seconds - Problem/Solution)**
+   - Style: Problem/Solution / Educational
+   - Duration: 30-45 seconds
+   - Focus: Relatable pain point -> Product as hero
+
+3. **Script 3 (45-60 Seconds - Storytelling/ASMR)**
+   - Style: Storytelling / Aesthetic / ASMR
+   - Duration: 45-60 seconds
+   - Focus: Detailed features, lifestyle integration, sensory details
 
 Each script should:
-- Be distinct in style (e.g., UGC style, Problem/Solution, ASMR/Aesthetic, Fast-paced/Hype)
 - Include visual cues in parentheses (e.g., [Close up of texture], [Text overlay: ...])
 - Have a strong hook in the first 3 seconds
 - End with a clear Call to Action (CTA)
 
-IMPORTANT: Format each script CLEARLY using the following delimiters:
+IMPORTANT: Format each script CLEARLY using the following delimiters (keep the style/duration info in the script body or header):
 
 ### SCRIPT [1] ###
+[Style: Fast-paced (15-30s)]
 [Script content here...]
 
 ### SCRIPT [2] ###
+[Style: Problem/Solution (30-45s)]
 [Script content here...]
 
 ### SCRIPT [3] ###
+[Style: Storytelling (45-60s)]
 [Script content here...]
 
 Do not include any intro or outro text. Just the 3 scripts.
@@ -262,10 +282,10 @@ IMPORTANT: Return exactly 3 scripts using the SAME format:
             ("human", """
 Current Script:
 {current_script}
-can we w
+
 User Request: {feedback}
 
-Provide the modified script (30-45 seconds when read aloud). Output only the script content without labels or commentary.
+Provide the modified script (aim for 30-45 seconds unless requested otherwise). Output only the script content without labels or commentary.
 """)
         ])
         
@@ -419,8 +439,9 @@ Rules:
 - If user wants to CHANGE/RESET/NEW URL (e.g., "change url", "new url", "different product", "start over") -> return "change_url"
 - If user wants to change something from a previous step (e.g., "change target audience") -> return the name of that step (e.g., "product-analysis")
 - If user explicitly asks to go to a step (e.g., "go to facebook", "connect facebook") -> return that step name (e.g., "facebook-auth")
-- If user provides feedback for the CURRENT step (e.g., "make it funnier" while in generate_scripts) -> return "stay" (to refine)
-- If user provides a number (1, 2, 3...) during a selection step -> return "stay" (to select)
+- If user provides feedback for the CURRENT scripts (e.g., "make it funnier", "shorter", "change tone") -> return "refine_script"
+- If user provides feedback for the CURRENT images (e.g., "more vibrant", "realistic") -> return "refine_images"
+- If user specifies a video format (e.g., "story", "reel", "9:16", "square", "1:1", "horizontal", "16:9", "vertical", "4:5") -> return "generate_video" and include the `video_aspect_ratio` in the parameters.
 - If user wants to stop -> return "complete"
 
 IMPORTANT: "change url", "new url", "different url", "start over" should ALWAYS return "change_url".
@@ -428,6 +449,9 @@ IMPORTANT: "change url", "new url", "different url", "start over" should ALWAYS 
 Output JSON:
 {{
     "intent": "next" | "back" | "stay" | "complete" | "change_url" | "step_name" (e.g. "facebook-auth"),
+    "parameters": {{
+        "video_aspect_ratio": "9:16" | "1:1" | "4:5" | "1.91:1" | null
+    }},
     "reasoning": "brief explanation"
 }}
 """),

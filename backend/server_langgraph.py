@@ -155,7 +155,7 @@ class SelectAvatarRequest(WorkflowRequest):
     avatar_id: str
 
 class GenerateVideoRequest(WorkflowRequest):
-    pass
+    video_aspect_ratio: Optional[str] = None
 
 class SelectProductRequest(WorkflowRequest):
     product_index: Optional[int] = None
@@ -592,6 +592,8 @@ async def generate_video(request: GenerateVideoRequest):
     # Update state
     state["current_step"] = "creative-generation:video"
     state["navigation_intent"] = "generate_video"
+    if request.video_aspect_ratio:
+        state["video_aspect_ratio"] = request.video_aspect_ratio
     state = update_state_from_request(state, request)
     
     # Run workflow step
@@ -746,6 +748,13 @@ async def chat(request: WorkflowRequest):
     
     navigation_intent = intent_result.get("intent")
     reasoning = intent_result.get("reasoning", "")
+    parameters = intent_result.get("parameters", {})
+    
+    if parameters:
+        for k, v in parameters.items():
+            if v:
+                state[k] = v
+                print(f"Set parameter {k} = {v}")
     
     print(f"🧭 Detected Navigation Intent: {navigation_intent} - {reasoning}")
     
@@ -806,7 +815,7 @@ async def chat(request: WorkflowRequest):
         
         # Update session
         # CRITICAL: Sync changes to LangGraph checkpointer to ensure persistence and correct state for subsequent steps
-        workflow.app.update_state(config, state)
+        workflow.update_state(config, state)
         active_sessions[thread_id] = state
         save_sessions()
         

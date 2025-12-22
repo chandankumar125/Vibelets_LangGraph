@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { CreativeOption } from '@/types/campaign';
-import { Image, Video, Check, Play, RefreshCw, X } from 'lucide-react';
+import { Image, Video, Check, Play, RefreshCw, X, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
@@ -14,6 +14,7 @@ import {
 interface CreativeGalleryPanelProps {
   creatives: CreativeOption[];
   selectedCreative: CreativeOption | null;
+  onSelect: (creative: CreativeOption) => void;
   isRegenerating?: boolean;
   onRegenerate?: () => void;
 }
@@ -26,10 +27,14 @@ const getFormatLabel = (format?: string, aspectRatio?: string) => {
   return format || 'Feed';
 };
 
-export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerating, onRegenerate }: CreativeGalleryPanelProps) => {
+export const CreativeGalleryPanel = ({ creatives, selectedCreative, onSelect, isRegenerating, onRegenerate }: CreativeGalleryPanelProps) => {
   const [videoPreview, setVideoPreview] = useState<CreativeOption | null>(null);
 
-  const handleVideoClick = (creative: CreativeOption, e: React.MouseEvent) => {
+  const handleCreativeClick = (creative: CreativeOption) => {
+    onSelect(creative);
+  };
+
+  const handleVideoPreviewClick = (creative: CreativeOption, e: React.MouseEvent) => {
     e.stopPropagation();
     if (creative.type === 'video') {
       setVideoPreview(creative);
@@ -39,17 +44,16 @@ export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerati
   const renderCreativeCard = (creative: CreativeOption) => {
     const isSelected = selectedCreative?.id === creative.id;
     const isVideo = creative.type === 'video';
-    
+
     return (
       <div
         key={creative.id}
-        onClick={isVideo ? (e) => handleVideoClick(creative, e) : undefined}
+        onClick={() => handleCreativeClick(creative)}
         className={cn(
           "group relative rounded-xl overflow-hidden transition-all duration-300",
-          "border-2 bg-card",
+          "border-2 bg-card cursor-pointer",
           "hover:shadow-xl hover:shadow-primary/15 hover:-translate-y-1",
-          isVideo && "cursor-pointer",
-          isSelected 
+          isSelected
             ? "border-primary ring-2 ring-primary/30 shadow-lg shadow-primary/20"
             : "border-border/60 hover:border-primary/40"
         )}
@@ -60,11 +64,11 @@ export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerati
             <Check className="w-3.5 h-3.5 text-primary-foreground" />
           </div>
         )}
-        
+
         {/* Format & Type badge */}
         <div className="absolute top-2 left-2 z-20 flex items-center gap-1.5">
-          <Badge 
-            variant="secondary" 
+          <Badge
+            variant="secondary"
             className={cn(
               "text-[10px] px-2 py-0.5 gap-1 font-medium",
               "bg-background/90 backdrop-blur-sm border border-border/50 shadow-sm"
@@ -74,7 +78,7 @@ export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerati
             {creative.aspectRatio || '1:1'}
           </Badge>
         </div>
-        
+
         {/* Creative image - consistent square container with object-cover */}
         <div className="relative aspect-[4/5] overflow-hidden bg-muted">
           {isVideo && !creative.thumbnail ? (
@@ -83,29 +87,32 @@ export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerati
           ) : (
             // Image or video with thumbnail
             <>
-              <img 
-                src={creative.thumbnail} 
+              <img
+                src={creative.thumbnail}
                 alt={creative.name}
                 className="w-full h-full object-cover"
               />
               {/* Video play overlay - only for videos with thumbnails */}
               {isVideo && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
-                  <div className={cn(
-                    "w-14 h-14 rounded-full bg-secondary flex items-center justify-center shadow-xl",
-                    "transition-all duration-300 group-hover:scale-110 group-hover:bg-secondary-hover",
-                    "border border-secondary-dark/50"
-                  )}>
+                <div className="absolute inset-0 flex items-center justify-center bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div
+                    onClick={(e) => handleVideoPreviewClick(creative, e)}
+                    className={cn(
+                      "w-14 h-14 rounded-full bg-secondary flex items-center justify-center shadow-xl",
+                      "transition-all duration-300 hover:scale-110 active:scale-95 bg-secondary/90 hover:bg-secondary",
+                      "border border-secondary-dark/50"
+                    )}
+                  >
                     <Play className="w-6 h-6 text-secondary-foreground ml-0.5" fill="currentColor" />
                   </div>
                 </div>
               )}
             </>
           )}
-          
+
           {/* Gradient overlay for text readability */}
           <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
-          
+
           {/* Creative info - overlaid on image */}
           <div className="absolute inset-x-0 bottom-0 p-3 z-10">
             <p className="text-sm font-semibold text-white truncate drop-shadow-md">
@@ -134,11 +141,28 @@ export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerati
       </div>
 
       {/* Creatives Grid - uniform 2x2 layout */}
-      <div className={cn(
-        "grid grid-cols-2 gap-4",
-        isRegenerating && "opacity-50 pointer-events-none"
-      )}>
-        {creatives.map(renderCreativeCard)}
+      <div className="relative">
+        <div className={cn(
+          "grid grid-cols-2 gap-4 transition-opacity duration-300",
+          isRegenerating && "opacity-20 pointer-events-none grayscale"
+        )}>
+          {creatives.map(renderCreativeCard)}
+        </div>
+
+        {isRegenerating && (
+          <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-background/10 backdrop-blur-[1px] animate-fade-in">
+            <div className="bg-card/90 border border-border/50 shadow-2xl rounded-2xl p-6 flex flex-col items-center gap-4 animate-in zoom-in-95 duration-300">
+              <div className="relative">
+                <div className="w-12 h-12 rounded-full border-2 border-primary/20 border-t-primary animate-spin" />
+                <Sparkles className="absolute inset-0 m-auto w-5 h-5 text-primary animate-pulse" />
+              </div>
+              <div className="text-center">
+                <p className="text-sm font-semibold text-foreground">Generating New Styles...</p>
+                <p className="text-[10px] text-muted-foreground mt-1">This takes about 15-20 seconds</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Regenerate option */}
@@ -161,7 +185,7 @@ export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerati
       <Dialog open={!!videoPreview} onOpenChange={(open) => !open && setVideoPreview(null)}>
         <DialogContent className="max-w-3xl p-0 overflow-hidden bg-black border-border/50">
           <DialogTitle className="sr-only">Video Preview</DialogTitle>
-          
+
           {/* Close button */}
           <button
             onClick={() => setVideoPreview(null)}
@@ -175,16 +199,16 @@ export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerati
               {/* Video player */}
               <div className={cn(
                 "w-full bg-black flex items-center justify-center",
-                videoPreview.aspectRatio === '9:16' ? "aspect-[9/16] max-h-[80vh]" : 
-                videoPreview.aspectRatio === '1:1' ? "aspect-square" :
-                videoPreview.aspectRatio === '4:5' ? "aspect-[4/5]" :
-                "aspect-video"
+                videoPreview.aspectRatio === '9:16' ? "aspect-[9/16] max-h-[80vh]" :
+                  videoPreview.aspectRatio === '1:1' ? "aspect-square" :
+                    videoPreview.aspectRatio === '4:5' ? "aspect-[4/5]" :
+                      "aspect-video"
               )}>
                 {videoPreview.videoUrl ? (
-                  <video 
-                    src={videoPreview.videoUrl} 
-                    controls 
-                    autoPlay 
+                  <video
+                    src={videoPreview.videoUrl}
+                    controls
+                    autoPlay
                     className="w-full h-full object-contain"
                   >
                     Your browser does not support the video tag.

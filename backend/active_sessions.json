@@ -28,9 +28,9 @@
     "iteration_count": {}
   },
   "28b63aa8-4611-461d-ae9d-f6bb9e3866ec": {
-    "current_step": "creative-generation:images",
-    "navigation_intent": "generate_images",
-    "agent_message": "Great news! The AI has created images for your ad campaign. If you'd like to make any tweaks, feel free to refine the image prompts.",
+    "current_step": "product-url",
+    "navigation_intent": "change_url",
+    "agent_message": "Great news! You've successfully provided the product URL, and I've already analyzed the product, created scripts, and even generated images and audio. Now, let's bring your ad to life by selecting an avatar for your video!",
     "messages": [
       {
         "role": "user",
@@ -623,153 +623,251 @@
       {
         "role": "user",
         "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "hi hello"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello! How can I assist you today? Whether you're having a question about Vibelets' features or need help with an issue, I'm here to help. Please feel free to ask your question."
+      },
+      {
+        "role": "user",
+        "content": "generate scripts"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to help you with generating scripts!\n\nOur Vibelets tool allows you to generate multiple unique ad scripts tailored to your product. The AI automatically selects the best styles suitable for your product, such as UGC, Problem/Solution, etc.\n\nHere's a step-by-step guide on how you can do this:\n\n1. Start by selecting the \"Ad Script Generation\" feature in the Vibelets tool.\n2. You'll see the tool generates 3 unique ad scripts for you.\n3. If you'd like to refine these scripts, you can provide natural language feedback. For instance, if you want your script to be funnier or want to add more urgency, just provide this feedback.\n4. Your scripts will also be automatically optimized for different platforms, including TikTok, Instagram Reels, and YouTube Shorts.\n\nRemember, your scripts are customizable. You can always iterate on them until you're happy with the result. \n\nIf you need any further assistance or have more questions, feel free to ask! I'm here to help."
+      },
+      {
+        "role": "user",
+        "content": "script"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to assist you with your question about scripts!\n\nIn Vibelets, script generation is quite a straightforward process, thanks to our AI technology. Here's a step-by-step guide:\n\n1. **Product URL Input**: Start by pasting your product URL. The AI will use this to analyze your product.\n\n2. **Product Analysis**: Our AI will analyze your product and identify its key features. This helps in generating more tailored scripts.\n\n3. **Script Generation**: You will have the option to choose from 3 unique ad scripts that the AI generates. These scripts will be designed specifically for your product.\n\n4. **Script Refinement**: Once you've chosen a script, you can edit and refine it to best fit your needs. You can give feedback in natural language, and the AI will understand and implement it.\n\n5. **Image Generation**: After refining the script, you can create professional product images.\n\n6. **Audio Generation**: Generate a voiceover for your chosen and refined script.\n\n7. **Avatar Selection**: You can then choose an AI presenter to deliver your script.\n\n8. **Video Generation**: Finally, you can create your final video ad using the script, images, and audio.\n\nRemember, the scripts are optimized for various platforms like TikTok, Instagram Reels, and YouTube Shorts. They are also customizable and of professional quality.\n\nI hope this helps! Feel free to ask if you need any more assistance."
+      },
+      {
+        "role": "user",
+        "content": "change url"
+      },
+      {
+        "role": "user",
+        "content": "hi"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello! It's great to connect with you. How can I assist you today with Vibelets? Whether you have questions about campaign creation, Zen mode, or our audio & voice functionalities, I'm here to help. Feel free to ask if you need any more help!"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "1"
+      },
+      {
+        "role": "user",
+        "content": "lets go"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello! It sounds like you're ready to get started with Vibelets. That's wonderful news! Here's a brief guide on how to proceed:\n\n1. Start by setting up the core elements of your campaign. Vibelets will then present you with a progressive form to fill out the final details. You'll be able to track your progress with the help of a progress bar.\n\n2. As you fill out the form, Vibelets will provide real-time suggestions and help you design ad sets with captivating visuals.\n\n3. Vibelets uses data-backed decisions to help you create high-converting ads faster and smarter, ensuring your campaigns are effective and well-targeted.\n\n4. Then comes the creative planning. Vibelets provides an AI-first framework that empowers your team to research trends, performance metrics, and hooks. You can define creative types, briefs, and tones.\n\n5. The platform helps you ideate by generating ideas, scripts, and CTAs. You can then create static or video content (UGC, POV, B-roll, etc.).\n\nRemember, Vibelets is scalable, so you can easily manage multiple creatives and campaign assets all in one place.\n\nI hope this helps you get started! If you have any other questions or need further assistance, please don't hesitate to ask. Good luck with your campaign!"
+      },
+      {
+        "role": "user",
+        "content": "1"
+      },
+      {
+        "role": "user",
+        "content": "go back"
+      },
+      {
+        "role": "user",
+        "content": "go back"
+      },
+      {
+        "role": "user",
+        "content": "choose 3"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to help you with that!\n\nWhen you say \"choose 3\", I'm assuming you're referring to Step 3 in the 'Vibelets Feature Points' document. In this step, you're required to select a style for your content. Here are the options you can choose from:\n\n1. UGC (User-Generated Content): This style involves content created by users, typically showcasing real-life experiences or opinions.\n2. Actor-based (real shoot): This style involves professional actors in a real-life shooting scenario.\n3. POV (Point Of View): This style gives the perspective as if the viewer is experiencing the situation themselves.\n4. Animated: This style involves animated or cartoon-like content.\n5. B-roll / Stock-based: This style uses pre-existing clips or photos, typically used for background or supplemental footage.\n6. Surprise Me (AI selects best-\ufb01t style): In this style, the AI chooses the style that it determines is the best fit for your needs.\n\nOnce you've decided on the style that suits your needs best, you can proceed to the next step. If you're unsure, you can always choose the 'Surprise Me' option and let the AI make a selection for you.\n\nI hope this helps! If you have any more questions or need further clarification, feel free to ask!"
+      },
+      {
+        "role": "user",
+        "content": "1"
+      },
+      {
+        "role": "user",
+        "content": "go back"
+      },
+      {
+        "role": "user",
+        "content": "yes"
+      },
+      {
+        "role": "user",
+        "content": "refine"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to help you with that! From your question, it seems like you're looking for ways to refine something, but I'll need a little more information to provide the best assistance. \n\nIf you're referring to refining your Vibelets campaign, here are some suggestions based on our documentation:\n\n1. **Improve Product URLs**: Using direct product pages instead of category pages can give clearer results.\n\n2. **Detailed Feedback**: Instead of general feedback like \"make it better\", give specific instructions such as \"add more emphasis on the price\".\n\n3. **Review Steps**: It's important to review each step of your analysis and scripts before proceeding to the next phase.\n\n4. **Testing Scripts**: Generate and test different scripts to find the one that suits your needs the best.\n\n5. **Refining Visuals**: Don't hesitate to refine your visuals multiple times until they best represent your campaign.\n\nAlso, you can use our AI-driven testing to test different creative variations for optimization based on real-time data.\n\nIf you're referring to something else, could you please provide me with more details? I'm here to help! Feel free to ask if you need any more assistance!"
+      },
+      {
+        "role": "user",
+        "content": "2"
+      },
+      {
+        "role": "user",
+        "content": "make it funnier"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to help you add a touch of humor to your content! Here are some suggestions based on our Vibelets feature:\n\n1. Choose Your Creative Type: Depending on your audience, a video might be a more effective way to incorporate humor than a static image. Videos give you the chance to use visual gags, funny dialogues, or unexpected twists.\n\n2. Use the AI-driven suggestions: Vibelets can provide you with hooks, scripts, and voiceovers based on proven data, which can include humorous elements. This takes out the guesswork and ensures your content will resonate with your audience.\n\n3. Consider User-Generated Content (UGC): UGC often has a more natural, relatable, and sometimes humorous tone. Encouraging your audience to create content might result in some unexpected humor.\n\n4. Test Different Formats: You can use the TikTok Creative Testing tool to A/B test different humorous elements in your ad creatives. Maybe slapstick works better for your audience, or perhaps they prefer witty one-liners. Test to find out!\n\n5. Refresh your Creatives: Keep your content fresh and interesting. What was funny yesterday might not be funny today, so continually updating your content can help maintain a humorous tone.\n\nRemember, humor is subjective, and it's important that it aligns with your brand voice and is suitable for your audience. \n\nI hope these suggestions help you add some humor to your content! Feel free to ask if you need any more help!"
+      },
+      {
+        "role": "user",
+        "content": "go back"
+      },
+      {
+        "role": "user",
+        "content": "i want to change url"
+      },
+      {
+        "role": "user",
+        "content": "i want to check the previous creaitve that were generated"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "back"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "back to the script section"
+      },
+      {
+        "role": "user",
+        "content": "script"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to help you with script generation! With Vibelets, you can create tailored ad scripts for your product easily. Here's how:\n\n1. Start by pasting your product URL as input. This allows the AI to analyze your product and identify the key features.\n\n2. The AI will then generate 3 unique ad scripts tailored specifically for your product. \n\n3. Choose the script that suits your needs best. Remember, the AI automatically selects the best styles, like UGC or Problem/Solution, but you get the final say.\n\n4. After you've picked a script, you can refine it with natural language feedback. This allows you to make any adjustments or edits to better fit your vision.\n\n5. Once you're satisfied with the script, you can move on to creating professional product images, generating a voiceover, choosing an AI presenter, and finally creating the video ad.\n\nRemember, this is a customizable process, so feel free to tweak as necessary to get the perfect script for your ad! Scripts are optimized for TikTok, Instagram Reels, and YouTube Shorts, making them highly versatile.\n\nFeel free to ask if you need any more help. I'm here to support you!"
+      },
+      {
+        "role": "user",
+        "content": "change url"
+      },
+      {
+        "role": "user",
+        "content": "show me the avatars"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to help you with that! Unfortunately, as this is a text-based platform, I'm unable to physically show you the avatars. However, according to our documentation, you can view and select your AI avatar during the \"Avatar Selection\" step of creating your video ad in the Vibelets application. \n\nHere's how you can do it:\n\n1. Paste your product URL to begin.\n2. The AI will analyze your product and identify its key features.\n3. Choose from 3 AI-generated ad scripts provided.\n4. You can edit and refine your chosen script.\n5. Create professional product images.\n6. Generate a professional voiceover for your script.\n7. Now, you can choose an AI presenter during the \"Avatar Selection\" phase. You will have access to professional AI avatars through our HeyGen Integration. There are multiple avatar styles and backgrounds available for you to choose from. These avatars are designed to deliver your script in a realistic and natural manner.\n8. Finally, the AI will create your final video ad.\n\nI hope this information is helpful. Feel free to ask if you need any more help!"
+      },
+      {
+        "role": "user",
+        "content": "go back"
+      },
+      {
+        "role": "user",
+        "content": "i wan to change the scripts"
+      },
+      {
+        "role": "user",
+        "content": "i want to fil the campign details"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to assist you with filling in your campaign details on Vibelets!\n\nHere's a step-by-step guide based on our help documentation:\n\n1. Begin with the intuitive chatbot interface that guides you through the entire campaign creation process.\n\n2. Set up the core elements of your campaign. \n\n3. After the core setup, Vibelets will present you with a progressive form to fill out the final details of your campaign. This form will have a progress bar that updates as you move through each section, helping you track your progress.\n\n4. As you fill out the form, Vibelets will offer real-time suggestions and assist you in designing ad sets with eye-catching visuals.\n\n5. Once all the data is filled in and the form is completed, you will receive a summary of your campaign. Review this summary carefully.\n\n6. After reviewing the summary, click to publish your campaign. Vibelets will handle all the backend tasks, including setting up tracking and launching your ads across the selected platforms.\n\nRemember, you can adjust your budget and timeline based on your campaign's objectives at any point in the process. \n\nI hope this helps! Feel free to ask if you need any more assistance or clarification."
+      },
+      {
+        "role": "user",
+        "content": "go back"
+      },
+      {
+        "role": "user",
+        "content": "wanna give other url"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to help you with that! If you want to change to a different product URL while navigating the workflow, just type \"change url\" or \"new url\". \n\nHere's a step-by-step guide:\n1. When you're ready to enter a new product URL, simply type \"change url\" or \"new url\".\n2. You'll be prompted to enter the new URL.\n3. Type or paste the new product URL.\n\nRemember, for best results, be sure to use direct product pages, not category pages. \n\nFeel free to ask if you need any more help navigating the workflow or integrating different features. I'm here to assist you!"
+      },
+      {
+        "role": "user",
+        "content": "i want to change url"
       }
     ],
-    "url": "https://www.flipkart.com/apc-bx600c-in-back-ups-600-230-v-line-interactive-tower-model-overload-protection-3-outlet-plugs/p/itme9udcqfebevwe?pid=UPSE9UDBHVFCTUAC&lid=LSTUPSE9UDBHVFCTUACRXNCC9&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3AMONH7GHGSGF3AGM9%3Bl%3ALSTMONH7GHGSGF3AGM9N3DVIC%3Bpt%3App%3Buid%3Aff675507-dd8b-11f0-8b21-3fa18e503790%3B.PSRFN3JY4QQHRFRK&ppt=pp&ppn=pp&ssid=1r1pswhk6o0000001766225337416&otracker=pp_reco_Bought%2BTogether_24_41.productCard.PMU_TAB_APC%2BBX600C-IN%2BBACK%2B-%2BUPS%2B600%2B230%2BV%2BLine-interactive%2BTower%2BModel%2BUPS%2Bwith%2BOverload%2BProtection%2B3%2BOutlet%2BPlugs_PSRFN3JY4QQHRFRK_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_24_NA_view-all&cid=PSRFN3JY4QQHRFRK",
-    "scraped_url": "https://www.flipkart.com/apc-bx600c-in-back-ups-600-230-v-line-interactive-tower-model-overload-protection-3-outlet-plugs/p/itme9udcqfebevwe?pid=UPSE9UDBHVFCTUAC&lid=LSTUPSE9UDBHVFCTUACRXNCC9&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3AMONH7GHGSGF3AGM9%3Bl%3ALSTMONH7GHGSGF3AGM9N3DVIC%3Bpt%3App%3Buid%3Aff675507-dd8b-11f0-8b21-3fa18e503790%3B.PSRFN3JY4QQHRFRK&ppt=pp&ppn=pp&ssid=1r1pswhk6o0000001766225337416&otracker=pp_reco_Bought%2BTogether_24_41.productCard.PMU_TAB_APC%2BBX600C-IN%2BBACK%2B-%2BUPS%2B600%2B230%2BV%2BLine-interactive%2BTower%2BModel%2BUPS%2Bwith%2BOverload%2BProtection%2B3%2BOutlet%2BPlugs_PSRFN3JY4QQHRFRK_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_24_NA_view-all&cid=PSRFN3JY4QQHRFRK",
-    "product_data": {
-      "url": "https://www.flipkart.com/apc-bx600c-in-back-ups-600-230-v-line-interactive-tower-model-overload-protection-3-outlet-plugs/p/itme9udcqfebevwe?pid=UPSE9UDBHVFCTUAC&lid=LSTUPSE9UDBHVFCTUACRXNCC9&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3AMONH7GHGSGF3AGM9%3Bl%3ALSTMONH7GHGSGF3AGM9N3DVIC%3Bpt%3App%3Buid%3Aff675507-dd8b-11f0-8b21-3fa18e503790%3B.PSRFN3JY4QQHRFRK&ppt=pp&ppn=pp&ssid=1r1pswhk6o0000001766225337416&otracker=pp_reco_Bought%2BTogether_24_41.productCard.PMU_TAB_APC%2BBX600C-IN%2BBACK%2B-%2BUPS%2B600%2B230%2BV%2BLine-interactive%2BTower%2BModel%2BUPS%2Bwith%2BOverload%2BProtection%2B3%2BOutlet%2BPlugs_PSRFN3JY4QQHRFRK_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_24_NA_view-all&cid=PSRFN3JY4QQHRFRK",
-      "title": "APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs",
-      "description": "Buy APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs for Rs.4100 online. APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs at best prices with FREE shipping & cash on delivery. Only Genuine Products. 30 Day Replacement Guarantee.",
-      "price": "\u20b93,299",
-      "sku": "",
-      "images": [
-        "http://rukmini1.flixcart.com/image/300/300/k70spzk0/ups/u/a/c/back-ups-600-apc-original-imafpcr6cy7vfknu.jpeg"
-      ],
-      "is_store": false,
-      "products": [],
-      "raw_text": "  APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs Price in India - Buy APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs online at Flipkart.com        Explore PlusLoginBecome a Seller More CartAdd to cart Buy NowHomeComputersComputer PeripheralsAPC Computer PeripheralsAPC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs\nShareAPC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs4.122,300 Ratings\u00a0&\u00a02,829 ReviewsSpecial price\u20b93,299\u20b94,10019% offi+ \u20b936 Protect Promise Fee\u00a0Learn moreAvailable offersBank Offer5% cashback on Axis Bank Flipkart Debit Card up to \u20b9750T&CBank Offer5% cashback on Flipkart SBI Credit Card upto \u20b94,000 per calendar quarterT&CBank OfferFlat \u20b950 off on Flipkart Bajaj Finserv Insta EMI Card. Min Booking Amount: \u20b92,500T&CSpecial PriceGet extra 8% offT&CView 16 more offersWarranty2 Year On-Site ServiceDeliveryCheckEnter pincodeCurrently out of stock in this area.Output Power Wattage360 W360 W480 W480 W600 W600 W660 W660 W865 W865 WPlease select a Output Power Wattage to proceed\u2715HighlightsType: Line-interactiveOutput Power Wattage: 360 WInput Voltage: 230 V|Output Voltage: 230 VInput Frequency: 47-63|Output Frequency: 47-63W x H x D: 29.5 cm x 16.5 cm x 31 cmServices2 Year On-Site ServiceSellerCORSECA4.47 Days Replacement Policy?GST invoice available?See other sellersDescriptionDo you have to experience constant power cuts? If yes, bring home this APC BACK-UPS 600 and enjoy uninterrupted entertainment, fun and productivity. It features the AVR technology that protects it from severe voltage spikes. The UPS features 3 Indian 2/3 pin power sockets that can be used to connect different types of devices.Read MoreProduct DescriptionThe Power That Helps You Work, Study, and PlayThis APC BX600C-IN UPS delivers backup power and protection ",
-      "downloaded_images": [
-        "/static/scraped_products/og_image.jpg"
-      ],
-      "pageScreenshot": "/static/scraped_products/og_image.jpg",
-      "current_analysis": {
-        "category": "Electronics",
-        "features": [
-          "Line-interactive tower model",
-          "600 VA capacity",
-          "230 V output",
-          "Overload protection",
-          "3 outlet plugs",
-          "30-day replacement guarantee",
-          "Compact and lightweight design"
-        ],
-        "target_audience": [
-          "Home office users",
-          "Small business owners",
-          "Individuals in need of reliable power backup",
-          "Budget-conscious consumers"
-        ],
-        "usps": [
-          "Affordable power backup solution",
-          "Compact and efficient design",
-          "Includes overload protection for safety",
-          "Multiple plug outlets for versatility",
-          "Exceptional value at a price of \u20b93,299"
-        ],
-        "marketing_angles": [
-          "Emphasize reliability and safety features",
-          "Highlight affordability and exceptional value for money",
-          "Promote easy online purchase with free shipping and cash on delivery",
-          "Stress the convenience of a 30-day replacement guarantee",
-          "Feature the compact design ideal for limited space environments"
-        ],
-        "positioning": "APC BX600C-IN BACK - UPS 600 is positioned as a cost-effective, compact, and reliable power backup solution for home offices and small businesses, offering essential protection with user-friendly purchase and return policies at an attractive price point."
-      },
-      "current_scripts": [
-        "Imagine this: It's a hectic day, and you're juggling multiple tasks when \u2013 bam! \u2013 the power goes out. Don\u2019t let it frazzle you. With the APC BX600C-IN BACK - UPS 600, your home office or small business is always prepared. This compact marvel offers three versatile outlets, ensuring your essential devices stay powered. With robust overload protection and a sleek, silent design, it's peace of mind at just \u20b93,299. Stay in control, no matter the power situation.",
-        "Picture this: You're delivering a crucial presentation, and suddenly, everything goes dark. Sidestep the chaos with the APC BX600C-IN BACK - UPS 600. Compact yet powerful, this UPS is your dependable ally in any power cut. Perfect for home offices and small businesses, it provides overload protection and multiple outlets to keep you productive. At an affordable \u20b93,299, let this trusty guardian ensure you never miss a beat.",
-        "Life can be unpredictable, but your power supply shouldn\u2019t be. Meet the APC BX600C-IN BACK - UPS 600, a compact and budget-friendly UPS that keeps your focus intact. Ideal for tight spaces, it offers whisper-quiet operation while delivering reliable overload protection and three versatile outlets. Whether you're meeting a deadline or studying hard, at just \u20b93,299, this UPS ensures seamless operation, letting you concentrate on what truly matters. Say goodbye to disruptions and hello to uninterrupted success."
-      ]
-    },
+    "url": null,
+    "scraped_url": "https://www.flipkart.com/acer-nitro-74-93-cm-30-inch-curved-wfhd-va-panel-ergostand-vesa-displayhdr-400-1500r-curvature-dci-p3-93-wide-color-gamut-display-widget-2x2w-inbuilt-speakers-blue-light-shield-ultrawide-gaming-monitor-xz306c/p/itm6f2ac264abd0a?pid=MONGQJBFS64TJH2T&lid=LSTMONGQJBFS64TJH2TP1W1TZ&marketplace=FLIPKART&store=6bo%2Fg0i%2F9no&srno=b_1_14&otracker=browse&otracker1=hp_rich_navigation_PINNED_neo%2Fmerchandising_NA_NAV_EXPANDABLE_navigationCard_cc_3_L2_view-all&fm=organic&iid=7946a65a-8231-4714-83c6-b58bc4d945f3.MONGQJBFS64TJH2T.SEARCH&ppt=None&ppn=None&ssid=vy3l96eqe80000001766394230293",
+    "product_data": null,
     "selected_product": {
-      "url": "https://www.flipkart.com/apc-bx600c-in-back-ups-600-230-v-line-interactive-tower-model-overload-protection-3-outlet-plugs/p/itme9udcqfebevwe?pid=UPSE9UDBHVFCTUAC&lid=LSTUPSE9UDBHVFCTUACRXNCC9&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3AMONH7GHGSGF3AGM9%3Bl%3ALSTMONH7GHGSGF3AGM9N3DVIC%3Bpt%3App%3Buid%3Aff675507-dd8b-11f0-8b21-3fa18e503790%3B.PSRFN3JY4QQHRFRK&ppt=pp&ppn=pp&ssid=1r1pswhk6o0000001766225337416&otracker=pp_reco_Bought%2BTogether_24_41.productCard.PMU_TAB_APC%2BBX600C-IN%2BBACK%2B-%2BUPS%2B600%2B230%2BV%2BLine-interactive%2BTower%2BModel%2BUPS%2Bwith%2BOverload%2BProtection%2B3%2BOutlet%2BPlugs_PSRFN3JY4QQHRFRK_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_24_NA_view-all&cid=PSRFN3JY4QQHRFRK",
-      "title": "APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs",
-      "description": "Buy APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs for Rs.4100 online. APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs at best prices with FREE shipping & cash on delivery. Only Genuine Products. 30 Day Replacement Guarantee.",
-      "price": "\u20b93,299",
+      "url": "https://www.flipkart.com/acer-nitro-74-93-cm-30-inch-curved-wfhd-va-panel-ergostand-vesa-displayhdr-400-1500r-curvature-dci-p3-93-wide-color-gamut-display-widget-2x2w-inbuilt-speakers-blue-light-shield-ultrawide-gaming-monitor-xz306c/p/itm6f2ac264abd0a?pid=MONGQJBFS64TJH2T&lid=LSTMONGQJBFS64TJH2TP1W1TZ&marketplace=FLIPKART&store=6bo%2Fg0i%2F9no&srno=b_1_14&otracker=browse&otracker1=hp_rich_navigation_PINNED_neo%2Fmerchandising_NA_NAV_EXPANDABLE_navigationCard_cc_3_L2_view-all&fm=organic&iid=7946a65a-8231-4714-83c6-b58bc4d945f3.MONGQJBFS64TJH2T.SEARCH&ppt=None&ppn=None&ssid=vy3l96eqe80000001766394230293",
+      "title": "Acer Nitro 74.93 cm (30 inch) Curved WFHD VA Panel with ErgoStand, VESA DisplayHDR 400, 1500R Curvature, DCI-P3 93% wide color gamut, Display Widget, 2X2W Inbuilt Speakers, Blue Light Shield Ultrawide Gaming Monitor (XZ306C)\u00a0\u00a0(Frameless, AMD Free Sync, Response Time: 1 ms, 200 Hz Refresh Rate)",
+      "description": "Buy Acer Nitro 74.93 cm (30 inch) Curved WFHD VA Panel with ErgoStand, VESA DisplayHDR 400, 1500R Curvature, DCI-P3 93% wide color gamut, Display Widget, 2X2W Inbuilt Speakers, Blue Light Shield Ultrawide Gaming Monitor (XZ306C) for Rs.35000 online. Acer Nitro 74.93 cm (30 inch) Curved WFHD VA Panel with ErgoStand, VESA DisplayHDR 400, 1500R Curvature, DCI-P3 93% wide color gamut, Display Widget, 2X2W Inbuilt Speakers, Blue Light Shield Ultrawide Gaming Monitor (XZ306C) at best prices with FREE shipping & cash on delivery. Only Genuine Products. 30 Day Replacement Guarantee.",
+      "price": "\u20b917,999",
       "sku": "",
       "images": [
-        "http://rukmini1.flixcart.com/image/300/300/k70spzk0/ups/u/a/c/back-ups-600-apc-original-imafpcr6cy7vfknu.jpeg"
+        "http://rukmini1.flixcart.com/image/300/300/xif0q/monitor/m/z/k/xz306c-x-wfhd-29-5-2023-um-rx6si-x01-acer-original-imagqjhfpzgszewh.jpeg"
       ],
-      "is_store": false,
+      "is_store": true,
       "products": [],
-      "raw_text": "  APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs Price in India - Buy APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs online at Flipkart.com        Explore PlusLoginBecome a Seller More CartAdd to cart Buy NowHomeComputersComputer PeripheralsAPC Computer PeripheralsAPC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs\nShareAPC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs4.122,300 Ratings\u00a0&\u00a02,829 ReviewsSpecial price\u20b93,299\u20b94,10019% offi+ \u20b936 Protect Promise Fee\u00a0Learn moreAvailable offersBank Offer5% cashback on Axis Bank Flipkart Debit Card up to \u20b9750T&CBank Offer5% cashback on Flipkart SBI Credit Card upto \u20b94,000 per calendar quarterT&CBank OfferFlat \u20b950 off on Flipkart Bajaj Finserv Insta EMI Card. Min Booking Amount: \u20b92,500T&CSpecial PriceGet extra 8% offT&CView 16 more offersWarranty2 Year On-Site ServiceDeliveryCheckEnter pincodeCurrently out of stock in this area.Output Power Wattage360 W360 W480 W480 W600 W600 W660 W660 W865 W865 WPlease select a Output Power Wattage to proceed\u2715HighlightsType: Line-interactiveOutput Power Wattage: 360 WInput Voltage: 230 V|Output Voltage: 230 VInput Frequency: 47-63|Output Frequency: 47-63W x H x D: 29.5 cm x 16.5 cm x 31 cmServices2 Year On-Site ServiceSellerCORSECA4.47 Days Replacement Policy?GST invoice available?See other sellersDescriptionDo you have to experience constant power cuts? If yes, bring home this APC BACK-UPS 600 and enjoy uninterrupted entertainment, fun and productivity. It features the AVR technology that protects it from severe voltage spikes. The UPS features 3 Indian 2/3 pin power sockets that can be used to connect different types of devices.Read MoreProduct DescriptionThe Power That Helps You Work, Study, and PlayThis APC BX600C-IN UPS delivers backup power and protection ",
+      "raw_text": "  Acer Nitro 74.93 cm (30 inch) Curved WFHD VA Panel with ErgoStand, VESA DisplayHDR 400, 1500R Curvature, DCI-P3 93% wide color gamut, Display Widget, 2X2W Inbuilt Speakers, Blue Light Shield Ultrawide Gaming Monitor (XZ306C) Price in India - Buy Acer Nitro 74.93 cm (30 inch) Curved WFHD VA Panel with ErgoStand, VESA DisplayHDR 400, 1500R Curvature, DCI-P3 93% wide color gamut, Display Widget, 2X2W Inbuilt Speakers, Blue Light Shield Ultrawide Gaming Monitor (XZ306C) online at Flipkart.com        Explore PlusLoginBecome a Seller More CartAdd to cart Buy NowHomeComputersComputer ComponentsMonitors & AccessoriesMonitorsAcer MonitorsAcer Nitro 74.93 cm (30 inch) Curved WFHD VA Panel with ErgoStand, VESA DisplayHDR 400, 1500R Curvature, DCI-P3 93% wide color gamut, Display Widget, 2X2W Inbuilt Speakers, Blue Light Shield Ultrawide Gaming Monitor (XZ306C) (Frameless, AMD Free Sync, Response Time: 1 ms, 200 Hz Refresh Rate)\nShareAcer Nitro 74.93 cm (30 inch) Curved WFHD VA Panel with ErgoStand, VESA DisplayHDR 400, 1500R Curvature, DCI-P3 93% wide color gamut, Display Widget, 2X2W Inbuilt Speakers, Blue Light Shield Ultrawide Gaming Monitor (XZ306C)\u00a0\u00a0(Frameless, AMD Free Sync, Response Time: 1 ms, 200 Hz Refresh Rate)4.4611 Ratings\u00a0&\u00a064 ReviewsSpecial price\u20b917,999\u20b935,00048% offiAvailable offersBank Offer5% cashback on Axis Bank Flipkart Debit Card up to \u20b9750T&CBank Offer5% cashback on Flipkart SBI Credit Card upto \u20b94,000 per calendar quarterT&CBank Offer10% off on Federal Bank Credit Card Transactions, up to \u20b91250 on orders of \u20b94990 and aboveT&CSpecial PriceGet extra 20% offT&CView 15 more offers3 Years WarrantyKnow MoreDeliveryCheckEnter pincodeDelivery by25 Dec, Thursday?if ordered before 2:59 PMView DetailsHighlightsPanel Type: VA PanelScreen Resolution Type: WFHDBrightness: 400 nitsResponse Time: 1 ms | Refresh Rate: 200 HzEasy Payment OptionsEMI starting from \u20b9633/monthCash on DeliveryNet banking & Credit/ Debit/ ATM cardView DetailsSellerXtronicsapp4.37 Days Brand ",
       "downloaded_images": [
         "/static/scraped_products/og_image.jpg"
       ],
       "pageScreenshot": "/static/scraped_products/og_image.jpg",
       "current_analysis": {
-        "category": "Electronics",
-        "features": [
-          "Line-interactive tower model",
-          "600 VA capacity",
-          "230 V output",
-          "Overload protection",
-          "3 outlet plugs",
-          "30-day replacement guarantee",
-          "Compact and lightweight design"
-        ],
+        "category": "Gaming Monitors",
+        "features": {
+          "screen_size": "74.93 cm (30 inch)",
+          "screen_type": "Curved WFHD VA Panel",
+          "ergonomics": "ErgoStand",
+          "display_technology": "VESA DisplayHDR 400",
+          "curvature": "1500R",
+          "color_gamut": "DCI-P3 93% wide color gamut",
+          "software": "Display Widget",
+          "audio": "2X2W Inbuilt Speakers",
+          "eye_care": "Blue Light Shield",
+          "design": "Frameless",
+          "sync_technology": "AMD Free Sync",
+          "response_time": "1 ms",
+          "refresh_rate": "200 Hz"
+        },
         "target_audience": [
-          "Home office users",
-          "Small business owners",
-          "Individuals in need of reliable power backup",
-          "Budget-conscious consumers"
+          "gaming enthusiasts",
+          "professional gamers",
+          "content creators",
+          "tech-savvy consumers"
         ],
         "usps": [
-          "Affordable power backup solution",
-          "Compact and efficient design",
-          "Includes overload protection for safety",
-          "Multiple plug outlets for versatility",
-          "Exceptional value at a price of \u20b93,299"
+          "High refresh rate of 200 Hz for seamless gaming",
+          "Curved design with 1500R curvature for immersive experience",
+          "Wide color gamut (DCI-P3 93%) for vibrant visuals",
+          "ErgoStand for customizable ergonomic setup",
+          "VESA DisplayHDR 400 for enhanced dynamic range"
         ],
         "marketing_angles": [
-          "Emphasize reliability and safety features",
-          "Highlight affordability and exceptional value for money",
-          "Promote easy online purchase with free shipping and cash on delivery",
-          "Stress the convenience of a 30-day replacement guarantee",
-          "Feature the compact design ideal for limited space environments"
+          "Enhance your gaming setup with a monitor that promises both performance and style.",
+          "Experience true-to-life colors with the DCI-P3 93% wide color gamut.",
+          "Stay comfortable during long gaming sessions with the Blue Light Shield technology.",
+          "Enjoy smooth, tear-free gaming with AMD Free Sync and a 1 ms response time."
         ],
-        "positioning": "APC BX600C-IN BACK - UPS 600 is positioned as a cost-effective, compact, and reliable power backup solution for home offices and small businesses, offering essential protection with user-friendly purchase and return policies at an attractive price point."
-      },
-      "current_scripts": [
-        "Imagine this: It's a hectic day, and you're juggling multiple tasks when \u2013 bam! \u2013 the power goes out. Don\u2019t let it frazzle you. With the APC BX600C-IN BACK - UPS 600, your home office or small business is always prepared. This compact marvel offers three versatile outlets, ensuring your essential devices stay powered. With robust overload protection and a sleek, silent design, it's peace of mind at just \u20b93,299. Stay in control, no matter the power situation.",
-        "Picture this: You're delivering a crucial presentation, and suddenly, everything goes dark. Sidestep the chaos with the APC BX600C-IN BACK - UPS 600. Compact yet powerful, this UPS is your dependable ally in any power cut. Perfect for home offices and small businesses, it provides overload protection and multiple outlets to keep you productive. At an affordable \u20b93,299, let this trusty guardian ensure you never miss a beat.",
-        "Life can be unpredictable, but your power supply shouldn\u2019t be. Meet the APC BX600C-IN BACK - UPS 600, a compact and budget-friendly UPS that keeps your focus intact. Ideal for tight spaces, it offers whisper-quiet operation while delivering reliable overload protection and three versatile outlets. Whether you're meeting a deadline or studying hard, at just \u20b93,299, this UPS ensures seamless operation, letting you concentrate on what truly matters. Say goodbye to disruptions and hello to uninterrupted success."
-      ]
+        "positioning": "The Acer Nitro XZ306C positions itself as a high-performance gaming monitor that caters to both professional and casual gamers seeking an immersive and vivid visual experience at an affordable price."
+      }
     },
-    "analysis": {
-      "category": "Electronics",
-      "features": [
-        "Line-interactive tower model",
-        "600 VA capacity",
-        "230 V output",
-        "Overload protection",
-        "3 outlet plugs",
-        "30-day replacement guarantee",
-        "Compact and lightweight design"
-      ],
-      "target_audience": [
-        "Home office users",
-        "Small business owners",
-        "Individuals in need of reliable power backup",
-        "Budget-conscious consumers"
-      ],
-      "usps": [
-        "Affordable power backup solution",
-        "Compact and efficient design",
-        "Includes overload protection for safety",
-        "Multiple plug outlets for versatility",
-        "Exceptional value at a price of \u20b93,299"
-      ],
-      "marketing_angles": [
-        "Emphasize reliability and safety features",
-        "Highlight affordability and exceptional value for money",
-        "Promote easy online purchase with free shipping and cash on delivery",
-        "Stress the convenience of a 30-day replacement guarantee",
-        "Feature the compact design ideal for limited space environments"
-      ],
-      "positioning": "The APC BX600C-IN BACK - UPS 600 is positioned as a cost-effective, compact, and reliable power backup solution for home offices and small businesses. It offers essential protection with user-friendly purchase and return policies at an attractive price point. The product is designed to meet the needs of those who value not only affordability but also safety and convenience, making it a trusted choice in power backup solutions."
-    },
+    "analysis": null,
     "analysis_feedback": [
       "https://www.flipkart.com/doctor-extra-soft-running-shoes-men/p/itmab75f7927390d?pid=SHOH7SF7GHAZHGFH&lid=LSTSHOH7SF7GHAZHGFHM4ZCN5&marketplace=FLIPKART&store=osp%2Fcil%2F1cu&srno=b_1_2&otracker=browse&fm=productRecommendation%2Fsimilar&iid=en_VQtadJTNcwSBIyQpaM-WH5TGjKCxLoSjmmxnMfMbWWis8xnZlv-S6Z5MMxoJsSBQN0JGPDRD8XuNxyxWvudPWg%3D%3D&ppt=browse&ppn=browse&ssid=wuctzyzo9c0000001766063867959",
       "https://www.flipkart.com/doctor-extra-soft-running-shoes-men/p/itmab75f7927390d?pid=SHOH7SF7GHAZHGFH&lid=LSTSHOH7SF7GHAZHGFHM4ZCN5&marketplace=FLIPKART&store=osp%2Fcil%2F1cu&srno=b_1_2&otracker=browse&fm=productRecommendation%2Fsimilar&iid=en_VQtadJTNcwSBIyQpaM-WH5TGjKCxLoSjmmxnMfMbWWis8xnZlv-S6Z5MMxoJsSBQN0JGPDRD8XuNxyxWvudPWg%3D%3D&ppt=browse&ppn=browse&ssid=wuctzyzo9c0000001766063867959",
@@ -881,9 +979,9 @@
       "next"
     ],
     "scripts": [
-      "Imagine this scenario: It's a busy day, and your schedule is packed. Suddenly, the power goes out. Don't let the unexpected derail you. With the APC BX600C-IN BACK - UPS 600, your home office or small business remains uninterrupted. This compact powerhouse features three versatile outlets ready to keep your essential devices running. It boasts robust overload protection, all at a budget-friendly \u20b93,299. Stay calm and in control, no matter what.",
-      "Envision this: You're in the middle of a crucial presentation when the lights fade to black. Avoid the panic with the APC BX600C-IN BACK - UPS 600. Small yet mighty, this UPS is your steadfast companion in any power outage. Designed for home offices and small businesses, it offers overload protection and multiple outlets to maintain productivity. Priced affordably at \u20b93,299, let this reliable protector ensure you remain on track.",
-      "Life's unpredictability shouldn't extend to your power supply. Discover the APC BX600C-IN BACK - UPS 600, a compact, affordable UPS that keeps your focus uninterrupted. Perfect for tight spaces, it operates quietly while delivering dependable overload protection and three flexible outlets. Whether you're racing against a deadline or hitting the books, this UPS ensures your work flows smoothly at just \u20b93,299. Eliminate disruptions and welcome uninterrupted progress."
+      "Picture this: You're in the middle of a crucial work task, and suddenly, the lights flicker out. Don't let a power outage derail your day. Equip your home office or small business with the APC BX600C-IN BACK - UPS 600. This compact and reliable unit offers three versatile outlets and strong overload protection, ensuring you stay on track. At just \u20b93,299, it's a wise investment for maintaining your productivity and peace of mind.",
+      "Visualize this: You're delivering a key presentation and, without warning, the screen goes dark. Avoid such interruptions with the APC BX600C-IN BACK - UPS 600. Compact yet powerful, this UPS provides essential support during power outages, perfect for home offices and small businesses. With multiple outlets and robust overload protection, it guarantees smooth operations for an affordable \u20b93,299. Focus on your objectives, undistracted by power concerns.",
+      "In the face of life's unpredictabilities, the APC BX600C-IN BACK - UPS 600 stands resilient. Crafted for tight spaces, this quiet, compact UPS delivers solid overload protection through three adaptable outlets. Whether handling urgent projects or immersed in focused study, it assures uninterrupted productivity for just \u20b93,299. Welcome continuous progress and bid farewell to unexpected power disruptions."
     ],
     "script_feedback": [
       "https://www.flipkart.com/doctor-extra-soft-running-shoes-men/p/itmab75f7927390d?pid=SHOH7SF7GHAZHGFH&lid=LSTSHOH7SF7GHAZHGFHM4ZCN5&marketplace=FLIPKART&store=osp%2Fcil%2F1cu&srno=b_1_2&otracker=browse&fm=productRecommendation%2Fsimilar&iid=en_VQtadJTNcwSBIyQpaM-WH5TGjKCxLoSjmmxnMfMbWWis8xnZlv-S6Z5MMxoJsSBQN0JGPDRD8XuNxyxWvudPWg%3D%3D&ppt=browse&ppn=browse&ssid=wuctzyzo9c0000001766063867959",
@@ -920,14 +1018,16 @@
       "next",
       "i want to go next",
       "next",
-      "next"
+      "next",
+      "next",
+      "yes"
     ],
-    "selected_script_index": 0,
-    "selected_script": "Imagine this: It's a hectic day, and you're juggling multiple tasks when \u2013 bam! \u2013 the power goes out. Don\u2019t let it frazzle you. With the APC BX600C-IN BACK - UPS 600, your home office or small business is always prepared. This compact marvel offers three versatile outlets, ensuring your essential devices stay powered. With robust overload protection and a sleek, silent design, it's peace of mind at just \u20b93,299. Stay in control, no matter the power situation.",
+    "selected_script_index": 1,
+    "selected_script": "Visualize this: You're delivering a key presentation and, without warning, the screen goes dark. Avoid such interruptions with the APC BX600C-IN BACK - UPS 600. Compact yet powerful, this UPS provides essential support during power outages, perfect for home offices and small businesses. With multiple outlets and robust overload protection, it guarantees smooth operations for an affordable \u20b93,299. Focus on your objectives, undistracted by power concerns.",
     "script_refinement_feedback": [],
     "generated_images": [
-      "/static/generated_images/ad_creative_068eb140-249e-4ee4-8659-da43f1be4df9.png",
-      "/static/generated_images/ad_creative_35f3f755-7a7d-4dec-b77e-7f1f04d20bc8.png"
+      "/static/generated_images/ad_creative_1960e4e2-a14f-4b18-9d18-42b830ee42e3.png",
+      "/static/generated_images/ad_creative_623e467a-234e-46b5-a05e-79662e5db78d.png"
     ],
     "image_feedback": [
       "https://www.flipkart.com/doctor-extra-soft-running-shoes-men/p/itmab75f7927390d?pid=SHOH7SF7GHAZHGFH&lid=LSTSHOH7SF7GHAZHGFHM4ZCN5&marketplace=FLIPKART&store=osp%2Fcil%2F1cu&srno=b_1_2&otracker=browse&fm=productRecommendation%2Fsimilar&iid=en_VQtadJTNcwSBIyQpaM-WH5TGjKCxLoSjmmxnMfMbWWis8xnZlv-S6Z5MMxoJsSBQN0JGPDRD8XuNxyxWvudPWg%3D%3D&ppt=browse&ppn=browse&ssid=wuctzyzo9c0000001766063867959",
@@ -943,9 +1043,18 @@
       "i want to give new ur",
       "i want to choose another image",
       "wanna change url",
-      "next"
+      "next",
+      "1",
+      "1",
+      "back",
+      "next",
+      "next",
+      "back to the script section",
+      "back to the script section",
+      "back to the script section",
+      "back to the script section"
     ],
-    "image_generation_prompt": "**Image Generation Prompt:**\n\n**Setting and Composition:**\nCreate a professional commercial advertisement static showcasing the APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS. The scene is set in a modern home office environment, where the UPS unit is prominently placed on a sleek wooden desk next to a computer monitor and other essential office gadgets. Ensure that the UPS is the focal point of the image, positioned slightly forward and elevated to draw immediate attention.\n\n**Style and Mood:**\nThe style should be clean, modern, and minimalistic, emphasizing efficiency and reliability. The mood should convey a sense of calm and control amidst potential chaos, reflecting the product's ability to maintain productivity during power outages. Use elements that suggest a busy workday, such as a visible clock showing 10:15 AM, a coffee mug, and neatly arranged stationery.\n\n**Lighting:**\nUse soft, ambient lighting to create a warm, inviting atmosphere. Highlight the UPS unit with a subtle spotlight to emphasize its importance and functionality. The lighting should create gentle shadows and reflections on the desk surface, enhancing the depth and realism of the scene.\n\n**Product Details:**\nEnsure the UPS is clearly visible with its branding and key features like the \"Overload Protection\" prominently displayed. The UPS should appear sturdy and reliable, with its sleek black design contrasting against the lighter desk and room colors to stand out visually.\n\n**Additional Elements:**\nInclude a subtle background view of a window showing a cityscape, suggesting connectivity and urban living. This element should be out of focus to keep the emphasis on the product. Add a tagline at the bottom of the image: \"Stay Connected, Stay Productive \u2013 Even When the Lights Go Out.\"\n\nThis prompt aims to create an image that not only highlights the product's features but also appeals to the target audience by portraying a seamless blend of technology and tranquility in a work-from-home setting.",
+    "image_generation_prompt": "**Image Generation Prompt:**\n\n**Setting:** A sleek and modern gaming setup in a contemporary living room. The room is tastefully decorated with minimalist furniture and subtle, futuristic accents to emphasize a tech-savvy environment. The walls are painted in neutral tones, allowing the vibrant colors of the monitor display to stand out.\n\n**Style:** The advertisement should embody a sophisticated and high-tech aesthetic. The overall look is clean and polished, with a focus on the premium quality and advanced technology of the Acer XV2 Gaming Monitor.\n\n**Composition:** The Acer XV2 Gaming Monitor is positioned centrally on a modern gaming desk, slightly angled to showcase its ultra-slim profile and ergonomic design. The background is softly blurred to ensure the monitor remains the focal point. The screen displays a vibrant, high-resolution gaming scene, highlighting the WQHD resolution and DCI-P3 95% color accuracy. A subtle reflection of the monitor can be seen on the polished surface of the desk, adding depth to the image.\n\n**Lighting:** Soft, ambient lighting fills the room, creating a warm and inviting atmosphere. A focused light source accentuates the monitor, casting a gentle glow around it to highlight its sleek design and advanced features. The lighting should subtly emphasize the monitor's VESA DisplayHDR 400 capability, creating a dynamic contrast between light and shadow.\n\n**Mood:** The mood is aspirational and empowering, evoking a sense of excitement and immersion that comes with owning a high-performance gaming monitor. The image should convey the idea that the Acer XV2 is not just a piece of technology, but a gateway to limitless gaming experiences.\n\n**Additional Elements:** Include subtle visual cues of gaming elements, such as a stylish gaming chair and a wireless gaming mouse on the desk, to enhance the gaming environment without detracting from the monitor as the main focus. A small, unobtrusive branding element, such as the Acer logo, should be elegantly integrated into the corner of the image for brand recognition.",
     "audio_file": "static/audio/generated_audio_1.mp3",
     "audio_url": "/static/audio/generated_audio_1.mp3",
     "available_avatars": [
@@ -15393,20 +15502,20 @@
         "default_voice_id": null
       }
     ],
-    "selected_avatar_id": "Adriana_BizTalk_Side_public",
-    "video_id": "mock_video_3fad8bbf-46b1-4ad3-bbb6-1aa34b7d5505",
-    "video_url": "https://cdn.pixabay.com/video/2022/11/20/140027-773738049_large.mp4",
-    "video_status": "completed",
+    "selected_avatar_id": "5fe5aef1982c45b688b856859a45322f",
+    "video_id": "b3590ebf9fcb4f918351ee37cf3158fc",
+    "video_url": null,
+    "video_status": "pending",
     "error": null,
     "iteration_count": {
-      "scrape": 33,
-      "analyze": 128,
-      "generate_scripts": 47,
-      "generate_images": 26,
+      "scrape": 36,
+      "analyze": 134,
+      "generate_scripts": 52,
+      "generate_images": 37,
       "generate_audio": 2,
-      "generate_video": 51
+      "generate_video": 54
     },
-    "facebook_access_token": "EAAQeYqt2zH4BQGcUNNwgV93vOG9o1yOCHZAaTi8NgJbDXY7SUMTSz5wTT6Kvl53ylSi5fx7V92Lk2VAPGjddvbyu2EvUN5ShDQ3y06ggFHZAVMbYmuEDGonxvIHEjgh5hxQW8kIruPtor3L3ItOscO7Hr3NZCjI8C9MwNCZAYXUVC5IMdkUxOhyf5WdXhtkXR2pZByuUL7SoFOeZAYHONaNVgH8ZBjRFNnlqDDeXRy7koukPmw4A7zCojRLegL8waDRT4y5KXlXFJZAX3viiZANfWQhPTF3vK",
+    "facebook_access_token": "EAAQeYqt2zH4BQXJeF01B7v4ry2Wu5gftoddSg7gMHvSghPq9lBZCyTUx28Njyt2YoyugwLDZB3PXFm6HXRHx2lDABhPwQq9iXMOjYziYcw8wIwu2qiwYEfVwoIk1xQcl3quuS8G2JXjQLxxnzX6DiVtdch5QI6NQYsewoXF7bPhctEi4IVtWfassObFkiUI2V8Kvro87CYmX20ek9jJL9wZB32qTYfGQMDGZCGvlPF9seLxH7T66a2nsVHW6QQkDZAwXt4FeJ3BAw7c4ZD",
     "facebook_user_id": "3690463941089445",
     "ad_accounts": [
       {
@@ -15437,7 +15546,7 @@
     "selected_ad_account_id": "act_1324697116076599",
     "selected_media": {
       "type": "image",
-      "url": "/static/generated_images/ad_creative_bce1f752-7a27-4a77-a27d-e45796700c62.png"
+      "url": "/static/generated_images/ad_creative_1960e4e2-a14f-4b18-9d18-42b830ee42e3.png"
     }
   },
   "1a26ab4f-cf26-4d66-9938-ecc496b4e5d0": {

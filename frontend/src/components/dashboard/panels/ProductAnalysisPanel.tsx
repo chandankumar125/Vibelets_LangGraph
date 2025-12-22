@@ -239,7 +239,7 @@ export const ProductAnalysisPanel = ({ productData, productUrl, isAnalyzing, isR
               </Button>
             )}
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-3">
             {productData.insights.map((insight, i) => {
               const Icon = insightIcons[insight.icon] || Star;
               const formattedValue = formatInsightValue(insight.value);

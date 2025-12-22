@@ -6,11 +6,12 @@ import { cn } from '@/lib/utils';
 interface ScriptPreviewPanelProps {
   scripts: ScriptOption[];
   selectedScript: ScriptOption | null;
+  onSelect?: (script: ScriptOption) => void;
   isRegenerating?: boolean;
   onRegenerate?: () => void;
 }
 
-export const ScriptPreviewPanel = ({ scripts, selectedScript, isRegenerating, onRegenerate }: ScriptPreviewPanelProps) => {
+export const ScriptPreviewPanel = ({ scripts, selectedScript, onSelect, isRegenerating, onRegenerate }: ScriptPreviewPanelProps) => {
   return (
     <div className="p-6 space-y-6">
       <div className="text-center space-y-2">
@@ -29,11 +30,12 @@ export const ScriptPreviewPanel = ({ scripts, selectedScript, isRegenerating, on
           return (
             <div
               key={script.id}
+              onClick={() => onSelect?.(script)}
               className={cn(
-                "p-4 rounded-xl border transition-all",
-                isSelected 
+                "p-4 rounded-xl border transition-all cursor-pointer hover:shadow-md",
+                isSelected
                   ? "border-primary bg-primary/5 ring-1 ring-primary"
-                  : "border-border bg-card"
+                  : "border-border bg-card hover:border-primary/50"
               )}
             >
               <div className="flex items-start gap-3">
@@ -50,9 +52,9 @@ export const ScriptPreviewPanel = ({ scripts, selectedScript, isRegenerating, on
                   )}>
                     {script.name}
                   </h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {script.description}
-                  </p>
+                  <div className="text-sm text-muted-foreground mt-2 max-h-60 overflow-y-auto whitespace-pre-wrap pr-2 custom-scrollbar">
+                    {script.body || script.description}
+                  </div>
                   <div className="flex items-center gap-4 mt-3 text-xs text-muted-foreground">
                     <span className="flex items-center gap-1">
                       <Clock className="w-3 h-3" />

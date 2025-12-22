@@ -22,27 +22,27 @@ export const CreativeGenerationPanel = () => {
         </div>
       </div>
 
-      <h2 className="text-xl font-semibold text-foreground mb-2">Generating Your Creatives</h2>
+      <h2 className="text-xl font-semibold text-foreground mb-2">Generating Images</h2>
       <p className="text-muted-foreground text-center max-w-md mb-6">
-        Our Creative Agent is generating video and image ads optimized for conversion...
+        Creating high-converting static creatives
       </p>
 
       {/* Skeleton Preview Grid */}
       <div className="w-full max-w-md mb-6">
         <div className="grid grid-cols-2 gap-3">
           {[1, 2, 3, 4].map((i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className="aspect-square rounded-lg bg-muted overflow-hidden relative animate-fade-in"
               style={{ animationDelay: `${i * 100}ms` }}
             >
-              <div 
+              <div
                 className="absolute inset-0 bg-gradient-to-r from-muted via-muted-foreground/10 to-muted"
-                style={{ 
-                  backgroundSize: '200% 100%', 
+                style={{
+                  backgroundSize: '200% 100%',
                   animation: `shimmer 1.5s infinite linear`,
                   animationDelay: `${i * 150}ms`
-                }} 
+                }}
               />
               <div className="absolute inset-0 flex items-center justify-center">
                 {i <= 2 ? (
@@ -58,20 +58,24 @@ export const CreativeGenerationPanel = () => {
 
       {/* Progress Bars */}
       <div className="w-full max-w-sm space-y-4">
-        {creativeItems.map((item, i) => (
+        {[
+          { label: 'Analyzing product visuals', status: 'Active' },
+          { label: 'Generating AI image variations', status: 'Active' },
+          { label: 'Optimizing for social feeds', status: 'Pending' },
+          { label: 'Readying for review', status: 'Pending' },
+        ].map((item, i) => (
           <div key={i} className="space-y-2 animate-fade-in" style={{ animationDelay: `${(i + 4) * 100}ms` }}>
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">{item.label}</span>
-              {item.done ? (
-                <span className="text-xs text-accent">✓ Done</span>
+              {item.status === 'Active' ? (
+                <span className="text-xs text-primary">Active</span>
               ) : (
-                <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                <span className="text-xs text-muted-foreground">...</span>
               )}
             </div>
             <div className="h-2 bg-muted rounded-full overflow-hidden">
-              <div 
-                className={`h-full rounded-full transition-all duration-500 ${item.done ? 'bg-accent' : 'bg-primary animate-pulse'}`} 
-                style={{ width: `${item.progress}%` }} 
+              <div
+                className={`h-full rounded-full transition-all duration-500 ${item.status === 'Active' ? 'bg-primary w-2/3 animate-pulse' : 'bg-muted w-0'}`}
               />
             </div>
           </div>

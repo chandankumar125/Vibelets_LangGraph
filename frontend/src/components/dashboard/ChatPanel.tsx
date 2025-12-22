@@ -91,15 +91,23 @@ export const ChatPanel = ({
 
   // Find the active question that needs chip selection (last unanswered question)
   const activeQuestion: InlineQuestion | null = useMemo(() => {
-    const chipQuestionIds = ['product-continue', 'script-selection', 'avatar-selection', 'creative-selection', 'ad-account-selection'];
+    const chipQuestionIds = ['product-continue', 'script-selection', 'avatar-selection', 'creative-selection', 'creative-review', 'ad-account-selection', 'script-review', 'generic-confirmation', 'script-refinement', 'creative-refinement', 'navigation-options'];
 
     // Mapping question IDs to valid steps
+    const ALL_STEPS: CampaignStep[] = ['welcome', 'product-url', 'product-analysis', 'script-selection', 'script-generation', 'avatar-selection', 'creative-generation', 'creative-generation:images', 'creative-generation:audio', 'creative-generation:video', 'creative-review', 'campaign-setup', 'facebook-integration', 'ad-account-selection', 'campaign-preview', 'publishing'];
+
     const validStepsForQuestion: Record<string, CampaignStep[]> = {
-      'product-continue': ['product-url', 'welcome'],
-      'script-selection': ['script-selection'],
-      'avatar-selection': ['avatar-selection'],
-      'creative-selection': ['creative-generation', 'creative-generation:images', 'creative-generation:audio', 'creative-generation:video', 'creative-review'],
-      'ad-account-selection': ['ad-account-selection', 'facebook-integration']
+      'product-continue': ['product-url', 'welcome', 'product-analysis', 'script-selection'],
+      'script-selection': ['script-selection', 'script-generation', 'product-analysis'],
+      'avatar-selection': ['avatar-selection', 'creative-generation', 'script-selection'],
+      'creative-selection': ALL_STEPS,
+      'creative-review': ALL_STEPS,
+      'ad-account-selection': ['ad-account-selection', 'facebook-integration'],
+      'script-review': ALL_STEPS,
+      'generic-confirmation': ALL_STEPS,
+      'navigation-options': ALL_STEPS,
+      'script-refinement': ['script-selection', 'script-generation'],
+      'creative-refinement': ['creative-review', 'creative-generation']
     };
 
     for (let i = messages.length - 1; i >= 0; i--) {

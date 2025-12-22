@@ -8,9 +8,10 @@ import { Button } from '@/components/ui/button';
 interface AvatarPreviewPanelProps {
   avatars: AvatarOption[];
   selectedAvatar: AvatarOption | null;
+  onSelect?: (avatar: AvatarOption) => void;
 }
 
-export const AvatarPreviewPanel = ({ avatars, selectedAvatar }: AvatarPreviewPanelProps) => {
+export const AvatarPreviewPanel = ({ avatars, selectedAvatar, onSelect }: AvatarPreviewPanelProps) => {
   const [previewAvatar, setPreviewAvatar] = useState<AvatarOption | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -55,6 +56,7 @@ export const AvatarPreviewPanel = ({ avatars, selectedAvatar }: AvatarPreviewPan
           return (
             <div
               key={avatar.id}
+              onClick={() => onSelect?.(avatar)}
               className={cn(
                 "relative rounded-xl border overflow-hidden transition-all group cursor-pointer animate-fade-in",
                 isSelected
@@ -96,7 +98,7 @@ export const AvatarPreviewPanel = ({ avatars, selectedAvatar }: AvatarPreviewPan
                 {/* Play button overlay */}
                 {avatar.videoPreview && (
                   <button
-                    onClick={() => handlePreview(avatar)}
+                    onClick={(e) => { e.stopPropagation(); handlePreview(avatar); }}
                     className="absolute inset-0 flex items-center justify-center bg-background/30 opacity-0 group-hover:opacity-100 transition-opacity"
                   >
                     <div className="w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center shadow-lg transition-transform duration-200 hover:scale-110">

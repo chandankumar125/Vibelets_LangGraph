@@ -69,6 +69,7 @@ class WorkflowState(TypedDict):
     video_id: Optional[str]
     video_url: Optional[str]
     video_status: Optional[str]
+    video_aspect_ratio: Optional[str] # e.g., '9:16', '1:1', '4:5', '1.91:1'
     
     # Error handling
     error: Optional[str]

@@ -2,6 +2,7 @@ export type CampaignStep =
   | 'welcome'
   | 'product-url'
   | 'product-analysis'
+  | 'script-generation'
   | 'script-selection'
   | 'avatar-selection'
   | 'creative-generation'
@@ -66,6 +67,10 @@ export interface ScriptOption {
   description: string;
   duration: string;
   style: string;
+  body?: string;
+  hook?: string;
+  cta?: string;
+  tone?: string;
   isCustom?: boolean;
   customContent?: {
     primaryText: string;
@@ -235,4 +240,5 @@ export interface CampaignState {
   performanceDashboard: PerformanceDashboardState | null;
   isRefreshingDashboard: boolean;
   pendingIntentConfirmation: IntentConfirmation | null;
+  video_aspect_ratio?: '1:1' | '4:5' | '9:16' | '1.91:1';
 }

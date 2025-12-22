@@ -8,6 +8,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000
 export interface WorkflowState {
   current_step: string;
   navigation_intent?: string;
+  agent_message?: string;
   messages: Array<{ role: string; content: string }>;
   url?: string;
   product_data?: any;
@@ -275,12 +276,13 @@ class VibeletsAPI {
   /**
    * Generate video
    */
-  async generateVideo(): Promise<ApiResponse> {
+  async generateVideo(aspectRatio?: string): Promise<ApiResponse> {
     const response = await fetch(`${API_BASE_URL}/workflow/generate_video`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        thread_id: this.getThreadId()
+        thread_id: this.getThreadId(),
+        video_aspect_ratio: aspectRatio
       })
     });
 

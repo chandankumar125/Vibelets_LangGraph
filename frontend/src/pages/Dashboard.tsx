@@ -38,6 +38,9 @@ const Dashboard = () => {
     refreshPerformanceDashboard,
     handleCloneCreative,
     generatedAvatars,
+    selectScript,
+    selectAvatar,
+    selectCreative,
   } = useCampaignFlow();
 
   // Redirect to auth if not authenticated
@@ -105,6 +108,9 @@ const Dashboard = () => {
               onRegenerateProduct={regenerateProductAnalysis}
               onRegenerateScripts={regenerateScripts}
               onRegenerateCreatives={regenerateCreatives}
+              onSelectScript={selectScript}
+              onSelectAvatar={selectAvatar}
+              onSelectCreative={selectCreative}
               onCustomScriptSubmit={handleCustomScriptSubmit}
               onCustomScriptCancel={handleCustomScriptCancel}
               onCustomCreativeSubmit={handleCustomCreativeSubmit}

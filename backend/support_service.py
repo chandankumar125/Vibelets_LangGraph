@@ -72,25 +72,57 @@ class SupportService:
                 "reasoning": "Numeric selection"
             }
         
-        # Navigation keywords
+        # Navigation/Instruction keywords (Action-oriented)
         nav_keywords = ['next', 'continue', 'back', 'previous', 'go to', 'change url', 
                         'new url', 'start over', 'restart', 'http', 'www', '.com', 'https',
-                        'proceed', 'confirm', 'go ahead', 'forward', 'move on']
+                        'proceed', 'confirm', 'go ahead', 'forward', 'move on',
+                        'refine', 'refining', 'edit', 'edits', 'tweak', 'tweaks',
+                        'make', 'change', 'shorter', 'longer', 'funny', 'funnier', 'professional',
+                        'serious', 'add', 'remove', 'focus', 'highlight', 'tone', 'style',
+                        'rewrite', 'regenerate', 'again', 'try', 'fix', 'improve']
         
-        if any(keyword in message_lower for keyword in nav_keywords):
+        # Support/Question keywords
+        support_keywords = ['how', 'what', 'where', 'why', 'can you', 'help', 'stuck', 'error', 'bug', 'support', 'contact']
+        
+        has_nav_keyword = any(keyword in message_lower for keyword in nav_keywords)
+        has_support_keyword = any(keyword in message_lower for keyword in support_keywords)
+        is_question = '?' in message or message_lower.startswith(('how', 'what', 'can'))
+
+        # If it looks like a refinement instruction (starts with "make", "add", etc.) and we are in relevant steps
+        instruction_steps = ['product-analysis', 'script-selection', 'creative-generation', 'creative-review']
+        is_instruction = any(message_lower.startswith(v) for v in ['make', 'change', 'add', 'remove', 'rewrite', 'use', 'focus'])
+        
+        if (has_nav_keyword or is_instruction) and not (is_question and 'how' in message_lower):
             return {
                 "is_navigation": True,
                 "intent": "navigation",
                 "confidence": 0.9,
-                "reasoning": "Navigation command"
+                "reasoning": "Instruction or workflow command"
+            }
+            
+        if is_question or has_support_keyword:
+            return {
+                "is_navigation": False,
+                "intent": "support",
+                "confidence": 0.9,
+                "reasoning": "Looks like a help question"
             }
         
-        # Everything else = support
+        # If in a generating/reviewing step, default to navigation (instruction) for ambiguous inputs
+        if current_step in instruction_steps:
+             return {
+                "is_navigation": True,
+                "intent": "navigation",
+                "confidence": 0.7,
+                "reasoning": "Ambiguous input in active workflow step"
+            }
+
+        # Safe fallback for completely unknown input
         return {
             "is_navigation": False,
             "intent": "support",
-            "confidence": 0.9,
-            "reasoning": "Help question"
+            "confidence": 0.5,
+            "reasoning": "Generic support fallback"
         }
     
     async def get_support_response(self, question: str, current_step: str = None, top_k: int = 5) -> Dict[str, Any]:

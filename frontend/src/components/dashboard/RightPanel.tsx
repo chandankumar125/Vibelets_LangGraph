@@ -35,6 +35,9 @@ interface RightPanelProps {
   onRecommendationAction?: (recommendationId: string, action: string, value?: number) => void;
   onRefreshDashboard?: () => void;
   onCloneCreative?: (recommendation: AIRecommendation) => void;
+  onSelectScript?: (script: ScriptOption) => void;
+  onSelectAvatar?: (avatar: AvatarOption) => void;
+  onSelectCreative?: (creative: CreativeOption) => void;
 }
 
 export const RightPanel = ({
@@ -56,6 +59,9 @@ export const RightPanel = ({
   onRecommendationAction,
   onRefreshDashboard,
   onCloneCreative,
+  onSelectScript,
+  onSelectAvatar,
+  onSelectCreative,
 }: RightPanelProps) => {
   const viewportRef = useRef<HTMLDivElement>(null);
   const scriptSectionRef = useRef<HTMLDivElement>(null);
@@ -123,6 +129,7 @@ export const RightPanel = ({
                 <ScriptPreviewPanel
                   scripts={generatedScripts}
                   selectedScript={state.selectedScript}
+                  onSelect={onSelectScript}
                   isRegenerating={state.isRegenerating === 'scripts'}
                   onRegenerate={onRegenerateScripts}
                 />
@@ -135,9 +142,9 @@ export const RightPanel = ({
         return (
           <>
             <ProductAnalysisPanel productData={state.productData} productUrl={state.productUrl} isAnalyzing={false} />
-            <ScriptPreviewPanel scripts={generatedScripts} selectedScript={state.selectedScript} />
+            <ScriptPreviewPanel scripts={generatedScripts} selectedScript={state.selectedScript} onSelect={onSelectScript} />
             <div ref={avatarSectionRef}>
-              <AvatarPreviewPanel avatars={generatedAvatars} selectedAvatar={state.selectedAvatar} />
+              <AvatarPreviewPanel avatars={generatedAvatars} selectedAvatar={state.selectedAvatar} onSelect={onSelectAvatar} />
             </div>
           </>
         );
@@ -146,6 +153,17 @@ export const RightPanel = ({
       case 'creative-generation:images':
       case 'creative-generation:audio':
       case 'creative-generation:video':
+        // If we have generated creatives, show them in the gallery view
+        if (state.creatives && state.creatives.length > 0) {
+          return (
+            <CreativeGalleryPanel
+              creatives={state.creatives}
+              selectedCreative={state.selectedCreative}
+              isRegenerating={state.isRegenerating === 'creatives'}
+              onRegenerate={onRegenerateCreatives}
+            />
+          );
+        }
         return <CreativeGenerationPanel />;
 
       case 'creative-review':
@@ -165,6 +183,7 @@ export const RightPanel = ({
           <CreativeGalleryPanel
             creatives={state.creatives}
             selectedCreative={state.selectedCreative}
+            onSelect={onSelectCreative || (() => { })}
             isRegenerating={state.isRegenerating === 'creatives'}
             onRegenerate={onRegenerateCreatives}
           />
