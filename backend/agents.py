@@ -11,13 +11,12 @@ import json
 import re
 from config import Config
 
-
 class AnalysisAgent:
     """Agent for product analysis with chat-based refinement"""
     
     def __init__(self):
         self.llm = ChatOpenAI(
-            model="gpt-4",
+            model="gpt-4o",
             temperature=0.7,
             openai_api_key=Config.OPENAI_API_KEY
         )
@@ -51,10 +50,10 @@ Format as JSON with keys: category, features, target_audience, usps, marketing_a
             
             chain = prompt | self.llm | StrOutputParser()
             result = await chain.ainvoke({
-                "title": product_data.get('title', ''),
-                "description": product_data.get('description', ''),
-                "price": product_data.get('price', ''),
-                "raw_text": product_data.get('raw_text', '')
+                "title": product_data.get('title', '')[:200],
+                "description": product_data.get('description', '')[:1000],
+                "price": product_data.get('price', '')[:20],
+                "raw_text": product_data.get('raw_text', '')[:3000]
             })
         else:
             # Refinement based on feedback
@@ -86,9 +85,40 @@ Refine the analysis addressing the user's feedback. Maintain the JSON format wit
             })
         
         try:
-            return json.loads(result)
-        except:
-            return {"analysis": result}
+            # 1. Try to extract JSON between markdown blocks
+            json_match = re.search(r'```json\s*(.*?)\s*```', result, re.DOTALL)
+            if json_match:
+                result = json_match.group(1)
+            else:
+                # Try just ``` blocks
+                json_match = re.search(r'```\s*(.*?)\s*```', result, re.DOTALL)
+                if json_match:
+                    result = json_match.group(1)
+            
+            # 2. Basic cleanup
+            cleaned = result.strip()
+            # Remove any non-JSON characters if they somehow remained at start/end
+            cleaned = re.sub(r'^[^{]*', '', cleaned)
+            cleaned = re.sub(r'[^}]*$', '', cleaned)
+            
+            data = json.loads(cleaned)
+            
+            # 3. Handle nesting if AI wrapped it
+            if isinstance(data, dict):
+                if list(data.keys()) == ["analysis"] and isinstance(data["analysis"], (dict, str)):
+                    inner = data["analysis"]
+                    if isinstance(inner, str):
+                        try:
+                            # Recursive check for stringified JSON inside
+                            inner_cleaned = re.sub(r'```json\s*|\s*```', '', inner).strip()
+                            return json.loads(inner_cleaned)
+                        except:
+                            pass
+                    return inner
+            return data
+        except Exception as e:
+            print(f"JSON parsing error in AnalysisAgent: {e}")
+            return {"analysis_raw": result}
 
 
 class ScriptGenerationAgent:
@@ -96,7 +126,7 @@ class ScriptGenerationAgent:
     
     def __init__(self):
         self.llm = ChatOpenAI(
-            model="gpt-4",
+            model="gpt-4o",
             temperature=0.8,
             openai_api_key=Config.OPENAI_API_KEY
         )
@@ -232,7 +262,7 @@ IMPORTANT: Return exactly 3 scripts using the SAME format:
             ("human", """
 Current Script:
 {current_script}
-
+can we w
 User Request: {feedback}
 
 Provide the modified script (30-45 seconds when read aloud). Output only the script content without labels or commentary.
@@ -253,7 +283,7 @@ class ImageGenerationAgent:
     
     def __init__(self):
         self.llm = ChatOpenAI(
-            model="gpt-4",
+            model="gpt-4o",
             temperature=0.7,
             openai_api_key=Config.OPENAI_API_KEY
         )
@@ -329,12 +359,13 @@ Output only the prompt, no additional commentary.
             })
             return result.strip()
     
-    def generate_images(self, product_url: str, image_prompt: str, num_images: int = 2) -> List[str]:
+    def generate_images(self, product_url: str, image_prompt: str, num_images: int = 2, base_image: Any = None) -> List[str]:
         """Generate images using the refined prompt"""
         return self.image_gen.generate_ad_creatives_with_prompt(
             product_url, 
             image_prompt, 
-            num_images
+            num_images,
+            base_image=base_image
         )
 
 
@@ -343,7 +374,7 @@ class NavigationAgent:
     
     def __init__(self):
         self.llm = ChatOpenAI(
-            model="gpt-4",
+            model="gpt-4o",
             temperature=0,
             openai_api_key=Config.OPENAI_API_KEY
         )
@@ -371,28 +402,32 @@ class NavigationAgent:
 Your job is to determine where the user wants to go based on their message and the current step.
 
 Workflow Steps:
-1. scrape (Input URL)
-2. analyze (Product Analysis)
-3. generate_scripts (Create Ad Scripts)
-4. select_script (Choose one script)
-5. refine_script (Edit selected script)
-6. generate_images (Create visuals)
-7. refine_images (Edit visuals)
-8. generate_audio (Voiceover)
-9. select_avatar (Choose presenter)
-10. generate_video (Final video)
+1. "product-url" (Input Product Link)
+2. "product-analysis" (AI Analysis of Product)
+3. "script-selection" (Choose Ad Scripts)
+4. "creative-generation" (Generate Visuals)
+5. "avatar-selection" (Choose Presenter)
+6. "facebook-auth" (Connect Facebook)
+7. "ad-account-selection" (Select Ad Account)
+8. "campaign-creation" (Review & Launch)
 
 Rules:
 - If user says "next", "looks good", "continue", or approves current output -> return "next"
+- If user says "back", "go back", "previous", "return" -> return "back"
+
 - If user provides a URL (starts with http/https/www) -> return "scrape"
-- If user wants to change something from a previous step (e.g., "change target audience") -> return the name of that step (e.g., "analyze")
-- If user explicitly asks to go to a step -> return that step name
+- If user wants to CHANGE/RESET/NEW URL (e.g., "change url", "new url", "different product", "start over") -> return "change_url"
+- If user wants to change something from a previous step (e.g., "change target audience") -> return the name of that step (e.g., "product-analysis")
+- If user explicitly asks to go to a step (e.g., "go to facebook", "connect facebook") -> return that step name (e.g., "facebook-auth")
 - If user provides feedback for the CURRENT step (e.g., "make it funnier" while in generate_scripts) -> return "stay" (to refine)
+- If user provides a number (1, 2, 3...) during a selection step -> return "stay" (to select)
 - If user wants to stop -> return "complete"
+
+IMPORTANT: "change url", "new url", "different url", "start over" should ALWAYS return "change_url".
 
 Output JSON:
 {{
-    "intent": "next" | "stay" | "complete" | "step_name",
+    "intent": "next" | "back" | "stay" | "complete" | "change_url" | "step_name" (e.g. "facebook-auth"),
     "reasoning": "brief explanation"
 }}
 """),
@@ -424,7 +459,7 @@ class GuideAgent:
     
     def __init__(self):
         self.llm = ChatOpenAI(
-            model="gpt-4",
+            model="gpt-4o",
             temperature=0.7,
             openai_api_key=Config.OPENAI_API_KEY
         )

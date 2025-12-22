@@ -16,6 +16,7 @@ const Dashboard = () => {
     messages,
     isTyping,
     selectedAnswers,
+    generatedScripts,
     handleUserMessage,
     handleQuestionAnswer,
     handleCampaignConfigComplete,
@@ -36,6 +37,7 @@ const Dashboard = () => {
     handleRecommendationAction,
     refreshPerformanceDashboard,
     handleCloneCreative,
+    generatedAvatars,
   } = useCampaignFlow();
 
   // Redirect to auth if not authenticated
@@ -96,6 +98,8 @@ const Dashboard = () => {
           <div className="h-full glass-card rounded-2xl overflow-hidden shadow-lg">
             <RightPanel
               state={state}
+              generatedScripts={generatedScripts}
+              generatedAvatars={generatedAvatars}
               onReset={resetFlow}
               onStepClick={goToStep}
               onRegenerateProduct={regenerateProductAnalysis}

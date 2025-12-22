@@ -21,6 +21,21 @@ const insightIcons: Record<string, React.ElementType> = {
   'dollar-sign': CircleDollarSign,
 };
 
+// Helper function to format insight values (handles objects and arrays)
+const formatInsightValue = (value: any): string => {
+  if (typeof value === 'string') {
+    return value;
+  } else if (Array.isArray(value)) {
+    return value.map(v => typeof v === 'object' ? JSON.stringify(v) : String(v)).join(', ');
+  } else if (typeof value === 'object' && value !== null) {
+    // Convert object to readable format
+    return Object.entries(value)
+      .map(([k, v]) => `${k}: ${typeof v === 'object' ? JSON.stringify(v) : v}`)
+      .join(', ');
+  }
+  return String(value);
+};
+
 export const ProductAnalysisPanel = ({ productData, productUrl, isAnalyzing, isRegenerating, onRegenerate }: ProductAnalysisPanelProps) => {
   if (isAnalyzing) {
     return (
@@ -28,8 +43,8 @@ export const ProductAnalysisPanel = ({ productData, productUrl, isAnalyzing, isR
         {/* Skeleton Page Screenshot */}
         <div className="relative rounded-xl overflow-hidden border border-border bg-muted mb-6">
           <div className="aspect-video bg-muted relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-muted via-muted-foreground/5 to-muted animate-[shimmer_2s_infinite]" 
-                 style={{ backgroundSize: '200% 100%', animation: 'shimmer 2s infinite linear' }} />
+            <div className="absolute inset-0 bg-gradient-to-r from-muted via-muted-foreground/5 to-muted animate-[shimmer_2s_infinite]"
+              style={{ backgroundSize: '200% 100%', animation: 'shimmer 2s infinite linear' }} />
             <div className="flex items-center justify-center h-full">
               <div className="text-center">
                 <Loader2 className="w-10 h-10 text-primary animate-spin mx-auto mb-3" />
@@ -111,23 +126,37 @@ export const ProductAnalysisPanel = ({ productData, productUrl, isAnalyzing, isR
 
   if (!productData) return null;
 
+  // DEBUG: Log product data to see what's available
+  console.log('ProductAnalysisPanel - productData:', productData);
+  console.log('ProductAnalysisPanel - images:', productData.images);
+  console.log('ProductAnalysisPanel - pageScreenshot:', productData.pageScreenshot);
+
   return (
     <div className="p-6 space-y-6 animate-fade-in">
       {/* Page Screenshot Preview */}
-      <div className="relative rounded-xl overflow-hidden border border-border">
-        <ImageLightbox
-          src={productData.pageScreenshot || productData.images[0]} 
-          alt="Product page preview" 
-          className="w-full h-48 object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 p-4 pointer-events-none">
-          <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
-            <Sparkles className="w-3 h-3 mr-1" />
-            AI Analyzed
-          </Badge>
+      {(productData.pageScreenshot || (productData.images && productData.images.length > 0)) ? (
+        <div className="relative rounded-xl overflow-hidden border border-border bg-white">
+          <ImageLightbox
+            src={productData.pageScreenshot || productData.images[0]}
+            alt="Product page preview"
+            className="w-full min-h-[300px] object-contain"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent pointer-events-none" />
+          <div className="absolute bottom-0 left-0 right-0 p-4 pointer-events-none">
+            <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
+              <Sparkles className="w-3 h-3 mr-1" />
+              AI Analyzed
+            </Badge>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="relative rounded-xl overflow-hidden border border-border bg-muted/50 min-h-[300px] flex items-center justify-center">
+          <div className="text-center text-muted-foreground">
+            <Image className="w-16 h-16 mx-auto mb-2 opacity-50" />
+            <p className="text-sm">No product image available</p>
+          </div>
+        </div>
+      )}
 
       {/* Product Info */}
       <Card className="border-primary/20">
@@ -167,18 +196,24 @@ export const ProductAnalysisPanel = ({ productData, productUrl, isAnalyzing, isR
           <div>
             <div className="flex items-center gap-2 mb-2 text-muted-foreground">
               <Image className="w-4 h-4" />
-              <span className="text-xs">Product Images ({productData.images.length})</span>
+              <span className="text-xs">Product Images</span>
             </div>
-            <div className="grid grid-cols-3 gap-2">
-              {productData.images.map((img, i) => (
-                <ImageLightbox
-                  key={i}
-                  src={img}
-                  alt={`Product ${i + 1}`}
-                  className="aspect-square rounded-lg bg-muted ring-2 ring-transparent hover:ring-primary/50 transition-all object-cover"
-                />
-              ))}
-            </div>
+            {productData.images && productData.images.length > 0 ? (
+              <div className="grid grid-cols-3 gap-2">
+                {productData.images.slice(0, 3).map((img, i) => (
+                  <ImageLightbox
+                    key={i}
+                    src={img}
+                    alt={`Product ${i + 1}`}
+                    className="w-full h-24 rounded-lg bg-muted ring-2 ring-transparent hover:ring-primary/50 transition-all object-contain"
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-24 rounded-lg bg-muted/50 border border-dashed border-muted-foreground/30">
+                <p className="text-xs text-muted-foreground">No product images found</p>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -207,6 +242,7 @@ export const ProductAnalysisPanel = ({ productData, productUrl, isAnalyzing, isR
           <div className="grid grid-cols-2 gap-2">
             {productData.insights.map((insight, i) => {
               const Icon = insightIcons[insight.icon] || Star;
+              const formattedValue = formatInsightValue(insight.value);
               return (
                 <div key={i} className={cn(
                   "flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-accent/5 border border-primary/10",
@@ -215,9 +251,9 @@ export const ProductAnalysisPanel = ({ productData, productUrl, isAnalyzing, isR
                   <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <Icon className="w-4 h-4 text-primary" />
                   </div>
-                  <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground">{insight.label}</p>
-                    <p className="text-sm font-medium text-foreground truncate">{insight.value}</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs text-muted-foreground mb-1">{insight.label}</p>
+                    <p className="text-sm font-medium text-foreground leading-relaxed break-words whitespace-normal">{formattedValue}</p>
                   </div>
                 </div>
               );

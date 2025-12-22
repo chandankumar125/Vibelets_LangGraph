@@ -1,135 +1,141 @@
-from dotenv import load_dotenv
-import os
 import requests
-from typing import List, Dict, Optional
+import os
 import mimetypes
-from config import Config
+import json
+from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
 
 class HeyGenAvatarIntegrator:
-    """Integrates voiceover with HeyGen avatar"""
-    
     def __init__(self):
-        self.api_key = os.getenv("HEYGEN_API_KEY")  
-
-    
-    def get_avatars(self) -> List[Dict]:
-        """Fetch available avatars from HeyGen API"""
-        url = f"{Config.HEYGEN_API_BASE_URL}/v2/avatars"
-        headers = {
-            "X-Api-Key": self.api_key
+        self.heygen_api_key = os.getenv("HEYGEN_API_KEY")
+        self.base_url = "https://api.heygen.com"
+        self.upload_url = "https://upload.heygen.com/v1/asset"
+        self.headers = {
+            "X-Api-Key": self.heygen_api_key,
+            "Content-Type": "application/json"
         }
-        
+
+    def get_avatars(self):
+        """Fetch available avatars from HeyGen API."""
+        url = f"{self.base_url}/v2/avatars"
         try:
+            # Copy headers and remove Content-Type for GET request
+            headers = self.headers.copy()
+            if "Content-Type" in headers:
+                del headers["Content-Type"]
             response = requests.get(url, headers=headers)
             response.raise_for_status()
             data = response.json()
-            return data.get("data", {}).get("avatars", [])
-        except Exception as e:
-            print(f"✗ Error fetching avatars: {str(e)}")
+            avatars = data.get("data", {}).get("avatars", [])
+            return avatars
+        except requests.exceptions.RequestException as e:
+            print(f"Error fetching avatars: {e}")
             return []
 
-    def upload_asset(self, file_path: str) -> Optional[str]:
-        """Upload a local file to HeyGen and return the asset ID"""
-        url = f"{Config.HEYGEN_UPLOAD_URL}"
+    def upload_asset(self, file_path):
+        """Upload a local file to HeyGen and return the asset ID."""
         mime_type, _ = mimetypes.guess_type(file_path)
         if not mime_type:
             mime_type = "application/octet-stream"
-            
-        headers = {
-            "X-Api-Key": self.api_key,
-            "Content-Type": mime_type
-        }
+        
+        file_name = os.path.basename(file_path)
+        
+        # Update headers for raw upload
+        headers = self.headers.copy()
+        headers["Content-Type"] = mime_type
         
         try:
             with open(file_path, "rb") as f:
-                response = requests.post(url, headers=headers, data=f)
+                # Send raw file content as body
+                response = requests.post(self.upload_url, headers=headers, data=f)
                 response.raise_for_status()
                 data = response.json()
                 asset_id = data.get("data", {}).get("id")
-                print(f"✓ Audio uploaded to HeyGen. Asset ID: {asset_id}")
                 return asset_id
-        except Exception as e:
-            print(f"✗ Error uploading asset: {str(e)}")
+        except requests.exceptions.RequestException as e:
+            print(f"Error uploading asset {file_name}: {e}")
             return None
 
-    def create_avatar_video(self, audio_input: str, avatar_id: str = "default", is_asset_id: bool = False) -> Dict:
-        """Create video with HeyGen avatar and audio (url or asset_id)"""
-        
-        headers = {
-            "X-Api-Key": self.api_key,
-            "Content-Type": "application/json"
-        }
-        
-        voice_config = {
-            "type": "audio",
-        }
-        
-        if is_asset_id:
-            voice_config["audio_asset_id"] = audio_input
-        else:
-            voice_config["audio_url"] = audio_input
+    def create_avatar_video(self, audio_asset_id, avatar_id, background_url=None):
 
-        data = {
-            "video_inputs": [{
-                "character": {
-                    "type": "avatar",
-                    "avatar_id": avatar_id,
-                    "avatar_style": "normal"
-                },
-                "voice": voice_config,
-                "background": {
-                    "type": "color",
-                    "value": "#FFFFFF"
-                }
-            }],
+        """Create a video using the specified avatar and audio asset."""
+        url = f"{self.base_url}/v2/video/generate"
+        
+        # Base video input
+        video_input = {
+            "character": {
+                "type": "avatar",
+                "avatar_id": avatar_id,
+                "avatar_style": "normal"
+            },
+            "voice": {
+                "type": "audio",
+                "audio_asset_id": audio_asset_id
+            }
+        }
+        
+        # Add background if provided
+        if background_url:
+            video_input["background"] = {
+                "type": "image",
+                "url": background_url
+            }
+        
+        payload = {
+            "video_inputs": [video_input],
             "dimension": {
                 "width": 1280,
                 "height": 720
-            },
-            "aspect_ratio": "16:9"
+            }
         }
+        
+        print(f"DEBUG: HeyGen Request Payload: {json.dumps(payload, indent=2)}")
         
         try:
-            response = requests.post(
-                Config.HEYGEN_CREATE_VIDEO_URL,
-                json=data,
-                headers=headers
-            )
+            response = requests.post(url, headers=self.headers, json=payload)
+            if not response.ok:
+                print(f"DEBUG: HeyGen Failed Response: {response.text}")
             response.raise_for_status()
-            result = response.json()
-            
-            print(f"✓ Avatar video creation initiated")
-            video_id = result.get("data", {}).get("video_id")
-            print(f"  Video ID: {video_id}")
-            
-            return {"video_id": video_id, "raw": result}
-            
-        except Exception as e:
-            print(f"✗ Error creating avatar video: {str(e)}")
-            if 'response' in locals() and response.content:
-                 print(f"Response content: {response.content.decode()}")
-            return {"error": str(e)}
-    
-    def check_video_status(self, video_id: str) -> Dict:
-        """Check the status of video generation"""
-        
-        headers = {
-            "X-Api-Key": self.api_key
-        }
-        
-        params = {
-            "video_id": video_id
-        }
+            data = response.json()
+            video_id = data.get("data", {}).get("video_id")
+            return {"video_id": video_id}
+        except requests.exceptions.RequestException as e:
+            error_msg = str(e)
+            if hasattr(e.response, 'text') and e.response.text:
+                error_msg += f" - Response: {e.response.text}"
+            print(f"Error creating video: {error_msg}")
+            return {"error": error_msg}
+
+    def check_video_status(self, video_id):
+        """Check the status of the video generation."""
+        url = f"{self.base_url}/v1/video_status.get"
+        params = {"video_id": video_id}
         
         try:
-            response = requests.get(
-                Config.HEYGEN_STATUS_URL,
-                params=params,
-                headers=headers
-            )
+            # Copy headers and remove Content-Type for GET request
+            headers = self.headers.copy()
+            if "Content-Type" in headers:
+                del headers["Content-Type"]
+            response = requests.get(url, headers=headers, params=params)
             response.raise_for_status()
-            return response.json()
-        except Exception as e:
-            return {"error": str(e)}
+            data = response.json()
+            status_data = data.get("data", {})
+            print(f"DEBUG: Video Status Check: {json.dumps(status_data, indent=2)}")
+            return status_data
+        except requests.exceptions.RequestException as e:
+            print(f"Error checking status for video {video_id}: {e}")
+            return {"status": "error", "error": str(e)}
+
+    def download_video(self, video_url, filename):
+        """Download the video from the provided URL."""
+        try:
+            response = requests.get(video_url, stream=True)
+            response.raise_for_status()
+            with open(filename, "wb") as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    f.write(chunk)
+            print(f"Video downloaded successfully: {filename}")
+        except requests.exceptions.RequestException as e:
+            print(f"Error downloading video: {e}")

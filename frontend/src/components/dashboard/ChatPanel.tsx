@@ -5,7 +5,7 @@ import { ChatInput } from './ChatInput';
 import { TypingIndicator } from './TypingIndicator';
 import { AssistantChatMessage } from './AssistantChatMessage';
 import { SuggestionChips } from './SuggestionChips';
-import { useAssistantChat, isGeneralQuery } from '@/hooks/useAssistantChat';
+import { useAssistantChat } from '@/hooks/useAssistantChat';
 import { MessageCircle, X, Trash2, Pencil, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input';
 interface ChatPanelProps {
   messages: Message[];
   isTyping: boolean;
-  onSendMessage: (message: string) => void;
+  onSendMessage: (message: string) => Promise<any> | void;
   onQuestionAnswer: (questionId: string, answerId: string) => void;
   onCampaignConfigComplete?: (config: Record<string, string>) => void;
   onFacebookConnect?: () => void;
@@ -26,10 +26,10 @@ interface ChatPanelProps {
   selectedAnswers?: Record<string, string>;
 }
 
-export const ChatPanel = ({ 
-  messages, 
-  isTyping, 
-  onSendMessage, 
+export const ChatPanel = ({
+  messages,
+  isTyping,
+  onSendMessage,
   onQuestionAnswer,
   onCampaignConfigComplete,
   onFacebookConnect,
@@ -47,7 +47,7 @@ export const ChatPanel = ({
   const [isEditingTitle, setIsEditingTitle] = useState(false);
   const [editedTitle, setEditedTitle] = useState(threadTitle);
   const titleInputRef = useRef<HTMLInputElement>(null);
-  
+
   const {
     messages: assistantMessages,
     isTyping: assistantIsTyping,
@@ -92,10 +92,25 @@ export const ChatPanel = ({
   // Find the active question that needs chip selection (last unanswered question)
   const activeQuestion: InlineQuestion | null = useMemo(() => {
     const chipQuestionIds = ['product-continue', 'script-selection', 'avatar-selection', 'creative-selection', 'ad-account-selection'];
-    
+
+    // Mapping question IDs to valid steps
+    const validStepsForQuestion: Record<string, CampaignStep[]> = {
+      'product-continue': ['product-url', 'welcome'],
+      'script-selection': ['script-selection'],
+      'avatar-selection': ['avatar-selection'],
+      'creative-selection': ['creative-generation', 'creative-generation:images', 'creative-generation:audio', 'creative-generation:video', 'creative-review'],
+      'ad-account-selection': ['ad-account-selection', 'facebook-integration']
+    };
+
     for (let i = messages.length - 1; i >= 0; i--) {
       const msg = messages[i];
       if (msg.inlineQuestion && chipQuestionIds.includes(msg.inlineQuestion.id)) {
+        // Strict Step Validation: Only show chips if current step matches the question's context
+        const allowedSteps = validStepsForQuestion[msg.inlineQuestion.id];
+        if (allowedSteps && !allowedSteps.includes(currentStep)) {
+          continue; // Skip irrelevant old questions
+        }
+
         // Check if already answered
         if (!selectedAnswers[msg.inlineQuestion.id]) {
           return msg.inlineQuestion;
@@ -103,7 +118,7 @@ export const ChatPanel = ({
       }
     }
     return null;
-  }, [messages, selectedAnswers]);
+  }, [messages, selectedAnswers, currentStep]);
 
   const handleChipSelect = useCallback((optionId: string) => {
     if (activeQuestion) {
@@ -111,14 +126,15 @@ export const ChatPanel = ({
     }
   }, [activeQuestion, onQuestionAnswer]);
 
-  const handleSendMessage = useCallback((message: string) => {
-    // Intelligently route based on message content
-    if (isGeneralQuery(message)) {
+  const handleSendMessage = useCallback(async (message: string) => {
+    // Send to main flow, which handles optimistic updates and direction
+    const result = await onSendMessage(message);
+
+    // If backend classified it as support, open assistant and inject answer
+    if (result && result.type === 'support') {
       setIsAssistantOpen(true);
-      sendAssistantMessage(message);
-    } else {
-      setIsAssistantOpen(false);
-      onSendMessage(message);
+      // Inject the response we already got so we don't fetch again
+      sendAssistantMessage(message, result.answer);
     }
   }, [onSendMessage, sendAssistantMessage]);
 
@@ -190,15 +206,15 @@ export const ChatPanel = ({
       </div>
 
       {/* Campaign Messages */}
-      <div 
+      <div
         ref={scrollRef}
         className="flex-1 overflow-y-auto overflow-x-hidden"
       >
         <div className="flex flex-col">
           {messages.map((message) => (
-            <ChatMessage 
-              key={message.id} 
-              message={message} 
+            <ChatMessage
+              key={message.id}
+              message={message}
               onQuestionAnswer={onQuestionAnswer}
               onCampaignConfigComplete={onCampaignConfigComplete}
               onFacebookConnect={onFacebookConnect}
@@ -241,9 +257,9 @@ export const ChatPanel = ({
               </Button>
             </div>
           </div>
-          
+
           {/* Assistant Messages */}
-          <div 
+          <div
             ref={assistantScrollRef}
             className="flex-1 overflow-y-auto overflow-x-hidden p-4"
           >
@@ -265,8 +281,8 @@ export const ChatPanel = ({
 
           {/* Assistant Input */}
           <div className="bg-background/30 p-3 border-t border-border/30">
-            <ChatInput 
-              onSend={handleAssistantSend} 
+            <ChatInput
+              onSend={handleAssistantSend}
               disabled={assistantIsTyping}
               placeholder="Ask a question..."
             />
@@ -281,11 +297,10 @@ export const ChatPanel = ({
           <Button
             variant={isAssistantOpen ? "default" : "outline"}
             size="icon"
-            className={`h-9 w-9 rounded-full shadow-lg transition-all ${
-              isAssistantOpen 
-                ? 'bg-secondary hover:bg-secondary/90 text-secondary-foreground' 
-                : 'bg-background hover:bg-secondary/20 border-secondary/50'
-            }`}
+            className={`h-9 w-9 rounded-full shadow-lg transition-all ${isAssistantOpen
+              ? 'bg-secondary hover:bg-secondary/90 text-secondary-foreground'
+              : 'bg-background hover:bg-secondary/20 border-secondary/50'
+              }`}
             onClick={() => setIsAssistantOpen(!isAssistantOpen)}
           >
             <MessageCircle className={`h-4 w-4 ${isAssistantOpen ? '' : 'text-secondary'}`} />
@@ -299,10 +314,10 @@ export const ChatPanel = ({
           currentStep={currentStep}
           disabled={disabled || isTyping}
         />
-        
-        <ChatInput 
-          onSend={handleSendMessage} 
-          disabled={disabled || isTyping || assistantIsTyping} 
+
+        <ChatInput
+          onSend={handleSendMessage}
+          disabled={disabled || isTyping || assistantIsTyping}
           placeholder="Paste product URL or type your choice..."
         />
       </div>

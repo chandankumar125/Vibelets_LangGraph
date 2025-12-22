@@ -5,7 +5,14 @@
 export const isValidUrl = (url: string): boolean => {
   try {
     const parsed = new URL(url.startsWith('http') ? url : `https://${url}`);
-    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+    // Protocol must be http or https
+    const validProtocol = parsed.protocol === 'http:' || parsed.protocol === 'https:';
+    // Hostname must contain at least one dot (e.g. example.com) to avoid single words
+    const validHost = parsed.hostname.includes('.') || parsed.hostname === 'localhost';
+    // Hostname must be at least 3 chars
+    const validLength = parsed.hostname.length >= 3;
+
+    return validProtocol && validHost && validLength;
   } catch {
     return false;
   }
@@ -13,7 +20,7 @@ export const isValidUrl = (url: string): boolean => {
 
 export const isProductUrl = (url: string): boolean => {
   if (!isValidUrl(url)) return false;
-  
+
   // Basic check for product-like URLs (contains common e-commerce patterns)
   const lowerUrl = url.toLowerCase();
   const productPatterns = [
@@ -28,12 +35,12 @@ export const isProductUrl = (url: string): boolean => {
     'id=',
     'sku='
   ];
-  
+
   // Either has product patterns or has a path (not just domain)
   try {
     const parsed = new URL(url.startsWith('http') ? url : `https://${url}`);
-    return productPatterns.some(pattern => lowerUrl.includes(pattern)) || 
-           parsed.pathname.length > 1;
+    return productPatterns.some(pattern => lowerUrl.includes(pattern)) ||
+      parsed.pathname.length > 1;
   } catch {
     return false;
   }
@@ -54,11 +61,11 @@ export const sanitizeInput = (input: string): string => {
  */
 export const validateCampaignConfig = (config: Record<string, string>): { valid: boolean; errors: string[] } => {
   const errors: string[] = [];
-  
+
   if (!config.objective) {
     errors.push('Campaign objective is required');
   }
-  
+
   if (!config.budget) {
     errors.push('Budget is required');
   } else {
@@ -70,11 +77,11 @@ export const validateCampaignConfig = (config: Record<string, string>): { valid:
       errors.push('Budget cannot exceed $100,000');
     }
   }
-  
+
   if (!config.duration) {
     errors.push('Duration is required');
   }
-  
+
   return { valid: errors.length === 0, errors };
 };
 

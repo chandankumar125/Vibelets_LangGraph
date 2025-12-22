@@ -8,11 +8,11 @@ interface SuggestionChipsProps {
   disabled?: boolean;
 }
 
-export const SuggestionChips = ({ 
-  activeQuestion, 
-  onSelect, 
+export const SuggestionChips = ({
+  activeQuestion,
+  onSelect,
   currentStep,
-  disabled 
+  disabled
 }: SuggestionChipsProps) => {
   if (!activeQuestion || disabled) return null;
 
@@ -20,7 +20,7 @@ export const SuggestionChips = ({
   const isCustomOption = (id: string) => id.includes('custom');
 
   return (
-    <div className="px-4 py-2 border-t border-border/30 bg-muted/20 backdrop-blur-sm">
+    <div className="px-4 py-2 border-t border-border/30 bg-muted/20 backdrop-blur-sm max-h-[120px] overflow-y-auto">
       <div className="flex flex-wrap gap-2 items-center">
         <span className="text-xs text-muted-foreground mr-1">
           {isCompactQuestion ? 'Quick actions:' : 'Suggestions:'}

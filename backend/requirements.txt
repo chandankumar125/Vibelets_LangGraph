@@ -13,3 +13,7 @@ uvicorn
 python-multipart
 google-genai
 pillow
+facebook-business
+httpx
+chromadb
+PyPDF2

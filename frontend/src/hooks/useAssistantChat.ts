@@ -1,140 +1,75 @@
 import { useState, useCallback } from 'react';
+import api from '@/lib/api';
 
 export interface AssistantMessage {
   id: string;
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
+  suggestedActions?: SuggestedAction[];
+  confidence?: number;
 }
 
-const RAG_RESPONSES: Record<string, string> = {
-  'what is vibelets': `**Vibelets** is an AI-powered ad creation platform that helps you create high-converting digital ad campaigns in minutes.
-
-🎯 **What we do:**
-• Automatically analyze your products from any URL
-• Generate professional ad scripts using AI
-• Create video ads with AI avatars
-• Launch campaigns directly to Facebook Ads
-
-No marketing expertise required — just paste a product URL and let AI do the heavy lifting!`,
-
-  'what can i do': `Here's what you can do with Vibelets:
-
-📦 **Product Analysis** — Paste any product URL and I'll extract images, descriptions, and key selling points
-
-✍️ **Script Generation** — Choose from AI-generated scripts or write your own ad copy
-
-🎬 **Creative Generation** — Get AI-generated video and image ads with professional avatars
-
-🚀 **Campaign Launch** — Configure and publish your ads directly to Facebook
-
-💡 **Tip:** Start by pasting a product URL to create your first ad!`,
-
-  'how does it work': `Vibelets works in 5 simple steps:
-
-1️⃣ **Paste Product URL** — Share your product page link
-2️⃣ **Review Analysis** — See AI-extracted product data and insights
-3️⃣ **Choose Script & Avatar** — Pick your ad style and AI presenter
-4️⃣ **Select Creative** — Review generated ads and pick your favorite
-5️⃣ **Launch Campaign** — Connect Facebook and publish!
-
-The entire process takes about 5 minutes. Ready to try? Paste a product URL to get started!`,
-
-  'pricing': `Vibelets offers flexible pricing:
-
-🆓 **Free Trial** — Create your first campaign free
-💼 **Pro Plan** — Unlimited campaigns, priority support
-🏢 **Enterprise** — Custom solutions for agencies
-
-Contact us for detailed pricing at hello@vibelets.ai`,
-
-  'support': `Need help? Here's how to reach us:
-
-📧 **Email:** support@vibelets.ai
-💬 **Live Chat:** Available 9am-6pm EST
-📚 **Help Center:** docs.vibelets.ai
-
-For campaign issues, describe the problem here and I'll help troubleshoot!`,
-
-  'default': `I'm your Vibelets AI assistant! 👋
-
-I can help you with:
-• **Platform questions** — "What is Vibelets?", "How does it work?"
-• **Feature guidance** — "What can I do here?", "How to create a campaign?"
-• **Support** — Troubleshooting and general help
-
-💡 To create an ad campaign, paste your product URL below!`
-};
-
-const QUERY_PATTERNS: { pattern: RegExp; key: string }[] = [
-  { pattern: /what'?s?\s*vibelets/i, key: 'what is vibelets' },
-  { pattern: /what\s+(is|are)\s+vibelets/i, key: 'what is vibelets' },
-  { pattern: /what\s+(can|could).*(do|done)/i, key: 'what can i do' },
-  { pattern: /what.*(can|could)\s+i\s+do/i, key: 'what can i do' },
-  { pattern: /how\s+(does|do)\s+(it|this)\s+work/i, key: 'how does it work' },
-  { pattern: /how\s+to\s+(use|start|begin)/i, key: 'how does it work' },
-  { pattern: /pric(e|ing|es)/i, key: 'pricing' },
-  { pattern: /cost|payment|subscription/i, key: 'pricing' },
-  { pattern: /help|support|contact/i, key: 'support' },
-  { pattern: /who\s+are\s+you/i, key: 'default' },
-  { pattern: /what\s+are\s+you/i, key: 'default' },
-];
+export interface SuggestedAction {
+  label: string;
+  step?: string;  // Workflow step to navigate to
+  action?: string; // Custom action
+}
 
 // Detect if a query is a general/RAG query vs campaign-related
 export const isGeneralQuery = (message: string): boolean => {
   const messageLower = message.toLowerCase().trim();
-  
+
   // Check for URL patterns (campaign intent)
   if (messageLower.includes('http') || messageLower.includes('www.') || messageLower.includes('.com')) {
     return false;
   }
-  
+
+  // Check for explicit navigation commands
+  const navigationCommands = ['next', 'continue', 'back', 'previous', 'go to', 'start over'];
+  if (navigationCommands.some(cmd => messageLower.includes(cmd))) {
+    return false;
+  }
+
   // Check for campaign-related keywords with action intent
-  const campaignKeywords = ['campaign', 'publish', 'facebook', 'creative', 'script', 'avatar', 'budget'];
+  const campaignKeywords = ['campaign', 'publish', 'creative', 'script', 'avatar', 'budget'];
   const hasCampaignIntent = campaignKeywords.some(kw => messageLower.includes(kw));
-  
+
   if (hasCampaignIntent && (messageLower.includes('create') || messageLower.includes('start') || messageLower.includes('make'))) {
     return false;
   }
-  
+
   // General query patterns - more flexible matching
   const generalPatterns = [
-    /what'?s?\s*vibelets/i,
-    /what\s+(is|are)\s+vibelets/i,
-    /what\s+(can|could).*(do|done)/i,
-    /how\s+(does|do).*(work|function)/i,
-    /how\s+to\s+(use|start|begin)/i,
-    /tell\s+me\s+(about|more)/i,
+    /what'?s?\\s*vibelets/i,
+    /what\\s+(is|are)\\s+vibelets/i,
+    /what\\s+(can|could).*(do|done)/i,
+    /how\\s+(does|do).*(work|function)/i,
+    /how\\s+to\\s+(use|start|begin)/i,
+    /tell\\s+me\\s+(about|more)/i,
     /explain/i,
-    /who\s+are\s+you/i,
-    /what\s+are\s+you/i,
+    /who\\s+are\\s+you/i,
+    /what\\s+are\\s+you/i,
     /^help$/i,
-    /help\s+me/i,
+    /help\\s+me/i,
     /pricing|price|cost/i,
     /support|contact/i,
     /features|about/i,
+    /how\\s+(do|can)\\s+i/i,  // "how do I connect Facebook?"
+    /where/i,
+    /when/i,
   ];
-  
+
   return generalPatterns.some(pattern => pattern.test(messageLower));
 };
 
-const getRAGResponse = (query: string): string => {
-  const queryLower = query.toLowerCase();
-  
-  for (const { pattern, key } of QUERY_PATTERNS) {
-    if (pattern.test(queryLower)) {
-      return RAG_RESPONSES[key];
-    }
-  }
-  
-  return RAG_RESPONSES['default'];
-};
-
-const createMessage = (role: 'user' | 'assistant', content: string): AssistantMessage => ({
+const createMessage = (role: 'user' | 'assistant', content: string, suggestedActions?: SuggestedAction[], confidence?: number): AssistantMessage => ({
   id: crypto.randomUUID(),
   role,
   content,
   timestamp: new Date(),
+  suggestedActions,
+  confidence,
 });
 
 export const useAssistantChat = () => {
@@ -142,21 +77,93 @@ export const useAssistantChat = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [isAssistantMode, setIsAssistantMode] = useState(false);
 
-  const sendMessage = useCallback(async (content: string) => {
+  const sendMessage = useCallback(async (content: string, preCalculatedAnswer?: any) => {
     const sanitizedContent = content.trim();
     if (!sanitizedContent) return;
 
     // Add user message
     setMessages(prev => [...prev, createMessage('user', sanitizedContent)]);
-    
+
     // Simulate typing
     setIsTyping(true);
-    await new Promise(resolve => setTimeout(resolve, 800 + Math.random() * 700));
-    setIsTyping(false);
 
-    // Get RAG response
-    const response = getRAGResponse(sanitizedContent);
-    setMessages(prev => [...prev, createMessage('assistant', response)]);
+    try {
+      let response;
+
+      if (preCalculatedAnswer) {
+        // Use provided answer
+        response = preCalculatedAnswer;
+        // Small delay for effect
+        await new Promise(resolve => setTimeout(resolve, 300));
+      } else {
+        // Call the real AI support API
+        response = await api.post('/api/support/query', {
+          question: sanitizedContent
+        });
+
+        // Wait a bit for natural feel
+        await new Promise(resolve => setTimeout(resolve, 500));
+      }
+
+      setIsTyping(false);
+
+      const fullContent = response.answer || "I'm sorry, I couldn't understand that.";
+      const suggestedActions = response.suggested_actions || [];
+      const confidence = response.confidence;
+
+      // Create empty message first
+      const messageId = crypto.randomUUID();
+      const newMessage: AssistantMessage = {
+        id: messageId,
+        role: 'assistant',
+        content: '', // Start empty
+        timestamp: new Date(),
+        suggestedActions,
+        confidence
+      };
+
+      setMessages(prev => [...prev, newMessage]);
+
+      // Typewriter effect logic
+      let currentIndex = 0;
+      const typeSpeed = 10; // Fast typing (10ms per char)
+
+      const typeNextChar = () => {
+        if (currentIndex < fullContent.length) {
+          setMessages(prev => prev.map(msg =>
+            msg.id === messageId
+              ? { ...msg, content: fullContent.substring(0, currentIndex + 1) }
+              : msg
+          ));
+          currentIndex++;
+
+          // Add slight variation for natural feel
+          const delay = typeSpeed + (Math.random() * 5);
+          setTimeout(typeNextChar, delay);
+        }
+      };
+
+      // Start typing immediately
+      typeNextChar();
+    } catch (error) {
+      console.error('Error getting support response:', error);
+      setIsTyping(false);
+
+      // Fallback response
+      setMessages(prev => [...prev, createMessage(
+        'assistant',
+        `I'm here to help! I can assist you with:
+• Platform questions about Vibelets
+• Feature guidance and how-tos
+• Troubleshooting and support
+
+What would you like to know?`,
+        [
+          { label: "📚 View Features", action: "show_features" },
+          { label: "🏠 Start New Campaign", step: "product-url" }
+        ]
+      )]);
+    }
   }, []);
 
   const clearChat = useCallback(() => {

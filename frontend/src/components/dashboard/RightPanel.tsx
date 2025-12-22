@@ -1,4 +1,4 @@
-import { CampaignState, CampaignStep, ScriptOption, CreativeOption, AIRecommendation } from '@/types/campaign';
+import { CampaignState, CampaignStep, ScriptOption, CreativeOption, AIRecommendation, AvatarOption } from '@/types/campaign';
 import { WelcomePanel } from './panels/WelcomePanel';
 import { ProductAnalysisPanel } from './panels/ProductAnalysisPanel';
 import { ScriptPreviewPanel } from './panels/ScriptPreviewPanel';
@@ -14,11 +14,12 @@ import { CustomCreativeUpload } from './panels/CustomCreativeUpload';
 import { StepIndicator } from './StepIndicator';
 import { StepLoadingAnimation } from './StepLoadingAnimation';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { scriptOptions, avatarOptions } from '@/data/mockData';
 import { useEffect, useRef } from 'react';
 
 interface RightPanelProps {
   state: CampaignState;
+  generatedScripts: ScriptOption[];
+  generatedAvatars?: AvatarOption[];
   onReset: () => void;
   onStepClick: (step: CampaignStep) => void;
   onRegenerateProduct?: () => void;
@@ -38,6 +39,8 @@ interface RightPanelProps {
 
 export const RightPanel = ({
   state,
+  generatedScripts,
+  generatedAvatars = [],
   onReset,
   onStepClick,
   onRegenerateProduct,
@@ -86,25 +89,25 @@ export const RightPanel = ({
       case 'welcome':
       case 'product-url':
         return <WelcomePanel />;
-      
+
       case 'product-analysis':
         return (
-          <ProductAnalysisPanel 
-            productData={state.productData} 
-            productUrl={state.productUrl} 
+          <ProductAnalysisPanel
+            productData={state.productData}
+            productUrl={state.productUrl}
             isAnalyzing={!state.productData}
             isRegenerating={state.isRegenerating === 'product'}
             onRegenerate={onRegenerateProduct}
           />
         );
-      
+
       case 'script-selection':
         return (
           <>
             <ProductAnalysisPanel productData={state.productData} productUrl={state.productUrl} isAnalyzing={false} />
             <div ref={scriptSectionRef}>
               {state.isCustomScriptMode && onCustomScriptSubmit && onCustomScriptCancel ? (
-                <CustomScriptInput 
+                <CustomScriptInput
                   onSubmit={(script) => onCustomScriptSubmit({
                     id: 'custom-script',
                     name: 'Custom Script',
@@ -117,8 +120,8 @@ export const RightPanel = ({
                   onCancel={onCustomScriptCancel}
                 />
               ) : (
-                <ScriptPreviewPanel 
-                  scripts={scriptOptions} 
+                <ScriptPreviewPanel
+                  scripts={generatedScripts}
                   selectedScript={state.selectedScript}
                   isRegenerating={state.isRegenerating === 'scripts'}
                   onRegenerate={onRegenerateScripts}
@@ -127,24 +130,27 @@ export const RightPanel = ({
             </div>
           </>
         );
-      
+
       case 'avatar-selection':
         return (
           <>
             <ProductAnalysisPanel productData={state.productData} productUrl={state.productUrl} isAnalyzing={false} />
-            <ScriptPreviewPanel scripts={scriptOptions} selectedScript={state.selectedScript} />
+            <ScriptPreviewPanel scripts={generatedScripts} selectedScript={state.selectedScript} />
             <div ref={avatarSectionRef}>
-              <AvatarPreviewPanel avatars={avatarOptions} selectedAvatar={state.selectedAvatar} />
+              <AvatarPreviewPanel avatars={generatedAvatars} selectedAvatar={state.selectedAvatar} />
             </div>
           </>
         );
-      
+
       case 'creative-generation':
+      case 'creative-generation:images':
+      case 'creative-generation:audio':
+      case 'creative-generation:video':
         return <CreativeGenerationPanel />;
-      
+
       case 'creative-review':
         return state.isCustomCreativeMode && onCustomCreativeSubmit && onCustomCreativeCancel ? (
-          <CustomCreativeUpload 
+          <CustomCreativeUpload
             onSubmit={(creative) => onCustomCreativeSubmit({
               id: 'custom-creative',
               type: creative.type,
@@ -156,32 +162,32 @@ export const RightPanel = ({
             onCancel={onCustomCreativeCancel}
           />
         ) : (
-          <CreativeGalleryPanel 
-            creatives={state.creatives} 
+          <CreativeGalleryPanel
+            creatives={state.creatives}
             selectedCreative={state.selectedCreative}
             isRegenerating={state.isRegenerating === 'creatives'}
             onRegenerate={onRegenerateCreatives}
           />
         );
-      
+
       case 'campaign-setup':
       case 'facebook-integration':
       case 'ad-account-selection':
         return (
-          <CampaignConfigPanel 
+          <CampaignConfigPanel
             selectedCreative={state.selectedCreative}
             campaignConfig={state.campaignConfig}
             facebookConnected={state.facebookConnected}
             selectedAdAccount={state.selectedAdAccount}
           />
         );
-      
+
       case 'campaign-preview':
         return <CampaignSummaryPanel state={state} />;
-      
+
       case 'publishing':
         return <PublishingPanel isPublished={false} onCreateAnother={onReset} />;
-      
+
       case 'published':
         if (state.performanceDashboard && onCampaignFilterChange && onOpenActionCenter && onCloseActionCenter && onRecommendationAction) {
           return (
@@ -199,7 +205,7 @@ export const RightPanel = ({
           );
         }
         return <PublishingPanel isPublished={true} onCreateAnother={onReset} />;
-      
+
       default:
         return <WelcomePanel />;
     }

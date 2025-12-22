@@ -70,7 +70,7 @@ export const matchUserInputToOption = (
   if (activeQuestion.id === 'product-continue') {
     const continuePatterns = /^(yes|yep|yeah|sure|ok|okay|continue|proceed|go|go ahead|let'?s go|next|looks good|perfect|great)$/i;
     const changePatterns = /^(no|nope|change|different|other|new|wrong|another)$/i;
-    
+
     if (continuePatterns.test(normalizedInput)) {
       const continueOption = options.find(o => o.id === 'continue');
       if (continueOption) return { matched: true, optionId: continueOption.id, confidence: 'high' };
@@ -85,7 +85,7 @@ export const matchUserInputToOption = (
   if (activeQuestion.id === 'publish-confirm') {
     const publishPatterns = /^(publish|launch|go live|submit|send|do it|let'?s go|yes|start)$/i;
     const reviewPatterns = /^(review|preview|check|wait|hold|details|see|look)$/i;
-    
+
     if (publishPatterns.test(normalizedInput)) {
       const publishOption = options.find(o => o.id === 'publish');
       if (publishOption) return { matched: true, optionId: publishOption.id, confidence: 'high' };
@@ -107,12 +107,12 @@ export const matchUserInputToOption = (
   for (const option of options) {
     const labelWords = option.label.toLowerCase().split(/\s+/);
     const inputWords = normalizedInput.split(/\s+/);
-    
+
     // Check if input contains a significant portion of the label
-    const matchingWords = labelWords.filter(word => 
+    const matchingWords = labelWords.filter(word =>
       word.length > 2 && inputWords.some(iw => iw.includes(word) || word.includes(iw))
     );
-    
+
     if (matchingWords.length >= 1 && matchingWords.length >= labelWords.length * 0.5) {
       return { matched: true, optionId: option.id, confidence: 'medium' };
     }
@@ -123,26 +123,41 @@ export const matchUserInputToOption = (
     if (option.description) {
       const descWords = option.description.toLowerCase().split(/\s+/);
       const inputWords = normalizedInput.split(/\s+/);
-      
-      const matchingWords = descWords.filter(word => 
+
+      const matchingWords = descWords.filter(word =>
         word.length > 3 && inputWords.some(iw => iw === word)
       );
-      
+
       if (matchingWords.length >= 2) {
         return { matched: true, optionId: option.id, confidence: 'medium' };
       }
     }
   }
 
-  // 10. Fuzzy single word match against option labels (low confidence)
-  for (const option of options) {
-    const labelWords = option.label.toLowerCase().split(/[\s-]+/);
-    if (labelWords.some(word => word.length > 3 && normalizedInput.includes(word))) {
-      return { matched: true, optionId: option.id, confidence: 'low' };
-    }
+  // 10. Global affirmative patterns for proceeding (medium confidence)
+  const affirmativePatterns = /^(next|continue|proceed|go|go ahead|let'?s go|confirm|yes|yep|yeah|sure|ok|okay|next step|looks good|perfect|step [2-4])$/i;
+  if (affirmativePatterns.test(normalizedInput)) {
+    // If an item is already selected (e.g. from UI click), and user says "go ahead", return that selection
+    // In handleUserMessage we check if a selection exists in state.
+    // Here we just return the first option as a sensible default if it's high confidence proceeding language.
+    return { matched: true, optionId: options[0]?.id || null, confidence: 'medium' };
   }
 
   return { matched: false, optionId: null, confidence: 'low' };
+};
+
+/**
+ * Detects explicitly requested navigation intents like "back" or "next step"
+ * @deprecated Use detectNavigationIntent from navigationHandler.ts instead
+ */
+export const detectNavigationIntent = (input: string): 'back' | 'next' | null => {
+  const normalized = input.toLowerCase().trim();
+  const backPatterns = /^(back|go back|previous|previous step|loop back|return|last step|step back)$/i;
+  const nextPatterns = /^(next|next step|skip|skip to next|move on|go ahead|forward|go forward)$/i;
+
+  if (backPatterns.test(normalized)) return 'back';
+  if (nextPatterns.test(normalized)) return 'next';
+  return null;
 };
 
 /**
@@ -150,4 +165,12 @@ export const matchUserInputToOption = (
  */
 export const looksLikeUrl = (input: string): boolean => {
   return /^https?:\/\/|www\.|\.com|\.net|\.org|\.io|\.shop|\.store/i.test(input.trim());
+};
+
+/**
+ * Checks if input looks like a navigation command
+ */
+export const looksLikeNavigation = (input: string): boolean => {
+  const navPatterns = /^(back|next|step|go to|jump to|previous|forward|home|start|dashboard|publish|campaign|script|avatar|creative|product|analysis|setup|preview|review)$/i;
+  return navPatterns.test(input.toLowerCase().trim());
 };

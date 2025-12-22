@@ -5,6 +5,9 @@ export type CampaignStep =
   | 'script-selection'
   | 'avatar-selection'
   | 'creative-generation'
+  | 'creative-generation:images'
+  | 'creative-generation:audio'
+  | 'creative-generation:video'
   | 'creative-review'
   | 'campaign-setup'
   | 'facebook-integration'
@@ -25,6 +28,7 @@ export interface InlineQuestion {
   question: string;
   options: QuestionOption[];
   multiSelect?: boolean;
+  metadata?: any; // Store additional data like IntentConfirmation
 }
 
 export interface Message {
@@ -203,6 +207,14 @@ export interface PerformanceDashboardState {
   isActionCenterOpen: boolean;
 }
 
+export interface IntentConfirmation {
+  id: string;
+  originalMessage: string;
+  detectedIntent: string;
+  intentDescription: string;
+  alternativeOptions?: QuestionOption[];
+}
+
 export interface CampaignState {
   step: CampaignStep;
   stepHistory: CampaignStep[];
@@ -210,6 +222,7 @@ export interface CampaignState {
   productData: ProductData | null;
   selectedScript: ScriptOption | null;
   selectedAvatar: AvatarOption | null;
+  generatedImages?: string[];
   creatives: CreativeOption[];
   selectedCreative: CreativeOption | null;
   campaignConfig: CampaignConfig | null;
@@ -221,4 +234,5 @@ export interface CampaignState {
   isCustomCreativeMode: boolean;
   performanceDashboard: PerformanceDashboardState | null;
   isRefreshingDashboard: boolean;
+  pendingIntentConfirmation: IntentConfirmation | null;
 }
