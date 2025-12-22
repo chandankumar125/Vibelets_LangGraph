@@ -524,6 +524,48 @@ class VibeletsAPI {
     return await response.json();
   }
 
+  /**
+   * Get current state from backend (for persistence/refresh)
+   */
+  async getCurrentState(): Promise<ApiResponse> {
+    const threadId = this.getThreadId();
+    const response = await fetch(`${API_BASE_URL}/workflow/state/${threadId}`);
+
+    if (!response.ok) {
+      // If no state found, return empty state
+      if (response.status === 404) {
+        return {
+          thread_id: threadId,
+          state: {
+            current_step: 'scrape',
+            messages: []
+          }
+        };
+      }
+      throw new Error(`Failed to get current state: ${response.statusText}`);
+    }
+
+    return await response.json();
+  }
+
+  /**
+   * Generic POST request
+   */
+  async post(endpoint: string, body: any): Promise<any> {
+    const url = endpoint.startsWith('http') ? endpoint : `http://localhost:8000${endpoint}`;
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    if (!response.ok) {
+      throw new Error(`Request failed: ${response.statusText}`);
+    }
+
+    return await response.json();
+  }
+
 }
 
 // Export a singleton instance

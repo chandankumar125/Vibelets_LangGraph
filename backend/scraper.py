@@ -197,7 +197,7 @@ class ProductScraper:
             'footer', 'header', 'nav', 'menu', 'cart', 'search', 'close',
             'play', 'pause', 'share', 'like', 'heart', 'flag', 'tag',
             # E-commerce platform logos
-            'flipkart', 'amazon', 'ebay', 'walmart', 'shopify',
+            # 'flipkart', 'amazon', 'ebay', 'walmart', 'shopify',
             # Payment logos
             'visa', 'mastercard', 'paypal', 'stripe', 'gpay', 'paytm',
             # Social media
@@ -360,7 +360,7 @@ class ProductScraper:
                 'footer', 'header', 'nav', 'menu', 'cart', 'search', 'close',
                 'play', 'pause', 'share', 'like', 'heart', 'flag', 'tag',
                 # E-commerce platform logos
-                'flipkart', 'amazon', 'ebay', 'walmart', 'shopify',
+                # 'flipkart', 'amazon', 'ebay', 'walmart', 'shopify',
                 # Payment logos
                 'visa', 'mastercard', 'paypal', 'stripe', 'gpay', 'paytm',
                 # Social media

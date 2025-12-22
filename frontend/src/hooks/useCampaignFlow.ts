@@ -1,11 +1,12 @@
-import { useState, useCallback, useMemo } from 'react';
-import { CampaignState, CampaignStep, Message, ProductData, ScriptOption, AvatarOption, CreativeOption, CampaignConfig, AdAccount, InlineQuestion, AIRecommendation, ProductInsight } from '@/types/campaign';
+import { useState, useCallback, useMemo, useEffect } from 'react';
+import { CampaignState, CampaignStep, Message, ProductData, ScriptOption, AvatarOption, CreativeOption, CampaignConfig, AdAccount, InlineQuestion, AIRecommendation, ProductInsight, IntentConfirmation, QuestionOption } from '@/types/campaign';
 import { mockCreatives, avatarOptions, mockAdAccounts, campaignObjectives, ctaOptions, scriptOptions, mockProductData } from '@/data/mockData';
 import { createMockPerformanceDashboard } from '@/data/mockPerformanceData';
 import { toast } from 'sonner';
 import { isValidUrl, sanitizeInput, validateCampaignConfig, formatErrorMessage } from '@/lib/validation';
 import { matchUserInputToOption, looksLikeUrl, detectNavigationIntent } from '@/lib/nlpMatcher';
 import { vibeletsAPI } from '@/lib/api';
+import { getIntentDescription, getAlternativeNavigationOptions, shouldConfirmIntent } from '@/lib/navigationHelper';
 
 const STEP_ORDER: CampaignStep[] = [
   'welcome',
@@ -44,6 +45,7 @@ const initialState: CampaignState = {
   isCustomCreativeMode: false,
   performanceDashboard: null,
   isRefreshingDashboard: false,
+  pendingIntentConfirmation: null,
 };
 
 const createMessage = (
@@ -75,22 +77,44 @@ export const useCampaignFlow = () => {
   const [fetchedAdAccounts, setFetchedAdAccounts] = useState<AdAccount[]>([]);
 
   // Find the active question that can receive natural language input
+  // Find the active question that can receive natural language input
   const activeQuestion: InlineQuestion | null = useMemo(() => {
-    const chipQuestionIds = ['product-continue', 'script-selection', 'avatar-selection', 'creative-selection', 'ad-account-selection', 'publish-confirm'];
+    // Map current step to allowed question IDs to ensure relevance
+    const stepToQuestionId: Record<string, string[]> = {
+      'product-analysis': ['product-continue'],
+      'script-selection': ['script-selection'],
+      'creative-generation': ['creative-selection'],
+      'creative-generation:images': ['creative-selection'],
+      // Allow 'creative-selection' for all creative substeps if consistent, or specific IDs
+      'avatar-selection': ['avatar-selection'],
+      'ad-account-selection': ['ad-account-selection'],
+      'publish-campaign': ['publish-confirm'],
+      'campaign-creation': ['campaign-input']
+    };
+
+    const allowedIds = stepToQuestionId[state.step] || [];
 
     for (let i = messages.length - 1; i >= 0; i--) {
       const msg = messages[i];
-      if (msg.inlineQuestion && chipQuestionIds.includes(msg.inlineQuestion.id)) {
+      // Only proceed if message has inlineQuestion AND it matches current step context
+      if (msg.inlineQuestion && allowedIds.includes(msg.inlineQuestion.id)) {
         if (!selectedAnswers[msg.inlineQuestion.id]) {
           return msg.inlineQuestion;
         }
       }
+
+      // OPTIONAL: Break early if we hit a message from a different step to avoid deep history? 
+      // Current filtering by ID is safe enough.
     }
     return null;
-  }, [messages, selectedAnswers]);
+  }, [messages, selectedAnswers, state.step]);
+
+
 
   const addMessage = useCallback((role: 'user' | 'assistant', content: string, options?: { inlineQuestion?: InlineQuestion; stepId?: CampaignStep; showCampaignSlider?: boolean; showFacebookConnect?: boolean }) => {
-    setMessages(prev => [...prev, createMessage(role, content, options)]);
+    const newMessage = createMessage(role, content, options);
+    setMessages(prev => [...prev, newMessage]);
+    return newMessage.id;
   }, []);
 
   const simulateTyping = useCallback(async (content: string, options?: { inlineQuestion?: InlineQuestion; stepId?: CampaignStep; showCampaignSlider?: boolean; showFacebookConnect?: boolean }, delay = 1500) => {
@@ -152,7 +176,34 @@ export const useCampaignFlow = () => {
       }
 
       // Update data fields
-      if (backendState.product_data) newState.productData = backendState.product_data;
+      if (backendState.product_data) {
+        newState.productData = backendState.product_data;
+
+        // Map analysis to insights if available to display in ProductAnalysisPanel
+        if (backendState.analysis) {
+          const analysis = backendState.analysis;
+          const insights = [];
+
+          if (analysis.target_audience) {
+            insights.push({ label: 'Target Audience', value: analysis.target_audience, icon: 'users' });
+          }
+          if (analysis.unique_selling_points || analysis.usps) {
+            insights.push({ label: 'Key USPs', value: analysis.unique_selling_points || analysis.usps, icon: 'star' });
+          }
+          if (analysis.pain_points) {
+            insights.push({ label: 'Pain Points', value: analysis.pain_points, icon: 'trending-up' });
+          }
+          if (analysis.call_to_action || analysis.cta) {
+            insights.push({ label: 'Recommended CTA', value: analysis.call_to_action || analysis.cta, icon: 'dollar-sign' });
+          }
+
+          // Merge insights into productData
+          newState.productData = {
+            ...newState.productData,
+            insights: insights
+          };
+        }
+      }
       if (backendState.selected_script) newState.selectedScript = backendState.selected_script;
 
       // Handle generated scripts
@@ -163,15 +214,21 @@ export const useCampaignFlow = () => {
           // Check if it's already an object or just string
           if (typeof scriptText === 'object') return scriptText;
 
-          const desc = scriptText.length > 100 ? scriptText.substring(0, 100) + '...' : scriptText;
+          // Parse style from content if available e.g. [Style: Fast-paced]
+          const styleMatch = scriptText.match(/\[Style:\s*(.*?)\]/i);
+          const parsedStyle = styleMatch ? styleMatch[1] : 'Engaging';
+
+          const cleanBody = scriptText.replace(/\[Style:\s*.*?\]/i, '').trim();
+          const desc = cleanBody.length > 100 ? cleanBody.substring(0, 100) + '...' : cleanBody;
+
           return {
             id: `script-${index}`,
             name: `Script ${index + 1}`,
             description: desc,
             duration: '30-60 seconds',
-            style: 'Engaging',
+            style: parsedStyle,
             body: scriptText,
-            hook: scriptText.split('\n')[0] || '',
+            hook: cleanBody.split('\n')[0] || '',
             cta: 'Shop Now',
             tone: 'Professional'
           };
@@ -190,6 +247,78 @@ export const useCampaignFlow = () => {
     });
   }, []);
 
+  // Restore session on mount
+  useEffect(() => {
+    const restoreSession = async () => {
+      try {
+        console.log('🔄 Attempting to restore session...');
+        const result = await vibeletsAPI.getCurrentState();
+
+        if (result && result.state) {
+          console.log('✅ Session restored:', result.state);
+          // Sync data (Insights, Scripts, etc.)
+          syncStateFromBackend(result.state);
+
+          // Reconstruct UI state based on restored step
+          // We need to ensure the user has the relevant prompt/chips for the current step
+          const currentStep = result.state.current_step;
+
+          let restoreMessage = null;
+          let restoreOptions = {};
+
+          if (currentStep === 'script-selection') {
+            restoreMessage = "I've restored your generated scripts. Select one from the right panel to proceed.";
+            restoreOptions = {
+              inlineQuestion: {
+                id: 'script-selection',
+                text: 'Which script would you like to use?',
+                type: 'single-select',
+                options: [
+                  { id: 'script-1', label: 'Script 1', value: '0' },
+                  { id: 'script-2', label: 'Script 2', value: '1' },
+                  { id: 'script-3', label: 'Script 3', value: '2' }
+                ]
+              },
+              stepId: 'script-selection'
+            };
+          } else if (currentStep === 'product-analysis') {
+            restoreMessage = "Here is your product analysis. Ready to generate scripts?";
+            restoreOptions = {
+              inlineQuestion: {
+                id: 'product-continue',
+                text: 'Would you like to generate ad scripts based on this analysis?',
+                type: 'confirm',
+                options: [
+                  { id: 'generate-scripts', label: 'Generate Scripts', value: 'yes' }
+                ]
+              },
+              stepId: 'product-analysis'
+            };
+          }
+          // Add other steps as needed...
+
+          if (restoreMessage) {
+            // Add restoration message to chat
+            // We use specific delay to ensure it appears after welcome
+            setTimeout(() => {
+              setMessages(prev => {
+                // Avoid duplicates checks?
+                return [...prev, createMessage('assistant', restoreMessage, restoreOptions)];
+              });
+            }, 500);
+          }
+        }
+      } catch (err) {
+        console.warn("Failed to restore session:", err);
+      }
+    };
+
+    // Check if we have a thread first
+    if (localStorage.getItem('vibelets_thread_id')) {
+      restoreSession();
+    }
+  }, [syncStateFromBackend]);
+
 
   const handleUserMessage = useCallback(async (content: string) => {
     const sanitizedContent = content.trim();
@@ -203,7 +332,14 @@ export const useCampaignFlow = () => {
 
     if (isUrl && (state.step === 'welcome' || state.step === 'product-url')) {
       addMessage('user', sanitizedContent);
-      setState(prev => ({ ...prev, productUrl: potentialUrl, step: 'product-analysis', isStepLoading: true }));
+      // Clear old product data when analyzing new URL
+      setState(prev => ({
+        ...prev,
+        productUrl: potentialUrl,
+        productData: null,  // Clear old data
+        step: 'product-analysis',
+        isStepLoading: true
+      }));
 
       await simulateTyping("Perfect! Analyzing your product page now... 🔍", { stepId: 'product-analysis' }, 1000);
 
@@ -311,18 +447,141 @@ export const useCampaignFlow = () => {
     }
 
     // 2. For non-URL messages, use Backend Chat for intent/navigation
-    addMessage('user', sanitizedContent);
-    setState(prev => ({ ...prev, isStepLoading: true }));
+    // Optimistically add message so user sees it immediately
+    const tempMessageId = addMessage('user', sanitizedContent);
 
     try {
+      console.log('📤 Calling backend chat API with message:', sanitizedContent);
       const response = await vibeletsAPI.chat(sanitizedContent);
+      console.log('📥 Backend response:', response);
 
       if (response.error) {
         throw new Error(response.error);
       }
 
-      syncStateFromBackend(response.state);
-      setState(prev => ({ ...prev, isStepLoading: false }));
+      // Check if it's a support response
+      if (response.is_support_response) {
+        // Inform user about redirection
+        addMessage('assistant', "Redirecting to Help & Support... 💬");
+
+        // Short delay for user to see the message
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Return proper structure for ChatPanel to handle opening the assistant
+        return {
+          type: 'support',
+          answer: {
+            answer: response.message,
+            suggested_actions: response.suggested_actions,
+            confidence: response.support_confidence
+          }
+        };
+      }
+
+      // It IS a workflow message - Message already added optimistically
+
+      // Check navigation intent
+      const navigationIntent = response.navigation_intent;
+      console.log('🧭 Navigation intent:', navigationIntent);
+
+      // RESET/CHANGE URL LOGIC
+      if (['change_url', 'start_over', 'restart', 'new_url'].includes(navigationIntent)) {
+        console.log('🔄 Resetting flow for new product');
+        setState(prev => ({
+          ...prev,
+          step: 'product-url',
+          productUrl: '',
+          productData: null,
+          generatedScripts: [],
+          selectedAnswers: {}, // Clear selected answers to reset flow
+          isStepLoading: false
+        }));
+
+        await simulateTyping(response.message || "Ready for a new product! Paste your product URL below.", { stepId: 'product-url' }, 500);
+        return;
+      }
+
+      // DIRECT NAVIGATION - No loading, no re-analyzing
+      if (navigationIntent === 'back' || navigationIntent === 'previous' ||
+        navigationIntent === 'next' || navigationIntent === 'continue') {
+
+        // Map backend step to frontend step
+        const stepMapping: Record<string, CampaignStep> = {
+          'product-url': 'product-url',
+          'product-analysis': 'product-analysis',
+          'script-selection': 'script-selection',
+          'creative-generation': 'creative-generation',
+          'avatar-selection': 'avatar-selection',
+          'facebook-auth': 'facebook-integration',
+          'ad-account-selection': 'ad-account-selection',
+          'campaign-creation': 'campaign-preview'
+        };
+
+        const newStep = stepMapping[response.current_step] || response.current_step as CampaignStep;
+
+        // UPDATE STATE: Sync with backend (important for scripts/avatars)
+        if (response.state) {
+          syncStateFromBackend(response.state);
+        }
+
+        // Ensure step is correct and loading is off
+        setState(prev => ({
+          ...prev,
+          step: newStep,
+          isStepLoading: false
+        }));
+
+        // Show the backend's message
+        await simulateTyping(response.message, { stepId: newStep }, 500);
+        return;
+      }
+
+      // Handle other navigation intents
+      if (navigationIntent && shouldConfirmIntent(navigationIntent)) {
+        console.log('✅ Showing navigation options');
+        const intentDescription = getIntentDescription(navigationIntent, state.step);
+        const alternativeOptions = getAlternativeNavigationOptions(state.step);
+
+        const confirmation: IntentConfirmation = {
+          id: crypto.randomUUID(),
+          originalMessage: sanitizedContent,
+          detectedIntent: navigationIntent,
+          intentDescription,
+          alternativeOptions
+        };
+
+        setState(prev => ({ ...prev, pendingIntentConfirmation: confirmation, isStepLoading: false }));
+
+        const allOptions: QuestionOption[] = [
+          {
+            id: 'confirm-detected',
+            label: `✓ ${intentDescription}`,
+            description: 'What I understood from your message'
+          },
+          ...alternativeOptions
+        ];
+
+        const navigationQuestion: InlineQuestion = {
+          id: 'navigation-options',
+          question: `I understood: "${intentDescription}". What would you like to do?`,
+          options: allOptions,
+          metadata: { confirmation }
+        };
+
+        const displayMessage = response.message || `Let me help you navigate...`;
+
+        await simulateTyping(
+          displayMessage,
+          { inlineQuestion: navigationQuestion, stepId: state.step },
+          500
+        );
+        return;
+      }
+
+      // For chat messages without navigation intent, show backend's response
+      if (response.message) {
+        await simulateTyping(response.message, { stepId: state.step }, 500);
+      }
 
     } catch (error) {
       handleError(error, 'Processing your message');
@@ -336,6 +595,41 @@ export const useCampaignFlow = () => {
     const currentIndex = STEP_ORDER.indexOf(state.step);
 
     if (targetIndex < currentIndex) {
+      // Clear selectedAnswers for steps we're going back to
+      setSelectedAnswers(prev => {
+        const newAnswers = { ...prev };
+        // Clear answers for the target step and all steps after it
+        if (targetIndex <= STEP_ORDER.indexOf('product-analysis')) {
+          delete newAnswers['product-continue'];
+          delete newAnswers['script-selection'];
+          delete newAnswers['avatar-selection'];
+          delete newAnswers['creative-selection'];
+          delete newAnswers['ad-account-selection'];
+          delete newAnswers['publish-confirm'];
+        } else if (targetIndex <= STEP_ORDER.indexOf('script-selection')) {
+          delete newAnswers['script-selection'];
+          delete newAnswers['avatar-selection'];
+          delete newAnswers['creative-selection'];
+          delete newAnswers['ad-account-selection'];
+          delete newAnswers['publish-confirm'];
+        } else if (targetIndex <= STEP_ORDER.indexOf('avatar-selection')) {
+          delete newAnswers['avatar-selection'];
+          delete newAnswers['creative-selection'];
+          delete newAnswers['ad-account-selection'];
+          delete newAnswers['publish-confirm'];
+        } else if (targetIndex <= STEP_ORDER.indexOf('creative-review')) {
+          delete newAnswers['creative-selection'];
+          delete newAnswers['ad-account-selection'];
+          delete newAnswers['publish-confirm'];
+        } else if (targetIndex <= STEP_ORDER.indexOf('ad-account-selection')) {
+          delete newAnswers['ad-account-selection'];
+          delete newAnswers['publish-confirm'];
+        } else if (targetIndex <= STEP_ORDER.indexOf('campaign-preview')) {
+          delete newAnswers['publish-confirm'];
+        }
+        return newAnswers;
+      });
+
       // Allow going back purely on frontend for UI speed, but sync with backend
       setState(prev => {
         const newState = { ...prev, step: targetStep };
@@ -431,8 +725,11 @@ export const useCampaignFlow = () => {
         return;
       }
 
-      // Track the answer
-      setSelectedAnswers(prev => ({ ...prev, [questionId]: answerId }));
+      // Track the answer (except for navigation-options which is reusable)
+      if (questionId !== 'navigation-options') {
+        setSelectedAnswers(prev => ({ ...prev, [questionId]: answerId }));
+      }
+
 
       if (questionId === 'product-continue') {
         if (answerId === 'continue') {
@@ -596,6 +893,12 @@ export const useCampaignFlow = () => {
           }
         } else {
           if (!skipUserMessage) addMessage('user', "I want to change the product URL.");
+          // Clear the selected answer for product-continue so the new inline question will show
+          setSelectedAnswers(prev => {
+            const newAnswers = { ...prev };
+            delete newAnswers['product-continue'];
+            return newAnswers;
+          });
           setState(prev => ({ ...prev, step: 'product-url', productUrl: null, productData: null }));
           await simulateTyping("No problem! Paste a new product URL to analyze.", { stepId: 'product-url' }, 500);
         }
@@ -1063,10 +1366,107 @@ export const useCampaignFlow = () => {
           );
         }
       }
+      // Handle navigation options (detected intent + alternatives)
+      else if (questionId === 'navigation-options') {
+        // Find the confirmation from the message with this question
+        const questionMessage = messages.find(m => m.inlineQuestion?.id === 'navigation-options');
+        const confirmation = questionMessage?.inlineQuestion?.metadata?.confirmation;
+
+        if (!confirmation) {
+          console.error('❌ No confirmation found in question metadata!');
+          toast.error('Navigation error', { description: 'Please try your request again' });
+          return;
+        }
+
+        console.log('✅ Found confirmation from question metadata:', confirmation);
+
+
+        if (answerId === 'confirm-detected') {
+          // Execute the detected intent
+          if (!skipUserMessage) addMessage('user', `Yes, ${confirmation.intentDescription.toLowerCase()}.`);
+
+          setState(prev => ({ ...prev, pendingIntentConfirmation: null }));
+
+          // Map the detected intent to the correct action WITHOUT calling backend
+          const intent = confirmation.detectedIntent;
+
+          if (intent === 'scrape') {
+            // Go to URL input
+            setState(prev => ({ ...prev, step: 'product-url', productData: null }));
+            await simulateTyping("No problem! Paste a new product URL to analyze.", { stepId: 'product-url' }, 500);
+          } else if (intent === 'analyze') {
+            // Go back to product analysis
+            await goToStep('product-analysis');
+          } else if (intent === 'generate_scripts' || intent === 'select_script') {
+            // Go to script selection
+            await goToStep('script-selection');
+          } else if (intent === 'select_avatar') {
+            // Go to avatar selection
+            await goToStep('avatar-selection');
+          } else if (intent === 'generate_images' || intent === 'generate_video' || intent === 'select_media') {
+            // Go to creative review
+            await goToStep('creative-review');
+          } else if (intent === 'refine_campaign') {
+            // Go to campaign setup
+            await goToStep('campaign-setup');
+          } else {
+            // For unknown intents, show message
+            await simulateTyping(`Done! I've navigated as requested.`, { stepId: state.step }, 500);
+          }
+        } else {
+          // Handle alternative navigation option
+          if (!skipUserMessage) addMessage('user', `I'll ${answerId.replace('nav-', '').replace('-', ' ')}.`);
+
+          setState(prev => ({ ...prev, pendingIntentConfirmation: null, isStepLoading: true }));
+
+          try {
+            // Map alternative option IDs to actions
+            if (answerId === 'nav-start-over') {
+              setState(prev => ({ ...initialState, stepHistory: ['welcome'] }));
+              setMessages([INITIAL_WELCOME_MESSAGE]);
+              setSelectedAnswers({});
+              toast.success('Starting over!');
+            } else if (answerId === 'nav-go-back') {
+              const currentIndex = STEP_ORDER.indexOf(state.step);
+              if (currentIndex > 0) {
+                const previousStep = STEP_ORDER[currentIndex - 1];
+                await goToStep(previousStep);
+              }
+            } else if (answerId === 'nav-change-url') {
+              setState(prev => ({ ...prev, step: 'product-url', productData: null }));
+              await simulateTyping("No problem! Paste a new product URL to analyze.", { stepId: 'product-url' }, 500);
+            } else if (answerId === 'nav-regenerate-analysis') {
+              await regenerateProductAnalysis();
+            } else if (answerId === 'nav-regenerate-scripts') {
+              await regenerateScripts();
+            } else if (answerId === 'nav-regenerate-creative') {
+              await regenerateCreatives();
+            } else if (answerId === 'nav-custom-script') {
+              setState(prev => ({ ...prev, isCustomScriptMode: true, step: 'script-selection' }));
+              await simulateTyping(
+                `Great! You can write your own ad copy in the panel. I'll guide you with Facebook's best practices. ✍️`,
+                { stepId: 'script-selection' },
+                800
+              );
+            } else if (answerId === 'nav-upload-own') {
+              setState(prev => ({ ...prev, isCustomCreativeMode: true, step: 'creative-review' }));
+              await simulateTyping(
+                `Great! Upload your custom image or video. I'll validate it meets Facebook's ad specifications. 📤`,
+                { stepId: 'creative-review' },
+                800
+              );
+            }
+
+            setState(prev => ({ ...prev, isStepLoading: false }));
+          } catch (error) {
+            handleError(error, 'Executing navigation action');
+          }
+        }
+      }
     } catch (error) {
       handleError(error, 'Processing your selection');
     }
-  }, [state.campaignConfig, state.selectedCreative, state.selectedAdAccount, state.creatives, state.generatedImages, generatedScripts, generatedAvatars, fetchedAdAccounts, addMessage, simulateTyping, handleError]);
+  }, [state.campaignConfig, state.selectedCreative, state.selectedAdAccount, state.creatives, state.generatedImages, state.pendingIntentConfirmation, generatedScripts, generatedAvatars, fetchedAdAccounts, addMessage, simulateTyping, handleError]);
 
   // Public wrapper that always adds user message (used by chip clicks)
   const handleQuestionAnswer = useCallback(async (questionId: string, answerId: string) => {
@@ -1644,17 +2044,24 @@ export const useCampaignFlow = () => {
   const handleCustomScriptCancel = useCallback(() => {
     setState(prev => ({ ...prev, isCustomScriptMode: false }));
 
+    // Clear the selected answer so the question shows as active
+    setSelectedAnswers(prev => {
+      const newAnswers = { ...prev };
+      delete newAnswers['script-selection'];
+      return newAnswers;
+    });
+
     const scriptQuestion: InlineQuestion = {
       id: 'script-selection',
       question: 'Choose a script style that matches your brand voice:',
       options: [
-        ...scriptOptions.map(s => ({ id: s.id, label: s.name, description: s.description })),
+        ...generatedScripts.map(s => ({ id: s.id, label: s.name, description: s.description })),
         { id: 'custom-script', label: '✍️ Write My Own', description: 'Create custom ad copy' }
       ]
     };
 
     addMessage('assistant', "No problem! Here are the AI-generated script options:", { inlineQuestion: scriptQuestion, stepId: 'script-selection' });
-  }, [addMessage]);
+  }, [addMessage, generatedScripts]);
 
   const handleCustomCreativeSubmit = useCallback(async (creative: CreativeOption) => {
     try {

@@ -576,7 +576,8 @@ class AdCampaignWorkflow:
         # Fetch avatars if not already fetched
         if not state.get("available_avatars"):
             avatars = self.heygen.get_avatars()
-            state["available_avatars"] = avatars
+            # User requested to limit number of avatars displayed/fetched
+            state["available_avatars"] = avatars[:9] if avatars else []
         
         # Avatar selection is handled by frontend
         # This node just validates that an avatar is selected

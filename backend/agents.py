@@ -402,28 +402,32 @@ class NavigationAgent:
 Your job is to determine where the user wants to go based on their message and the current step.
 
 Workflow Steps:
-1. scrape (Input URL)
-2. analyze (Product Analysis)
-3. generate_scripts (Create Ad Scripts)
-4. select_script (Choose one script)
-5. refine_script (Edit selected script)
-6. generate_images (Create visuals)
-7. refine_images (Edit visuals)
-8. generate_audio (Voiceover)
-9. select_avatar (Choose presenter)
-10. generate_video (Final video)
+1. "product-url" (Input Product Link)
+2. "product-analysis" (AI Analysis of Product)
+3. "script-selection" (Choose Ad Scripts)
+4. "creative-generation" (Generate Visuals)
+5. "avatar-selection" (Choose Presenter)
+6. "facebook-auth" (Connect Facebook)
+7. "ad-account-selection" (Select Ad Account)
+8. "campaign-creation" (Review & Launch)
 
 Rules:
 - If user says "next", "looks good", "continue", or approves current output -> return "next"
+- If user says "back", "go back", "previous", "return" -> return "back"
+
 - If user provides a URL (starts with http/https/www) -> return "scrape"
-- If user wants to change something from a previous step (e.g., "change target audience") -> return the name of that step (e.g., "analyze")
-- If user explicitly asks to go to a step -> return that step name
+- If user wants to CHANGE/RESET/NEW URL (e.g., "change url", "new url", "different product", "start over") -> return "change_url"
+- If user wants to change something from a previous step (e.g., "change target audience") -> return the name of that step (e.g., "product-analysis")
+- If user explicitly asks to go to a step (e.g., "go to facebook", "connect facebook") -> return that step name (e.g., "facebook-auth")
 - If user provides feedback for the CURRENT step (e.g., "make it funnier" while in generate_scripts) -> return "stay" (to refine)
+- If user provides a number (1, 2, 3...) during a selection step -> return "stay" (to select)
 - If user wants to stop -> return "complete"
+
+IMPORTANT: "change url", "new url", "different url", "start over" should ALWAYS return "change_url".
 
 Output JSON:
 {{
-    "intent": "next" | "stay" | "complete" | "step_name",
+    "intent": "next" | "back" | "stay" | "complete" | "change_url" | "step_name" (e.g. "facebook-auth"),
     "reasoning": "brief explanation"
 }}
 """),

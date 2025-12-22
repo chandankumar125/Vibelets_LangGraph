@@ -15,3 +15,5 @@ google-genai
 pillow
 facebook-business
 httpx
+chromadb
+PyPDF2

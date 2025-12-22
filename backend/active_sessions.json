@@ -28,9 +28,9 @@
     "iteration_count": {}
   },
   "28b63aa8-4611-461d-ae9d-f6bb9e3866ec": {
-    "current_step": "creative-generation:video",
-    "navigation_intent": "generate_video",
-    "agent_message": "Great news! Your video is being created based on everything you've put together so far. Just sit tight for a moment while the magic happens!",
+    "current_step": "creative-generation:images",
+    "navigation_intent": "generate_images",
+    "agent_message": "Great news! The AI has created images for your ad campaign. If you'd like to make any tweaks, feel free to refine the image prompts.",
     "messages": [
       {
         "role": "user",
@@ -87,359 +87,688 @@
       {
         "role": "user",
         "content": "1"
+      },
+      {
+        "role": "user",
+        "content": "lets go with script1"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "lets go to next step"
+      },
+      {
+        "role": "user",
+        "content": "i want to go to facebook ad campaign"
+      },
+      {
+        "role": "user",
+        "content": "i want to change product url"
+      },
+      {
+        "role": "user",
+        "content": "go back"
+      },
+      {
+        "role": "user",
+        "content": "lets start from the beginning"
+      },
+      {
+        "role": "user",
+        "content": "yes"
+      },
+      {
+        "role": "user",
+        "content": "lets go to script section"
+      },
+      {
+        "role": "user",
+        "content": "i want to change url"
+      },
+      {
+        "role": "user",
+        "content": "i want to give new ur"
+      },
+      {
+        "role": "user",
+        "content": "i want to choose another image"
+      },
+      {
+        "role": "user",
+        "content": "i want to change url"
+      },
+      {
+        "role": "user",
+        "content": "change url"
+      },
+      {
+        "role": "user",
+        "content": "go back"
+      },
+      {
+        "role": "user",
+        "content": "wanna change url"
+      },
+      {
+        "role": "user",
+        "content": "wanna change url"
+      },
+      {
+        "role": "user",
+        "content": "abcdefgh"
+      },
+      {
+        "role": "user",
+        "content": "yo"
+      },
+      {
+        "role": "user",
+        "content": "yo"
+      },
+      {
+        "role": "user",
+        "content": "wanna change url"
+      },
+      {
+        "role": "user",
+        "content": "https://www.flipkart.com/bosch-9-kg-fully-automatic-front-load-washing-machine-in-built-heater-white/p/itmd6c02f5048982?pid=WMNGZSEVDUQXGCJM&lid=LSTWMNGZSEVDUQXGCJMGZZHTZ&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=en_rFCA-sBOEfQ48VzFbSBKeN0koZKMIrokgNzaqc3jcgFjJ00IdAm9zKEcw8JKrY-8iiJP32A_J6MYgSLC7TyDA4E8waCTrWcncKeK_ydPfoM%3D&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_2_38.productCard.PMU_TAB_BOSCH%2B9%2Bkg%2BFully%2BAutomatic%2BFront%2BLoad%2BWashing%2BMachine%2Bwith%2BIn-built%2BHeater%2BWhite_-1_productRecommendation%2FcrossSelling_1&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_2_NA_view-all&cid=-1"
+      },
+      {
+        "role": "user",
+        "content": "hi"
+      },
+      {
+        "role": "user",
+        "content": "https://www.flipkart.com/samsung-crystal-4k-125-cm-50-inch-ultra-hd-4k-led-smart-tizen-tv-2025/p/itm785ba81b87096?pid=TVSHBWJEWQEFPKD6&lid=LSTTVSHBWJEWQEFPKD6GQRSEO&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ARFRHDXSNHZX2DUW7%3Bl%3ALSTRFRHDXSNHZX2DUW7V4CRCU%3Bpt%3App%3Buid%3Ac8cfae6b-dcaa-11f0-9bcb-cd9673644de0%3B.ACNH2X9MVXDG3HSX&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_21_38.productCard.PMU_TAB_Samsung%2BCrystal%2B4K%2B125%2Bcm%2B%252850%2Binch%2529%2BUltra%2BHD%2B%25284K%2529%2BLED%2BSmart%2BTizen%2BTV%2B2025%2BEdition_ACNH2X9MVXDG3HSX_productRecommendation%2FcrossSelling_0&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_21_NA_view-all&cid=ACNH2X9MVXDG3HSX"
+      },
+      {
+        "role": "user",
+        "content": "i wannna change the url"
+      },
+      {
+        "role": "user",
+        "content": "go to facebook campaigning page"
+      },
+      {
+        "role": "user",
+        "content": "wanna change url"
+      },
+      {
+        "role": "user",
+        "content": "go back to product analysis"
+      },
+      {
+        "role": "user",
+        "content": "wanna change url"
+      },
+      {
+        "role": "user",
+        "content": "dfljhajfhkjhkjdh Fa"
+      },
+      {
+        "role": "user",
+        "content": "jbdkv"
+      },
+      {
+        "role": "user",
+        "content": "jhbbhjkbhbhbh"
+      },
+      {
+        "role": "user",
+        "content": "i want to connect facebook"
+      },
+      {
+        "role": "assistant",
+        "content": "To connect your Facebook account:\n1. Navigate to the Facebook integration step in the workflow\n2. Click on \"Connect Facebook\" \n3. You'll need to provide your Facebook access token\n4. The system will automatically fetch your ad accounts\n5. Select the ad account you want to use\n\nIf you're having trouble, make sure your Facebook Business Manager is properly set up and you have the necessary permissions."
+      },
+      {
+        "role": "user",
+        "content": "sajfhakjldsf"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm here to help with Vibelets! \n\nFor specific questions about:\n\u2022 Connecting Facebook - just ask \"how do I connect Facebook?\"\n\u2022 Features - ask \"what features does Vibelets have?\"\n\u2022 Changing URLs - ask \"how do I change the URL?\"\n\u2022 Scripts, images, or videos - ask about the specific feature\n\nYou can also email support@vibelets.com for detailed assistance."
+      },
+      {
+        "role": "user",
+        "content": "go back"
+      },
+      {
+        "role": "user",
+        "content": "hlo"
+      },
+      {
+        "role": "assistant",
+        "content": "I didn't quite understand that. I'm here to help! \n\nYou can ask me:\n\u2022 \"How do I connect Facebook?\"\n\u2022 \"What features does Vibelets have?\"\n\u2022 \"How do I change the product URL?\"\n\u2022 \"Help with scripts/images/videos\"\n\nOr use navigation commands like \"next\", \"back\", or \"go to [step]\"."
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "yes"
+      },
+      {
+        "role": "assistant",
+        "content": "I didn't quite understand that. I'm here to help! \n\nYou can ask me:\n\u2022 \"How do I connect Facebook?\"\n\u2022 \"What features does Vibelets have?\"\n\u2022 \"How do I change the product URL?\"\n\u2022 \"Help with scripts/images/videos\"\n\nOr use navigation commands like \"next\", \"back\", or \"go to [step]\"."
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "script-selection"
+      },
+      {
+        "role": "user",
+        "content": "oh ho i have given another url"
+      },
+      {
+        "role": "assistant",
+        "content": "To change or enter a product URL:\n\u2022 Say \"change url\" or \"new url\" to start over\n\u2022 Paste any product URL (from Shopify, Amazon, etc.)\n\u2022 The URL should start with http:// or https://\n\u2022 The system will automatically scrape and analyze the product\n\nYou can change the URL at any time during the workflow!"
+      },
+      {
+        "role": "user",
+        "content": "change url"
+      },
+      {
+        "role": "user",
+        "content": "product-url"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "hi"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm here to help with Vibelets!\n\nI can assist with:\n\u2022 Creating campaigns\n\u2022 Connecting Facebook\n\u2022 Understanding features\n\u2022 Changing product URLs\n\u2022 Generating content\n\nWhat would you like to know?"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "hgjnbhgfx"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello! It seems like you might have accidentally sent a string of characters instead of your question. No worries at all, it happens! I'm here to help you with any queries or issues you might have regarding Vibelets' features, such as ideation and creation of content, multi-account integration and tracking, or the Zen Mode. \n\nPlease feel free to resend your question or let me know how I can assist you further. I'm here to help!"
+      },
+      {
+        "role": "user",
+        "content": "go back"
+      },
+      {
+        "role": "user",
+        "content": "new url"
+      },
+      {
+        "role": "user",
+        "content": "dskanklndgj"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm sorry, but I'm having trouble understanding your question. Could you please provide a bit more information or clarify what you're asking? I'm here to help you understand Vibelets' features or any other topics you're interested in. Looking forward to assisting you further!"
+      },
+      {
+        "role": "user",
+        "content": "jasdlfjskdf"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm sorry, but it seems your message may have been sent in error as it doesn't contain a clear question or issue. Could you please provide more details about what you need assistance with? Whether it's about editing scripts, generating images, connecting to Facebook, data tracking, or anything related to Vibelets, I'll be more than happy to help! Just let me know."
+      },
+      {
+        "role": "user",
+        "content": "penguin"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to help you with that! However, your question \"penguin\" isn't clear. Could you please provide a bit more detail? Are you referring to a product named \"Penguin\", or perhaps you're trying to create an ad or campaign related to penguins?\n\nIf you're starting a new campaign, you can paste the URL of your penguin-related product into the Vibelets system to begin. It will analyze your product and generate ad scripts, images, and even a voiceover. You'll even be able to choose an AI presenter and create a final video ad. \n\nIf you're facing any difficulties or if my assumptions are incorrect, could you please provide more information so I can assist you better? Feel free to ask if you need any more help!"
+      },
+      {
+        "role": "user",
+        "content": "chandan"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello Chandan! How can I assist you today? If you have any questions about Vibelets, its features, or anything else, feel free to ask. I'm here to help you!"
+      },
+      {
+        "role": "user",
+        "content": "i want to change url"
+      },
+      {
+        "role": "user",
+        "content": "hello chandan how are you"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello! I'm doing well, thank you. How can I assist you today? Whether you have questions about Vibelets or need help with something else, I'm here to support you. Let me know how I can be of service!"
+      },
+      {
+        "role": "user",
+        "content": "lasdkhfjhadfskjakbf"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm sorry, but it seems like your message is unclear. Could you please provide more details or rephrase your question? I'd be more than happy to assist you. Remember, whether it's about editing scripts, changing generated images, or connecting to Facebook, we've got solutions for you. Feel free to ask if you need any more help!"
+      },
+      {
+        "role": "user",
+        "content": "sakfhlkjnf"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm here to assist you! However, it seems like your message may have been sent inadvertently as it's not quite clear. Could you please provide more details or clarify your question? I'm ready to help with any questions about Vibelets, whether it's about editing scripts, regenerating images, connecting to Facebook, or anything else you need. Please don't hesitate to ask!"
+      },
+      {
+        "role": "user",
+        "content": "what is vibelets"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to help you with that! Vibelets is an intelligent ad campaign creation platform. It uses AI technology to help you create professional video advertisements from product URLs. The platform is designed to automate the entire process from analyzing the product to generating the final video.\n\nOne of the key features of Vibelets is the Campaign Creation. This feature simplifies and streamlines your ad campaign setup through a step-by-step process. You start with an intuitive chatbot interface that guides you through the entire campaign creation, which allows you to create and launch campaigns with ease.\n\nAdditionally, Vibelets also provides a REST API for programmatic access. This API integration allows you to manage your session, and it supports streaming responses for real-time updates. \n\nI hope this gives you a clear understanding of what Vibelets is. Feel free to ask if you need any more help!"
+      },
+      {
+        "role": "user",
+        "content": "sadfjlhajdsbvC"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm sorry, but it seems like there may have been an error in your message. If you have a question or need assistance with something, could you please provide more details? I'm here to help! Feel free to ask if you need any more help with Facebook and TikTok ads, Vibelets features, or anything else."
+      },
+      {
+        "role": "user",
+        "content": "HELLO"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello! I hope you're having a great day. How can I assist you with Vibelets today?"
+      },
+      {
+        "role": "user",
+        "content": "skjdbsfjl"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm sorry, but it seems like your message may have been sent in error as it isn't clear. Could you please provide more details or rephrase your question? I'm here to help you with Vibelets, whether you're looking to understand its key features, how to integrate your ad accounts, or anything else related to it. Don't hesitate to ask!"
+      },
+      {
+        "role": "user",
+        "content": "hello"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello! I'm here to assist you. How can I help you today? Whether it's about Vibelets features, troubleshooting, or general usage, feel free to ask. I'm here to make sure you have a smooth experience."
+      },
+      {
+        "role": "user",
+        "content": "i mistakely given other url , now wanna change the url"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to help you with that! If you've accidentally provided the wrong URL and would like to change it, all you need to do is use the command \"change url\" or \"new url\". This will allow you to start over with a different product URL. \n\nHere's a step-by-step guide:\n1. Say \"change url\" or \"new url\".\n2. You will be prompted to enter the new product URL.\n3. Make sure to provide the direct product page URL, not a category page for best results.\n\nRemember, you can use these commands at any time during the workflow. Don't worry about making mistakes, it's all part of the process and you're doing great! \n\nFeel free to ask if you need any more help!"
+      },
+      {
+        "role": "user",
+        "content": "hi"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello there! How can I assist you today? Whether it's a question about Vibelets' features, guidance on video generation, or help with our HeyGen Integration, I'm here to support you. Please feel free to share any details about the issue or question you have."
+      },
+      {
+        "role": "user",
+        "content": "change url"
+      },
+      {
+        "role": "user",
+        "content": "hi chandan bro ho w are you"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello! I'm doing well, thank you. How can I assist you today? Whether you have questions about Vibelets, need help setting up a campaign, or want more information about our features like Zen Mode, I'm here to help. Please feel free to ask anything you need!"
+      },
+      {
+        "role": "user",
+        "content": "want to go to previous step"
+      },
+      {
+        "role": "user",
+        "content": "navigate me to facebook ad campaigning"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to help you with that!\n\nHere's a step-by-step guide to starting a Facebook ad campaign:\n\n1. Log into your Facebook account and navigate to Facebook Ads Manager. \n\n2. Click on the \"Campaigns\" tab, then click \"Create\" to start a new campaign.\n\n3. Choose your campaign objective that matches your business goal. This could be awareness, traffic, leads, or conversions, depending on your funnel stage.\n\n4. Structure your campaign based on your business type. If you're an eCommerce brand, for example, your top of funnel (TOF) might focus on video views, your middle of funnel (MOF) on product interest, and your bottom of funnel (BOF) might retarget with an offer.\n\n5. For scaling and growth, wait until you've hit performance benchmarks with consistent results before scaling your ad campaign. When scaling, you can duplicate winning ad sets, increase your budget slowly, or use Campaign Budget Optimization (CBO).\n\n6. Use advanced scaling techniques like vertical scaling (increasing your budget) or horizontal scaling (reaching new audiences). To scale horizontally with multiple audiences, you can use lookalikes, interest stacks, and exclude past audience overlap.\n\n7. Maintain ad performance during scaling by controlling frequency, monitoring relevance score, and refreshing your creatives.\n\n8. And finally, consider using retargeting to improve conversion rates. You can retarget visitors, cart abandoners, and engaged users using custom audiences.\n\nRemember to keep an eye on your campaign's performance and adjust as necessary! If you need any further assistance or have more questions, feel free to ask. I'm here to help!"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "scripts"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to help you with your question about scripts! \n\nOur Vibelets feature allows you to generate various types of scripts for your ads. You can create multiple unique scripts that are specifically tailored to your product. These scripts can be in various styles such as UGC style, Problem/Solution, ASMR/Aesthetic, Fast-paced/Hype. \n\nIn addition to this, the scripts are customizable. You can refine them with natural language feedback to ensure they align perfectly with your messaging. The scripts are also of professional quality and are optimized for platforms like TikTok, Instagram Reels, and YouTube Shorts.\n\nYou have the option to choose the narrative voice for your script - be it 1st person, 2nd person, or 3rd person. There's also an option to choose the style of your script from options like UGC (User-Generated Content), Actor-based (real shoot), POV (Point of View), Animated, B-roll / Stock-based, or you can let our AI select the best-fit style with the 'Surprise Me' option.\n\nFinally, you can choose to start with a new script, use an existing one, or customize your own script as per your requirements.\n\nI hope this information is helpful! If you have any more questions or need further clarification, feel free to ask. I'm here to help!"
+      },
+      {
+        "role": "user",
+        "content": "1"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm here to help with Vibelets!\n\nI can assist with:\n\u2022 Creating campaigns\n\u2022 Connecting Facebook\n\u2022 Understanding features\n\u2022 Changing product URLs\n\u2022 Generating content\n\nWhat would you like to know?"
+      },
+      {
+        "role": "user",
+        "content": "go back"
+      },
+      {
+        "role": "user",
+        "content": "go back"
+      },
+      {
+        "role": "user",
+        "content": "ladskjfn"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm sorry, but it seems like your message came through as an unclear string of characters. Could you please rephrase or provide more details so I can better assist you? I'm here to help with any question or issue you might have, whether it's about Facebook/TikTok ads, using Vibelets, or something else. Please don't hesitate to reach out!"
+      },
+      {
+        "role": "user",
+        "content": "jagvhdbscx"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm sorry, but it seems like your message might have been sent in error as it's not clear what you're asking for. Could you please provide more details or clarify your question? I'm here to help you with anything related to Vibelets, whether it's about creating static images or videos, setting up ad campaigns, or understanding how our AI-powered features work. Please don't hesitate to ask if you need any more help!"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "go back"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "go back"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "go back"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "want to chage url"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to help you with that! If you're looking to change the product URL in your workflow, all you need to do is type \"change url\" or \"new url\". This command will allow you to start over with a different product. \n\nRemember, for best results, use direct product pages instead of category pages when choosing your new URL. \n\nFeel free to ask if you need any more help! I'm here to assist you."
+      },
+      {
+        "role": "user",
+        "content": "change url"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "back"
+      },
+      {
+        "role": "user",
+        "content": "wnana change to go baclk"
+      },
+      {
+        "role": "assistant",
+        "content": "I'd be happy to help you with that! It seems like you want to go back to a previous step in your workflow. You can easily do this by typing \"go back\" in your current interface. This command will take you to the previous step of your process. \n\nIf you wanted to change something else, like the product URL, you can type \"change url\" or \"new url\" to start over with a different product. \n\nRemember you can also jump to a specific step by using the command \"go to [step name]\". Just replace \"[step name]\" with the name of the step you want to reach. \n\nI hope this helps! If you need any more assistance, feel free to ask!"
+      },
+      {
+        "role": "user",
+        "content": "go to analysis section"
+      },
+      {
+        "role": "user",
+        "content": "go to analysis section"
+      },
+      {
+        "role": "user",
+        "content": "hi"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello! How can I assist you today with Vibelets? Feel free to ask any questions you may have, and I'll do my best to help you out."
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "hi"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello! How can I assist you today? I'm here to help you with any questions or issues you might have. Feel free to ask anything!"
+      },
+      {
+        "role": "user",
+        "content": "hi"
+      },
+      {
+        "role": "assistant",
+        "content": "Hello! I'm glad you've reached out. How can I assist you today with Vibelets? Feel free to ask any questions you might have."
+      },
+      {
+        "role": "user",
+        "content": "i want to go next"
+      },
+      {
+        "role": "user",
+        "content": "i mistakely chosen other url i want to change url how can i do it"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "go to previous step"
+      },
+      {
+        "role": "user",
+        "content": "next"
+      },
+      {
+        "role": "user",
+        "content": "next"
       }
     ],
-    "url": "https://www.flipkart.com/bosch-368-l-frost-free-double-door-2-star-convertible-refrigerator-large-led-display-inverter-integrated-handle-vitafresh-technology-10-day-freshness-handle/p/itma4d20b11ba929?pid=RFRHDXSNHZX2DUW7&lid=LSTRFRHDXSNHZX2DUW7V4CRCU&marketplace=FLIPKART&fm=factBasedRecommendation%2FrecentlyViewed&iid=R%3Arv%3Bpt%3App%3Buid%3A96356553-dcad-11f0-9fe6-5b9745e6ccff%3B.RFRHDXSNHZX2DUW7&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Recently%2BViewed_3_42.productCard.RECENTLY_VIEWED_BOSCH%2B368%2BL%2BFrost%2BFree%2BDouble%2BDoor%2B2%2BStar%2BConvertible%2BRefrigerator%2B%2Bwith%2BLarge%2BLED%2BDisplay%252C%2BInverter%2BFrost%2BFree%2B%252C%2BIntegrated%2BHandle%252C%2BVitaFresh%2BTechnology%2Bfor%2B10%2BDay%2BFreshness%252C%2BIntegrated%2BHandle_RFRHDXSNHZX2DUW7_factBasedRecommendation%2FrecentlyViewed_2&otracker1=pp_reco_PINNED_factBasedRecommendation%2FrecentlyViewed_Recently%2BViewed_DESKTOP_HORIZONTAL_productCard_cc_3_NA_view-all&cid=RFRHDXSNHZX2DUW7",
-    "scraped_url": "https://www.flipkart.com/bosch-368-l-frost-free-double-door-2-star-convertible-refrigerator-large-led-display-inverter-integrated-handle-vitafresh-technology-10-day-freshness-handle/p/itma4d20b11ba929?pid=RFRHDXSNHZX2DUW7&lid=LSTRFRHDXSNHZX2DUW7V4CRCU&marketplace=FLIPKART&fm=factBasedRecommendation%2FrecentlyViewed&iid=R%3Arv%3Bpt%3App%3Buid%3A96356553-dcad-11f0-9fe6-5b9745e6ccff%3B.RFRHDXSNHZX2DUW7&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Recently%2BViewed_3_42.productCard.RECENTLY_VIEWED_BOSCH%2B368%2BL%2BFrost%2BFree%2BDouble%2BDoor%2B2%2BStar%2BConvertible%2BRefrigerator%2B%2Bwith%2BLarge%2BLED%2BDisplay%252C%2BInverter%2BFrost%2BFree%2B%252C%2BIntegrated%2BHandle%252C%2BVitaFresh%2BTechnology%2Bfor%2B10%2BDay%2BFreshness%252C%2BIntegrated%2BHandle_RFRHDXSNHZX2DUW7_factBasedRecommendation%2FrecentlyViewed_2&otracker1=pp_reco_PINNED_factBasedRecommendation%2FrecentlyViewed_Recently%2BViewed_DESKTOP_HORIZONTAL_productCard_cc_3_NA_view-all&cid=RFRHDXSNHZX2DUW7",
+    "url": "https://www.flipkart.com/apc-bx600c-in-back-ups-600-230-v-line-interactive-tower-model-overload-protection-3-outlet-plugs/p/itme9udcqfebevwe?pid=UPSE9UDBHVFCTUAC&lid=LSTUPSE9UDBHVFCTUACRXNCC9&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3AMONH7GHGSGF3AGM9%3Bl%3ALSTMONH7GHGSGF3AGM9N3DVIC%3Bpt%3App%3Buid%3Aff675507-dd8b-11f0-8b21-3fa18e503790%3B.PSRFN3JY4QQHRFRK&ppt=pp&ppn=pp&ssid=1r1pswhk6o0000001766225337416&otracker=pp_reco_Bought%2BTogether_24_41.productCard.PMU_TAB_APC%2BBX600C-IN%2BBACK%2B-%2BUPS%2B600%2B230%2BV%2BLine-interactive%2BTower%2BModel%2BUPS%2Bwith%2BOverload%2BProtection%2B3%2BOutlet%2BPlugs_PSRFN3JY4QQHRFRK_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_24_NA_view-all&cid=PSRFN3JY4QQHRFRK",
+    "scraped_url": "https://www.flipkart.com/apc-bx600c-in-back-ups-600-230-v-line-interactive-tower-model-overload-protection-3-outlet-plugs/p/itme9udcqfebevwe?pid=UPSE9UDBHVFCTUAC&lid=LSTUPSE9UDBHVFCTUACRXNCC9&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3AMONH7GHGSGF3AGM9%3Bl%3ALSTMONH7GHGSGF3AGM9N3DVIC%3Bpt%3App%3Buid%3Aff675507-dd8b-11f0-8b21-3fa18e503790%3B.PSRFN3JY4QQHRFRK&ppt=pp&ppn=pp&ssid=1r1pswhk6o0000001766225337416&otracker=pp_reco_Bought%2BTogether_24_41.productCard.PMU_TAB_APC%2BBX600C-IN%2BBACK%2B-%2BUPS%2B600%2B230%2BV%2BLine-interactive%2BTower%2BModel%2BUPS%2Bwith%2BOverload%2BProtection%2B3%2BOutlet%2BPlugs_PSRFN3JY4QQHRFRK_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_24_NA_view-all&cid=PSRFN3JY4QQHRFRK",
     "product_data": {
-      "url": "https://www.flipkart.com/bosch-368-l-frost-free-double-door-2-star-convertible-refrigerator-large-led-display-inverter-integrated-handle-vitafresh-technology-10-day-freshness-handle/p/itma4d20b11ba929?pid=RFRHDXSNHZX2DUW7&lid=LSTRFRHDXSNHZX2DUW7V4CRCU&marketplace=FLIPKART&fm=factBasedRecommendation%2FrecentlyViewed&iid=R%3Arv%3Bpt%3App%3Buid%3A96356553-dcad-11f0-9fe6-5b9745e6ccff%3B.RFRHDXSNHZX2DUW7&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Recently%2BViewed_3_42.productCard.RECENTLY_VIEWED_BOSCH%2B368%2BL%2BFrost%2BFree%2BDouble%2BDoor%2B2%2BStar%2BConvertible%2BRefrigerator%2B%2Bwith%2BLarge%2BLED%2BDisplay%252C%2BInverter%2BFrost%2BFree%2B%252C%2BIntegrated%2BHandle%252C%2BVitaFresh%2BTechnology%2Bfor%2B10%2BDay%2BFreshness%252C%2BIntegrated%2BHandle_RFRHDXSNHZX2DUW7_factBasedRecommendation%2FrecentlyViewed_2&otracker1=pp_reco_PINNED_factBasedRecommendation%2FrecentlyViewed_Recently%2BViewed_DESKTOP_HORIZONTAL_productCard_cc_3_NA_view-all&cid=RFRHDXSNHZX2DUW7",
-      "title": "BOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle\u00a0\u00a0(Black pearl, CTC39K22NI)",
-      "description": "Buy BOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle only for Rs. 63790 Free installation, 30 day replacement guarantee with free shipping only at Flipkart.com",
-      "price": "\u20b944,990",
+      "url": "https://www.flipkart.com/apc-bx600c-in-back-ups-600-230-v-line-interactive-tower-model-overload-protection-3-outlet-plugs/p/itme9udcqfebevwe?pid=UPSE9UDBHVFCTUAC&lid=LSTUPSE9UDBHVFCTUACRXNCC9&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3AMONH7GHGSGF3AGM9%3Bl%3ALSTMONH7GHGSGF3AGM9N3DVIC%3Bpt%3App%3Buid%3Aff675507-dd8b-11f0-8b21-3fa18e503790%3B.PSRFN3JY4QQHRFRK&ppt=pp&ppn=pp&ssid=1r1pswhk6o0000001766225337416&otracker=pp_reco_Bought%2BTogether_24_41.productCard.PMU_TAB_APC%2BBX600C-IN%2BBACK%2B-%2BUPS%2B600%2B230%2BV%2BLine-interactive%2BTower%2BModel%2BUPS%2Bwith%2BOverload%2BProtection%2B3%2BOutlet%2BPlugs_PSRFN3JY4QQHRFRK_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_24_NA_view-all&cid=PSRFN3JY4QQHRFRK",
+      "title": "APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs",
+      "description": "Buy APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs for Rs.4100 online. APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs at best prices with FREE shipping & cash on delivery. Only Genuine Products. 30 Day Replacement Guarantee.",
+      "price": "\u20b93,299",
       "sku": "",
       "images": [
-        "http://rukmini1.flixcart.com/image/300/300/xif0q/refrigerator-new/1/c/k/-original-imahehyykhzcakp2.jpeg"
+        "http://rukmini1.flixcart.com/image/300/300/k70spzk0/ups/u/a/c/back-ups-600-apc-original-imafpcr6cy7vfknu.jpeg"
       ],
       "is_store": false,
       "products": [],
-      "raw_text": "  BOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle Online at Best Price in India | Flipkart.com        Explore PlusLoginBecome a Seller More CartAdd to cart Buy NowHomeHome & KitchenHome AppliancesRefrigeratorsBOSCH RefrigeratorsBOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle (Black pearl, CTC39K22NI)\nCompareShareBOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle\u00a0\u00a0(Black pearl, CTC39K22NI)4.2202 Ratings\u00a0&\u00a017 ReviewsSpecial price\u20b944,990\u20b963,79029% offi+ \u20b9206 Protect Promise Fee\u00a0Learn moreSecure delivery by 22 Dec, MondayAvailable offersBank Offer5% cashback on Axis Bank Flipkart Debit Card up to \u20b9750T&CBank Offer5% cashback on Flipkart SBI Credit Card upto \u20b94,000 per calendar quarterT&CBank Offer10% off up to \u20b91,500 on BOBCARD EMI Transactions,  Min Txn Value: \u20b95,000T&CSpecial PriceGet extra 29% offT&CView 12 more offersBuy without Exchange\u20b944,990Buy with Exchangeup to \u20b98,590 offEnter pincode to check if exchange is available1 year comprehensive product warranty + 10 years compressor warrantyKnow MoreDeliveryCheckEnter pincodeDelivery by22 Dec, Monday?if ordered before 3:26 PMInstallation & Demo  by25 Dec, ThursdayView Details Learn more about Flipkart delivery and installation process Watch VideoColorBlack pearlFine SteelSPARKLY STEELSmoky SteelPlease select a Color to proceed\u2715Star Rating2233Please select a Star Rating to proceed\u2715Capacity243 L243 L334 L334 L368 L368 LPlease select a Capacity to proceed\u2715BEE Year2021202120252025Please select a BEE Year to proceed\u2715Highlights368 L : Good for families of 3-5 membersSmart inverter compressor2 Star",
+      "raw_text": "  APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs Price in India - Buy APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs online at Flipkart.com        Explore PlusLoginBecome a Seller More CartAdd to cart Buy NowHomeComputersComputer PeripheralsAPC Computer PeripheralsAPC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs\nShareAPC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs4.122,300 Ratings\u00a0&\u00a02,829 ReviewsSpecial price\u20b93,299\u20b94,10019% offi+ \u20b936 Protect Promise Fee\u00a0Learn moreAvailable offersBank Offer5% cashback on Axis Bank Flipkart Debit Card up to \u20b9750T&CBank Offer5% cashback on Flipkart SBI Credit Card upto \u20b94,000 per calendar quarterT&CBank OfferFlat \u20b950 off on Flipkart Bajaj Finserv Insta EMI Card. Min Booking Amount: \u20b92,500T&CSpecial PriceGet extra 8% offT&CView 16 more offersWarranty2 Year On-Site ServiceDeliveryCheckEnter pincodeCurrently out of stock in this area.Output Power Wattage360 W360 W480 W480 W600 W600 W660 W660 W865 W865 WPlease select a Output Power Wattage to proceed\u2715HighlightsType: Line-interactiveOutput Power Wattage: 360 WInput Voltage: 230 V|Output Voltage: 230 VInput Frequency: 47-63|Output Frequency: 47-63W x H x D: 29.5 cm x 16.5 cm x 31 cmServices2 Year On-Site ServiceSellerCORSECA4.47 Days Replacement Policy?GST invoice available?See other sellersDescriptionDo you have to experience constant power cuts? If yes, bring home this APC BACK-UPS 600 and enjoy uninterrupted entertainment, fun and productivity. It features the AVR technology that protects it from severe voltage spikes. The UPS features 3 Indian 2/3 pin power sockets that can be used to connect different types of devices.Read MoreProduct DescriptionThe Power That Helps You Work, Study, and PlayThis APC BX600C-IN UPS delivers backup power and protection ",
       "downloaded_images": [
         "/static/scraped_products/og_image.jpg"
       ],
       "pageScreenshot": "/static/scraped_products/og_image.jpg",
       "current_analysis": {
-        "category": "Refrigerators",
+        "category": "Electronics",
         "features": [
-          "368 L capacity ideal for medium to large households",
-          "Frost Free Double Door Design",
-          "Large LED Display for easy temperature control",
-          "Inverter Technology for energy efficiency",
-          "Integrated Handle for sleek appearance",
-          "VitaFresh Technology to keep food fresh for up to 10 days",
-          "Black Pearl Finish",
-          "Free Shipping",
-          "30-Day Replacement Guarantee",
-          "Quiet Operation",
-          "Convertible Feature for flexible storage options",
-          "Efficient Cooling System"
+          "Line-interactive tower model",
+          "600 VA capacity",
+          "230 V output",
+          "Overload protection",
+          "3 outlet plugs",
+          "30-day replacement guarantee",
+          "Compact and lightweight design"
         ],
-        "target_audience": {
-          "demographics": {
-            "gender": "All",
-            "age_range": "25-55 years",
-            "income_level": "Middle to High Class",
-            "geographic_location": "Urban Areas"
-          },
-          "psychographics": {
-            "lifestyle": "Busy Professionals, Families",
-            "interests": "Modern Home Appliances, Energy Efficiency, Food Freshness",
-            "values": "Convenience, Freshness, Reliability"
-          },
-          "pain_points": [
-            "Need for a refrigerator with sufficient capacity to store family groceries",
-            "Desire for energy-efficient appliances to reduce utility bills",
-            "Preference for features that keep food fresh for extended periods",
-            "Interest in a quiet refrigerator that doesn't disrupt household activities",
-            "Concerns about ease of use and available customer support",
-            "Feedback on the need for clearer user instructions for convertible features",
-            "Reports of occasional temperature control issues",
-            "Need for an intuitive user experience to minimize confusion",
-            "Difficulty in navigating customer support channels"
-          ]
-        },
+        "target_audience": [
+          "Home office users",
+          "Small business owners",
+          "Individuals in need of reliable power backup",
+          "Budget-conscious consumers"
+        ],
         "usps": [
-          "Large 368 L capacity suitable for family-sized grocery storage",
-          "VitaFresh Technology for superior food freshness up to 10 days",
-          "Convertible design providing versatile storage options",
-          "Energy-efficient operation with inverter technology",
-          "Quiet operation, ensuring minimal disturbance in the home",
-          "Comprehensive customer support with a 30-day replacement guarantee",
-          "Free shipping adds value and convenience",
-          "Durable build quality from a reputable brand like BOSCH",
-          "Enhanced user instructions for better ease of use",
-          "Responsive customer support addressing user queries efficiently"
+          "Affordable power backup solution",
+          "Compact and efficient design",
+          "Includes overload protection for safety",
+          "Multiple plug outlets for versatility",
+          "Exceptional value at a price of \u20b93,299"
         ],
         "marketing_angles": [
-          {
-            "angle": "Family-Sized Storage",
-            "emotional_trigger": "Store more with the spacious 368 L capacity"
-          },
-          {
-            "angle": "Freshness Guaranteed",
-            "emotional_trigger": "Keep your groceries fresh for longer with VitaFresh Technology"
-          },
-          {
-            "angle": "Versatile Convenience",
-            "emotional_trigger": "Adapt your fridge to your needs with the convertible feature"
-          },
-          {
-            "angle": "Eco-Friendly Savings",
-            "emotional_trigger": "Save on utilities with energy-efficient inverter technology"
-          },
-          {
-            "angle": "Peaceful Performance",
-            "emotional_trigger": "Enjoy a quieter home with low-noise operation"
-          },
-          {
-            "angle": "Risk-Free Purchase",
-            "emotional_trigger": "Benefit from a 30-day replacement guarantee for peace of mind"
-          },
-          {
-            "angle": "Convenience Delivered",
-            "emotional_trigger": "Experience hassle-free shopping with free delivery"
-          },
-          {
-            "angle": "Durability Assured",
-            "emotional_trigger": "Trust in the lasting quality of BOSCH appliances"
-          },
-          {
-            "angle": "User-Friendly Design",
-            "emotional_trigger": "Effortlessly control your fridge with intuitive instructions and interface"
-          },
-          {
-            "angle": "Customer-Centric Support",
-            "emotional_trigger": "Receive prompt assistance for a seamless experience"
-          }
+          "Emphasize reliability and safety features",
+          "Highlight affordability and exceptional value for money",
+          "Promote easy online purchase with free shipping and cash on delivery",
+          "Stress the convenience of a 30-day replacement guarantee",
+          "Feature the compact design ideal for limited space environments"
         ],
-        "positioning": {
-          "competitive_landscape": "BOSCH competes with brands like LG, Samsung, and Whirlpool in the high-end refrigerator market.",
-          "differentiation": "Combines large capacity, advanced freshness technology, and energy efficiency with reliable performance and customer support, now with improved user guidance.",
-          "brand_reputation": "BOSCH is known for delivering high-quality, innovative home appliances. The brand appeals to consumers seeking reliability and performance. User feedback highlights areas for improvement, such as enhancing user manual clarity and addressing occasional temperature control issues. BOSCH is committed to continuous product refinement, ensuring a superior user experience through responsive customer support and product updates."
-        }
+        "positioning": "APC BX600C-IN BACK - UPS 600 is positioned as a cost-effective, compact, and reliable power backup solution for home offices and small businesses, offering essential protection with user-friendly purchase and return policies at an attractive price point."
       },
       "current_scripts": [
-        "[Style: Fast-paced/Hype]\n\n[Scene: A dynamic close-up of the BOSCH 368 L Frost Free Double Door Convertible Refrigerator, showcasing its modern black pearl finish]\n[Text overlay: \"Transform Your Kitchen\"]\n\n[Cut to various scenes: A family effortlessly organizing groceries for the week, a couple enjoying the sleek integrated handle, and someone preparing fresh meals with confidence]\nNarrator (energetic voice): \"Upgrade to lasting freshness with BOSCH\u2019s 368 L Frost Free Convertible Refrigerator!\"\n\n[Scene: Close-up of the refrigerator\u2019s stylish design, emphasizing its energy-saving inverter technology and quiet operation]\nNarrator: \"Designed for your modern lifestyle. Spacious. Energy-efficient. Whisper-quiet.\"\n\n[Scene: Highlighting the VitaFresh Technology ensuring food freshness for up to 10 days]\nNarrator: \"Cutting-edge freshness technology keeping your food crisp and delicious.\"\n\n[Scene: Showcasing the intuitive user interface and convertible storage options]\nNarrator: \"Adaptable to your needs with an intuitive experience.\"\n\n[Text overlay: \"Elevate Your Kitchen. Experience BOSCH.\"]\nCTA: \"Order online for free shipping and a seamless installation. Enjoy comprehensive support with our 30-day replacement guarantee!\"",
-        "[Style: UGC style]\n\n[Scene: A busy professional in their kitchen, filming themselves with a smartphone]\n[Text overlay: \"Our Kitchen Essential\"]\n\nPerson (speaking directly to the camera): \"Hi everyone! We\u2019ve embraced innovation with the new BOSCH Refrigerator, and it\u2019s been a lifesaver for our busy household!\"\n\n[Scene: Close-up on the fridge, highlighting its spacious interior and elegant design]\nPerson: \"This fridge fits perfectly into our kitchen and comes packed with features that make life easier!\"\n\n[Scene: Person demonstrating the VitaFresh Technology, convertible storage, and energy-efficient operation]\nPerson: \"Our food stays fresh longer, plus we save on energy bills!\"\n\n[Scene: Quick shots of them organizing groceries, enjoying the quiet operation, and preparing meals]\nPerson: \"It\u2019s efficient, reliable, and a perfect match for our lifestyle.\"\n\n[Text overlay: \"Fresh. Efficient. Adaptable.\"]\nCTA: \"Swipe up to get yours with free shipping. Follow us for modern home tips and updates!\"",
-        "[Style: ASMR/Aesthetic]\n\n[Scene: Close-up of the BOSCH Refrigerator's sleek edges, highlighting the refined black pearl finish]\n[Gentle tapping sound as fingers trace the integrated handle]\n\n[Text overlay: \"A Touch of Elegance\"]\n\n[Scene: Slow motion of the fridge door opening, revealing a beautifully organized and well-lit interior]\nNarrator (soft voice): \"Step into the future of freshness with BOSCH.\"\n\n[Scene: Focus on the VitaFresh Technology and the quiet operation, addressing user needs for consistent performance and minimal noise]\nNarrator: \"Experience peace with even cooling and silent operation.\"\n\n[Scene: The seamless operation of the convertible storage system in a calm, dimly lit kitchen]\nNarrator: \"Versatile storage that adapts to your every need.\"\n\n[Scene: The refrigerator perfectly complementing an urban kitchen setting]\nNarrator: \"Where style meets practicality in your culinary space.\"\n\n[Text overlay: \"Redefine Your Kitchen Experience.\"]\nCTA: \"Explore your kitchen's new centerpiece with effortless installation and a 30-day replacement guarantee. Click to shop and stay informed on the latest innovations!\""
+        "Imagine this: It's a hectic day, and you're juggling multiple tasks when \u2013 bam! \u2013 the power goes out. Don\u2019t let it frazzle you. With the APC BX600C-IN BACK - UPS 600, your home office or small business is always prepared. This compact marvel offers three versatile outlets, ensuring your essential devices stay powered. With robust overload protection and a sleek, silent design, it's peace of mind at just \u20b93,299. Stay in control, no matter the power situation.",
+        "Picture this: You're delivering a crucial presentation, and suddenly, everything goes dark. Sidestep the chaos with the APC BX600C-IN BACK - UPS 600. Compact yet powerful, this UPS is your dependable ally in any power cut. Perfect for home offices and small businesses, it provides overload protection and multiple outlets to keep you productive. At an affordable \u20b93,299, let this trusty guardian ensure you never miss a beat.",
+        "Life can be unpredictable, but your power supply shouldn\u2019t be. Meet the APC BX600C-IN BACK - UPS 600, a compact and budget-friendly UPS that keeps your focus intact. Ideal for tight spaces, it offers whisper-quiet operation while delivering reliable overload protection and three versatile outlets. Whether you're meeting a deadline or studying hard, at just \u20b93,299, this UPS ensures seamless operation, letting you concentrate on what truly matters. Say goodbye to disruptions and hello to uninterrupted success."
       ]
     },
     "selected_product": {
-      "url": "https://www.flipkart.com/bosch-368-l-frost-free-double-door-2-star-convertible-refrigerator-large-led-display-inverter-integrated-handle-vitafresh-technology-10-day-freshness-handle/p/itma4d20b11ba929?pid=RFRHDXSNHZX2DUW7&lid=LSTRFRHDXSNHZX2DUW7V4CRCU&marketplace=FLIPKART&fm=factBasedRecommendation%2FrecentlyViewed&iid=R%3Arv%3Bpt%3App%3Buid%3A96356553-dcad-11f0-9fe6-5b9745e6ccff%3B.RFRHDXSNHZX2DUW7&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Recently%2BViewed_3_42.productCard.RECENTLY_VIEWED_BOSCH%2B368%2BL%2BFrost%2BFree%2BDouble%2BDoor%2B2%2BStar%2BConvertible%2BRefrigerator%2B%2Bwith%2BLarge%2BLED%2BDisplay%252C%2BInverter%2BFrost%2BFree%2B%252C%2BIntegrated%2BHandle%252C%2BVitaFresh%2BTechnology%2Bfor%2B10%2BDay%2BFreshness%252C%2BIntegrated%2BHandle_RFRHDXSNHZX2DUW7_factBasedRecommendation%2FrecentlyViewed_2&otracker1=pp_reco_PINNED_factBasedRecommendation%2FrecentlyViewed_Recently%2BViewed_DESKTOP_HORIZONTAL_productCard_cc_3_NA_view-all&cid=RFRHDXSNHZX2DUW7",
-      "title": "BOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle\u00a0\u00a0(Black pearl, CTC39K22NI)",
-      "description": "Buy BOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle only for Rs. 63790 Free installation, 30 day replacement guarantee with free shipping only at Flipkart.com",
-      "price": "\u20b944,990",
+      "url": "https://www.flipkart.com/apc-bx600c-in-back-ups-600-230-v-line-interactive-tower-model-overload-protection-3-outlet-plugs/p/itme9udcqfebevwe?pid=UPSE9UDBHVFCTUAC&lid=LSTUPSE9UDBHVFCTUACRXNCC9&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3AMONH7GHGSGF3AGM9%3Bl%3ALSTMONH7GHGSGF3AGM9N3DVIC%3Bpt%3App%3Buid%3Aff675507-dd8b-11f0-8b21-3fa18e503790%3B.PSRFN3JY4QQHRFRK&ppt=pp&ppn=pp&ssid=1r1pswhk6o0000001766225337416&otracker=pp_reco_Bought%2BTogether_24_41.productCard.PMU_TAB_APC%2BBX600C-IN%2BBACK%2B-%2BUPS%2B600%2B230%2BV%2BLine-interactive%2BTower%2BModel%2BUPS%2Bwith%2BOverload%2BProtection%2B3%2BOutlet%2BPlugs_PSRFN3JY4QQHRFRK_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_24_NA_view-all&cid=PSRFN3JY4QQHRFRK",
+      "title": "APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs",
+      "description": "Buy APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs for Rs.4100 online. APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs at best prices with FREE shipping & cash on delivery. Only Genuine Products. 30 Day Replacement Guarantee.",
+      "price": "\u20b93,299",
       "sku": "",
       "images": [
-        "http://rukmini1.flixcart.com/image/300/300/xif0q/refrigerator-new/1/c/k/-original-imahehyykhzcakp2.jpeg"
+        "http://rukmini1.flixcart.com/image/300/300/k70spzk0/ups/u/a/c/back-ups-600-apc-original-imafpcr6cy7vfknu.jpeg"
       ],
       "is_store": false,
       "products": [],
-      "raw_text": "  BOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle Online at Best Price in India | Flipkart.com        Explore PlusLoginBecome a Seller More CartAdd to cart Buy NowHomeHome & KitchenHome AppliancesRefrigeratorsBOSCH RefrigeratorsBOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle (Black pearl, CTC39K22NI)\nCompareShareBOSCH 368 L Frost Free Double Door 2 Star Convertible Refrigerator  with Large LED Display, Inverter Frost Free , Integrated Handle, VitaFresh Technology for 10 Day Freshness, Integrated Handle\u00a0\u00a0(Black pearl, CTC39K22NI)4.2202 Ratings\u00a0&\u00a017 ReviewsSpecial price\u20b944,990\u20b963,79029% offi+ \u20b9206 Protect Promise Fee\u00a0Learn moreSecure delivery by 22 Dec, MondayAvailable offersBank Offer5% cashback on Axis Bank Flipkart Debit Card up to \u20b9750T&CBank Offer5% cashback on Flipkart SBI Credit Card upto \u20b94,000 per calendar quarterT&CBank Offer10% off up to \u20b91,500 on BOBCARD EMI Transactions,  Min Txn Value: \u20b95,000T&CSpecial PriceGet extra 29% offT&CView 12 more offersBuy without Exchange\u20b944,990Buy with Exchangeup to \u20b98,590 offEnter pincode to check if exchange is available1 year comprehensive product warranty + 10 years compressor warrantyKnow MoreDeliveryCheckEnter pincodeDelivery by22 Dec, Monday?if ordered before 3:26 PMInstallation & Demo  by25 Dec, ThursdayView Details Learn more about Flipkart delivery and installation process Watch VideoColorBlack pearlFine SteelSPARKLY STEELSmoky SteelPlease select a Color to proceed\u2715Star Rating2233Please select a Star Rating to proceed\u2715Capacity243 L243 L334 L334 L368 L368 LPlease select a Capacity to proceed\u2715BEE Year2021202120252025Please select a BEE Year to proceed\u2715Highlights368 L : Good for families of 3-5 membersSmart inverter compressor2 Star",
+      "raw_text": "  APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs Price in India - Buy APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs online at Flipkart.com        Explore PlusLoginBecome a Seller More CartAdd to cart Buy NowHomeComputersComputer PeripheralsAPC Computer PeripheralsAPC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs\nShareAPC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS with Overload Protection 3 Outlet Plugs4.122,300 Ratings\u00a0&\u00a02,829 ReviewsSpecial price\u20b93,299\u20b94,10019% offi+ \u20b936 Protect Promise Fee\u00a0Learn moreAvailable offersBank Offer5% cashback on Axis Bank Flipkart Debit Card up to \u20b9750T&CBank Offer5% cashback on Flipkart SBI Credit Card upto \u20b94,000 per calendar quarterT&CBank OfferFlat \u20b950 off on Flipkart Bajaj Finserv Insta EMI Card. Min Booking Amount: \u20b92,500T&CSpecial PriceGet extra 8% offT&CView 16 more offersWarranty2 Year On-Site ServiceDeliveryCheckEnter pincodeCurrently out of stock in this area.Output Power Wattage360 W360 W480 W480 W600 W600 W660 W660 W865 W865 WPlease select a Output Power Wattage to proceed\u2715HighlightsType: Line-interactiveOutput Power Wattage: 360 WInput Voltage: 230 V|Output Voltage: 230 VInput Frequency: 47-63|Output Frequency: 47-63W x H x D: 29.5 cm x 16.5 cm x 31 cmServices2 Year On-Site ServiceSellerCORSECA4.47 Days Replacement Policy?GST invoice available?See other sellersDescriptionDo you have to experience constant power cuts? If yes, bring home this APC BACK-UPS 600 and enjoy uninterrupted entertainment, fun and productivity. It features the AVR technology that protects it from severe voltage spikes. The UPS features 3 Indian 2/3 pin power sockets that can be used to connect different types of devices.Read MoreProduct DescriptionThe Power That Helps You Work, Study, and PlayThis APC BX600C-IN UPS delivers backup power and protection ",
       "downloaded_images": [
         "/static/scraped_products/og_image.jpg"
       ],
       "pageScreenshot": "/static/scraped_products/og_image.jpg",
       "current_analysis": {
-        "category": "Refrigerators",
+        "category": "Electronics",
         "features": [
-          "368 L capacity ideal for medium to large households",
-          "Frost Free Double Door Design",
-          "Large LED Display for easy temperature control",
-          "Inverter Technology for energy efficiency",
-          "Integrated Handle for sleek appearance",
-          "VitaFresh Technology to keep food fresh for up to 10 days",
-          "Black Pearl Finish",
-          "Free Installation",
-          "30-Day Replacement Guarantee",
-          "Quiet Operation",
-          "Convertible Feature for flexible storage options",
-          "Efficient Cooling System"
+          "Line-interactive tower model",
+          "600 VA capacity",
+          "230 V output",
+          "Overload protection",
+          "3 outlet plugs",
+          "30-day replacement guarantee",
+          "Compact and lightweight design"
         ],
-        "target_audience": {
-          "demographics": {
-            "gender": "All",
-            "age_range": "25-55 years",
-            "income_level": "Middle to High Class",
-            "geographic_location": "Urban Areas"
-          },
-          "psychographics": {
-            "lifestyle": "Busy Professionals, Families",
-            "interests": "Modern Home Appliances, Energy Efficiency, Food Freshness",
-            "values": "Convenience, Freshness, Reliability"
-          },
-          "pain_points": [
-            "Need for a refrigerator with sufficient capacity to store family groceries",
-            "Desire for energy-efficient appliances to reduce utility bills",
-            "Preference for features that keep food fresh for extended periods",
-            "Interest in a quiet refrigerator that doesn't disrupt household activities",
-            "Concerns about ease of use and available customer support",
-            "Need for clearer user instructions for the convertible features",
-            "Reports of occasional temperature control issues",
-            "Need for an intuitive user experience to minimize confusion",
-            "Difficulty in navigating customer support channels",
-            "Confusion in accessing support via social media platforms",
-            "Need for better integration with social media for support access"
-          ]
-        },
+        "target_audience": [
+          "Home office users",
+          "Small business owners",
+          "Individuals in need of reliable power backup",
+          "Budget-conscious consumers"
+        ],
         "usps": [
-          "Large 368 L capacity suitable for family-sized grocery storage",
-          "VitaFresh Technology for superior food freshness up to 10 days",
-          "Convertible design providing versatile storage options",
-          "Energy-efficient operation with inverter technology",
-          "Quiet operation, ensuring minimal disturbance in the home",
-          "Comprehensive customer support with a 30-day replacement guarantee",
-          "Free installation and shipping add value and convenience",
-          "Durable build quality from a reputable brand like BOSCH",
-          "Enhanced user instructions for better ease of use",
-          "Responsive customer support addressing user queries efficiently",
-          "Improved social media support accessibility"
+          "Affordable power backup solution",
+          "Compact and efficient design",
+          "Includes overload protection for safety",
+          "Multiple plug outlets for versatility",
+          "Exceptional value at a price of \u20b93,299"
         ],
         "marketing_angles": [
-          {
-            "angle": "Family-Sized Storage",
-            "emotional_trigger": "Store more with the spacious 368 L capacity"
-          },
-          {
-            "angle": "Freshness Guaranteed",
-            "emotional_trigger": "Keep your groceries fresh for longer with VitaFresh Technology"
-          },
-          {
-            "angle": "Versatile Convenience",
-            "emotional_trigger": "Adapt your fridge to your needs with the convertible feature"
-          },
-          {
-            "angle": "Eco-Friendly Savings",
-            "emotional_trigger": "Save on utilities with energy-efficient inverter technology"
-          },
-          {
-            "angle": "Peaceful Performance",
-            "emotional_trigger": "Enjoy a quieter home with low-noise operation"
-          },
-          {
-            "angle": "Risk-Free Purchase",
-            "emotional_trigger": "Benefit from a 30-day replacement guarantee for peace of mind"
-          },
-          {
-            "angle": "Convenience Delivered",
-            "emotional_trigger": "Experience hassle-free shopping with free delivery and installation"
-          },
-          {
-            "angle": "Durability Assured",
-            "emotional_trigger": "Trust in the lasting quality of BOSCH appliances"
-          },
-          {
-            "angle": "User-Friendly Design",
-            "emotional_trigger": "Effortlessly control your fridge with intuitive instructions and interface"
-          },
-          {
-            "angle": "Customer-Centric Support",
-            "emotional_trigger": "Receive prompt assistance for a seamless experience, now with improved social media support"
-          }
+          "Emphasize reliability and safety features",
+          "Highlight affordability and exceptional value for money",
+          "Promote easy online purchase with free shipping and cash on delivery",
+          "Stress the convenience of a 30-day replacement guarantee",
+          "Feature the compact design ideal for limited space environments"
         ],
-        "positioning": {
-          "competitive_landscape": "BOSCH competes with brands like LG, Samsung, and Whirlpool in the high-end refrigerator market.",
-          "differentiation": "Combines large capacity, advanced freshness technology, and energy efficiency with reliable performance and customer support, now with improved user guidance and enhanced online support.",
-          "brand_reputation": "BOSCH is known for delivering high-quality, innovative home appliances. The brand appeals to consumers seeking reliability and performance. User feedback highlights areas for improvement, such as enhancing user manual clarity, addressing occasional temperature control issues, and improving social media support access. BOSCH is committed to continuous product refinement, ensuring a superior user experience through responsive customer support and product updates."
-        }
+        "positioning": "APC BX600C-IN BACK - UPS 600 is positioned as a cost-effective, compact, and reliable power backup solution for home offices and small businesses, offering essential protection with user-friendly purchase and return policies at an attractive price point."
       },
       "current_scripts": [
-        "[Style: Fast-paced/Hype]\n\n[Scene: A dynamic close-up of the BOSCH 368 L Frost Free Double Door Convertible Refrigerator, showcasing its modern black pearl finish]\n[Text overlay: \"Elevate Your Kitchen Experience\"]\n\n[Cut to various scenes: A family effortlessly organizing groceries for the week, a couple admiring the sleek integrated handle, and someone preparing fresh meals with confidence]\nNarrator (energetic voice): \"Revolutionize your kitchen with the BOSCH 368 L Frost Free Convertible Refrigerator!\"\n\n[Scene: Close-up of the refrigerator\u2019s stylish design, emphasizing its energy-saving inverter technology and whisper-quiet operation]\nNarrator: \"Crafted for today\u2019s lifestyle. Energy-efficient, spacious, and quietly powerful.\"\n\n[Scene: Highlighting the VitaFresh Technology ensuring food freshness for up to 10 days]\nNarrator: \"Keep your food crisp longer with state-of-the-art freshness technology.\"\n\n[Scene: Showcasing the intuitive user interface and convertible storage options]\nNarrator: \"Versatile and easy to use, adapting to your every need seamlessly.\"\n\n[Scene: Brief demonstration of the easy-to-navigate temperature controls]\nNarrator: \"Experience ultimate control with intuitive settings.\"\n\n[Text overlay: \"Discover the BOSCH Difference\"]\nCTA: \"Order online for free shipping and hassle-free installation. Enjoy peace of mind with our 30-day replacement guarantee and responsive customer support!\"",
-        "[Style: UGC style]\n\n[Scene: A busy professional in their kitchen, filming themselves with a smartphone]\n[Text overlay: \"Your Kitchen's New Best Friend\"]\n\nPerson (speaking directly to the camera): \"Hey there! We've upgraded our kitchen with the BOSCH Refrigerator\u2014it's a real game-changer for our busy household!\"\n\n[Scene: Close-up on the fridge, highlighting its spacious interior and elegant design]\nPerson: \"This fridge fits perfectly in our kitchen, with features that simplify life.\"\n\n[Scene: Person demonstrating the VitaFresh Technology, convertible storage, and energy-efficient operation]\nPerson: \"Our food stays fresher longer, and we're saving on energy bills too!\"\n\n[Scene: Quick shots of them organizing groceries, enjoying the quiet operation, and preparing meals]\nPerson: \"Efficient, reliable, and just what our lifestyle needed.\"\n\n[Scene: Person highlighting the easy customer support access via smartphone]\nPerson: \"And if you need help, BOSCH's support is just a call or click away!\"\n\n[Text overlay: \"Fresh. Efficient. Adaptable.\"]\nCTA: \"Swipe up to get yours with free shipping. Follow us for modern home tips and stay connected with easy-to-follow instructions!\"",
-        "[Style: ASMR/Aesthetic]\n\n[Scene: Close-up of the BOSCH Refrigerator's sleek edges, highlighting the refined black pearl finish]\n[Gentle tapping sound as fingers trace the integrated handle]\n\n[Text overlay: \"A Symphony of Elegance\"]\n\n[Scene: Slow motion of the fridge door opening, revealing a beautifully organized and well-lit interior]\nNarrator (soft voice): \"Step into the future of freshness with BOSCH.\"\n\n[Scene: Focus on the VitaFresh Technology and the quiet operation, meeting user needs for consistent performance and minimal noise]\nNarrator: \"Enjoy serenity with even cooling and silent operation.\"\n\n[Scene: The seamless operation of the convertible storage system in a calm, dimly lit kitchen]\nNarrator: \"Adaptable storage that meets your every need effortlessly.\"\n\n[Scene: Gentle demonstration of the intuitive user interface and temperature controls]\nNarrator: \"Experience effortless ease with intuitive control.\"\n\n[Scene: The refrigerator perfectly complementing an urban kitchen setting]\nNarrator: \"Where style meets functionality in your culinary space.\"\n\n[Text overlay: \"Redefine Your Kitchen Experience.\"]\nCTA: \"Explore your kitchen's new centerpiece with effortless installation and a 30-day replacement guarantee. Click to shop and benefit from unparalleled customer support!\""
+        "Imagine this: It's a hectic day, and you're juggling multiple tasks when \u2013 bam! \u2013 the power goes out. Don\u2019t let it frazzle you. With the APC BX600C-IN BACK - UPS 600, your home office or small business is always prepared. This compact marvel offers three versatile outlets, ensuring your essential devices stay powered. With robust overload protection and a sleek, silent design, it's peace of mind at just \u20b93,299. Stay in control, no matter the power situation.",
+        "Picture this: You're delivering a crucial presentation, and suddenly, everything goes dark. Sidestep the chaos with the APC BX600C-IN BACK - UPS 600. Compact yet powerful, this UPS is your dependable ally in any power cut. Perfect for home offices and small businesses, it provides overload protection and multiple outlets to keep you productive. At an affordable \u20b93,299, let this trusty guardian ensure you never miss a beat.",
+        "Life can be unpredictable, but your power supply shouldn\u2019t be. Meet the APC BX600C-IN BACK - UPS 600, a compact and budget-friendly UPS that keeps your focus intact. Ideal for tight spaces, it offers whisper-quiet operation while delivering reliable overload protection and three versatile outlets. Whether you're meeting a deadline or studying hard, at just \u20b93,299, this UPS ensures seamless operation, letting you concentrate on what truly matters. Say goodbye to disruptions and hello to uninterrupted success."
       ]
     },
     "analysis": {
-      "category": "Refrigerators",
+      "category": "Electronics",
       "features": [
-        "368 L capacity ideal for medium to large households",
-        "Frost Free Double Door Design",
-        "Large LED Display for easy temperature control",
-        "Inverter Technology for energy efficiency",
-        "Integrated Handle for sleek appearance",
-        "VitaFresh Technology to keep food fresh for up to 10 days",
-        "Black Pearl Finish",
-        "Free Installation",
-        "30-Day Replacement Guarantee",
-        "Quiet Operation",
-        "Convertible Feature for flexible storage options",
-        "Efficient Cooling System"
+        "Line-interactive tower model",
+        "600 VA capacity",
+        "230 V output",
+        "Overload protection",
+        "3 outlet plugs",
+        "30-day replacement guarantee",
+        "Compact and lightweight design"
       ],
-      "target_audience": {
-        "demographics": {
-          "gender": "All",
-          "age_range": "25-55 years",
-          "income_level": "Middle to High Class",
-          "geographic_location": "Urban Areas"
-        },
-        "psychographics": {
-          "lifestyle": "Busy Professionals, Families",
-          "interests": "Modern Home Appliances, Energy Efficiency, Food Freshness",
-          "values": "Convenience, Freshness, Reliability"
-        },
-        "pain_points": [
-          "Need for a refrigerator with sufficient capacity to store family groceries",
-          "Desire for energy-efficient appliances to reduce utility bills",
-          "Preference for features that keep food fresh for extended periods",
-          "Interest in a quiet refrigerator that doesn't disrupt household activities",
-          "Concerns about ease of use and available customer support",
-          "Need for clearer user instructions for the convertible features",
-          "Reports of occasional temperature control issues",
-          "Need for an intuitive user experience to minimize confusion",
-          "Difficulty in navigating customer support channels",
-          "Confusion in accessing support via social media platforms",
-          "Need for better integration with social media for support access"
-        ]
-      },
+      "target_audience": [
+        "Home office users",
+        "Small business owners",
+        "Individuals in need of reliable power backup",
+        "Budget-conscious consumers"
+      ],
       "usps": [
-        "Large 368 L capacity suitable for family-sized grocery storage",
-        "VitaFresh Technology for superior food freshness up to 10 days",
-        "Convertible design providing versatile storage options",
-        "Energy-efficient operation with inverter technology",
-        "Quiet operation, ensuring minimal disturbance in the home",
-        "Comprehensive customer support with a 30-day replacement guarantee",
-        "Free installation and shipping add value and convenience",
-        "Durable build quality from a reputable brand like BOSCH",
-        "Enhanced user instructions for better ease of use",
-        "Responsive customer support addressing user queries efficiently",
-        "Improved social media support accessibility"
+        "Affordable power backup solution",
+        "Compact and efficient design",
+        "Includes overload protection for safety",
+        "Multiple plug outlets for versatility",
+        "Exceptional value at a price of \u20b93,299"
       ],
       "marketing_angles": [
-        {
-          "angle": "Family-Sized Storage",
-          "emotional_trigger": "Store more with the spacious 368 L capacity"
-        },
-        {
-          "angle": "Freshness Guaranteed",
-          "emotional_trigger": "Keep your groceries fresh for longer with VitaFresh Technology"
-        },
-        {
-          "angle": "Versatile Convenience",
-          "emotional_trigger": "Adapt your fridge to your needs with the convertible feature"
-        },
-        {
-          "angle": "Eco-Friendly Savings",
-          "emotional_trigger": "Save on utilities with energy-efficient inverter technology"
-        },
-        {
-          "angle": "Peaceful Performance",
-          "emotional_trigger": "Enjoy a quieter home with low-noise operation"
-        },
-        {
-          "angle": "Risk-Free Purchase",
-          "emotional_trigger": "Benefit from a 30-day replacement guarantee for peace of mind"
-        },
-        {
-          "angle": "Convenience Delivered",
-          "emotional_trigger": "Experience hassle-free shopping with free delivery and installation"
-        },
-        {
-          "angle": "Durability Assured",
-          "emotional_trigger": "Trust in the lasting quality of BOSCH appliances"
-        },
-        {
-          "angle": "User-Friendly Design",
-          "emotional_trigger": "Effortlessly control your fridge with intuitive instructions and interface"
-        },
-        {
-          "angle": "Customer-Centric Support",
-          "emotional_trigger": "Receive prompt assistance for a seamless experience, now with improved social media support"
-        }
+        "Emphasize reliability and safety features",
+        "Highlight affordability and exceptional value for money",
+        "Promote easy online purchase with free shipping and cash on delivery",
+        "Stress the convenience of a 30-day replacement guarantee",
+        "Feature the compact design ideal for limited space environments"
       ],
-      "positioning": {
-        "competitive_landscape": "BOSCH competes with brands like LG, Samsung, and Whirlpool in the high-end refrigerator market.",
-        "differentiation": "Combines large capacity, advanced freshness technology, and energy efficiency with reliable performance and customer support, now with improved user guidance and enhanced online support.",
-        "brand_reputation": "BOSCH is known for delivering high-quality, innovative home appliances. The brand appeals to consumers seeking reliability and performance. User feedback highlights the need for clearer instructions and more effective customer support channels, especially on social media. BOSCH is committed to addressing these issues to enhance user experience through ongoing product updates and responsive service."
-      }
+      "positioning": "The APC BX600C-IN BACK - UPS 600 is positioned as a cost-effective, compact, and reliable power backup solution for home offices and small businesses. It offers essential protection with user-friendly purchase and return policies at an attractive price point. The product is designed to meet the needs of those who value not only affordability but also safety and convenience, making it a trusted choice in power backup solutions."
     },
     "analysis_feedback": [
       "https://www.flipkart.com/doctor-extra-soft-running-shoes-men/p/itmab75f7927390d?pid=SHOH7SF7GHAZHGFH&lid=LSTSHOH7SF7GHAZHGFHM4ZCN5&marketplace=FLIPKART&store=osp%2Fcil%2F1cu&srno=b_1_2&otracker=browse&fm=productRecommendation%2Fsimilar&iid=en_VQtadJTNcwSBIyQpaM-WH5TGjKCxLoSjmmxnMfMbWWis8xnZlv-S6Z5MMxoJsSBQN0JGPDRD8XuNxyxWvudPWg%3D%3D&ppt=browse&ppn=browse&ssid=wuctzyzo9c0000001766063867959",
@@ -484,12 +813,77 @@
       "choose another facebook account",
       "1",
       "1",
-      "1"
+      "1",
+      "1",
+      "1",
+      "1",
+      "lets go with script1",
+      "next",
+      "lets go to next step",
+      "lets start from the beginning",
+      "lets start from the beginning",
+      "yes",
+      "lets go to script section",
+      "i want to change url",
+      "i want to change url",
+      "i want to change url",
+      "i want to give new ur",
+      "i want to give new ur",
+      "i want to give new ur",
+      "i want to choose another image",
+      "i want to choose another image",
+      "i want to change url",
+      "i want to change url",
+      "change url",
+      "change url",
+      "go back",
+      "go back",
+      "go back",
+      "wanna change url",
+      "wanna change url",
+      "wanna change url",
+      "wanna change url",
+      "wanna change url",
+      "abcdefgh",
+      "abcdefgh",
+      "abcdefgh",
+      "yo",
+      "yo",
+      "yo",
+      "yo",
+      "yo",
+      "wanna change url",
+      "https://www.flipkart.com/bosch-9-kg-fully-automatic-front-load-washing-machine-in-built-heater-white/p/itmd6c02f5048982?pid=WMNGZSEVDUQXGCJM&lid=LSTWMNGZSEVDUQXGCJMGZZHTZ&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=en_rFCA-sBOEfQ48VzFbSBKeN0koZKMIrokgNzaqc3jcgFjJ00IdAm9zKEcw8JKrY-8iiJP32A_J6MYgSLC7TyDA4E8waCTrWcncKeK_ydPfoM%3D&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_2_38.productCard.PMU_TAB_BOSCH%2B9%2Bkg%2BFully%2BAutomatic%2BFront%2BLoad%2BWashing%2BMachine%2Bwith%2BIn-built%2BHeater%2BWhite_-1_productRecommendation%2FcrossSelling_1&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_2_NA_view-all&cid=-1",
+      "https://www.flipkart.com/bosch-9-kg-fully-automatic-front-load-washing-machine-in-built-heater-white/p/itmd6c02f5048982?pid=WMNGZSEVDUQXGCJM&lid=LSTWMNGZSEVDUQXGCJMGZZHTZ&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=en_rFCA-sBOEfQ48VzFbSBKeN0koZKMIrokgNzaqc3jcgFjJ00IdAm9zKEcw8JKrY-8iiJP32A_J6MYgSLC7TyDA4E8waCTrWcncKeK_ydPfoM%3D&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_2_38.productCard.PMU_TAB_BOSCH%2B9%2Bkg%2BFully%2BAutomatic%2BFront%2BLoad%2BWashing%2BMachine%2Bwith%2BIn-built%2BHeater%2BWhite_-1_productRecommendation%2FcrossSelling_1&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_2_NA_view-all&cid=-1",
+      "hi",
+      "hi",
+      "hi",
+      "https://www.flipkart.com/samsung-crystal-4k-125-cm-50-inch-ultra-hd-4k-led-smart-tizen-tv-2025/p/itm785ba81b87096?pid=TVSHBWJEWQEFPKD6&lid=LSTTVSHBWJEWQEFPKD6GQRSEO&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ARFRHDXSNHZX2DUW7%3Bl%3ALSTRFRHDXSNHZX2DUW7V4CRCU%3Bpt%3App%3Buid%3Ac8cfae6b-dcaa-11f0-9bcb-cd9673644de0%3B.ACNH2X9MVXDG3HSX&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_21_38.productCard.PMU_TAB_Samsung%2BCrystal%2B4K%2B125%2Bcm%2B%252850%2Binch%2529%2BUltra%2BHD%2B%25284K%2529%2BLED%2BSmart%2BTizen%2BTV%2B2025%2BEdition_ACNH2X9MVXDG3HSX_productRecommendation%2FcrossSelling_0&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_21_NA_view-all&cid=ACNH2X9MVXDG3HSX",
+      "https://www.flipkart.com/samsung-crystal-4k-125-cm-50-inch-ultra-hd-4k-led-smart-tizen-tv-2025/p/itm785ba81b87096?pid=TVSHBWJEWQEFPKD6&lid=LSTTVSHBWJEWQEFPKD6GQRSEO&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ARFRHDXSNHZX2DUW7%3Bl%3ALSTRFRHDXSNHZX2DUW7V4CRCU%3Bpt%3App%3Buid%3Ac8cfae6b-dcaa-11f0-9bcb-cd9673644de0%3B.ACNH2X9MVXDG3HSX&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_21_38.productCard.PMU_TAB_Samsung%2BCrystal%2B4K%2B125%2Bcm%2B%252850%2Binch%2529%2BUltra%2BHD%2B%25284K%2529%2BLED%2BSmart%2BTizen%2BTV%2B2025%2BEdition_ACNH2X9MVXDG3HSX_productRecommendation%2FcrossSelling_0&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_21_NA_view-all&cid=ACNH2X9MVXDG3HSX",
+      "https://www.flipkart.com/samsung-crystal-4k-125-cm-50-inch-ultra-hd-4k-led-smart-tizen-tv-2025/p/itm785ba81b87096?pid=TVSHBWJEWQEFPKD6&lid=LSTTVSHBWJEWQEFPKD6GQRSEO&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ARFRHDXSNHZX2DUW7%3Bl%3ALSTRFRHDXSNHZX2DUW7V4CRCU%3Bpt%3App%3Buid%3Ac8cfae6b-dcaa-11f0-9bcb-cd9673644de0%3B.ACNH2X9MVXDG3HSX&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_21_38.productCard.PMU_TAB_Samsung%2BCrystal%2B4K%2B125%2Bcm%2B%252850%2Binch%2529%2BUltra%2BHD%2B%25284K%2529%2BLED%2BSmart%2BTizen%2BTV%2B2025%2BEdition_ACNH2X9MVXDG3HSX_productRecommendation%2FcrossSelling_0&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_21_NA_view-all&cid=ACNH2X9MVXDG3HSX",
+      "https://www.flipkart.com/samsung-crystal-4k-125-cm-50-inch-ultra-hd-4k-led-smart-tizen-tv-2025/p/itm785ba81b87096?pid=TVSHBWJEWQEFPKD6&lid=LSTTVSHBWJEWQEFPKD6GQRSEO&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ARFRHDXSNHZX2DUW7%3Bl%3ALSTRFRHDXSNHZX2DUW7V4CRCU%3Bpt%3App%3Buid%3Ac8cfae6b-dcaa-11f0-9bcb-cd9673644de0%3B.ACNH2X9MVXDG3HSX&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_21_38.productCard.PMU_TAB_Samsung%2BCrystal%2B4K%2B125%2Bcm%2B%252850%2Binch%2529%2BUltra%2BHD%2B%25284K%2529%2BLED%2BSmart%2BTizen%2BTV%2B2025%2BEdition_ACNH2X9MVXDG3HSX_productRecommendation%2FcrossSelling_0&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_21_NA_view-all&cid=ACNH2X9MVXDG3HSX",
+      "https://www.flipkart.com/samsung-crystal-4k-125-cm-50-inch-ultra-hd-4k-led-smart-tizen-tv-2025/p/itm785ba81b87096?pid=TVSHBWJEWQEFPKD6&lid=LSTTVSHBWJEWQEFPKD6GQRSEO&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ARFRHDXSNHZX2DUW7%3Bl%3ALSTRFRHDXSNHZX2DUW7V4CRCU%3Bpt%3App%3Buid%3Ac8cfae6b-dcaa-11f0-9bcb-cd9673644de0%3B.ACNH2X9MVXDG3HSX&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_21_38.productCard.PMU_TAB_Samsung%2BCrystal%2B4K%2B125%2Bcm%2B%252850%2Binch%2529%2BUltra%2BHD%2B%25284K%2529%2BLED%2BSmart%2BTizen%2BTV%2B2025%2BEdition_ACNH2X9MVXDG3HSX_productRecommendation%2FcrossSelling_0&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_21_NA_view-all&cid=ACNH2X9MVXDG3HSX",
+      "go back to product analysis",
+      "go back to product analysis",
+      "go back to product analysis",
+      "go back to product analysis",
+      "go back to product analysis",
+      "go back",
+      "script-selection",
+      "script-selection",
+      "change url",
+      "new url",
+      "new url",
+      "change url",
+      "next",
+      "next",
+      "next",
+      "next"
     ],
     "scripts": [
-      "[Style: Fast-paced/Hype]\n\n[Scene: A dynamic close-up of the BOSCH 368 L Frost Free Double Door Convertible Refrigerator, showcasing its modern black pearl finish]\n[Text overlay: \"Elevate Your Kitchen Experience\"]\n\n[Cut to various scenes: A family effortlessly organizing groceries for the week, a couple admiring the sleek integrated handle, and someone preparing fresh meals with confidence]\nNarrator (energetic voice): \"Revolutionize your kitchen with the BOSCH 368 L Frost Free Convertible Refrigerator!\"\n\n[Scene: Close-up of the refrigerator\u2019s stylish design, emphasizing its energy-saving inverter technology and whisper-quiet operation]\nNarrator: \"Crafted for today\u2019s lifestyle\u2014energy-efficient, spacious, and quieter than a whisper.\"\n\n[Scene: Highlighting the VitaFresh Technology ensuring food freshness for up to 10 days]\nNarrator: \"Keep your food crisp longer with state-of-the-art freshness technology.\"\n\n[Scene: Showcasing the intuitive user interface and convertible storage options]\nNarrator: \"Versatile and easy to use, adapting to your every need seamlessly.\"\n\n[Scene: Brief demonstration of the easy-to-navigate temperature controls]\nNarrator: \"Experience ultimate control with intuitive settings.\"\n\n[Scene: Quick shot of a customer service interaction on a smartphone, highlighting ease of access]\nNarrator: \"And with customer support just a tap away, assistance is always at your fingertips.\"\n\n[Text overlay: \"Discover the BOSCH Difference\"]\nCTA: \"Order online for free shipping and hassle-free installation. Enjoy peace of mind with our 30-day replacement guarantee and responsive customer support!\"",
-      "[Style: UGC style]\n\n[Scene: A busy professional in their kitchen, filming themselves with a smartphone]\n[Text overlay: \"Your Kitchen's New Best Friend\"]\n\nPerson (speaking directly to the camera): \"Hey there! We've upgraded our kitchen with the BOSCH Refrigerator\u2014it's a real game-changer for our busy household!\"\n\n[Scene: Close-up on the fridge, highlighting its spacious interior and elegant design]\nPerson: \"This fridge fits perfectly in our kitchen, with features that simplify life.\"\n\n[Scene: Person demonstrating the VitaFresh Technology, convertible storage, and energy-efficient operation]\nPerson: \"Our food stays fresher longer, and we're saving on energy bills too!\"\n\n[Scene: Quick shots of them organizing groceries, enjoying the quiet operation, and preparing meals]\nPerson: \"Efficient, reliable, and remarkably quiet\u2014just what our lifestyle needed.\"\n\n[Scene: Person highlighting the easy customer support access via smartphone]\nPerson: \"And if you need help, BOSCH's support is just a call or click away, super simple!\"\n\n[Text overlay: \"Fresh. Efficient. Adaptable.\"]\nCTA: \"Swipe up to get yours with free shipping. Follow us for modern home tips and stay connected with easy-to-follow instructions!\"",
-      "[Style: ASMR/Aesthetic]\n\n[Scene: Close-up of the BOSCH Refrigerator's sleek edges, highlighting the refined black pearl finish]\n[Gentle tapping sound as fingers trace the integrated handle]\n\n[Text overlay: \"A Symphony of Elegance\"]\n\n[Scene: Slow motion of the fridge door opening, revealing a beautifully organized and well-lit interior]\nNarrator (soft voice): \"Step into the future of freshness with BOSCH.\"\n\n[Scene: Focus on the VitaFresh Technology ensuring food freshness and the whisper-quiet operation]\nNarrator: \"Enjoy serenity with even cooling and virtually silent operation.\"\n\n[Scene: The seamless operation of the convertible storage system in a calm, dimly lit kitchen]\nNarrator: \"Adaptable storage that meets your every need effortlessly.\"\n\n[Scene: Gentle demonstration of the intuitive user interface and temperature controls]\nNarrator: \"Experience effortless ease with intuitive control.\"\n\n[Scene: A quick shot of a user easily accessing customer support through their smartphone]\nNarrator: \"Assistance is just a touch away, ensuring peace of mind.\"\n\n[Scene: The refrigerator perfectly complementing an urban kitchen setting]\nNarrator: \"Where style meets functionality in your culinary space.\"\n\n[Text overlay: \"Redefine Your Kitchen Experience.\"]\nCTA: \"Explore your kitchen's new centerpiece with effortless installation and a 30-day replacement guarantee. Click to shop and benefit from unparalleled customer support!\""
+      "Imagine this scenario: It's a busy day, and your schedule is packed. Suddenly, the power goes out. Don't let the unexpected derail you. With the APC BX600C-IN BACK - UPS 600, your home office or small business remains uninterrupted. This compact powerhouse features three versatile outlets ready to keep your essential devices running. It boasts robust overload protection, all at a budget-friendly \u20b93,299. Stay calm and in control, no matter what.",
+      "Envision this: You're in the middle of a crucial presentation when the lights fade to black. Avoid the panic with the APC BX600C-IN BACK - UPS 600. Small yet mighty, this UPS is your steadfast companion in any power outage. Designed for home offices and small businesses, it offers overload protection and multiple outlets to maintain productivity. Priced affordably at \u20b93,299, let this reliable protector ensure you remain on track.",
+      "Life's unpredictability shouldn't extend to your power supply. Discover the APC BX600C-IN BACK - UPS 600, a compact, affordable UPS that keeps your focus uninterrupted. Perfect for tight spaces, it operates quietly while delivering dependable overload protection and three flexible outlets. Whether you're racing against a deadline or hitting the books, this UPS ensures your work flows smoothly at just \u20b93,299. Eliminate disruptions and welcome uninterrupted progress."
     ],
     "script_feedback": [
       "https://www.flipkart.com/doctor-extra-soft-running-shoes-men/p/itmab75f7927390d?pid=SHOH7SF7GHAZHGFH&lid=LSTSHOH7SF7GHAZHGFHM4ZCN5&marketplace=FLIPKART&store=osp%2Fcil%2F1cu&srno=b_1_2&otracker=browse&fm=productRecommendation%2Fsimilar&iid=en_VQtadJTNcwSBIyQpaM-WH5TGjKCxLoSjmmxnMfMbWWis8xnZlv-S6Z5MMxoJsSBQN0JGPDRD8XuNxyxWvudPWg%3D%3D&ppt=browse&ppn=browse&ssid=wuctzyzo9c0000001766063867959",
@@ -507,14 +901,33 @@
       "choose another facebook account",
       "choose another facebook account",
       "choose another facebook account",
-      "1"
+      "1",
+      "1",
+      "i want to change url",
+      "i want to give new ur",
+      "i want to choose another image",
+      "change url",
+      "go back",
+      "wanna change url",
+      "abcdefgh",
+      "yo",
+      "https://www.flipkart.com/samsung-crystal-4k-125-cm-50-inch-ultra-hd-4k-led-smart-tizen-tv-2025/p/itm785ba81b87096?pid=TVSHBWJEWQEFPKD6&lid=LSTTVSHBWJEWQEFPKD6GQRSEO&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ARFRHDXSNHZX2DUW7%3Bl%3ALSTRFRHDXSNHZX2DUW7V4CRCU%3Bpt%3App%3Buid%3Ac8cfae6b-dcaa-11f0-9bcb-cd9673644de0%3B.ACNH2X9MVXDG3HSX&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_21_38.productCard.PMU_TAB_Samsung%2BCrystal%2B4K%2B125%2Bcm%2B%252850%2Binch%2529%2BUltra%2BHD%2B%25284K%2529%2BLED%2BSmart%2BTizen%2BTV%2B2025%2BEdition_ACNH2X9MVXDG3HSX_productRecommendation%2FcrossSelling_0&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_21_NA_view-all&cid=ACNH2X9MVXDG3HSX",
+      "https://www.flipkart.com/samsung-crystal-4k-125-cm-50-inch-ultra-hd-4k-led-smart-tizen-tv-2025/p/itm785ba81b87096?pid=TVSHBWJEWQEFPKD6&lid=LSTTVSHBWJEWQEFPKD6GQRSEO&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ARFRHDXSNHZX2DUW7%3Bl%3ALSTRFRHDXSNHZX2DUW7V4CRCU%3Bpt%3App%3Buid%3Ac8cfae6b-dcaa-11f0-9bcb-cd9673644de0%3B.ACNH2X9MVXDG3HSX&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_21_38.productCard.PMU_TAB_Samsung%2BCrystal%2B4K%2B125%2Bcm%2B%252850%2Binch%2529%2BUltra%2BHD%2B%25284K%2529%2BLED%2BSmart%2BTizen%2BTV%2B2025%2BEdition_ACNH2X9MVXDG3HSX_productRecommendation%2FcrossSelling_0&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_21_NA_view-all&cid=ACNH2X9MVXDG3HSX",
+      "go back to product analysis",
+      "go back to product analysis",
+      "script-selection",
+      "new url",
+      "next",
+      "i want to go next",
+      "next",
+      "next"
     ],
-    "selected_script_index": 1,
-    "selected_script": "[Style: UGC style]\n\n[Scene: A busy professional in their kitchen, filming themselves with a smartphone]\n[Text overlay: \"Your Kitchen's New Best Friend\"]\n\nPerson (speaking directly to the camera): \"Hey there! We've upgraded our kitchen with the BOSCH Refrigerator\u2014it's a real game-changer for our busy household!\"\n\n[Scene: Close-up on the fridge, highlighting its spacious interior and elegant design]\nPerson: \"This fridge fits perfectly in our kitchen, with features that simplify life.\"\n\n[Scene: Person demonstrating the VitaFresh Technology, convertible storage, and energy-efficient operation]\nPerson: \"Our food stays fresher longer, and we're saving on energy bills too!\"\n\n[Scene: Quick shots of them organizing groceries, enjoying the quiet operation, and preparing meals]\nPerson: \"Efficient, reliable, and remarkably quiet\u2014just what our lifestyle needed.\"\n\n[Scene: Person highlighting the easy customer support access via smartphone]\nPerson: \"And if you need help, BOSCH's support is just a call or click away, super simple!\"\n\n[Text overlay: \"Fresh. Efficient. Adaptable.\"]\nCTA: \"Swipe up to get yours with free shipping. Follow us for modern home tips and stay connected with easy-to-follow instructions!\"",
+    "selected_script_index": 0,
+    "selected_script": "Imagine this: It's a hectic day, and you're juggling multiple tasks when \u2013 bam! \u2013 the power goes out. Don\u2019t let it frazzle you. With the APC BX600C-IN BACK - UPS 600, your home office or small business is always prepared. This compact marvel offers three versatile outlets, ensuring your essential devices stay powered. With robust overload protection and a sleek, silent design, it's peace of mind at just \u20b93,299. Stay in control, no matter the power situation.",
     "script_refinement_feedback": [],
     "generated_images": [
-      "/static/generated_images/ad_creative_ea2d09c7-5e60-4525-a029-d71573e2790a.png",
-      "/static/generated_images/ad_creative_101af71f-68e8-446a-89a2-0717dc255436.png"
+      "/static/generated_images/ad_creative_068eb140-249e-4ee4-8659-da43f1be4df9.png",
+      "/static/generated_images/ad_creative_35f3f755-7a7d-4dec-b77e-7f1f04d20bc8.png"
     ],
     "image_feedback": [
       "https://www.flipkart.com/doctor-extra-soft-running-shoes-men/p/itmab75f7927390d?pid=SHOH7SF7GHAZHGFH&lid=LSTSHOH7SF7GHAZHGFHM4ZCN5&marketplace=FLIPKART&store=osp%2Fcil%2F1cu&srno=b_1_2&otracker=browse&fm=productRecommendation%2Fsimilar&iid=en_VQtadJTNcwSBIyQpaM-WH5TGjKCxLoSjmmxnMfMbWWis8xnZlv-S6Z5MMxoJsSBQN0JGPDRD8XuNxyxWvudPWg%3D%3D&ppt=browse&ppn=browse&ssid=wuctzyzo9c0000001766063867959",
@@ -526,9 +939,13 @@
       "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
       "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology/p/itm7453595ebfa91?pid=RFRH6WFFAY9D3NMJ&lid=LSTRFRH6WFFAY9D3NMJKJS14S&marketplace=FLIPKART&fm=productRecommendation%2FcrossSelling&iid=R%3Ac%3Bp%3ATVSHA753G8HNFFFB%3Bl%3ALSTTVSHA753G8HNFFFB7RVXXU%3Bpt%3App%3Buid%3Aa919f07a-dca1-11f0-9a99-2b2accb8b87a%3B.TVMHYVSDZHSEJGCF&ppt=pp&ppn=pp&ssid=kn7sixnte80000001766123520722&otracker=pp_reco_Bought%2BTogether_27_41.productCard.PMU_TAB_MarQ%2Bby%2BFlipkart%2B584%2BL%2BFrost%2BFree%2BSide%2Bby%2BSide%2BRefrigerator%2B%2Bwith%2BWater%2BDispenser%252C%2BFresh%2BLock%2Band%2BMulti%2BAirflow%2BTechnology_TVMHYVSDZHSEJGCF_productRecommendation%2FcrossSelling_3&otracker1=pp_reco_PINNED_productRecommendation%2FcrossSelling_Bought%2BTogether_GRID_productCard_cc_27_NA_view-all&cid=TVMHYVSDZHSEJGCF",
       "1",
-      "1"
+      "1",
+      "i want to give new ur",
+      "i want to choose another image",
+      "wanna change url",
+      "next"
     ],
-    "image_generation_prompt": "**Image Generation Prompt:**\n\n**Title: \"Elevate Your Kitchen Experience with BOSCH\"**\n\n**Setting:** A sleek, modern kitchen with a minimalist design, featuring clean lines and a neutral color palette. The kitchen is well-lit with natural light streaming in from a large window, creating a warm and inviting atmosphere. The BOSCH 368 L Frost Free Double Door Refrigerator is prominently placed as the focal point, positioned against a pristine white wall to accentuate its elegant Black Pearl finish.\n\n**Composition:** The refrigerator is centrally positioned in the frame, slightly angled to showcase both its integrated handle and the Large LED Display. The door of the refrigerator is partially open, revealing the organized, spacious interior that highlights the VitaFresh Technology features, such as fresh fruits and vegetables that appear crisp and vibrant.\n\n**Style:** The advertisement carries a contemporary, high-end aesthetic, reflecting the premium quality and innovative technology of the BOSCH refrigerator. The setting is styled to suggest a sophisticated yet approachable lifestyle, resonating with busy professionals and modern families.\n\n**Lighting:** Soft, diffused lighting enhances the texture and color of the refrigerator, casting subtle reflections on its surface. The natural light complements the artificial lighting inside the refrigerator, which emits a gentle, inviting glow, emphasizing the product's features and functionality.\n\n**Mood:** The overall mood is one of elegance and efficiency, conveying the message that the BOSCH refrigerator is both a stylish addition to any kitchen and a practical solution for maintaining freshness. The atmosphere should evoke feelings of trust, reliability, and modern luxury.\n\n**Text Overlay:** Positioned at the top and bottom of the image in a sleek, modern font. Top text reads: \"Your Kitchen's New Best Friend,\" and bottom text reads: \"BOSCH 368 L Frost Free Refrigerator - Where Style Meets Functionality.\"\n\n**Product Focus:** The image should ensure that the refrigerator remains the main focus, with all elements of the composition working to draw attention to its cutting-edge features and design.",
+    "image_generation_prompt": "**Image Generation Prompt:**\n\n**Setting and Composition:**\nCreate a professional commercial advertisement static showcasing the APC BX600C-IN BACK - UPS 600 230 V Line-interactive Tower Model UPS. The scene is set in a modern home office environment, where the UPS unit is prominently placed on a sleek wooden desk next to a computer monitor and other essential office gadgets. Ensure that the UPS is the focal point of the image, positioned slightly forward and elevated to draw immediate attention.\n\n**Style and Mood:**\nThe style should be clean, modern, and minimalistic, emphasizing efficiency and reliability. The mood should convey a sense of calm and control amidst potential chaos, reflecting the product's ability to maintain productivity during power outages. Use elements that suggest a busy workday, such as a visible clock showing 10:15 AM, a coffee mug, and neatly arranged stationery.\n\n**Lighting:**\nUse soft, ambient lighting to create a warm, inviting atmosphere. Highlight the UPS unit with a subtle spotlight to emphasize its importance and functionality. The lighting should create gentle shadows and reflections on the desk surface, enhancing the depth and realism of the scene.\n\n**Product Details:**\nEnsure the UPS is clearly visible with its branding and key features like the \"Overload Protection\" prominently displayed. The UPS should appear sturdy and reliable, with its sleek black design contrasting against the lighter desk and room colors to stand out visually.\n\n**Additional Elements:**\nInclude a subtle background view of a window showing a cityscape, suggesting connectivity and urban living. This element should be out of focus to keep the emphasis on the product. Add a tagline at the bottom of the image: \"Stay Connected, Stay Productive \u2013 Even When the Lights Go Out.\"\n\nThis prompt aims to create an image that not only highlights the product's features but also appeals to the target audience by portraying a seamless blend of technology and tranquility in a work-from-home setting.",
     "audio_file": "static/audio/generated_audio_1.mp3",
     "audio_url": "/static/audio/generated_audio_1.mp3",
     "available_avatars": [
@@ -14976,20 +15393,20 @@
         "default_voice_id": null
       }
     ],
-    "selected_avatar_id": "Adriana_Business_Front_public",
-    "video_id": "90951798413a4cd5a83f87b563a50440",
-    "video_url": null,
-    "video_status": "pending",
+    "selected_avatar_id": "Adriana_BizTalk_Side_public",
+    "video_id": "mock_video_3fad8bbf-46b1-4ad3-bbb6-1aa34b7d5505",
+    "video_url": "https://cdn.pixabay.com/video/2022/11/20/140027-773738049_large.mp4",
+    "video_status": "completed",
     "error": null,
     "iteration_count": {
-      "scrape": 14,
-      "analyze": 58,
-      "generate_scripts": 28,
-      "generate_images": 22,
+      "scrape": 33,
+      "analyze": 128,
+      "generate_scripts": 47,
+      "generate_images": 26,
       "generate_audio": 2,
-      "generate_video": 43
+      "generate_video": 51
     },
-    "facebook_access_token": "EAAQeYqt2zH4BQJOAN57c7m8V2ROJyhr4pzKyx1ZBOv0JHphJzm0WCdH6MO9U5D6cCmjFz6dHuVgeszUSI9ZAaoSkZCMBd6T4awD0KMOwjEKbg1IUhdZBTL8Q2ayIa4N6fsesml083Lj59Ntoe1iYia3a5CJexVn17I29Qo37xzViObWmZCBFPhkykiTknfZBqZCagZCYWVOiipQZBooqkmdqbwig80ZCnjL050akwz3wI50QZAXEkL9a59EMxzs8q7UBihULZB1SgqdNoHS3eILEnhwF3WHtRKpecgZDZD",
+    "facebook_access_token": "EAAQeYqt2zH4BQGcUNNwgV93vOG9o1yOCHZAaTi8NgJbDXY7SUMTSz5wTT6Kvl53ylSi5fx7V92Lk2VAPGjddvbyu2EvUN5ShDQ3y06ggFHZAVMbYmuEDGonxvIHEjgh5hxQW8kIruPtor3L3ItOscO7Hr3NZCjI8C9MwNCZAYXUVC5IMdkUxOhyf5WdXhtkXR2pZByuUL7SoFOeZAYHONaNVgH8ZBjRFNnlqDDeXRy7koukPmw4A7zCojRLegL8waDRT4y5KXlXFJZAX3viiZANfWQhPTF3vK",
     "facebook_user_id": "3690463941089445",
     "ad_accounts": [
       {
@@ -15017,10 +15434,920 @@
         "status_code": 1
       }
     ],
-    "selected_ad_account_id": "act_1474982116977652",
+    "selected_ad_account_id": "act_1324697116076599",
     "selected_media": {
       "type": "image",
-      "url": "/static/generated_images/ad_creative_101af71f-68e8-446a-89a2-0717dc255436.png"
+      "url": "/static/generated_images/ad_creative_bce1f752-7a27-4a77-a27d-e45796700c62.png"
     }
+  },
+  "1a26ab4f-cf26-4d66-9938-ecc496b4e5d0": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "1d90d360-f6bc-48b4-a71c-0529ad8f4a6e": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "72120044-ca74-43fe-b877-b1035768834b": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "how do I connect Facebook?"
+      },
+      {
+        "role": "assistant",
+        "content": "To connect your Facebook account:\n1. Navigate to the Facebook integration step in the workflow\n2. Click on \"Connect Facebook\" \n3. You'll need to provide your Facebook access token\n4. The system will automatically fetch your ad accounts\n5. Select the ad account you want to use\n\nIf you're having trouble, make sure your Facebook Business Manager is properly set up and you have the necessary permissions."
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "d731f29d-e533-4ec9-8209-dbbb8b364acd": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "what features does vibelets have?"
+      },
+      {
+        "role": "assistant",
+        "content": "Vibelets offers these key features:\n\u2022 **Product Analysis**: AI analyzes your product from any URL\n\u2022 **Ad Script Generation**: Creates 3 unique ad scripts tailored to your product\n\u2022 **Creative Generation**: Generates professional images, audio, and videos\n\u2022 **Avatar Selection**: Choose from AI avatars to present your ad\n\u2022 **Facebook Integration**: Publish directly to Facebook Ads\n\nNavigate through the workflow using commands like \"next\", \"go back\", or \"go to [step name]\"."
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "5207fbde-9152-48d7-a899-f50c22e2b594": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "what features does vibelets have?"
+      },
+      {
+        "role": "assistant",
+        "content": "Vibelets offers these key features:\n\u2022 **Product Analysis**: AI analyzes your product from any URL\n\u2022 **Ad Script Generation**: Creates 3 unique ad scripts tailored to your product\n\u2022 **Creative Generation**: Generates professional images, audio, and videos\n\u2022 **Avatar Selection**: Choose from AI avatars to present your ad\n\u2022 **Facebook Integration**: Publish directly to Facebook Ads\n\nNavigate through the workflow using commands like \"next\", \"go back\", or \"go to [step name]\"."
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "62338825-21e8-4dd2-82e9-e19580411900": {
+    "current_step": "product-url",
+    "navigation_intent": "next",
+    "messages": [
+      {
+        "role": "user",
+        "content": "next"
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "8a6472dd-23d3-48f4-8a83-18ee38fea04a": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "jhbbhjkbhbhbh"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm here to help with Vibelets! \n\nFor specific questions about:\n\u2022 Connecting Facebook - just ask \"how do I connect Facebook?\"\n\u2022 Features - ask \"what features does Vibelets have?\"\n\u2022 Changing URLs - ask \"how do I change the URL?\"\n\u2022 Scripts, images, or videos - ask about the specific feature\n\nYou can also email support@vibelets.com for detailed assistance."
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "fac87b4d-0558-44bc-9872-b9fc71097f1f": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "jhbbhjkbhbhbh"
+      },
+      {
+        "role": "assistant",
+        "content": "I didn't quite understand that. I'm here to help! \n\nYou can ask me:\n\u2022 \"How do I connect Facebook?\"\n\u2022 \"What features does Vibelets have?\"\n\u2022 \"How do I change the product URL?\"\n\u2022 \"Help with scripts/images/videos\"\n\nOr use navigation commands like \"next\", \"back\", or \"go to [step]\"."
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "af6beee2-9aa7-4131-9108-61fb38358090": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "asdfghjkl"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm here to help with Vibelets! \n\nFor specific questions about:\n\u2022 Connecting Facebook - just ask \"how do I connect Facebook?\"\n\u2022 Features - ask \"what features does Vibelets have?\"\n\u2022 Changing URLs - ask \"how do I change the URL?\"\n\u2022 Scripts, images, or videos - ask about the specific feature\n\nYou can also email support@vibelets.com for detailed assistance."
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "158a7130-9395-41ee-baa1-5ae974aa34e7": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "asdfghjkl"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm here to help with Vibelets! \n\nFor specific questions about:\n\u2022 Connecting Facebook - just ask \"how do I connect Facebook?\"\n\u2022 Features - ask \"what features does Vibelets have?\"\n\u2022 Changing URLs - ask \"how do I change the URL?\"\n\u2022 Scripts, images, or videos - ask about the specific feature\n\nYou can also email support@vibelets.com for detailed assistance."
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "acb281a8-ebf1-4a8e-96f0-e41ec66b91cd": {
+    "current_step": "product-url",
+    "navigation_intent": "scrape",
+    "messages": [
+      {
+        "role": "user",
+        "content": "go back"
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "0751f652-64e6-4c38-b059-b7a480b530dc": {
+    "current_step": "product-analysis",
+    "navigation_intent": "next",
+    "messages": [
+      {
+        "role": "user",
+        "content": "yes"
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "48502ac4-a8a9-4eb2-a868-bdc45fa67951": {
+    "current_step": "product-analysis",
+    "navigation_intent": "next",
+    "messages": [
+      {
+        "role": "user",
+        "content": "ok"
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "064b640c-795a-49a3-bdec-55af5ff97d43": {
+    "current_step": "product-analysis",
+    "navigation_intent": "next",
+    "messages": [
+      {
+        "role": "user",
+        "content": "next"
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "e246a5e8-5301-4c30-8e0e-6d3279017d66": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "hi"
+      },
+      {
+        "role": "assistant",
+        "content": "I didn't quite understand that. I'm here to help! \n\nYou can ask me:\n\u2022 \"How do I connect Facebook?\"\n\u2022 \"What features does Vibelets have?\"\n\u2022 \"How do I change the product URL?\"\n\u2022 \"Help with scripts/images/videos\"\n\nOr use navigation commands like \"next\", \"back\", or \"go to [step]\"."
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "5f63f4a0-07c6-485f-b21a-717697692f35": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "asdfghjkl"
+      },
+      {
+        "role": "assistant",
+        "content": "I'm here to help with Vibelets! \n\nFor specific questions about:\n\u2022 Connecting Facebook - just ask \"how do I connect Facebook?\"\n\u2022 Features - ask \"what features does Vibelets have?\"\n\u2022 Changing URLs - ask \"how do I change the URL?\"\n\u2022 Scripts, images, or videos - ask about the specific feature\n\nYou can also email support@vibelets.com for detailed assistance."
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "3f33c1b6-d7c3-4da8-bfb0-92270a33e58e": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "how do I connect Facebook?"
+      },
+      {
+        "role": "assistant",
+        "content": "To connect your Facebook account:\n1. Navigate to the Facebook integration step in the workflow\n2. Click on \"Connect Facebook\" \n3. You'll need to provide your Facebook access token\n4. The system will automatically fetch your ad accounts\n5. Select the ad account you want to use\n\nIf you're having trouble, make sure your Facebook Business Manager is properly set up and you have the necessary permissions."
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "756aee9b-63ee-4b28-896f-a1c7d2484f55": {
+    "current_step": "product-analysis",
+    "navigation_intent": "next",
+    "messages": [
+      {
+        "role": "user",
+        "content": "yes"
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "0ff2208d-6468-4e56-b17f-3e0752a46871": {
+    "current_step": "product-analysis",
+    "navigation_intent": "next",
+    "messages": [
+      {
+        "role": "user",
+        "content": "next"
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "3e7d7d14-1c60-4fdf-a4bc-1c89c291cc64": {
+    "current_step": "product-url",
+    "navigation_intent": "scrape",
+    "messages": [
+      {
+        "role": "user",
+        "content": "go back"
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "20c90a72-bb6b-4e32-9d7a-24a40ec2470a": {
+    "current_step": "product-url",
+    "navigation_intent": "scrape",
+    "messages": [
+      {
+        "role": "user",
+        "content": "https://www.flipkart.com/marq-flipkart-584-l-frost-free-side-side-refrigerator-water-dispenser-fresh-lock-multi-airflow-technology-silver-584ms025mqsd/p/itm7e1b3e1c3c8f1"
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "ecf3f02d-77fc-432d-b40a-83e271523cc7": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [
+      {
+        "role": "user",
+        "content": "hi"
+      },
+      {
+        "role": "assistant",
+        "content": "I didn't quite understand that. I'm here to help! \n\nYou can ask me:\n\u2022 \"How do I connect Facebook?\"\n\u2022 \"What features does Vibelets have?\"\n\u2022 \"How do I change the product URL?\"\n\u2022 \"Help with scripts/images/videos\"\n\nOr use navigation commands like \"next\", \"back\", or \"go to [step]\"."
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "ebecaae0-fdf5-4899-933e-727e2ec6111d": {
+    "current_step": "product-url",
+    "navigation_intent": "scrape",
+    "messages": [
+      {
+        "role": "user",
+        "content": "change url"
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "test_thread_001": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "debug_thread": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "test_thread_debug_002": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "test_thread_debug_003": {
+    "current_step": "product-analysis",
+    "navigation_intent": "product-analysis",
+    "messages": [
+      {
+        "role": "user",
+        "content": "go to analysis section"
+      }
+    ],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
+  },
+  "test_thread_debug_fix_004": {
+    "current_step": "product-url",
+    "navigation_intent": null,
+    "messages": [],
+    "url": null,
+    "product_data": null,
+    "selected_product": null,
+    "analysis": null,
+    "analysis_feedback": [],
+    "scripts": null,
+    "script_feedback": [],
+    "selected_script_index": null,
+    "selected_script": null,
+    "script_refinement_feedback": [],
+    "generated_images": null,
+    "image_feedback": [],
+    "image_generation_prompt": null,
+    "audio_file": null,
+    "audio_url": null,
+    "available_avatars": [],
+    "selected_avatar_id": null,
+    "video_id": null,
+    "video_url": null,
+    "video_status": null,
+    "error": null,
+    "iteration_count": {}
   }
 }
