@@ -14,7 +14,6 @@ import { CustomCreativeUpload } from './panels/CustomCreativeUpload';
 import { StepIndicator } from './StepIndicator';
 import { StepLoadingAnimation } from './StepLoadingAnimation';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { scriptOptions, avatarOptions } from '@/data/mockData';
 import { useEffect, useRef } from 'react';
 
 interface RightPanelProps {
@@ -122,7 +121,7 @@ export const RightPanel = ({
                 />
               ) : (
                 <ScriptPreviewPanel
-                  scripts={generatedScripts.length > 0 ? generatedScripts : scriptOptions}
+                  scripts={generatedScripts}
                   selectedScript={state.selectedScript}
                   isRegenerating={state.isRegenerating === 'scripts'}
                   onRegenerate={onRegenerateScripts}
@@ -136,14 +135,17 @@ export const RightPanel = ({
         return (
           <>
             <ProductAnalysisPanel productData={state.productData} productUrl={state.productUrl} isAnalyzing={false} />
-            <ScriptPreviewPanel scripts={generatedScripts.length > 0 ? generatedScripts : scriptOptions} selectedScript={state.selectedScript} />
+            <ScriptPreviewPanel scripts={generatedScripts} selectedScript={state.selectedScript} />
             <div ref={avatarSectionRef}>
-              <AvatarPreviewPanel avatars={generatedAvatars.length > 0 ? generatedAvatars : avatarOptions} selectedAvatar={state.selectedAvatar} />
+              <AvatarPreviewPanel avatars={generatedAvatars} selectedAvatar={state.selectedAvatar} />
             </div>
           </>
         );
 
       case 'creative-generation':
+      case 'creative-generation:images':
+      case 'creative-generation:audio':
+      case 'creative-generation:video':
         return <CreativeGenerationPanel />;
 
       case 'creative-review':

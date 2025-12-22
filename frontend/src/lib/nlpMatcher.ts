@@ -148,6 +148,7 @@ export const matchUserInputToOption = (
 
 /**
  * Detects explicitly requested navigation intents like "back" or "next step"
+ * @deprecated Use detectNavigationIntent from navigationHandler.ts instead
  */
 export const detectNavigationIntent = (input: string): 'back' | 'next' | null => {
   const normalized = input.toLowerCase().trim();
@@ -164,4 +165,12 @@ export const detectNavigationIntent = (input: string): 'back' | 'next' | null =>
  */
 export const looksLikeUrl = (input: string): boolean => {
   return /^https?:\/\/|www\.|\.com|\.net|\.org|\.io|\.shop|\.store/i.test(input.trim());
+};
+
+/**
+ * Checks if input looks like a navigation command
+ */
+export const looksLikeNavigation = (input: string): boolean => {
+  const navPatterns = /^(back|next|step|go to|jump to|previous|forward|home|start|dashboard|publish|campaign|script|avatar|creative|product|analysis|setup|preview|review)$/i;
+  return navPatterns.test(input.toLowerCase().trim());
 };

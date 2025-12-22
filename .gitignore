@@ -47,13 +47,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-<<<<<<< HEAD
-
-__pycache__/
-backend/static/scraped_products
-backend/__pycache__
-=======
 backend/static/
 backend/__pycache__/
 
->>>>>>> 1e3836b (integrated till image creative)
