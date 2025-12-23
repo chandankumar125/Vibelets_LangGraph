@@ -35,6 +35,8 @@ interface RightPanelProps {
   onRecommendationAction?: (recommendationId: string, action: string, value?: number) => void;
   onRefreshDashboard?: () => void;
   onCloneCreative?: (recommendation: AIRecommendation) => void;
+  onScriptSelect?: (script: ScriptOption) => void;
+  onCreativeSelect?: (creative: CreativeOption) => void;
 }
 
 export const RightPanel = ({
@@ -56,6 +58,8 @@ export const RightPanel = ({
   onRecommendationAction,
   onRefreshDashboard,
   onCloneCreative,
+  onScriptSelect,
+  onCreativeSelect,
 }: RightPanelProps) => {
   const viewportRef = useRef<HTMLDivElement>(null);
   const scriptSectionRef = useRef<HTMLDivElement>(null);
@@ -87,7 +91,20 @@ export const RightPanel = ({
 
     switch (state.step) {
       case 'welcome':
+        return <WelcomePanel />;
+
       case 'product-url':
+        if (state.productUrl) {
+          return (
+            <ProductAnalysisPanel
+              productData={state.productData}
+              productUrl={state.productUrl}
+              isAnalyzing={!state.productData}
+              isRegenerating={state.isRegenerating === 'product'}
+              onRegenerate={onRegenerateProduct}
+            />
+          );
+        }
         return <WelcomePanel />;
 
       case 'product-analysis':
@@ -125,6 +142,7 @@ export const RightPanel = ({
                   selectedScript={state.selectedScript}
                   isRegenerating={state.isRegenerating === 'scripts'}
                   onRegenerate={onRegenerateScripts}
+                  onSelect={onScriptSelect}
                 />
               )}
             </div>
@@ -146,6 +164,18 @@ export const RightPanel = ({
       case 'creative-generation:images':
       case 'creative-generation:audio':
       case 'creative-generation:video':
+        // If we already have creatives (e.g., images generated, now doing audio), show them!
+        if (state.creatives && state.creatives.length > 0) {
+          return (
+            <CreativeGalleryPanel
+              creatives={state.creatives}
+              selectedCreative={state.selectedCreative}
+              isRegenerating={state.isRegenerating === 'creatives'}
+              onRegenerate={onRegenerateCreatives}
+              onSelect={onCreativeSelect}
+            />
+          );
+        }
         return <CreativeGenerationPanel />;
 
       case 'creative-review':
@@ -167,18 +197,21 @@ export const RightPanel = ({
             selectedCreative={state.selectedCreative}
             isRegenerating={state.isRegenerating === 'creatives'}
             onRegenerate={onRegenerateCreatives}
+            onSelect={onCreativeSelect}
           />
         );
 
       case 'campaign-setup':
       case 'facebook-integration':
       case 'ad-account-selection':
+      case 'page-selection':
         return (
           <CampaignConfigPanel
             selectedCreative={state.selectedCreative}
             campaignConfig={state.campaignConfig}
             facebookConnected={state.facebookConnected}
             selectedAdAccount={state.selectedAdAccount}
+            selectedPage={state.selectedPage}
           />
         );
 

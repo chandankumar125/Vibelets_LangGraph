@@ -118,6 +118,13 @@ class SupportService:
             "suggested_actions": []
         }
 
+    def get_stats(self) -> Dict[str, Any]:
+        """Get service statistics"""
+        return {
+            "rag_available": self.rag_available,
+            "using_fallback": not self.rag_available
+        }
+
 # Singleton
 _support_service = None
 

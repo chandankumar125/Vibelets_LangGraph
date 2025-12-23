@@ -95,7 +95,7 @@ export const ChatPanel = ({
 
     // Mapping question IDs to valid steps
     const validStepsForQuestion: Record<string, CampaignStep[]> = {
-      'product-continue': ['product-url', 'welcome'],
+      'product-continue': ['product-url', 'welcome', 'product-analysis'],
       'script-selection': ['script-selection'],
       'avatar-selection': ['avatar-selection'],
       'creative-selection': ['creative-generation', 'creative-generation:images', 'creative-generation:audio', 'creative-generation:video', 'creative-review'],

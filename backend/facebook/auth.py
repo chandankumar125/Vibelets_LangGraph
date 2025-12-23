@@ -1,159 +1,107 @@
 """
-Facebook Authentication utilities
-Handles OAuth flow, token validation, and user session management
+Facebook Authentication Module
+Handles OAuth token validation and Facebook Graph API authentication
 """
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
 import httpx
-from typing import Dict, Any, Optional, List
+from config import Config
+from typing import Optional, List
 
-FB_API_URL = "https://graph.facebook.com/v22.0"
+router = APIRouter(prefix="/auth", tags=["Authentication"])
+
+FB_API_URL = Config.FB_API_URL
 
 
-async def validate_access_token(access_token: str) -> Dict[str, Any]:
+class FacebookAuthRequest(BaseModel):
+    access_token: str
+
+
+class TokenValidationResponse(BaseModel):
+    is_valid: bool
+    app_id: str
+    user_id: str
+    scopes: list[str]
+    expires_at: int
+
+
+@router.post("/facebook", response_model=dict)
+async def facebook_auth(auth_request: FacebookAuthRequest):
     """
-    Validate Facebook access token and return token info
-    
-    Args:
-        access_token: Facebook access token
-        
-    Returns:
-        Dict with token info including user_id, app_id, is_valid, etc.
+    Validate Facebook access token and return user information
     """
-    url = f"{FB_API_URL}/debug_token"
-    
-    async with httpx.AsyncClient() as client:
-        response = await client.get(
-            url,
-            params={
-                "input_token": access_token,
-                "access_token": access_token
-            },
-            timeout=30
-        )
-    
-    data = response.json()
-    
-    if "error" in data:
-        return {
-            "is_valid": False,
-            "error": data["error"].get("message", "Invalid token")
-        }
-    
-    token_data = data.get("data", {})
-    return {
-        "is_valid": token_data.get("is_valid", False),
-        "user_id": token_data.get("user_id"),
-        "app_id": token_data.get("app_id"),
-        "expires_at": token_data.get("expires_at"),
-        "scopes": token_data.get("scopes", [])
-    }
+    try:
+        # Validate token with Facebook's debug endpoint
+        async with httpx.AsyncClient() as client:
+            # Get token info
+            response = await client.get(
+                f"{FB_API_URL}/debug_token",
+                params={
+                    "input_token": auth_request.access_token,
+                    "access_token": auth_request.access_token
+                }
+            )
+            
+            if response.status_code != 200:
+                raise HTTPException(status_code=401, detail="Invalid access token")
+            
+            data = response.json()
+            
+            if not data.get("data", {}).get("is_valid"):
+                raise HTTPException(status_code=401, detail="Token is not valid")
+            
+            token_data = data["data"]
+            
+            # Get user information
+            user_response = await client.get(
+                f"{FB_API_URL}/me",
+                params={
+                    "access_token": auth_request.access_token,
+                    "fields": "id,name,email"
+                }
+            )
+            
+            user_data = user_response.json()
+            
+            return {
+                "success": True,
+                "user": {
+                    "id": user_data.get("id"),
+                    "name": user_data.get("name"),
+                    "email": user_data.get("email")
+                },
+                "token_info": {
+                    "app_id": token_data.get("app_id"),
+                    "scopes": token_data.get("scopes", []),
+                    "expires_at": token_data.get("expires_at", 0)
+                }
+            }
+            
+    except httpx.RequestError as e:
+        raise HTTPException(status_code=500, detail=f"Facebook API error: {str(e)}")
 
 
-async def get_user_info(access_token: str) -> Dict[str, Any]:
+async def verify_token_permissions(access_token: str, required_scopes: list[str]) -> bool:
     """
-    Get Facebook user profile information
-    
-    Args:
-        access_token: Facebook access token
-        
-    Returns:
-        Dict with user info (id, name, email, etc.)
+    Helper function to verify token has required permissions
     """
-    url = f"{FB_API_URL}/me"
-    
-    async with httpx.AsyncClient() as client:
-        response = await client.get(
-            url,
-            params={
-                "access_token": access_token,
-                "fields": "id,name,email"
-            },
-            timeout=30
-        )
-    
-    data = response.json()
-    
-    if "error" in data:
-        return {
-            "error": data["error"].get("message", "Failed to get user info")
-        }
-    
-    return data
-
-
-async def get_user_ad_accounts(access_token: str, user_id: Optional[str] = None) -> List[Dict[str, Any]]:
-    """
-    Fetch user's ad accounts
-    
-    Args:
-        access_token: Facebook access token
-        user_id: Optional user ID (will fetch from token if not provided)
-        
-    Returns:
-        List of ad accounts with id, name, account_status, etc.
-    """
-    if not user_id:
-        user_info = await get_user_info(access_token)
-        if "error" in user_info:
-            return []
-        user_id = user_info.get("id")
-    
-    url = f"{FB_API_URL}/{user_id}/adaccounts"
-    
-    async with httpx.AsyncClient() as client:
-        response = await client.get(
-            url,
-            params={
-                "access_token": access_token,
-                "fields": "id,name,account_status,currency,timezone_name,business"
-            },
-            timeout=30
-        )
-    
-    data = response.json()
-    
-    if "error" in data:
-        return []
-    
-    return data.get("data", [])
-
-
-async def authenticate_user(access_token: str) -> Dict[str, Any]:
-    """
-    Complete authentication flow: validate token, get user info, and fetch ad accounts
-    
-    Args:
-        access_token: Facebook access token
-        
-    Returns:
-        Dict with user_id, user_info, ad_accounts, and validation status
-    """
-    # Validate token
-    token_info = await validate_access_token(access_token)
-    
-    if not token_info.get("is_valid"):
-        return {
-            "success": False,
-            "error": token_info.get("error", "Invalid access token")
-        }
-    
-    # Get user info
-    user_info = await get_user_info(access_token)
-    
-    if "error" in user_info:
-        return {
-            "success": False,
-            "error": user_info["error"]
-        }
-    
-    user_id = user_info.get("id")
-    
-    # Get ad accounts
-    ad_accounts = await get_user_ad_accounts(access_token, user_id)
-    
-    return {
-        "success": True,
-        "user_id": user_id,
-        "user_info": user_info,
-        "ad_accounts": ad_accounts,
-        "token_info": token_info
-    }
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(
+                f"{FB_API_URL}/debug_token",
+                params={
+                    "input_token": access_token,
+                    "access_token": access_token
+                }
+            )
+            
+            if response.status_code != 200:
+                return False
+            
+            data = response.json()
+            token_scopes = data.get("data", {}).get("scopes", [])
+            
+            return all(scope in token_scopes for scope in required_scopes)
+            
+    except Exception:
+        return False

@@ -186,14 +186,21 @@ class ImageGenerator:
                         )
                     )
 
-                    if resp.parts:
-                        for part in resp.parts:
+                    parts = []
+                    if hasattr(resp, 'parts') and resp.parts:
+                        parts = resp.parts
+                    elif hasattr(resp, 'candidates') and resp.candidates:
+                        if hasattr(resp.candidates[0], 'content') and hasattr(resp.candidates[0].content, 'parts'):
+                            parts = resp.candidates[0].content.parts
+                    
+                    if parts:
+                        for part in parts:
                             # Handle executable code if present
-                            if part.executable_code:
+                            if hasattr(part, 'executable_code') and part.executable_code:
                                 continue
                                 
                             # Check for inline data (image)
-                            if part.inline_data:
+                            if hasattr(part, 'inline_data') and part.inline_data:
                                 gen_img = part.as_image()
                                 
                                 fname = f"ad_creative_{uuid.uuid4()}.png"
@@ -206,7 +213,7 @@ class ImageGenerator:
                                 print(f"✅ Image generated successfully: {fpath}")
                                 return f"/{fpath.replace(os.sep, '/')}"
                     
-                    print(f"❌ Nano Banana Response Issue: No image parts returned. Response: {resp}")
+                    print(f"❌ Nano Banana Response Issue: No image parts returned. Response structure might vary.")
 
                 except Exception as e:
                     print(f"❌ Error in Nano Banana Pro generation: {e}")

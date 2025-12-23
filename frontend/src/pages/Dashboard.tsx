@@ -5,11 +5,14 @@ import { RightPanel } from '@/components/dashboard/RightPanel';
 import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 import { useCampaignFlow } from '@/hooks/useCampaignFlow';
 import { useAuth } from '@/contexts/AuthContext';
+import { Sidebar } from '@/components/dashboard/Sidebar';
+import { vibeletsAPI } from '@/lib/api';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated, isLoading } = useAuth();
   const [threadTitle, setThreadTitle] = useState('New Campaign');
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
   const {
     state,
@@ -38,7 +41,14 @@ const Dashboard = () => {
     refreshPerformanceDashboard,
     handleCloneCreative,
     generatedAvatars,
+    threads,
+    fetchThreads,
+    switchThread,
+    newCampaign,
+    deleteThread
   } = useCampaignFlow();
+
+  const activeThreadId = vibeletsAPI.getThreadId();
 
   // Redirect to auth if not authenticated
   useEffect(() => {
@@ -69,53 +79,71 @@ const Dashboard = () => {
   return (
     <div className="h-screen flex flex-col bg-muted/30 overflow-hidden">
       {/* Header */}
-      <DashboardHeader />
+      <DashboardHeader
+        isSidebarCollapsed={isSidebarCollapsed}
+        onToggleSidebar={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+      />
 
-      {/* Main content */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Panel - Chat with glass effect */}
-        <div className="w-[35%] max-w-[500px] min-w-[380px] flex-shrink-0 overflow-hidden m-3 mr-0">
-          <div className="h-full glass-strong rounded-2xl overflow-hidden shadow-lg">
-            <ChatPanel
-              messages={messages}
-              isTyping={isTyping}
-              onSendMessage={handleUserMessage}
-              onQuestionAnswer={handleQuestionAnswer}
-              onCampaignConfigComplete={handleCampaignConfigComplete}
-              onFacebookConnect={handleFacebookConnect}
-              onFacebookUseExisting={handleFacebookUseExisting}
-              isFacebookConnected={state.facebookConnected}
-              threadTitle={threadTitle}
-              onThreadTitleChange={setThreadTitle}
-              currentStep={state.step}
-              selectedAnswers={selectedAnswers}
-            />
-          </div>
-        </div>
+        {/* Far Left Sidebar for History */}
+        <Sidebar
+          threads={threads}
+          activeThreadId={activeThreadId}
+          onThreadSelect={switchThread}
+          onThreadDelete={deleteThread}
+          onNewCampaign={newCampaign}
+          onRefresh={fetchThreads}
+          isCollapsed={isSidebarCollapsed}
+        />
 
-        {/* Right Panel - Dynamic Content with glass effect */}
-        <div className="flex-1 m-3">
-          <div className="h-full glass-card rounded-2xl overflow-hidden shadow-lg">
-            <RightPanel
-              state={state}
-              generatedScripts={generatedScripts}
-              generatedAvatars={generatedAvatars}
-              onReset={resetFlow}
-              onStepClick={goToStep}
-              onRegenerateProduct={regenerateProductAnalysis}
-              onRegenerateScripts={regenerateScripts}
-              onRegenerateCreatives={regenerateCreatives}
-              onCustomScriptSubmit={handleCustomScriptSubmit}
-              onCustomScriptCancel={handleCustomScriptCancel}
-              onCustomCreativeSubmit={handleCustomCreativeSubmit}
-              onCustomCreativeCancel={handleCustomCreativeCancel}
-              onCampaignFilterChange={handleCampaignFilterChange}
-              onOpenActionCenter={handleOpenActionCenter}
-              onCloseActionCenter={handleCloseActionCenter}
-              onRecommendationAction={handleRecommendationAction}
-              onRefreshDashboard={refreshPerformanceDashboard}
-              onCloneCreative={handleCloneCreative}
-            />
+        {/* Main content */}
+        <div className="flex-1 flex overflow-hidden">
+          {/* Left Panel - Chat with glass effect */}
+          <div className="w-[35%] max-w-[500px] min-w-[380px] flex-shrink-0 overflow-hidden m-3 mr-0">
+            <div className="h-full glass-strong rounded-2xl overflow-hidden shadow-lg">
+              <ChatPanel
+                messages={messages}
+                isTyping={isTyping}
+                onSendMessage={handleUserMessage}
+                onQuestionAnswer={handleQuestionAnswer}
+                onCampaignConfigComplete={handleCampaignConfigComplete}
+                onFacebookConnect={handleFacebookConnect}
+                onFacebookUseExisting={handleFacebookUseExisting}
+                isFacebookConnected={state.facebookConnected}
+                threadTitle={threadTitle}
+                onThreadTitleChange={setThreadTitle}
+                currentStep={state.step}
+                selectedAnswers={selectedAnswers}
+              />
+            </div>
+          </div>
+
+          {/* Right Panel - Dynamic Content with glass effect */}
+          <div className="flex-1 m-3">
+            <div className="h-full glass-card rounded-2xl overflow-hidden shadow-lg">
+              <RightPanel
+                state={state}
+                generatedScripts={generatedScripts}
+                generatedAvatars={generatedAvatars}
+                onReset={resetFlow}
+                onStepClick={goToStep}
+                onRegenerateProduct={regenerateProductAnalysis}
+                onRegenerateScripts={regenerateScripts}
+                onRegenerateCreatives={regenerateCreatives}
+                onCustomScriptSubmit={handleCustomScriptSubmit}
+                onCustomScriptCancel={handleCustomScriptCancel}
+                onCustomCreativeSubmit={handleCustomCreativeSubmit}
+                onCustomCreativeCancel={handleCustomCreativeCancel}
+                onCampaignFilterChange={handleCampaignFilterChange}
+                onOpenActionCenter={handleOpenActionCenter}
+                onCloseActionCenter={handleCloseActionCenter}
+                onRecommendationAction={handleRecommendationAction}
+                onRefreshDashboard={refreshPerformanceDashboard}
+                onCloneCreative={handleCloneCreative}
+                onScriptSelect={(script) => handleQuestionAnswer('script-selection', script.id)}
+                onCreativeSelect={(creative) => handleQuestionAnswer('creative-selection', creative.id)}
+              />
+            </div>
           </div>
         </div>
       </div>

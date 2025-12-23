@@ -55,9 +55,13 @@ export const StepIndicator = ({ currentStep, onStepClick, disabled = false }: St
   const currentGroupIndex = getCurrentGroupIndex();
   const isFullyCompleted = currentStep === 'published';
 
-  // Get the first step of a group for navigation
-  const getFirstStepOfGroup = (groupIndex: number): CampaignStep => {
-    return STEP_GROUPS[groupIndex].steps[0];
+  // Get the last completed step of a group for navigation
+  // This ensures we don't reset progress when navigating back
+  const getLastCompletedStepOfGroup = (groupIndex: number): CampaignStep => {
+    const group = STEP_GROUPS[groupIndex];
+    // If navigating to a previous group, return the last step of that group
+    // This preserves all the work done in that group
+    return group.steps[group.steps.length - 1];
   };
 
   // If disabled, show muted/inactive state
@@ -120,7 +124,7 @@ export const StepIndicator = ({ currentStep, onStepClick, disabled = false }: St
           return (
             <button
               key={group.id}
-              onClick={() => isClickable && onStepClick(getFirstStepOfGroup(index))}
+              onClick={() => isClickable && onStepClick(getLastCompletedStepOfGroup(index))}
               disabled={!isClickable}
               title={group.label}
               className={cn(

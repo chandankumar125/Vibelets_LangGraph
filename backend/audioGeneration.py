@@ -46,15 +46,23 @@ class ElevenLabsVoiceGenerator:
             }
         }
         
-        try:
-            response = requests.post(url, json=data, headers=headers)
-            response.raise_for_status()
-            
-            with open(output_filename, 'wb') as f:
-                f.write(response.content)
-            
-            print(f"✓ Voice generated and saved to {output_filename}")
-            return output_filename
-        except Exception as e:
-            print(f"✗ Error generating voice: {str(e)}")
-            return None
+        for attempt in range(3):
+            try:
+                print(f"Generating voice (Attempt {attempt+1}/3)...")
+                response = requests.post(url, json=data, headers=headers, timeout=30)
+                response.raise_for_status()
+                
+                with open(output_filename, 'wb') as f:
+                    f.write(response.content)
+                
+                print(f"✓ Voice generated and saved to {output_filename}")
+                return output_filename
+            except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as e:
+                print(f"⚠️ Attempt {attempt+1}/3 failed: {e}")
+                if attempt == 2:
+                    print(f"✗ Error generating voice after 3 attempts: {str(e)}")
+                    return None
+                time.sleep(2)
+            except Exception as e:
+                print(f"✗ Error generating voice: {str(e)}")
+                return None

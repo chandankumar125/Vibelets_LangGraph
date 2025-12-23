@@ -1,0 +1,150 @@
+Traceback (most recent call last):
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpx\_transports\default.py", line 101, in map_httpcore_exceptions
+    yield
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpx\_transports\default.py", line 394, in handle_async_request
+    resp = await self._pool.handle_async_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 256, in handle_async_request
+    raise exc from None
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpcore\_async\connection_pool.py", line 236, in handle_async_request
+    response = await connection.handle_async_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpcore\_async\connection.py", line 101, in handle_async_request
+    raise exc
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpcore\_async\connection.py", line 78, in handle_async_request
+    stream = await self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpcore\_async\connection.py", line 124, in _connect
+    stream = await self._network_backend.connect_tcp(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpcore\_backends\auto.py", line 31, in connect_tcp
+    return await self._backend.connect_tcp(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpcore\_backends\anyio.py", line 113, in connect_tcp
+    with map_exceptions(exc_map):
+  File "C:\Users\Kartikeya\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpcore\_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+httpcore.ConnectError: All connection attempts failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\openai\_base_client.py", line 1532, in request
+    response = await self._client.send(
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpx\_client.py", line 1629, in send
+    response = await self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpx\_client.py", line 1657, in _send_handling_auth
+    response = await self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpx\_client.py", line 1694, in _send_handling_redirects
+    response = await self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpx\_client.py", line 1730, in _send_single_request
+    response = await transport.handle_async_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpx\_transports\default.py", line 393, in handle_async_request
+    with map_httpcore_exceptions():
+  File "C:\Users\Kartikeya\AppData\Local\Programs\Python\Python311\Lib\contextlib.py", line 155, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\httpx\_transports\default.py", line 118, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+httpx.ConnectError: All connection attempts failed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\backend\server_langgraph.py", line 74, in exception_logging_middleware
+    return await call_next(request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\starlette\middleware\base.py", line 84, in call_next
+    raise app_exc
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\starlette\middleware\base.py", line 70, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\starlette\middleware\cors.py", line 91, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\starlette\middleware\cors.py", line 146, in simple_response
+    await self.app(scope, receive, send)
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 79, in __call__
+    raise exc
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\starlette\middleware\exceptions.py", line 68, in __call__
+    await self.app(scope, receive, sender)
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 20, in __call__
+    raise e
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 17, in __call__
+    await self.app(scope, receive, send)
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\starlette\routing.py", line 718, in __call__
+    await route.handle(scope, receive, send)
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\starlette\routing.py", line 276, in handle
+    await self.app(scope, receive, send)
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\starlette\routing.py", line 66, in app
+    response = await func(request)
+               ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\fastapi\routing.py", line 274, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\fastapi\routing.py", line 191, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\backend\server_langgraph.py", line 336, in scrape_product
+    result = await workflow.run_step(state, config)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\backend\workflow_graph.py", line 975, in run_step
+    result = await self.app.ainvoke(state, config)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\langgraph\pregel\main.py", line 3158, in ainvoke
+    async for chunk in self.astream(
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\langgraph\pregel\main.py", line 2971, in astream
+    async for _ in runner.atick(
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\langgraph\pregel\_runner.py", line 304, in atick
+    await arun_with_retry(
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\langgraph\pregel\_retry.py", line 137, in arun_with_retry
+    return await task.proc.ainvoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 705, in ainvoke
+    input = await asyncio.create_task(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\langgraph\_internal\_runnable.py", line 473, in ainvoke
+    ret = await self.afunc(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\backend\workflow_graph.py", line 216, in _route_node
+    agent_message = await self.guide_agent.generate_guidance(temp_state)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\backend\agents.py", line 539, in generate_guidance
+    result = await chain.ainvoke({
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\langchain_core\runnables\base.py", line 3191, in ainvoke
+    input_ = await coro_with_context(part(), context, create_task=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 421, in ainvoke
+    llm_result = await self.agenerate_prompt(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1128, in agenerate_prompt
+    return await self.agenerate(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1086, in agenerate
+    raise exceptions[0]
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\langchain_core\language_models\chat_models.py", line 1339, in _agenerate_with_cache
+    result = await self._agenerate(
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\langchain_openai\chat_models\base.py", line 1628, in _agenerate
+    raise e
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\langchain_openai\chat_models\base.py", line 1621, in _agenerate
+    raw_response = await self.async_client.with_raw_response.create(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\openai\_legacy_response.py", line 381, in wrapped
+    return cast(LegacyAPIResponse[R], await func(*args, **kwargs))
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\openai\resources\chat\completions\completions.py", line 2678, in create
+    return await self._post(
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\openai\_base_client.py", line 1797, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Kartikeya\Desktop\Adsparkx\Agent_lang\Vibelets_Langgraph_Dev\venv\Lib\site-packages\openai\_base_client.py", line 1564, in request
+    raise APIConnectionError(request=request) from err
+openai.APIConnectionError: Connection error.
+During task with name 'route' and id 'acafef32-da2c-1761-2c1a-73047f2f1a0f'

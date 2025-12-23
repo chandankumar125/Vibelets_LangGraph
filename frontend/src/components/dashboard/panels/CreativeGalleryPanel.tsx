@@ -16,6 +16,7 @@ interface CreativeGalleryPanelProps {
   selectedCreative: CreativeOption | null;
   isRegenerating?: boolean;
   onRegenerate?: () => void;
+  onSelect?: (creative: CreativeOption) => void;
 }
 
 const getFormatLabel = (format?: string, aspectRatio?: string) => {
@@ -26,7 +27,7 @@ const getFormatLabel = (format?: string, aspectRatio?: string) => {
   return format || 'Feed';
 };
 
-export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerating, onRegenerate }: CreativeGalleryPanelProps) => {
+export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerating, onRegenerate, onSelect }: CreativeGalleryPanelProps) => {
   const [videoPreview, setVideoPreview] = useState<CreativeOption | null>(null);
 
   const handleVideoClick = (creative: CreativeOption, e: React.MouseEvent) => {
@@ -36,20 +37,28 @@ export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerati
     }
   };
 
+  const handleCardClick = (creative: CreativeOption, e: React.MouseEvent) => {
+    if (onSelect) {
+      onSelect(creative);
+    } else if (creative.type === 'video') {
+      handleVideoClick(creative, e);
+    }
+  };
+
   const renderCreativeCard = (creative: CreativeOption) => {
     const isSelected = selectedCreative?.id === creative.id;
     const isVideo = creative.type === 'video';
-    
+
     return (
       <div
         key={creative.id}
-        onClick={isVideo ? (e) => handleVideoClick(creative, e) : undefined}
+        onClick={(e) => handleCardClick(creative, e)}
         className={cn(
           "group relative rounded-xl overflow-hidden transition-all duration-300",
           "border-2 bg-card",
           "hover:shadow-xl hover:shadow-primary/15 hover:-translate-y-1",
-          isVideo && "cursor-pointer",
-          isSelected 
+          (isVideo || onSelect) && "cursor-pointer",
+          isSelected
             ? "border-primary ring-2 ring-primary/30 shadow-lg shadow-primary/20"
             : "border-border/60 hover:border-primary/40"
         )}
@@ -60,11 +69,11 @@ export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerati
             <Check className="w-3.5 h-3.5 text-primary-foreground" />
           </div>
         )}
-        
+
         {/* Format & Type badge */}
         <div className="absolute top-2 left-2 z-20 flex items-center gap-1.5">
-          <Badge 
-            variant="secondary" 
+          <Badge
+            variant="secondary"
             className={cn(
               "text-[10px] px-2 py-0.5 gap-1 font-medium",
               "bg-background/90 backdrop-blur-sm border border-border/50 shadow-sm"
@@ -74,7 +83,7 @@ export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerati
             {creative.aspectRatio || '1:1'}
           </Badge>
         </div>
-        
+
         {/* Creative image - consistent square container with object-cover */}
         <div className="relative aspect-[4/5] overflow-hidden bg-muted">
           {isVideo && !creative.thumbnail ? (
@@ -83,8 +92,8 @@ export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerati
           ) : (
             // Image or video with thumbnail
             <>
-              <img 
-                src={creative.thumbnail} 
+              <img
+                src={creative.thumbnail}
                 alt={creative.name}
                 className="w-full h-full object-cover"
               />
@@ -102,10 +111,10 @@ export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerati
               )}
             </>
           )}
-          
+
           {/* Gradient overlay for text readability */}
           <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
-          
+
           {/* Creative info - overlaid on image */}
           <div className="absolute inset-x-0 bottom-0 p-3 z-10">
             <p className="text-sm font-semibold text-white truncate drop-shadow-md">
@@ -161,7 +170,7 @@ export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerati
       <Dialog open={!!videoPreview} onOpenChange={(open) => !open && setVideoPreview(null)}>
         <DialogContent className="max-w-3xl p-0 overflow-hidden bg-black border-border/50">
           <DialogTitle className="sr-only">Video Preview</DialogTitle>
-          
+
           {/* Close button */}
           <button
             onClick={() => setVideoPreview(null)}
@@ -175,16 +184,16 @@ export const CreativeGalleryPanel = ({ creatives, selectedCreative, isRegenerati
               {/* Video player */}
               <div className={cn(
                 "w-full bg-black flex items-center justify-center",
-                videoPreview.aspectRatio === '9:16' ? "aspect-[9/16] max-h-[80vh]" : 
-                videoPreview.aspectRatio === '1:1' ? "aspect-square" :
-                videoPreview.aspectRatio === '4:5' ? "aspect-[4/5]" :
-                "aspect-video"
+                videoPreview.aspectRatio === '9:16' ? "aspect-[9/16] max-h-[80vh]" :
+                  videoPreview.aspectRatio === '1:1' ? "aspect-square" :
+                    videoPreview.aspectRatio === '4:5' ? "aspect-[4/5]" :
+                      "aspect-video"
               )}>
                 {videoPreview.videoUrl ? (
-                  <video 
-                    src={videoPreview.videoUrl} 
-                    controls 
-                    autoPlay 
+                  <video
+                    src={videoPreview.videoUrl}
+                    controls
+                    autoPlay
                     className="w-full h-full object-contain"
                   >
                     Your browser does not support the video tag.

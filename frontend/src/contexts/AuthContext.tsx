@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (provider: 'google' | 'facebook') => {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1500));
-    
+
     const mockUser: User = {
       id: `user_${Date.now()}`,
       name: provider === 'google' ? 'Alex Johnson' : 'Alex Johnson',
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       hasCompletedOnboarding: false,
       facebookConnected: provider === 'facebook',
     };
-    
+
     saveUser(mockUser);
   };
 

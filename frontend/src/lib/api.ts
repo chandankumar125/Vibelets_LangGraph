@@ -40,6 +40,9 @@ export interface WorkflowState {
   campaign_config?: any;
   campaign_preview?: string;
   publish_status?: string;
+  final_campaign_id?: string;
+  facebook_pages?: any[];
+  selected_page_id?: string;
 }
 
 export interface ApiResponse<T = any> {
@@ -54,14 +57,22 @@ class VibeletsAPI {
   private threadId: string | null = localStorage.getItem('vibelets_thread_id');
 
   /**
-   * Get or create a thread ID for the session
+   * Get the current thread ID
    */
-  private getThreadId(): string {
+  getThreadId(): string {
     if (!this.threadId) {
       this.threadId = crypto.randomUUID();
       localStorage.setItem('vibelets_thread_id', this.threadId);
     }
     return this.threadId;
+  }
+
+  /**
+   * Set the thread ID (switch session)
+   */
+  setThreadId(threadId: string): void {
+    this.threadId = threadId;
+    localStorage.setItem('vibelets_thread_id', threadId);
   }
 
   /**
@@ -446,6 +457,26 @@ class VibeletsAPI {
   }
 
   /**
+   * Select Facebook Page
+   */
+  async selectPage(pageId: string): Promise<ApiResponse> {
+    const response = await fetch(`${API_BASE_URL}/workflow/select_page`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        thread_id: this.getThreadId(),
+        page_id: pageId
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to select page: ${response.statusText}`);
+    }
+
+    return await response.json();
+  }
+
+  /**
    * Select media for Facebook ad
    */
   async selectMedia(mediaType: 'image' | 'video', mediaUrl: string): Promise<ApiResponse> {
@@ -545,6 +576,30 @@ class VibeletsAPI {
       throw new Error(`Failed to get current state: ${response.statusText}`);
     }
 
+    return await response.json();
+  }
+
+  /**
+   * List all threads
+   */
+  async listThreads(): Promise<{ threads: any[] }> {
+    const response = await fetch(`${API_BASE_URL}/workflow/list_threads`);
+    if (!response.ok) {
+      throw new Error(`Failed to list threads: ${response.statusText}`);
+    }
+    return await response.json();
+  }
+
+  /**
+   * Delete a thread
+   */
+  async deleteThread(threadId: string): Promise<any> {
+    const response = await fetch(`${API_BASE_URL}/workflow/delete_thread/${threadId}`, {
+      method: 'DELETE'
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to delete thread: ${response.statusText}`);
+    }
     return await response.json();
   }
 

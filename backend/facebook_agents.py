@@ -289,23 +289,48 @@ Update the campaign configuration based on the user's request. Return the comple
 # Stub functions for Facebook API integration
 # TODO: Replace with actual Facebook Graph API calls
 
+import httpx
+from fastapi import HTTPException
+
+FB_API_URL = "https://graph.facebook.com/v22.0"
+VALID_OBJECTIVES = [
+    "APP_INSTALLS", "BRAND_AWARENESS", "EVENT_RESPONSES", "LEAD_GENERATION",
+    "LINK_CLICKS", "LOCAL_AWARENESS", "MESSAGES", "OFFER_CLAIMS", "PAGE_LIKES",
+    "POST_ENGAGEMENT", "PRODUCT_CATALOG_SALES", "REACH", "STORE_VISITS",
+    "VIDEO_VIEWS", "OUTCOME_AWARENESS", "OUTCOME_ENGAGEMENT", "OUTCOME_LEADS",
+    "OUTCOME_SALES", "OUTCOME_TRAFFIC", "OUTCOME_APP_PROMOTION", "CONVERSIONS"
+]
+
+async def get_user_pages(access_token: str) -> List[Dict[str, Any]]:
+    """Fetch user's Facebook Pages"""
+    try:
+        async with httpx.AsyncClient() as client:
+            resp = await client.get(
+                f"{FB_API_URL}/me/accounts",
+                params={
+                    "fields": "id,name,access_token,category,picture",
+                    "access_token": access_token
+                },
+                timeout=30
+            )
+            data = resp.json()
+            if "error" in data:
+                print(f"Error fetching pages: {data['error'].get('message')}")
+                return []
+            return data.get("data", [])
+    except Exception as e:
+        print(f"Exception fetching pages: {e}")
+        return []
+
 async def authenticate_user(access_token: str) -> Dict[str, Any]:
     """
-    Authenticate user and get ad accounts
-    
-    Args:
-        access_token: Facebook user access token
-        
-    Returns:
-        Authentication result with user_id and ad_accounts
+    Authenticate user, get ad accounts and pages
     """
     try:
-        import httpx
-        
         # 1. Get User Info
         async with httpx.AsyncClient() as client:
             user_resp = await client.get(
-                "https://graph.facebook.com/v18.0/me",
+                f"{FB_API_URL}/me",
                 params={"fields": "id,name", "access_token": access_token}
             )
             
@@ -321,35 +346,32 @@ async def authenticate_user(access_token: str) -> Dict[str, Any]:
             
             # 2. Get Ad Accounts
             accounts_resp = await client.get(
-                f"https://graph.facebook.com/v18.0/{user_id}/adaccounts",
+                f"{FB_API_URL}/me/adaccounts",
                 params={
                     "fields": "id,name,account_status,currency,timezone_name",
                     "access_token": access_token
                 }
             )
             
-            if accounts_resp.status_code != 200:
-                return {
-                    "success": True, 
-                    "user_id": user_id, 
-                    "ad_accounts": [],
-                    "warning": "Authenticated but failed to fetch ad accounts"
-                }
+            ad_accounts = []
+            if accounts_resp.status_code == 200:
+                accounts_data = accounts_resp.json()
+                ad_accounts = accounts_data.get("data", [])
                 
-            accounts_data = accounts_resp.json()
-            ad_accounts = accounts_data.get("data", [])
+                for acc in ad_accounts:
+                    status_map = {1: "ACTIVE", 2: "DISABLED"}
+                    acc["status_code"] = acc.get("account_status")
+                    acc["account_status"] = status_map.get(acc.get("account_status"), "INACTIVE")
             
-            # Map status code to string for easier frontend handling
-            # 1 = ACTIVE, 2 = DISABLED, 3 = UNSETTLED, 7 = PENDING_RISK_REVIEW, 8 = PENDING_SETTLEMENT, 9 = IN_GRACE_PERIOD, 100 = PENDING_CLOSURE, 101 = CLOSED, 201 = ANY_ACTIVE, 202 = ANY_CLOSED
-            for acc in ad_accounts:
-                status_map = {1: "ACTIVE", 2: "DISABLED"}
-                acc["status_code"] = acc.get("account_status")
-                acc["account_status"] = status_map.get(acc.get("account_status"), "INACTIVE")
+            # 3. Get Pages
+            pages = await get_user_pages(access_token)
 
             return {
                 "success": True,
                 "user_id": user_id,
-                "ad_accounts": ad_accounts
+                "user_name": user_data.get("name"),
+                "ad_accounts": ad_accounts,
+                "pages": pages
             }
             
     except Exception as e:
@@ -359,23 +381,173 @@ async def authenticate_user(access_token: str) -> Dict[str, Any]:
             "error": str(e)
         }
 
+async def create_campaign(account_id: str, name: str, objective: str, access_token: str, special_ad_categories=None):
+    if special_ad_categories is None:
+        special_ad_categories = ["NONE"]
 
-async def create_campaign(account_id: str, name: str, objective: str, access_token: str, special_ad_categories: Optional[List[str]] = None) -> Dict[str, Any]:
-    """Stub for Facebook campaign creation"""
-    return {"id": "stub_campaign_id", "error": "Campaign creation not yet implemented"}
+    if objective not in VALID_OBJECTIVES:
+        # Try to find a similar one or default
+        objective = "OUTCOME_TRAFFIC"
 
+    url = f"{FB_API_URL}/act_{account_id}/campaigns"
+    payload = {
+        "name": name,
+        "objective": objective,
+        "status": "PAUSED",
+        "special_ad_categories": special_ad_categories
+    }
 
-async def create_adset(account_id: str, campaign_id: str, name: str, daily_budget: int, start_time: str, end_time: str, access_token: str, targeting: Dict) -> Dict[str, Any]:
-    """Stub for Facebook adset creation"""
-    return {"id": "stub_adset_id", "error": "Adset creation not yet implemented"}
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            url,
+            params={"access_token": access_token},
+            json=payload,
+            timeout=30
+        )
+        data = response.json()
+        if "error" in data:
+            raise Exception(f"Facebook API error (Campaign): {data['error'].get('message')}")
+        return data
 
+async def create_adset(account_id, campaign_id, name, daily_budget_cents, access_token, targeting=None):
+    url = f"{FB_API_URL}/act_{account_id}/adsets"
 
-async def create_video_ad(account_id: str, adset_id: str, page_id: str, name: str, video_id: str, thumbnail_hash: Optional[str], primary_text: str, link: str, access_token: str) -> Dict[str, Any]:
-    """Stub for Facebook video ad creation"""
-    return {"id": "stub_ad_id", "error": "Video ad creation not yet implemented"}
+    if targeting is None:
+        targeting = {
+            "geo_locations": {"countries": ["US"]},
+            "age_min": 18,
+            "age_max": 65,
+            "genders": [1, 2]
+        }
 
+    # Format daily_budget correctly (Facebook expects integer cents)
+    try:
+        daily_budget = int(daily_budget_cents)
+    except:
+        daily_budget = 2000 # Default $20
 
-async def create_image_ad(account_id: str, adset_id: str, page_id: str, name: str, image_hash: str, primary_text: str, link: str, access_token: str) -> Dict[str, Any]:
-    """Stub for Facebook image ad creation"""
-    return {"id": "stub_ad_id", "error": "Image ad creation not yet implemented"}
+    import datetime
+    start_time = datetime.datetime.now() + datetime.timedelta(hours=1)
+    end_time = start_time + datetime.timedelta(days=7)
+
+    payload = {
+        "name": name,
+        "campaign_id": campaign_id,
+        "daily_budget": daily_budget,
+        "start_time": start_time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+        "end_time": end_time.strftime("%Y-%m-%dT%H:%M:%S%z"),
+        "billing_event": "IMPRESSIONS",
+        "optimization_goal": "REACH",
+        "status": "PAUSED",
+        "targeting": targeting
+    }
+
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            url,
+            params={"access_token": access_token},
+            json=payload,
+            timeout=30
+        )
+        data = response.json()
+        if "error" in data:
+            # Fallback for bid_amount or other constraints
+            print(f"Adset creation error, retrying with simple payload: {data['error'].get('message')}")
+            # Try again with minimal fields
+            minimal_payload = {
+                "name": name,
+                "campaign_id": campaign_id,
+                "daily_budget": daily_budget,
+                "billing_event": "IMPRESSIONS",
+                "optimization_goal": "REACH",
+                "status": "PAUSED",
+                "targeting": targeting
+            }
+            response = await client.post(
+                url,
+                params={"access_token": access_token},
+                json=minimal_payload,
+                timeout=30
+            )
+            data = response.json()
+            if "error" in data:
+                raise Exception(f"Facebook API error (AdSet): {data['error'].get('message')}")
+        return data
+
+async def create_video_ad(account_id, adset_id, page_id, ad_name, video_id, thumbnail_hash, message, link, access_token):
+    url = f"{FB_API_URL}/act_{account_id}/ads"
+
+    payload = {
+        "name": ad_name,
+        "adset_id": adset_id,
+        "creative": {
+            "object_story_spec": {
+                "page_id": page_id,
+                "video_data": {
+                    "video_id": video_id,
+                    "title": ad_name,
+                    "message": message,
+                    "call_to_action": {
+                        "type": "LEARN_MORE",
+                        "value": {
+                            "link": link
+                        }
+                    }
+                }
+            }
+        },
+        "status": "PAUSED"
+    }
+    
+    if thumbnail_hash:
+        payload["creative"]["object_story_spec"]["video_data"]["image_hash"] = thumbnail_hash
+
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            url,
+            params={"access_token": access_token},
+            json=payload,
+            timeout=30
+        )
+        data = response.json()
+        if "error" in data:
+            raise Exception(f"Facebook API error (Video Ad): {data['error'].get('message')}")
+        return data
+
+async def create_image_ad(account_id, adset_id, page_id, ad_name, image_hash, message, link, access_token):
+    url = f"{FB_API_URL}/act_{account_id}/ads"
+
+    payload = {
+        "name": ad_name,
+        "adset_id": adset_id,
+        "creative": {
+            "object_story_spec": {
+                "page_id": page_id,
+                "link_data": {
+                    "image_hash": image_hash,
+                    "message": message,
+                    "link": link,
+                    "call_to_action": {
+                        "type": "LEARN_MORE",
+                        "value": {
+                            "link": link
+                        }
+                    }
+                }
+            }
+        },
+        "status": "PAUSED"
+    }
+
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            url,
+            params={"access_token": access_token},
+            json=payload,
+            timeout=30
+        )
+        data = response.json()
+        if "error" in data:
+            raise Exception(f"Facebook API error (Image Ad): {data['error'].get('message')}")
+        return data
 

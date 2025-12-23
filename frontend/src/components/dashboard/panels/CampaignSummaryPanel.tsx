@@ -1,11 +1,11 @@
 import { useState, memo } from 'react';
 import { CampaignState } from '@/types/campaign';
 import { cn } from '@/lib/utils';
-import { 
-  CheckCircle2, 
-  Target, 
-  DollarSign, 
-  MousePointer, 
+import {
+  CheckCircle2,
+  Target,
+  DollarSign,
+  MousePointer,
   Clock,
   Facebook,
   Smartphone,
@@ -55,24 +55,24 @@ export const CampaignSummaryPanel = ({ state }: CampaignSummaryPanelProps) => {
   const getBudgetDisplay = () => {
     const amount = parseFloat(editableFields.budgetAmount);
     const duration = campaignConfig?.duration === 'ongoing' ? 0 : parseInt(campaignConfig?.duration || '14');
-    
+
     if (campaignConfig?.duration === 'ongoing') {
       return `$${amount}/day`;
     }
-    
+
     const total = amount * duration;
     return `$${total.toLocaleString()}`;
   };
 
-  const EditableField = ({ 
-    label, 
-    field, 
-    value, 
-    multiline = false 
-  }: { 
-    label: string; 
-    field: string; 
-    value: string; 
+  const EditableField = ({
+    label,
+    field,
+    value,
+    multiline = false
+  }: {
+    label: string;
+    field: string;
+    value: string;
     multiline?: boolean;
   }) => (
     <div>
@@ -80,7 +80,7 @@ export const CampaignSummaryPanel = ({ state }: CampaignSummaryPanelProps) => {
         <span className="text-[10px] text-muted-foreground">{label}</span>
         <Tooltip>
           <TooltipTrigger asChild>
-            <button 
+            <button
               onClick={() => setEditingField(editingField === field ? null : field)}
               className="transition-colors"
             >
@@ -152,8 +152,8 @@ export const CampaignSummaryPanel = ({ state }: CampaignSummaryPanelProps) => {
               onClick={() => setDevice('mobile')}
               className={cn(
                 "flex-1 flex items-center justify-center gap-1 py-1.5 rounded-md text-[10px] font-medium transition-colors",
-                device === 'mobile' 
-                  ? "bg-background text-foreground shadow-sm" 
+                device === 'mobile'
+                  ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
@@ -164,8 +164,8 @@ export const CampaignSummaryPanel = ({ state }: CampaignSummaryPanelProps) => {
               onClick={() => setDevice('desktop')}
               className={cn(
                 "flex-1 flex items-center justify-center gap-1 py-1.5 rounded-md text-[10px] font-medium transition-colors",
-                device === 'desktop' 
-                  ? "bg-background text-foreground shadow-sm" 
+                device === 'desktop'
+                  ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
@@ -176,14 +176,14 @@ export const CampaignSummaryPanel = ({ state }: CampaignSummaryPanelProps) => {
 
           {/* Ad Preview */}
           {device === 'mobile' ? (
-            <MobilePreview 
+            <MobilePreview
               creative={selectedCreative}
               title={editableFields.adName}
               headline={editableFields.primaryText}
               cta={formatCta(campaignConfig?.cta)}
             />
           ) : (
-            <DesktopPreview 
+            <DesktopPreview
               creative={selectedCreative}
               title={editableFields.adName}
               headline={editableFields.primaryText}
@@ -201,27 +201,27 @@ export const CampaignSummaryPanel = ({ state }: CampaignSummaryPanelProps) => {
               <p className="text-[10px] font-semibold text-primary uppercase tracking-wide">Campaign Level</p>
             </div>
             <div className="p-3 space-y-3">
-              <EditableField 
-                label="Campaign Name" 
-                field="campaignName" 
-                value={editableFields.campaignName} 
+              <EditableField
+                label="Campaign Name"
+                field="campaignName"
+                value={editableFields.campaignName}
               />
               <div className="grid grid-cols-2 gap-2">
-                <ReadOnlyField 
-                  label="Objective" 
-                  value={campaignConfig?.objective || 'Sales'} 
-                  icon={Target} 
+                <ReadOnlyField
+                  label="Objective"
+                  value={campaignConfig?.objective || 'Sales'}
+                  icon={Target}
                 />
-                <ReadOnlyField 
-                  label="Budget Type" 
-                  value={campaignConfig?.budgetType === 'lifetime' ? 'Lifetime' : 'Daily'} 
-                  icon={DollarSign} 
+                <ReadOnlyField
+                  label="Budget Type"
+                  value={campaignConfig?.budgetType === 'lifetime' ? 'Lifetime' : 'Daily'}
+                  icon={DollarSign}
                 />
               </div>
-              <ReadOnlyField 
-                label="Budget" 
-                value={getBudgetDisplay()} 
-                icon={DollarSign} 
+              <ReadOnlyField
+                label="Budget"
+                value={getBudgetDisplay()}
+                icon={DollarSign}
               />
             </div>
           </div>
@@ -233,10 +233,10 @@ export const CampaignSummaryPanel = ({ state }: CampaignSummaryPanelProps) => {
               <p className="text-[10px] font-semibold text-secondary uppercase tracking-wide">Ad Set Level</p>
             </div>
             <div className="p-3 space-y-3">
-              <EditableField 
-                label="Ad Set Name" 
-                field="adSetName" 
-                value={editableFields.adSetName} 
+              <EditableField
+                label="Ad Set Name"
+                field="adSetName"
+                value={editableFields.adSetName}
               />
               <div className="grid grid-cols-2 gap-2">
                 <div className="p-2 rounded-md bg-muted/30">
@@ -244,7 +244,7 @@ export const CampaignSummaryPanel = ({ state }: CampaignSummaryPanelProps) => {
                     <p className="text-[9px] text-muted-foreground">Daily Budget</p>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <button 
+                        <button
                           onClick={() => setEditingField(editingField === 'budgetAmount' ? null : 'budgetAmount')}
                           className="transition-colors"
                         >
@@ -272,16 +272,16 @@ export const CampaignSummaryPanel = ({ state }: CampaignSummaryPanelProps) => {
                     <p className="text-[11px] font-medium text-foreground">${editableFields.budgetAmount}/day</p>
                   )}
                 </div>
-                <ReadOnlyField 
-                  label="Duration" 
-                  value={campaignConfig?.duration === 'ongoing' ? 'Ongoing' : `${campaignConfig?.duration || '14'} days`} 
-                  icon={Clock} 
+                <ReadOnlyField
+                  label="Duration"
+                  value={campaignConfig?.duration === 'ongoing' ? 'Ongoing' : `${campaignConfig?.duration || '14'} days`}
+                  icon={Clock}
                 />
               </div>
-              <ReadOnlyField 
-                label="Pixel ID" 
-                value={selectedAdAccount ? `px_${selectedAdAccount.id.slice(-6)}` : 'Not connected'} 
-                icon={BarChart3} 
+              <ReadOnlyField
+                label="Pixel ID"
+                value={selectedAdAccount ? `px_${selectedAdAccount.id.slice(-6)}` : 'Not connected'}
+                icon={BarChart3}
               />
             </div>
           </div>
@@ -293,39 +293,39 @@ export const CampaignSummaryPanel = ({ state }: CampaignSummaryPanelProps) => {
               <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">Ad Level</p>
             </div>
             <div className="p-3 space-y-3">
-              <EditableField 
-                label="Ad Name" 
-                field="adName" 
-                value={editableFields.adName} 
+              <EditableField
+                label="Ad Name"
+                field="adName"
+                value={editableFields.adName}
               />
-              <EditableField 
-                label="Primary Text" 
-                field="primaryText" 
+              <EditableField
+                label="Primary Text"
+                field="primaryText"
                 value={editableFields.primaryText}
                 multiline
               />
               <div className="grid grid-cols-2 gap-2">
-                <ReadOnlyField 
-                  label="CTA Button" 
-                  value={formatCta(campaignConfig?.cta)} 
-                  icon={MousePointer} 
+                <ReadOnlyField
+                  label="CTA Button"
+                  value={formatCta(campaignConfig?.cta)}
+                  icon={MousePointer}
                 />
-                <ReadOnlyField 
-                  label="Website URL" 
-                  value={state.productUrl?.replace(/^https?:\/\//, '').slice(0, 20) + '...' || 'yourstore.com'} 
-                  icon={Globe} 
+                <ReadOnlyField
+                  label="Website URL"
+                  value={state.productUrl?.replace(/^https?:\/\//, '').slice(0, 20) + '...' || 'yourstore.com'}
+                  icon={Globe}
                 />
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <ReadOnlyField 
-                  label="Page Name" 
-                  value={selectedAdAccount ? selectedAdAccount.name : 'Not connected'} 
-                  icon={Facebook} 
+                <ReadOnlyField
+                  label="Page Name"
+                  value={state.selectedPage?.name || 'Not selected'}
+                  icon={Facebook}
                 />
                 <div className="flex items-center gap-2 p-2 rounded-md bg-muted/30">
-                {selectedCreative?.thumbnail ? (
-                    <img 
-                      src={selectedCreative.thumbnail} 
+                  {selectedCreative?.thumbnail ? (
+                    <img
+                      src={selectedCreative.thumbnail}
                       alt="Creative preview"
                       className="w-8 h-8 rounded object-cover flex-shrink-0"
                     />

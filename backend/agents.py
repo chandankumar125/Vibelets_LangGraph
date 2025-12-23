@@ -161,16 +161,22 @@ class ScriptGenerationAgent:
 
         return scripts[:3]  # Ensure max 3 scripts
     
-    async def generate_scripts(self, product_data: Dict, analysis: Dict, feedback_history: List[str] = None) -> List[str]:
+    async def generate_scripts(self, product_data: Dict, analysis: Dict, feedback_history: List[str] = None, target_duration: str = "8-10 seconds") -> List[str]:
         """Generate or refine ad scripts"""
         feedback_history = feedback_history or []
+        
+        # Check if feedback specifies duration
+        if feedback_history:
+            last_feedback = feedback_history[-1].lower()
+            if "10" in last_feedback and ("sec" in last_feedback or "second" in last_feedback):
+                target_duration = "10 seconds"
         
         if not feedback_history:
             # Initial generation
             prompt = ChatPromptTemplate.from_messages([
                 ("system", "You are a creative copywriter specializing in short-form video ad scripts for social media (TikTok, Reels, Shorts)."),
                 ("human", """
-Create exactly 3 unique short-form video ad scripts (30-60 seconds each) for this product:
+Create exactly 3 unique short-form video ad scripts (exactly {duration} each) for this product:
 
 Product: {title}
 Target Audience: {target_audience}
@@ -183,10 +189,15 @@ CRITICAL INSTRUCTIONS:
 - You MUST utilize the suggested Marketing Angles.
 - Do not generate generic scripts; use the specific product analysis provided above.
 
+You must generate exactly these 3 styles:
+1. Fast-Paced / Hype (Quick cuts, high energy, exciting)
+2. Problem-Solution (Identify pain point -> Show product as hero)
+3. Storytelling (Narrative arc, relatable scenario)
+
 Each script should:
-- Be distinct in style (e.g., UGC style, Problem/Solution, ASMR/Aesthetic, Fast-paced/Hype)
+- Be FULL scripts with dialogue and visual descriptions.
 - Include visual cues in parentheses (e.g., [Close up of texture], [Text overlay: ...])
-- Have a strong hook in the first 3 seconds
+- Have a strong hook in the first 2 seconds
 - End with a clear Call to Action (CTA)
 
 IMPORTANT: Format each script CLEARLY using the following delimiters:
@@ -209,7 +220,8 @@ Do not include any intro or outro text. Just the 3 scripts.
                 "title": product_data.get('title', ''),
                 "target_audience": str(analysis.get('target_audience', '')),
                 "usps": str(analysis.get('usps', '')),
-                "marketing_angles": str(analysis.get('marketing_angles', ''))
+                "marketing_angles": str(analysis.get('marketing_angles', '')),
+                "duration": target_duration
             })
         else:
             # Refinement
@@ -227,8 +239,9 @@ Current Scripts:
 Product: {title}
 Target Audience: {target_audience}
 USPs: {usps}
+Target Duration: {duration}
 
-User Feedback: {feedback}
+User Feedback: "{feedback}"
 
 Refine the 3 scripts addressing the user's feedback. 
 IMPORTANT: Return exactly 3 scripts using the SAME format:
@@ -250,29 +263,35 @@ IMPORTANT: Return exactly 3 scripts using the SAME format:
                 "title": product_data.get('title', ''),
                 "target_audience": str(analysis.get('target_audience', '')),
                 "usps": str(analysis.get('usps', '')),
-                "feedback": latest_feedback
+                "feedback": latest_feedback,
+                "duration": target_duration
             })
         
         return self._parse_scripts(result)
     
     async def refine_script(self, script: str, feedback: str) -> str:
         """Refine a single selected script"""
+        target_duration = "8-10 seconds"
+        if "10" in feedback.lower() and ("sec" in feedback.lower() or "second" in feedback.lower()):
+            target_duration = "10 seconds"
+
         prompt = ChatPromptTemplate.from_messages([
             ("system", "You are a creative copywriter. Modify the script based on specific user requests while maintaining effectiveness."),
             ("human", """
 Current Script:
 {current_script}
-can we w
+
 User Request: {feedback}
 
-Provide the modified script (30-45 seconds when read aloud). Output only the script content without labels or commentary.
+Provide the modified script ({duration} when read aloud). Output only the script content without labels or commentary.
 """)
         ])
         
         chain = prompt | self.llm | StrOutputParser()
         result = await chain.ainvoke({
             "current_script": script,
-            "feedback": feedback
+            "feedback": feedback,
+            "duration": target_duration
         })
         
         return result.strip()
@@ -401,15 +420,18 @@ class NavigationAgent:
             ("system", """You are a navigation router for an ad campaign generation workflow.
 Your job is to determine where the user wants to go based on their message and the current step.
 
-Workflow Steps:
-1. "product-url" (Input Product Link)
-2. "product-analysis" (AI Analysis of Product)
-3. "script-selection" (Choose Ad Scripts)
-4. "creative-generation" (Generate Visuals)
-5. "avatar-selection" (Choose Presenter)
-6. "facebook-auth" (Connect Facebook)
-7. "ad-account-selection" (Select Ad Account)
-8. "campaign-creation" (Review & Launch)
+Workflow Steps (Internal Names):
+1. "scrape" (Input Product Link / product-url)
+2. "analyze" (AI Analysis of Product / product-analysis)
+3. "generate_scripts" (Generation scripts / script-selection)
+4. "select_script" (Choosing a script / script-selection)
+5. "generate_images" (Generate Visuals / creative-generation)
+6. "select_avatar" (Choose Presenter / avatar-selection)
+7. "generate_video" (Assembling final video / creative-generation)
+8. "facebook_auth" (Connect Facebook / facebook-integration)
+9. "select_ad_account" (Select Ad Account / ad-account-selection)
+10. "select_page" (Select Facebook Page / page-selection)
+11. "preview_campaign" (Review & Launch / campaign-preview)
 
 Rules:
 - If user says "next", "looks good", "continue", or approves current output -> return "next"
@@ -417,17 +439,19 @@ Rules:
 
 - If user provides a URL (starts with http/https/www) -> return "scrape"
 - If user wants to CHANGE/RESET/NEW URL (e.g., "change url", "new url", "different product", "start over") -> return "change_url"
-- If user wants to change something from a previous step (e.g., "change target audience") -> return the name of that step (e.g., "product-analysis")
-- If user explicitly asks to go to a step (e.g., "go to facebook", "connect facebook") -> return that step name (e.g., "facebook-auth")
+- If user wants to change something from a previous step (e.g., "change target audience") -> return the name of that step (e.g., "analyze")
+- If user explicitly asks to go to a step (e.g., "go to facebook", "connect facebook") -> return that internal step name (e.g., "facebook_auth")
+- If user provides feedback for scripts (e.g., "make it shorter", "change tone", "10 sec script") -> return "generate_scripts"
+- If user provides feedback for images (e.g., "make it darker", "add a dog") -> return "generate_images"
 - If user provides feedback for the CURRENT step (e.g., "make it funnier" while in generate_scripts) -> return "stay" (to refine)
-- If user provides a number (1, 2, 3...) during a selection step -> return "stay" (to select)
+- If user provides a number (1, 2, 3...) during a selection step -> return "select_script" (if in script-selection) or "select_avatar" (if in avatar-selection)
 - If user wants to stop -> return "complete"
 
-IMPORTANT: "change url", "new url", "different url", "start over" should ALWAYS return "change_url".
+IMPORTANT: Choose from internal names: "scrape", "analyze", "generate_scripts", "select_script", "generate_images", "select_avatar", "generate_video", "facebook_auth", "select_ad_account", "select_page", "preview_campaign".
 
 Output JSON:
 {{
-    "intent": "next" | "back" | "stay" | "complete" | "change_url" | "step_name" (e.g. "facebook-auth"),
+    "intent": "next" | "back" | "stay" | "complete" | "change_url" | "scrape" | "analyze" | "select_script" | "generate_images" | "select_avatar" | "facebook_auth" | "select_ad_account" | "select_page" | "preview_campaign",
     "reasoning": "brief explanation"
 }}
 """),

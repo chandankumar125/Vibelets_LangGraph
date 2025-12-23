@@ -8,20 +8,25 @@ from langgraph.graph.message import add_messages
 
 class WorkflowState(TypedDict):
     """Complete state for the ad campaign generation workflow"""
+
+    # Thread Metadata
+    thread_title: Optional[str]
+    updated_at: Optional[str] # ISO format
     
     # Current step in the workflow
     current_step: Literal[
-        "scrape",
-        "analyze", 
-        "generate_scripts",
-        "select_script",
-        "refine_script",
-        "generate_images",
-        "refine_images",
-        "generate_audio",
-        "select_avatar",
-        "generate_video",
-        "complete"
+        # Internal node names
+        "scrape", "analyze", "generate_scripts", "select_script", "refine_script",
+        "generate_images", "refine_images", "generate_audio", "select_avatar", "generate_video",
+        "facebook_auth", "select_ad_account", "select_page", "select_media",
+        "preview_campaign", "refine_campaign", "publish_campaign",
+        "complete", "END",
+        # Human-friendly / Frontend names
+        "product-url", "product-analysis", "script-selection", "avatar-selection",
+        "creative-generation", "creative-generation:images", "creative-generation:audio", 
+        "creative-generation:video", "creative-review", "campaign-setup",
+        "facebook-integration", "ad-account-selection", "page-selection", "campaign-preview",
+        "campaign-creation", "publishing", "published", "welcome"
     ]
     
     # Navigation intent (where user wants to go)
@@ -81,8 +86,11 @@ class WorkflowState(TypedDict):
     facebook_user_id: Optional[str]
     ad_accounts: Optional[List[Dict[str, Any]]]
     selected_ad_account_id: Optional[str]
+    facebook_pages: Optional[List[Dict[str, Any]]]
+    selected_page_id: Optional[str]
     selected_media: Optional[Dict[str, Any]]  # {id, type, url}
     campaign_config: Optional[Dict[str, Any]]
     campaign_preview: Optional[str]
     publish_status: Optional[str]
+    final_campaign_id: Optional[str]
 

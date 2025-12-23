@@ -1,38 +1,27 @@
-# Web Framework and API
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
 python-multipart==0.0.6
 
-# Database and Storage
 chromadb==0.4.22
 motor==3.3.2
 psycopg2-binary==2.9.9
 pymongo==4.6.1
 
-# LangChain Framework
 langchain==0.1.17
 langchain-openai==0.1.6
 langchain-core==0.1.52
 langchain-community==0.0.37
 
-# AI and ML
 openai==1.24.0
-
-# Document Processing
 PyPDF2==3.0.1
 
-# Data Models and Configuration
 pydantic==2.5.0
 pydantic-settings==2.1.0
-
-# Authentication and Security
 PyJWT==2.8.0
 
-# Utilities
 python-dotenv==1.0.0
 httpx==0.25.2
 
-# Development and Testing (optional)
 pytest==7.4.4
 pytest-asyncio==0.21.1
 langsmith

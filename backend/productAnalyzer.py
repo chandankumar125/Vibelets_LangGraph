@@ -9,10 +9,9 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 from langchain_core.output_parsers import StrOutputParser
-from langchain_classic.memory import ConversationBufferMemory
-import time
 from elevenlabs.client import ElevenLabs
 from elevenlabs.play import play
+# Removed unused/suspicious langchain_classic import
 load_dotenv()
 from config import Config
 
@@ -21,7 +20,7 @@ class ProductAnalyzer:
     
     def __init__(self):
         self.llm = ChatOpenAI(
-            model="gpt-4",
+            model="gpt-4o",
             temperature=0.7,
             openai_api_key=Config.OPENAI_API_KEY
         )

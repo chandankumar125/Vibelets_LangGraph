@@ -8,9 +8,10 @@ interface ScriptPreviewPanelProps {
   selectedScript: ScriptOption | null;
   isRegenerating?: boolean;
   onRegenerate?: () => void;
+  onSelect?: (script: ScriptOption) => void;
 }
 
-export const ScriptPreviewPanel = ({ scripts, selectedScript, isRegenerating, onRegenerate }: ScriptPreviewPanelProps) => {
+export const ScriptPreviewPanel = ({ scripts, selectedScript, isRegenerating, onRegenerate, onSelect }: ScriptPreviewPanelProps) => {
   return (
     <div className="p-6 space-y-6">
       <div className="text-center space-y-2">
@@ -29,9 +30,11 @@ export const ScriptPreviewPanel = ({ scripts, selectedScript, isRegenerating, on
           return (
             <div
               key={script.id}
+              onClick={() => onSelect && onSelect(script)}
               className={cn(
                 "p-4 rounded-xl border transition-all",
-                isSelected 
+                onSelect && "cursor-pointer hover:border-primary/50 hover:bg-muted/50",
+                isSelected
                   ? "border-primary bg-primary/5 ring-1 ring-primary"
                   : "border-border bg-card"
               )}

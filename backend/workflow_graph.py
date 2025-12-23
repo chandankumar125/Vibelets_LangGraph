@@ -18,6 +18,8 @@ from facebook_agents import (
 from media_manager import MediaManager
 import os
 import json
+import httpx
+import hashlib
 
 
 class AdCampaignWorkflow:
@@ -682,6 +684,12 @@ class AdCampaignWorkflow:
             last_msg = messages[-1]
             if last_msg.get("role") == "user" and last_msg.get("content"):
                 token = last_msg.get("content")
+                import re
+                # Extract token if it starts with EAA, otherwise verify length
+                match = re.search(r'(EAA\w+)', token)
+                if match:
+                    token = match.group(1)
+                
                 # Basic validation - assume it's a token if it's long enough
                 if len(token) > 50:
                     auth_result = await authenticate_user(token)
@@ -833,27 +841,62 @@ class AdCampaignWorkflow:
             access_token = state.get("facebook_access_token")
             account_id = state.get("selected_ad_account_id")
             media = state.get("selected_media")
+            page_id = state.get("selected_page_id")
             
             if not all([config, access_token, account_id, media]):
                 state["error"] = "Missing required information for publishing"
                 return state
+
+            # Fallback for page_id if still missing
+            if not page_id:
+                 # Try to get first page from stored pages if they exist
+                 pages = state.get("facebook_pages", [])
+                 if pages:
+                     page_id = pages[0].get("id")
+                     state["selected_page_id"] = page_id
+                     print(f"ℹ️ Auto-selected Page: {page_id}")
+                 else:
+                     # Final fallback - user ID (unlikely to work for Ads but better than nothing)
+                     page_id = state.get("facebook_user_id")
                 
-            # 1. Upload Media
+            # 1. Resolve Media Path (Download if remote)
             media_type = media.get("type", "image")
-            # Construct local file path from URL
-            # URL is like /static/videos/filename.mp4 -> static/videos/filename.mp4
-            file_path = media.get("url", "").lstrip("/")
-            if not os.path.exists(file_path):
-                # Try adding static/ if missing
-                if os.path.exists(f"static/{file_path}"):
-                    file_path = f"static/{file_path}"
-                else:
-                    state["error"] = f"Media file not found: {file_path}"
-                    return state
+            media_url = media.get("url", "")
+            file_path = None
+
+            if media_url.startswith("http"):
+                # Remote URL - download to temp file or static cache
+                # Create a filename based on URL hash
+                url_hash = hashlib.md5(media_url.encode()).hexdigest()
+                ext = ".mp4" if media_type == "video" else ".jpg"
+                cache_dir = "static/cache"
+                os.makedirs(cache_dir, exist_ok=True)
+                file_path = os.path.join(cache_dir, f"{url_hash}{ext}")
+                
+                if not os.path.exists(file_path):
+                    print(f"📥 Downloading remote media: {media_url}")
+                    async with httpx.AsyncClient() as client:
+                        resp = await client.get(media_url, timeout=120)
+                        resp.raise_for_status()
+                        with open(file_path, "wb") as f:
+                            f.write(resp.content)
+            else:
+                # Local path
+                file_path = media_url.lstrip("/")
+                if not os.path.exists(file_path):
+                    # Try adding static/ if missing
+                    if os.path.exists(f"static/{file_path}"):
+                        file_path = f"static/{file_path}"
+                    elif os.path.exists(os.path.join(os.getcwd(), file_path)):
+                         file_path = os.path.join(os.getcwd(), file_path)
+                    else:
+                        state["error"] = f"Media file not found: {file_path}"
+                        return state
             
             media_hash = None
             video_id = None
             
+            # 2. Upload to Facebook
             if media_type == "video":
                 upload_res = await self.media_manager.upload_video_to_facebook(
                     file_path, access_token, account_id
@@ -869,7 +912,7 @@ class AdCampaignWorkflow:
                     raise Exception(f"Image upload failed: {upload_res['error']}")
                 media_hash = upload_res["hash"]
 
-            # 2. Create Campaign
+            # 3. Create Campaign
             campaign_res = await create_campaign(
                 account_id,
                 config["campaign"]["name"],
@@ -879,32 +922,22 @@ class AdCampaignWorkflow:
             )
             campaign_id = campaign_res["id"]
             
-            # 3. Create Ad Set
+            # 4. Create Ad Set
+            # Convert budget to cents if needed (assuming agents.py returns dollars or cents)
+            daily_budget = config["adset"].get("daily_budget", 2000)
+            
             adset_res = await create_adset(
                 account_id,
                 campaign_id,
                 config["adset"]["name"],
-                config["adset"]["daily_budget"],
-                "2025-12-01T12:00:00-0700", # TODO: Dynamic start time
-                "2025-12-30T12:00:00-0700", # TODO: Dynamic end time
+                daily_budget,
                 access_token,
                 config["adset"]["targeting"]
             )
             adset_id = adset_res["id"]
             
-            # 4. Create Ad
+            # 5. Create Ad
             if media_type == "video":
-                # Need page_id for video ads usually, or it uses the one associated with ad account
-                # For now, we'll try to fetch page_id or assume one exists
-                # In a real app, we'd select a Page first.
-                # Let's try to get the first page the user has access to
-                # For now, we'll assume the user has a page and we can find it or the API might error
-                # We'll use a placeholder page_id if we can't find one, which will fail
-                # Ideally we add a "Select Page" step.
-                # For this demo, we'll skip page selection and try to use a dummy page_id or the user's ID
-                # This might fail if not a Page ID.
-                page_id = state.get("facebook_user_id") # Fallback
-                
                 await create_video_ad(
                     account_id,
                     adset_id,
@@ -917,8 +950,6 @@ class AdCampaignWorkflow:
                     access_token
                 )
             else:
-                page_id = state.get("facebook_user_id") # Fallback
-                
                 await create_image_ad(
                     account_id,
                     adset_id,
@@ -934,6 +965,8 @@ class AdCampaignWorkflow:
             state["final_campaign_id"] = campaign_id
             
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             state["error"] = f"Publishing failed: {str(e)}"
             state["publish_status"] = "failed"
             

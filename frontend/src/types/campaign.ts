@@ -12,6 +12,7 @@ export type CampaignStep =
   | 'campaign-setup'
   | 'facebook-integration'
   | 'ad-account-selection'
+  | 'page-selection'
   | 'campaign-preview'
   | 'publishing'
   | 'published';
@@ -112,6 +113,18 @@ export interface CampaignConfig {
   primaryText: string;
   cta: string;
   websiteUrl: string;
+}
+
+export interface FacebookPage {
+  id: string;
+  name: string;
+  access_token: string;
+  category: string;
+  picture?: {
+    data: {
+      url: string;
+    };
+  };
 }
 
 export interface AdAccount {
@@ -228,6 +241,8 @@ export interface CampaignState {
   campaignConfig: CampaignConfig | null;
   facebookConnected: boolean;
   selectedAdAccount: AdAccount | null;
+  facebookPages: FacebookPage[];
+  selectedPage: FacebookPage | null;
   isStepLoading: boolean;
   isRegenerating: 'product' | 'scripts' | 'creatives' | null;
   isCustomScriptMode: boolean;
@@ -235,4 +250,5 @@ export interface CampaignState {
   performanceDashboard: PerformanceDashboardState | null;
   isRefreshingDashboard: boolean;
   pendingIntentConfirmation: IntentConfirmation | null;
+  finalCampaignId?: string;
 }

@@ -5,8 +5,12 @@ Supports context-aware, bidirectional navigation
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List, Dict, Optional, Any
-import os
 from dotenv import load_dotenv
+import os
+
+# Load env variables before other imports
+load_dotenv(override=True)
+
 import uuid
 import json
 from pathlib import Path
@@ -17,16 +21,33 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from workflow_graph import AdCampaignWorkflow
 from state_schema import WorkflowState
 
-load_dotenv()
 from support_service import get_support_service
+from fastapi.staticfiles import StaticFiles
+
+# Create static directory if it doesn't exist
+os.makedirs("static", exist_ok=True)
+os.makedirs("static/scraped_products", exist_ok=True)
+os.makedirs("static/videos", exist_ok=True)
+os.makedirs("static/images", exist_ok=True)
+os.makedirs("static/cache", exist_ok=True)
 
 app = FastAPI(title="Ad Campaign Generator API - LangGraph")
+
+# Mount static files
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 from fastapi.middleware.cors import CORSMiddleware
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:8080",
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:8080",
+        "http://127.0.0.1:5173",
+        "http://127.0.0.1:3000"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -187,7 +208,10 @@ def get_or_create_thread(thread_id: Optional[str] = None) -> str:
     
     if thread_id not in active_sessions:
         # Initialize new state
+        from datetime import datetime
         active_sessions[thread_id] = {
+            "thread_title": "New Campaign",
+            "updated_at": datetime.now().isoformat(),
             "current_step": "product-url",
             "navigation_intent": None,
             "messages": [],
@@ -212,9 +236,24 @@ def get_or_create_thread(thread_id: Optional[str] = None) -> str:
             "video_url": None,
             "video_status": None,
             "error": None,
-            "iteration_count": {}
+            "iteration_count": {},
+            "facebook_access_token": None,
+            "facebook_user_id": None,
+            "ad_accounts": None,
+            "selected_ad_account_id": None,
+            "facebook_pages": None,
+            "selected_page_id": None,
+            "selected_media": None,
+            "campaign_config": None,
+            "campaign_preview": None,
+            "publish_status": None,
+            "final_campaign_id": None
         }
         save_sessions()
+    else:
+        # Update timestamp for existing session
+        from datetime import datetime
+        active_sessions[thread_id]["updated_at"] = datetime.now().isoformat()
     
     return thread_id
 
@@ -302,6 +341,12 @@ async def scrape_product(request: ScrapeRequest):
         print(f"DEBUG: NO product_data in result! Error: {result.get('error')}")
     
     # Update session
+    from datetime import datetime
+    product_data = result.get("product_data")
+    if product_data and product_data.get("title") and product_data.get("title") != "Unknown Product":
+        result["thread_title"] = product_data.get("title")
+    
+    result["updated_at"] = datetime.now().isoformat()
     active_sessions[thread_id] = result
     save_sessions()
     
@@ -739,15 +784,27 @@ async def chat(request: WorkflowRequest):
     # STEP 3: If it's NAVIGATION, proceed with normal navigation logic
     from agents import NavigationAgent
     
-    navigation_agent = NavigationAgent()
+    # FAST PATH: Check for simple keywords to avoid LLM call
+    message_lower = request.message.lower().strip()
+    simple_intents = {
+        "next": "next", "continue": "next", "proceed": "next", "forward": "next", "go": "next", "ok": "next", "okay": "next", "yes": "next",
+        "back": "back", "previous": "back", "return": "back", "go back": "back"
+    }
     
-    # Detect navigation intent using LLM (async)
-    intent_result = await navigation_agent.analyze_intent(state)
-    
-    navigation_intent = intent_result.get("intent")
-    reasoning = intent_result.get("reasoning", "")
-    
-    print(f"🧭 Detected Navigation Intent: {navigation_intent} - {reasoning}")
+    if message_lower in simple_intents:
+        navigation_intent = simple_intents[message_lower]
+        reasoning = "Fast-path keyword match"
+        print(f"🧭 Fast-path Navigation Intent: {navigation_intent}")
+    else:
+        navigation_agent = NavigationAgent()
+        
+        # Detect navigation intent using LLM (async)
+        intent_result = await navigation_agent.analyze_intent(state)
+        
+        navigation_intent = intent_result.get("intent")
+        reasoning = intent_result.get("reasoning", "")
+        
+        print(f"🧭 Detected Navigation Intent: {navigation_intent} - {reasoning}")
     
     # SMART NAVIGATION: Handle back/next WITHOUT re-executing
     step_order = [
@@ -761,6 +818,7 @@ async def chat(request: WorkflowRequest):
         "creative-generation:video",
         "facebook-auth",
         "ad-account-selection",
+        "page-selection",
         "campaign-creation"
     ]
     
@@ -770,6 +828,7 @@ async def chat(request: WorkflowRequest):
         if navigation_intent in step_order:
             new_step = navigation_intent
         else:
+            # Map internal step names to step_order names
             # Map internal step names to step_order names
             step_mapping = {
                 "scrape": "product-url",
@@ -781,9 +840,23 @@ async def chat(request: WorkflowRequest):
                 "refine_images": "creative-generation:images",
                 "generate_audio": "creative-generation:audio",
                 "select_avatar": "avatar-selection",
-                "generate_video": "creative-generation:video"
+                "generate_video": "creative-generation:video",
+                "select_media": "creative-generation:video",
+                "select_ad_account": "ad-account-selection",
+                "select_page": "page-selection",
+                "preview_campaign": "campaign-creation",
+                "refine_campaign": "campaign-creation",
+                "publish_campaign": "campaign-creation"
             }
             normalized_step = step_mapping.get(current_step, current_step)
+            
+            # Fallback if normalized step still not in order
+            if normalized_step not in step_order:
+                # Try to find partial match
+                for s in step_order:
+                    if s in normalized_step or normalized_step in s:
+                        normalized_step = s
+                        break
             
             current_index = step_order.index(normalized_step) if normalized_step in step_order else 0
             
@@ -861,6 +934,7 @@ Ready to select your ad account?"""
                 "avatar-selection": "Choose an avatar",
                 "facebook-auth": "Connect your Facebook account",
                 "ad-account-selection": "Select your ad account",
+                "page-selection": "Select your Facebook Page",
                 "campaign-creation": "Configure your campaign"
             }
             response_message = step_names.get(new_step, f"Complete {new_step}")
@@ -1088,6 +1162,12 @@ async def facebook_auth(request: FacebookAuthRequest):
         state["facebook_user_id"] = auth_result.get("user_id")
         state["facebook_access_token"] = request.access_token
         state["ad_accounts"] = auth_result.get("ad_accounts", [])
+        state["facebook_pages"] = auth_result.get("pages", [])
+        
+        # Default to first page if available
+        if state["facebook_pages"] and not state.get("selected_page_id"):
+            state["selected_page_id"] = state["facebook_pages"][0]["id"]
+            
         state["current_step"] = "ad-account-selection"
         state["error"] = None
         
@@ -1118,6 +1198,33 @@ async def facebook_auth(request: FacebookAuthRequest):
             "current_step": "facebook_auth",
             "error": error_msg
         }
+
+
+@app.post("/api/workflow/select_page")
+async def select_page(request: dict):
+    """Select Facebook Page"""
+    thread_id = get_or_create_thread(request.get("thread_id"))
+    state = active_sessions[thread_id]
+    
+    page_id = request.get("page_id")
+    if not page_id:
+        raise HTTPException(status_code=400, detail="page_id is required")
+        
+    # Update state
+    state["selected_page_id"] = page_id
+    
+    # Update session
+    from datetime import datetime
+    state["updated_at"] = datetime.now().isoformat()
+    active_sessions[thread_id] = state
+    save_sessions()
+    
+    return {
+        "thread_id": thread_id,
+        "state": state,
+        "selected_page_id": page_id,
+        "error": None
+    }
 
 
 @app.post("/api/workflow/select_ad_account")
@@ -1262,18 +1369,44 @@ async def publish_campaign(request: PublishCampaignRequest):
         "error": result.get("error")
     }
 
+@app.get("/api/workflow/list_threads")
+async def list_threads():
+    """List all available chat threads"""
+    threads = []
+    for tid, state in active_sessions.items():
+        threads.append({
+            "id": tid,
+            "title": state.get("thread_title", "New Campaign"),
+            "updated_at": state.get("updated_at"),
+            "current_step": state.get("current_step"),
+            "has_product": state.get("product_data") is not None
+        })
+    
+    # Sort by updated_at descending
+    threads.sort(key=lambda x: x["updated_at"] or "", reverse=True)
+    
+    return {"threads": threads}
+
+@app.delete("/api/workflow/delete_thread/{thread_id}")
+async def delete_thread(thread_id: str):
+    """Delete a chat thread"""
+    if thread_id in active_sessions:
+        del active_sessions[thread_id]
+        save_sessions()
+        return {"status": "success", "message": f"Thread {thread_id} deleted"}
+    raise HTTPException(status_code=404, detail="Thread not found")
+
 # --- AI Support Endpoints ---
 
 @app.get("/api/support/health")
 async def support_health():
-    """Check AI support service health and stats"""
+    """Check AI support service health"""
     from support_service import get_support_service
     
     support_service = get_support_service()
-    stats = support_service.get_stats()
     return {
         "status": "ok",
-        "support_service": stats
+        "rag_available": support_service.rag_available
     }
 
 @app.post("/api/support/query")

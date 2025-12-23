@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { CampaignState, CampaignStep, Message, ProductData, ScriptOption, AvatarOption, CreativeOption, CampaignConfig, AdAccount, InlineQuestion, AIRecommendation, ProductInsight, IntentConfirmation, QuestionOption } from '@/types/campaign';
-import { mockCreatives, avatarOptions, mockAdAccounts, campaignObjectives, ctaOptions, scriptOptions, mockProductData } from '@/data/mockData';
+import { mockCreatives, avatarOptions, mockAdAccounts, campaignObjectives, ctaOptions, scriptOptions } from '@/data/mockData';
 import { createMockPerformanceDashboard } from '@/data/mockPerformanceData';
 import { toast } from 'sonner';
 import { isValidUrl, sanitizeInput, validateCampaignConfig, formatErrorMessage } from '@/lib/validation';
@@ -22,6 +22,7 @@ const STEP_ORDER: CampaignStep[] = [
   'campaign-setup',
   'facebook-integration',
   'ad-account-selection',
+  'page-selection',
   'campaign-preview',
   'publishing',
   'published'
@@ -39,6 +40,8 @@ const initialState: CampaignState = {
   campaignConfig: null,
   facebookConnected: false,
   selectedAdAccount: null,
+  facebookPages: [],
+  selectedPage: null,
   isStepLoading: false,
   isRegenerating: null,
   isCustomScriptMode: false,
@@ -75,6 +78,7 @@ export const useCampaignFlow = () => {
   const [generatedScripts, setGeneratedScripts] = useState<ScriptOption[]>([]);
   const [generatedAvatars, setGeneratedAvatars] = useState<AvatarOption[]>([]);
   const [fetchedAdAccounts, setFetchedAdAccounts] = useState<AdAccount[]>([]);
+  const [threads, setThreads] = useState<any[]>([]);
 
   // Find the active question that can receive natural language input
   // Find the active question that can receive natural language input
@@ -132,7 +136,10 @@ export const useCampaignFlow = () => {
       duration: 5000,
     });
     setState(prev => ({ ...prev, isStepLoading: false, isRegenerating: null }));
-    addMessage('assistant', `Sorry, something went wrong while ${context.toLowerCase()}. Please try again or contact support if the issue persists.`);
+
+    // Include specific error message if it's not too long/ugly
+    const displayError = message.length < 100 ? `: ${message}` : '';
+    addMessage('assistant', `Sorry, something went wrong while ${context.toLowerCase()}${displayError}. Please try again or contact support if the issue persists.`);
   }, [addMessage]);
 
   // Sync state from backend response
@@ -182,19 +189,79 @@ export const useCampaignFlow = () => {
         // Map analysis to insights if available to display in ProductAnalysisPanel
         if (backendState.analysis) {
           const analysis = backendState.analysis;
-          const insights = [];
 
+          // Helper function to format insight values - handles nested objects and arrays
+          const formatInsightValue = (value: any, depth: number = 0): string => {
+            // Prevent infinite recursion
+            if (depth > 3) return String(value);
+
+            if (typeof value === 'string') {
+              return value;
+            } else if (Array.isArray(value)) {
+              // Handle array of primitives vs array of objects
+              return value.map(item => {
+                if (typeof item === 'object' && item !== null) {
+                  return formatInsightValue(item, depth + 1);
+                }
+                return String(item);
+              }).join(', ');
+            } else if (typeof value === 'object' && value !== null) {
+              // Format nested objects recursively
+              return Object.entries(value)
+                .map(([k, v]) => {
+                  const formattedKey = k.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                  if (typeof v === 'object' && v !== null) {
+                    return `${formattedKey}: ${formatInsightValue(v, depth + 1)}`;
+                  }
+                  return `${formattedKey}: ${v}`;
+                })
+                .join(', ');
+            }
+            return String(value);
+          };
+
+          const insights: ProductInsight[] = [];
+
+          // Add category insight
+          if (analysis.category) {
+            insights.push({
+              label: 'Product Category',
+              value: formatInsightValue(analysis.category),
+              icon: 'tag'
+            });
+          }
+
+          // Add target audience insight
           if (analysis.target_audience) {
-            insights.push({ label: 'Target Audience', value: analysis.target_audience, icon: 'users' });
+            insights.push({
+              label: 'Target Audience',
+              value: formatInsightValue(analysis.target_audience),
+              icon: 'users'
+            });
           }
-          if (analysis.unique_selling_points || analysis.usps) {
-            insights.push({ label: 'Key USPs', value: analysis.unique_selling_points || analysis.usps, icon: 'star' });
+
+          // Add USP insight  
+          if (analysis.usps || analysis.unique_selling_points) {
+            const uspsValue = Array.isArray(analysis.usps)
+              ? analysis.usps.join(', ')
+              : formatInsightValue(analysis.usps || analysis.unique_selling_points);
+            insights.push({
+              label: 'Key USPs',
+              value: uspsValue,
+              icon: 'star'
+            });
           }
-          if (analysis.pain_points) {
-            insights.push({ label: 'Pain Points', value: analysis.pain_points, icon: 'trending-up' });
-          }
-          if (analysis.call_to_action || analysis.cta) {
-            insights.push({ label: 'Recommended CTA', value: analysis.call_to_action || analysis.cta, icon: 'dollar-sign' });
+
+          // Add marketing angle insight
+          if (analysis.marketing_angles) {
+            const anglesValue = Array.isArray(analysis.marketing_angles)
+              ? analysis.marketing_angles.join(', ')
+              : formatInsightValue(analysis.marketing_angles);
+            insights.push({
+              label: 'Marketing Angles',
+              value: anglesValue,
+              icon: 'trending-up'
+            });
           }
 
           // Merge insights into productData
@@ -237,6 +304,15 @@ export const useCampaignFlow = () => {
       }
 
       if (backendState.generated_images) newState.generatedImages = backendState.generated_images;
+
+      // Sync Facebook Pages
+      if (backendState.facebook_pages && Array.isArray(backendState.facebook_pages)) {
+        newState.facebookPages = backendState.facebook_pages;
+      }
+      if (backendState.selected_page_id) {
+        const page = newState.facebookPages.find(p => p.id === backendState.selected_page_id);
+        if (page) newState.selectedPage = page;
+      }
 
       // Handle error from backend state
       if (backendState.error) {
@@ -282,14 +358,14 @@ export const useCampaignFlow = () => {
               stepId: 'script-selection'
             };
           } else if (currentStep === 'product-analysis') {
-            restoreMessage = "Here is your product analysis. Ready to generate scripts?";
+            restoreMessage = "I've restored your product analysis. Ready to proceed?";
             restoreOptions = {
               inlineQuestion: {
                 id: 'product-continue',
-                text: 'Would you like to generate ad scripts based on this analysis?',
-                type: 'confirm',
+                question: 'Ready to proceed?',
                 options: [
-                  { id: 'generate-scripts', label: 'Generate Scripts', value: 'yes' }
+                  { id: 'continue', label: 'Continue', description: 'Proceed to script selection' },
+                  { id: 'change', label: 'Change URL', description: 'Use a different product' }
                 ]
               },
               stepId: 'product-analysis'
@@ -362,15 +438,31 @@ export const useCampaignFlow = () => {
 
         const productAnalysis = analysisResult.analysis;
 
-        // Helper function to format insight values
-        const formatInsightValue = (value: any): string => {
+        // Helper function to format insight values - handles nested objects and arrays
+        const formatInsightValue = (value: any, depth: number = 0): string => {
+          // Prevent infinite recursion
+          if (depth > 3) return String(value);
+
           if (typeof value === 'string') {
             return value;
           } else if (Array.isArray(value)) {
-            return value.join(', ');
+            // Handle array of primitives vs array of objects
+            return value.map(item => {
+              if (typeof item === 'object' && item !== null) {
+                return formatInsightValue(item, depth + 1);
+              }
+              return String(item);
+            }).join(', ');
           } else if (typeof value === 'object' && value !== null) {
+            // Format nested objects recursively
             return Object.entries(value)
-              .map(([k, v]) => `${k}: ${v}`)
+              .map(([k, v]) => {
+                const formattedKey = k.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                if (typeof v === 'object' && v !== null) {
+                  return `${formattedKey}: ${formatInsightValue(v, depth + 1)}`;
+                }
+                return `${formattedKey}: ${v}`;
+              })
               .join(', ');
           }
           return String(value);
@@ -418,15 +510,18 @@ export const useCampaignFlow = () => {
           images: productImages,
           sku: scrapedProduct?.sku || '',
           category: productAnalysis?.category || scrapedProduct?.category || '',
-          pageScreenshot: productImages[0] || '',
+          pageScreenshot: scrapedProduct?.pageScreenshot
+            ? (scrapedProduct.pageScreenshot.startsWith('http') ? scrapedProduct.pageScreenshot : `${BACKEND_URL}${scrapedProduct.pageScreenshot.startsWith('/') ? '' : '/'}${scrapedProduct.pageScreenshot}`)
+            : (productImages[0] || ''),
           insights: insights,
         };
 
         setState(prev => ({ ...prev, productData, isStepLoading: false }));
 
+        const imageCount = productData.images?.length || 0;
         const continueQuestion: InlineQuestion = {
           id: 'product-continue',
-          question: 'Ready to create your ad?',
+          question: 'Ready to proceed?',
           options: [
             { id: 'continue', label: 'Continue', description: 'Proceed to script selection' },
             { id: 'change', label: 'Change URL', description: 'Use a different product' }
@@ -434,7 +529,7 @@ export const useCampaignFlow = () => {
         };
 
         await simulateTyping(
-          `I've analyzed your product page and found some great insights!\n\n**${productData.title}** looks perfect for video ads. Ready to proceed?`,
+          `I've analyzed your product page and found some great insights!\n\n**${productData.title}** looks perfect for video ads. I've identified ${imageCount} high-quality images and extracted key product details.\n\nCheck the preview panel for full details. Ready to proceed?`,
           { inlineQuestion: continueQuestion, stepId: 'product-analysis' },
           1500
         );
@@ -487,6 +582,14 @@ export const useCampaignFlow = () => {
       // RESET/CHANGE URL LOGIC
       if (['change_url', 'start_over', 'restart', 'new_url'].includes(navigationIntent)) {
         console.log('🔄 Resetting flow for new product');
+
+        // Clear the product-continue answer so old chips don't show
+        setSelectedAnswers(prev => {
+          const newAnswers = { ...prev };
+          delete newAnswers['product-continue'];
+          return newAnswers;
+        });
+
         setState(prev => ({
           ...prev,
           step: 'product-url',
@@ -497,7 +600,7 @@ export const useCampaignFlow = () => {
           isStepLoading: false
         }));
 
-        await simulateTyping(response.message || "Ready for a new product! Paste your product URL below.", { stepId: 'product-url' }, 500);
+        await simulateTyping(response.message || "No problem! Paste a new product URL to analyze.", { stepId: 'product-url' }, 500);
         return;
       }
 
@@ -682,6 +785,7 @@ export const useCampaignFlow = () => {
           'campaign-setup': 'refine_campaign', // approx
           'facebook-integration': 'facebook_auth',
           'ad-account-selection': 'select_ad_account',
+          'page-selection': 'select_page',
           'campaign-preview': 'preview_campaign',
           'publishing': 'publish_campaign',
           'published': 'publish_campaign',
@@ -710,6 +814,7 @@ export const useCampaignFlow = () => {
       'campaign-setup': "Configure your campaign settings.",
       'facebook-integration': "Connect your Facebook account.",
       'ad-account-selection': "Select your ad account.",
+      'page-selection': "Select your Facebook Page.",
       'campaign-preview': "Review and publish your campaign.",
       'publishing': "Publishing your campaign...",
       'published': "Campaign published successfully!"
@@ -773,16 +878,31 @@ export const useCampaignFlow = () => {
             console.log('🎬 Formatted scripts:', formattedScripts);
             setGeneratedScripts(formattedScripts);
 
-            // Helper function to format insight values
-            const formatInsightValue = (value: any): string => {
+            // Helper function to format insight values - handles nested objects and arrays
+            const formatInsightValue = (value: any, depth: number = 0): string => {
+              // Prevent infinite recursion
+              if (depth > 3) return String(value);
+
               if (typeof value === 'string') {
                 return value;
               } else if (Array.isArray(value)) {
-                return value.join(', ');
+                // Handle array of primitives vs array of objects
+                return value.map(item => {
+                  if (typeof item === 'object' && item !== null) {
+                    return formatInsightValue(item, depth + 1);
+                  }
+                  return String(item);
+                }).join(', ');
               } else if (typeof value === 'object' && value !== null) {
-                // Format object as readable text instead of JSON
+                // Format nested objects recursively
                 return Object.entries(value)
-                  .map(([k, v]) => `${k}: ${v}`)
+                  .map(([k, v]) => {
+                    const formattedKey = k.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                    if (typeof v === 'object' && v !== null) {
+                      return `${formattedKey}: ${formatInsightValue(v, depth + 1)}`;
+                    }
+                    return `${formattedKey}: ${v}`;
+                  })
                   .join(', ');
               }
               return String(value);
@@ -858,18 +978,21 @@ export const useCampaignFlow = () => {
 
             console.log('🔍 Final product images:', productImages);
 
-            const productData: ProductData = {
-              title: scrapedProduct?.title || 'Product',
-              price: scrapedProduct?.price || '$0',
-              description: scrapedProduct?.description || '',
-              images: productImages, // Images with full URLs
-              sku: scrapedProduct?.sku || '',
-              category: productAnalysis?.category || scrapedProduct?.category || '',
-              pageScreenshot: productImages[0] || '', // Use first image as screenshot
-              insights: insights,
-            };
 
-            setState(prev => ({ ...prev, productData, isStepLoading: false }));
+            setState(prev => {
+              const prevProductData = prev.productData;
+              const productData: ProductData = {
+                title: scrapedProduct?.title || prevProductData?.title || 'Product',
+                price: scrapedProduct?.price || prevProductData?.price || '$0',
+                description: scrapedProduct?.description || prevProductData?.description || '',
+                images: productImages.length > 0 ? productImages : (prevProductData?.images || []),
+                sku: scrapedProduct?.sku || prevProductData?.sku || '',
+                category: productAnalysis?.category || scrapedProduct?.category || prevProductData?.category || '',
+                pageScreenshot: productImages[0] || prevProductData?.pageScreenshot || '',
+                insights: insights.length > 0 ? insights : (prevProductData?.insights || []),
+              };
+              return { ...prev, productData, isStepLoading: false };
+            });
 
             const scriptQuestion: InlineQuestion = {
               id: 'script-selection',
@@ -1304,8 +1427,72 @@ export const useCampaignFlow = () => {
         try {
           // Call backend to save ad account selection
           console.log('📡 Calling backend to save ad account selection...');
-          await vibeletsAPI.selectAdAccount(account.id);
-          console.log('✅ Ad account selection saved');
+          const result = await vibeletsAPI.selectAdAccount(account.id);
+          console.log('✅ Ad account selection saved', result);
+
+          // Get pages from state if available, or result
+          const pages = state.facebookPages.length > 0 ? state.facebookPages : (result.state?.facebook_pages || []);
+
+          if (pages.length > 0) {
+            const pageQuestion: InlineQuestion = {
+              id: 'page-selection',
+              question: 'Which Facebook Page should we use to publish your ad?',
+              options: pages.map((p: any) => ({
+                id: p.id,
+                label: p.name,
+                description: p.category || 'Facebook Page'
+              }))
+            };
+
+            await simulateTyping(
+              `Ad account **${account.name}** selected! ✅\n\nNow, select the Facebook Page you want to use for the ad:`,
+              { inlineQuestion: pageQuestion, stepId: 'page-selection' },
+              800
+            );
+            setState(prev => ({
+              ...prev,
+              step: 'page-selection',
+              stepHistory: [...prev.stepHistory, 'page-selection'],
+              isStepLoading: false,
+              facebookPages: pages
+            }));
+          } else {
+            // Fallback if no pages found
+            const publishQuestion: InlineQuestion = {
+              id: 'publish-confirm',
+              question: 'Ready to launch your campaign?',
+              options: [
+                { id: 'publish', label: 'Publish Campaign', description: 'Submit for Facebook review', icon: 'play' },
+                { id: 'preview', label: 'Review Details', description: 'Check campaign summary first', icon: 'target' }
+              ]
+            };
+
+            await simulateTyping(
+              `Ad account **${account.name}** selected! ✅\n\nI couldn't find any Facebook Pages. We'll try to use your default profile. What would you like to do?`,
+              { inlineQuestion: publishQuestion, stepId: 'campaign-preview' },
+              1200
+            );
+            setState(prev => ({ ...prev, step: 'campaign-preview', stepHistory: [...prev.stepHistory, 'campaign-preview'], isStepLoading: false }));
+          }
+        } catch (error) {
+          console.error('❌ Error selecting ad account:', error);
+          handleError(error, 'Selecting ad account');
+        }
+      } else if (questionId === 'page-selection') {
+        console.log('🚩 Selecting Facebook Page:', answerId);
+        const page = state.facebookPages.find(p => p.id === answerId);
+
+        if (!page) {
+          toast.error('Page not found', { description: 'Please select a valid Facebook Page' });
+          return;
+        }
+
+        setState(prev => ({ ...prev, selectedPage: page, isStepLoading: true }));
+        if (!skipUserMessage) addMessage('user', `Using "${page.name}" Page.`);
+
+        try {
+          // Call backend to save page selection
+          await vibeletsAPI.selectPage(page.id);
 
           const publishQuestion: InlineQuestion = {
             id: 'publish-confirm',
@@ -1317,47 +1504,62 @@ export const useCampaignFlow = () => {
           };
 
           await simulateTyping(
-            `Great! I've selected **${account.name}** and auto-fetched:\n✅ Facebook Pixel\n✅ Business Page\n\nYour campaign is ready! What would you like to do?`,
+            `Perfect! **${page.name}** is selected. 🏁\n\nYour campaign is now fully configured and ready to go!`,
             { inlineQuestion: publishQuestion, stepId: 'campaign-preview' },
-            1500
+            1200
           );
           setState(prev => ({ ...prev, step: 'campaign-preview', stepHistory: [...prev.stepHistory, 'campaign-preview'], isStepLoading: false }));
         } catch (error) {
-          console.error('❌ Error selecting ad account:', error);
-          handleError(error, 'Selecting ad account');
+          handleError(error, 'Selecting Facebook Page');
         }
       } else if (questionId === 'publish-confirm') {
         if (answerId === 'publish') {
           // Validate campaign is complete
           if (!state.campaignConfig || !state.selectedCreative || !state.selectedAdAccount) {
-            throw new Error('Campaign is incomplete. Please ensure all steps are completed.');
+            toast.error('Campaign Incomplete', { description: 'Please ensure all steps are completed.' });
+            return;
           }
 
           if (!skipUserMessage) addMessage('user', "Publish the campaign!");
           setState(prev => ({ ...prev, step: 'publishing', stepHistory: [...prev.stepHistory, 'publishing'], isStepLoading: true }));
 
-          await simulateTyping(`Publishing to Facebook... 🚀`, { stepId: 'publishing' }, 1000);
+          await simulateTyping(`Launching your campaign to Facebook... 🚀`, { stepId: 'publishing' }, 1000);
 
-          await new Promise(resolve => setTimeout(resolve, 3000));
+          try {
+            // 🚀 CALL REAL BACKEND API
+            const result = await vibeletsAPI.publishCampaign();
 
-          // Simulate potential publishing failure (2% chance in demo)
-          if (Math.random() < 0.02) {
-            throw new Error('Publishing failed. Facebook API returned an error. Please try again.');
+            if (result.error) {
+              throw new Error(result.error);
+            }
+
+            const campaignId = result.final_campaign_id || result.state?.final_campaign_id;
+
+            toast.success('Campaign Published!', {
+              description: 'Your ad has been submitted for Facebook review.',
+            });
+
+            // Initialize performance dashboard
+            const performanceDashboard = createMockPerformanceDashboard();
+
+            await simulateTyping(
+              `🎉 **Campaign Published!**\n\nYour ad has been submitted for review (Campaign ID: ${campaignId || 'Pending'}).\n\n**What's next:**\n• Monitor performance in your dashboard\n• I'll notify you when it's approved\n• Check out the AI recommendations!\n\nWant to create another campaign? Just paste a new product URL!`,
+              { stepId: 'published' },
+              2000
+            );
+            setState(prev => ({
+              ...prev,
+              step: 'published',
+              stepHistory: [...prev.stepHistory, 'published'],
+              isStepLoading: false,
+              performanceDashboard,
+              finalCampaignId: campaignId
+            }));
+
+          } catch (error) {
+            console.error('Publishing failed:', error);
+            handleError(error, 'Publishing campaign');
           }
-
-          toast.success('Campaign Published!', {
-            description: 'Your ad has been submitted for Facebook review.',
-          });
-
-          // Initialize performance dashboard
-          const performanceDashboard = createMockPerformanceDashboard();
-
-          await simulateTyping(
-            `🎉 **Campaign Published!**\n\nYour ad has been submitted for review (typically 24-48 hours).\n\n**What's next:**\n• Monitor performance in your dashboard\n• I'll notify you when approved\n• Check out the AI recommendations!\n\nWant to create another campaign? Just paste a new product URL!`,
-            { stepId: 'published' },
-            2000
-          );
-          setState(prev => ({ ...prev, step: 'published', stepHistory: [...prev.stepHistory, 'published'], isStepLoading: false, performanceDashboard }));
         } else {
           await simulateTyping(
             `Take your time to review. Check the campaign preview on the right, and when you're ready, just say "publish" or select Publish Campaign above.`,
@@ -1466,7 +1668,7 @@ export const useCampaignFlow = () => {
     } catch (error) {
       handleError(error, 'Processing your selection');
     }
-  }, [state.campaignConfig, state.selectedCreative, state.selectedAdAccount, state.creatives, state.generatedImages, state.pendingIntentConfirmation, generatedScripts, generatedAvatars, fetchedAdAccounts, addMessage, simulateTyping, handleError]);
+  }, [state.productData, state.productUrl, state.campaignConfig, state.selectedCreative, state.selectedAdAccount, state.creatives, state.generatedImages, state.pendingIntentConfirmation, generatedScripts, generatedAvatars, fetchedAdAccounts, addMessage, simulateTyping, handleError]);
 
   // Public wrapper that always adds user message (used by chip clicks)
   const handleQuestionAnswer = useCallback(async (questionId: string, answerId: string) => {
@@ -1624,6 +1826,10 @@ export const useCampaignFlow = () => {
             const realAdAccounts = authResult.ad_accounts || []; // Expecting [{id, name, status, ...}]
             console.log('📊 Ad accounts received:', realAdAccounts.length, realAdAccounts);
 
+            // Extract pages as well
+            const realPages = authResult.pages || [];
+            console.log('🚩 Pages received:', realPages.length);
+
             if (realAdAccounts.length === 0) {
               console.warn('⚠️ No ad accounts found');
               toast.warning('No Ad Accounts found', { description: 'Please create an ad account in your Facebook Business Manager.' });
@@ -1647,10 +1853,19 @@ export const useCampaignFlow = () => {
 
             console.log('✅ Real Ad Accounts:', uniqueAccounts);
 
-            // Store fetched accounts in state for later use
+            // Store fetched accounts and pages in state
             setFetchedAdAccounts(uniqueAccounts);
 
-            setState(prev => ({ ...prev, facebookConnected: true, isStepLoading: true }));
+            const selectedPageId = authResult.selected_page_id || authResult.state?.selected_page_id;
+            const selectedPage = realPages.find((p: any) => p.id === selectedPageId);
+
+            setState(prev => ({
+              ...prev,
+              facebookConnected: true,
+              isStepLoading: true,
+              facebookPages: realPages,
+              selectedPage: selectedPage || (realPages.length > 0 ? realPages[0] : null)
+            }));
 
             const accountQuestion: InlineQuestion = {
               id: 'ad-account-selection',
@@ -1735,9 +1950,67 @@ export const useCampaignFlow = () => {
     setSelectedAnswers({});
     // Create a new message with unique ID for each reset
     setMessages([
-      createMessage('assistant', "Ready for your next campaign! 🚀 Paste a product URL to get started.", { stepId: 'welcome' })
+      INITIAL_WELCOME_MESSAGE
     ]);
   }, []);
+
+  const newCampaign = useCallback(() => {
+    vibeletsAPI.resetSession();
+    resetFlow();
+  }, [resetFlow]);
+
+  const fetchThreads = useCallback(async () => {
+    try {
+      const data = await vibeletsAPI.listThreads();
+      setThreads(data.threads);
+    } catch (error) {
+      console.error("Failed to fetch threads:", error);
+    }
+  }, []);
+
+  const switchThread = useCallback(async (threadId: string) => {
+    try {
+      vibeletsAPI.setThreadId(threadId);
+      setState(prev => ({ ...prev, isStepLoading: true }));
+      const result = await vibeletsAPI.getCurrentState();
+
+      if (result && result.state) {
+        // Sync the main data
+        syncStateFromBackend(result.state);
+
+        // Restore chat messages from backend
+        if (result.state.messages && result.state.messages.length > 0) {
+          const restoredMessages = result.state.messages.map((m: any) =>
+            createMessage(m.role as 'user' | 'assistant', m.content)
+          );
+          setMessages(restoredMessages);
+        } else {
+          setMessages([INITIAL_WELCOME_MESSAGE]);
+        }
+      }
+    } catch (error) {
+      handleError(error, 'Switching thread');
+    } finally {
+      setState(prev => ({ ...prev, isStepLoading: false }));
+    }
+  }, [syncStateFromBackend, handleError]);
+
+  const deleteThread = useCallback(async (threadId: string) => {
+    try {
+      await vibeletsAPI.deleteThread(threadId);
+      toast.success('Campaign deleted');
+
+      // If we deleted the active thread, reset to a new campaign
+      if (threadId === vibeletsAPI.getThreadId()) {
+        newCampaign();
+      }
+
+      // Refresh the list
+      fetchThreads();
+    } catch (error) {
+      handleError(error, 'Deleting campaign');
+    }
+  }, [fetchThreads, newCampaign, handleError]);
 
   // Performance dashboard handlers
   const handleCampaignFilterChange = useCallback((campaignId: string | null) => {
@@ -1891,7 +2164,7 @@ export const useCampaignFlow = () => {
       step: 'script-selection',
       stepHistory: ['welcome', 'product-url', 'product-analysis', 'script-selection'],
       productUrl: 'https://cloned-from-campaign.com',
-      productData: mockProductData, // Reuse existing product data
+      productData: prev.productData, // Reuse existing product data
       selectedScript: null,
       selectedAvatar: null,
       creatives: [{
@@ -1926,14 +2199,101 @@ export const useCampaignFlow = () => {
       setState(prev => ({ ...prev, isRegenerating: 'product' }));
       addMessage('assistant', "Regenerating product analysis with fresh AI insights... ✨");
 
-      await new Promise(resolve => setTimeout(resolve, 2500));
+      // CALL BACKEND - Re-analyze product
+      const analysisResult = await vibeletsAPI.analyzeProduct();
 
-      const refreshedData = {
-        ...mockProductData,
-        insights: mockProductData.insights?.map(insight => ({
-          ...insight,
-          value: insight.value
-        }))
+      if (analysisResult.error) {
+        throw new Error(analysisResult.error);
+      }
+
+      const productAnalysis = analysisResult.analysis;
+      const scrapedProduct = analysisResult.product_data;
+
+      // Helper function to format insight values - handles nested objects and arrays
+      const formatInsightValue = (value: any, depth: number = 0): string => {
+        if (depth > 3) return String(value);
+
+        if (typeof value === 'string') {
+          return value;
+        } else if (Array.isArray(value)) {
+          return value.map(item => {
+            if (typeof item === 'object' && item !== null) {
+              return formatInsightValue(item, depth + 1);
+            }
+            return String(item);
+          }).join(', ');
+        } else if (typeof value === 'object' && value !== null) {
+          return Object.entries(value)
+            .map(([k, v]) => {
+              const formattedKey = k.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+              if (typeof v === 'object' && v !== null) {
+                return `${formattedKey}: ${formatInsightValue(v, depth + 1)}`;
+              }
+              return `${formattedKey}: ${v}`;
+            })
+            .join(', ');
+        }
+        return String(value);
+      };
+
+      // Generate insights from analysis
+      const insights: ProductInsight[] = [];
+
+      if (productAnalysis) {
+        if (productAnalysis.category) {
+          insights.push({
+            label: 'Product Category',
+            value: formatInsightValue(productAnalysis.category),
+            icon: 'tag'
+          });
+        }
+        if (productAnalysis.target_audience) {
+          insights.push({
+            label: 'Target Audience',
+            value: formatInsightValue(productAnalysis.target_audience),
+            icon: 'users'
+          });
+        }
+        if (productAnalysis.usps) {
+          const uspsValue = Array.isArray(productAnalysis.usps)
+            ? productAnalysis.usps.join(', ')
+            : formatInsightValue(productAnalysis.usps);
+          insights.push({
+            label: 'Key USPs',
+            value: uspsValue,
+            icon: 'star'
+          });
+        }
+        if (productAnalysis.marketing_angles) {
+          const anglesValue = Array.isArray(productAnalysis.marketing_angles)
+            ? productAnalysis.marketing_angles.join(', ')
+            : formatInsightValue(productAnalysis.marketing_angles);
+          insights.push({
+            label: 'Marketing Angles',
+            value: anglesValue,
+            icon: 'trending-up'
+          });
+        }
+      }
+
+      // Process images
+      const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+      const productImages = (scrapedProduct?.downloaded_images || scrapedProduct?.images || []).map((imgPath: string) => {
+        if (imgPath.startsWith('http')) return imgPath;
+        return `${BACKEND_URL}${imgPath.startsWith('/') ? '' : '/'}${imgPath}`;
+      });
+
+      const refreshedData: ProductData = {
+        title: scrapedProduct?.title || state.productData?.title || 'Product',
+        price: scrapedProduct?.price || state.productData?.price || '$0',
+        description: scrapedProduct?.description || state.productData?.description || '',
+        images: productImages.length > 0 ? productImages : (state.productData?.images || []),
+        sku: scrapedProduct?.sku || state.productData?.sku || '',
+        category: productAnalysis?.category || scrapedProduct?.category || state.productData?.category || '',
+        pageScreenshot: scrapedProduct?.pageScreenshot
+          ? (scrapedProduct.pageScreenshot.startsWith('http') ? scrapedProduct.pageScreenshot : `${BACKEND_URL}${scrapedProduct.pageScreenshot.startsWith('/') ? '' : '/'}${scrapedProduct.pageScreenshot}`)
+          : (productImages[0] || state.productData?.pageScreenshot || ''),
+        insights: insights,
       };
 
       setState(prev => ({ ...prev, productData: refreshedData, isRegenerating: null }));
@@ -2133,5 +2493,10 @@ export const useCampaignFlow = () => {
     refreshPerformanceDashboard,
     handleCloneCreative,
     generatedAvatars,
+    threads,
+    fetchThreads,
+    switchThread,
+    newCampaign,
+    deleteThread
   };
 };

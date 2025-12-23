@@ -26,13 +26,24 @@ const STEP_LOADING_CONFIG: Record<string, {
   subtitle: string;
   tasks: string[];
 }> = {
+  'product-url': {
+    icon: Search,
+    title: 'Searching for Product',
+    subtitle: 'Extracting details from the provided URL',
+    tasks: [
+      'Accessing store URL...',
+      'Extracting product metadata...',
+      'Scaling product images...',
+      'Parsing product description...'
+    ]
+  },
   'product-analysis': {
     icon: Globe,
     title: 'Analyzing Your Product',
     subtitle: 'Our AI is examining your product page',
     tasks: [
-      'Fetching product page...',
-      'Extracting product details...',
+      'Benchmarking against competitors...',
+      'Identifying target audience...',
       'Analyzing pricing & features...',
       'Generating AI insights...'
     ]
@@ -114,7 +125,7 @@ const STEP_LOADING_CONFIG: Record<string, {
       'Ready for your review...'
     ]
   },
-  'campaign-config': {
+  'campaign-setup': {
     icon: Settings,
     title: 'Setting Up Campaign',
     subtitle: 'Configuring your ad campaign parameters',
@@ -125,7 +136,7 @@ const STEP_LOADING_CONFIG: Record<string, {
       'Ready to configure...'
     ]
   },
-  'facebook-connect': {
+  'facebook-integration': {
     icon: Facebook,
     title: 'Connecting Facebook',
     subtitle: 'Preparing Facebook Ads integration',
@@ -134,6 +145,28 @@ const STEP_LOADING_CONFIG: Record<string, {
       'Loading ad accounts...',
       'Fetching pixels & pages...',
       'Ready to connect...'
+    ]
+  },
+  'ad-account-selection': {
+    icon: Facebook,
+    title: 'Selecting Ad Account',
+    subtitle: 'Accessing your Facebook Ad Accounts',
+    tasks: [
+      'Fetching ad accounts...',
+      'Validating account status...',
+      'Loading account details...',
+      'Ready for selection...'
+    ]
+  },
+  'page-selection': {
+    icon: Facebook,
+    title: 'Selecting Page',
+    subtitle: 'Accessing your Facebook Pages',
+    tasks: [
+      'Fetching pages list...',
+      'Loading page thumbnails...',
+      'Checking page permissions...',
+      'Ready for selection...'
     ]
   },
   'campaign-preview': {

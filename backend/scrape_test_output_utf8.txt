@@ -1,0 +1,50 @@
+﻿Starting Universal Scraper Verification...
+
+--- URL: https://www.ikea.com/in/en/p/gursken-wardrobe-light-beige-00508639/ ---
+≡ƒôä Content length: 202315 bytes. Tags: 1149
+≡ƒô╕ _extract_images found 10 images
+≡ƒöì _download_images called for URL: https://www.ikea.com/in/en/p/gursken-wardrobe-light-beige-00508639/
+≡ƒû╝∩╕Å  Found 24 unique potential image sources
+≡ƒô╕ Scraped 8 images, hero: /static/scraped_products/winter-holiday-wt001_0.jpeg
+Γ£à Universal Scrape Success: Products - Discover IKEA Full Range Of Furniture And Homeware | Price: Price not found | Images: 8
+SUCCESS Title: Products - Discover IKEA Full Range Of Furniture And Homeware
+SUCCESS Price: Price not found
+SUCCESS Images Found: 10
+SUCCESS Saved Images: 8
+SUCCESS SKU: 
+SUCCESS Hero Discovery: Success
+SUCCESS Brand/Store detected: Product Page
+
+==================================================
+
+--- URL: https://lucyandyak.com/products/billie-trousers-organic-cotton-twill-black ---
+ΓÜá∩╕Å httpx failed (Client error '404 Not Found' for url 'https://lucyandyak.com/products/billie-trousers-organic-cotton-twill-black'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404), trying requests fallback...
+ΓÜá∩╕Å Scraping attempt 1 failed: 404 Client Error: Not Found for url: https://lucyandyak.com/products/billie-trousers-organic-cotton-twill-black
+ΓÜá∩╕Å httpx failed (Client error '404 Not Found' for url 'https://lucyandyak.com/products/billie-trousers-organic-cotton-twill-black'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404), trying requests fallback...
+ΓÜá∩╕Å Scraping attempt 2 failed: 404 Client Error: Not Found for url: https://lucyandyak.com/products/billie-trousers-organic-cotton-twill-black
+FAILED Result Error: Failed to scrape URL after multiple attempts. Last error: 404 Client Error: Not Found for url: https://lucyandyak.com/products/billie-trousers-organic-cotton-twill-black
+
+==================================================
+
+--- URL: https://www.boat-lifestyle.com/products/airdopes-131 ---
+≡ƒôä Content length: 2568335 bytes. Tags: 2543
+Γ£à Found product in JSON-LD: boAt Airdopes 131 | Wireless Earbuds with upto 60 Hours Playback, 13mm Drivers, IWP Technology, 650mAh Charging Case
+≡ƒô╕ _extract_images found 10 images
+≡ƒöì _download_images called for URL: https://www.boat-lifestyle.com/products/airdopes-131
+≡ƒû╝∩╕Å  Found 92 unique potential image sources
+Failed to process image https://cdn.shopify.com/s/files/1/0057/8938/4802/files/user_22X22?.pngv=1614329938: 404 Client Error: Not Found for url: https://cdn.shopify.com/s/files/1/0057/8938/4802/files/user_22X22?.pngv=1614329938
+Failed to process image https://www.boat-lifestyle.com/cdn/shop/collections/box-5_100x.png?v=1684827751: 404 Client Error: Not Found for url: https://www.boat-lifestyle.com/cdn/shop/collections/box-5_100x.png?v=1684827751
+≡ƒô╕ Scraped 8 images, hero: /static/scraped_products/img2_2c7fba47-2287-4e73-bd5f-f1d3ddf0c575_2.png
+Γ£à Universal Scrape Success: boAt Airdopes 131 | Wireless Earbuds with upto 60 Hours Playback, 13mm Drivers, IWP Technology, 650mAh Charging Case | Price: Γé╣799.0 | Images: 8
+SUCCESS Title: boAt Airdopes 131 | Wireless Earbuds with upto 60 Hours Playback, 13mm Drivers, IWP Technology, 650mAh Charging Case
+SUCCESS Price: Γé╣799.0
+SUCCESS Images Found: 10
+SUCCESS Saved Images: 8
+SUCCESS SKU: 8904130853340
+SUCCESS Hero Discovery: Success
+SUCCESS Brand/Store detected: Product Page
+
+==================================================
+
