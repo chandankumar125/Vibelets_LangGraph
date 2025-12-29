@@ -44,7 +44,9 @@ Provide:
 4. Marketing Angles and Emotional Triggers
 5. Competitive Positioning
 
-Format as JSON with keys: category, features, target_audience, usps, marketing_angles, positioning
+IMPORTANT: If the current 'Price' is 'Price not found' or 'None', or if the 'SKU' is missing, search the 'Additional Context' (raw_text) carefully. If you find the actual price or SKU, include them in a 'corrections' key.
+
+Format as JSON with keys: category, features, target_audience, usps, marketing_angles, positioning, corrections (optional: {{"price": "...", "sku": "...", "title": "..."}})
 """)
             ])
             
@@ -135,102 +137,160 @@ class ScriptGenerationAgent:
         """Parse scripts from LLM output using robust regex"""
         scripts = []
         
+        print(f"\n📄 RAW LLM OUTPUT:\n{text}\n")
+        
         # Pattern to match "### SCRIPT [N] ###" headers and capture content until next header or end
         # We look specifically for the triple hash prefix for the next script to avoid cutting off 
         # inside a script that might mention the word "script"
         pattern = r'###\s*SCRIPT\s*(?:\[?\d+\]?)?\s*###(.*?)(?=###\s*SCRIPT|$)'
         
         matches = re.findall(pattern, text, re.DOTALL | re.IGNORECASE)
+        print(f"🔍 Regex found {len(matches)} script blocks")
         
-        for match in matches:
+        for i, match in enumerate(matches):
             cleaned = match.strip()
             # Remove potential leading numbering like "1." or "[1]" if not caught by main pattern
             cleaned = re.sub(r'^\s*(?:\[?\d+\]?\.?|:)\s*', '', cleaned)
             # Remove trailing delimiters
             cleaned = re.sub(r'-+$', '', cleaned).strip()
             
+            print(f"📝 Script {i+1} (length: {len(cleaned)}):\n{cleaned[:200]}...\n")
+            
             if cleaned and len(cleaned) > 20:  # Minimal length check
                 scripts.append(cleaned)
         
         # Fallback: if no scripts found, try splitting by double newlines if it looks like a list
         if not scripts:
-            print("Regex parsing failed, falling back to simple split")
+            print("⚠️ Regex parsing failed, falling back to simple split")
             parts = text.split("\n\n")
             for part in parts:
                 if len(part.strip()) > 50:
                     scripts.append(part.strip())
 
+        print(f"✅ Final scripts count: {len(scripts)}")
         return scripts[:3]  # Ensure max 3 scripts
     
     async def generate_scripts(self, product_data: Dict, analysis: Dict, feedback_history: List[str] = None) -> List[str]:
-        """Generate or refine ad scripts"""
+        """Generate or refine ad scripts - generates 3 completely different scripts"""
         feedback_history = feedback_history or []
         
         if not feedback_history:
-            # Initial generation
-            prompt = ChatPromptTemplate.from_messages([
-                ("system", "You are a creative copywriter specializing in short-form video ad scripts for social media (TikTok, Reels, Shorts)."),
-                ("human", """
-Create exactly 3 unique short-form video ad scripts with specific duration ranges for this product:
+            # Generate 3 scripts separately to ensure they're completely different
+            title = product_data.get('title', '')
+            target_audience = str(analysis.get('target_audience', ''))
+            usps = str(analysis.get('usps', ''))
+            marketing_angles = str(analysis.get('marketing_angles', ''))
+            
+            scripts = []
+            
+            # SCRIPT 1: Fast-paced, punchy, shocking hook
+            prompt1 = ChatPromptTemplate.from_messages([
+                ("system", "You are a creative copywriter for viral short-form content."),
+                ("human", """Create a SINGLE 15-30 second ad script for this product. Make it FAST, PUNCHY, with a SHOCKING HOOK.
 
 Product: {title}
 Target Audience: {target_audience}
 USPs: {usps}
-Marketing Angles: {marketing_angles}
 
-CRITICAL INSTRUCTIONS:
-- You MUST tailor the scripts specifically to the defined Target Audience.
-- You MUST highlight the provided USPs.
-- You MUST utilize the suggested Marketing Angles.
-- DO NOT TRUNCATE the scripts. Provide the FULL script content, word for word.
+Requirements:
+- Start with a shocking question or surprising fact (first 3 seconds)
+- Use SHORT, SNAPPY sentences - max 5 words per sentence
+- Create urgency and excitement
+- Use exclamation marks liberally!
+- End with a strong, immediate CTA
+- Include [visual cues] for video
+- Do NOT mention product benefits in a narrative way - just shock and awe
+- Word count: 80-120 words
 
-Generate the following 3 variations:
-
-1. **Script 1 (15-30 Seconds - Fast & Punchy)**
-   - Style: Fast-paced / Hype / unexpected hook
-   - Duration: 15-30 seconds
-   - Focus: Grab attention immediately
-
-2. **Script 2 (30-45 Seconds - Problem/Solution)**
-   - Style: Problem/Solution / Educational
-   - Duration: 30-45 seconds
-   - Focus: Relatable pain point -> Product as hero
-
-3. **Script 3 (45-60 Seconds - Storytelling/ASMR)**
-   - Style: Storytelling / Aesthetic / ASMR
-   - Duration: 45-60 seconds
-   - Focus: Detailed features, lifestyle integration, sensory details
-
-Each script should:
-- Include visual cues in parentheses (e.g., [Close up of texture], [Text overlay: ...])
-- Have a strong hook in the first 3 seconds
-- End with a clear Call to Action (CTA)
-
-IMPORTANT: Format each script CLEARLY using the following delimiters (keep the style/duration info in the script body or header):
-
+Format as:
 ### SCRIPT [1] ###
 [Style: Fast-paced (15-30s)]
-[Script content here...]
-
-### SCRIPT [2] ###
-[Style: Problem/Solution (30-45s)]
-[Script content here...]
-
-### SCRIPT [3] ###
-[Style: Storytelling (45-60s)]
-[Script content here...]
-
-Do not include any intro or outro text. Just the 3 scripts.
+[Your script here]
 """)
             ])
             
-            chain = prompt | self.llm | StrOutputParser()
-            result = await chain.ainvoke({
-                "title": product_data.get('title', ''),
-                "target_audience": str(analysis.get('target_audience', '')),
-                "usps": str(analysis.get('usps', '')),
-                "marketing_angles": str(analysis.get('marketing_angles', ''))
+            chain1 = prompt1 | self.llm | StrOutputParser()
+            result1 = await chain1.ainvoke({
+                "title": title,
+                "target_audience": target_audience,
+                "usps": usps
             })
+            scripts.append(result1)
+            
+            # SCRIPT 2: Problem/Solution, educational, sympathetic
+            prompt2 = ChatPromptTemplate.from_messages([
+                ("system", "You are a creative copywriter specializing in problem-solution narratives."),
+                ("human", """Create a SINGLE 30-45 second ad script for this product. Make it EDUCATIONAL and RELATABLE with a PROBLEM-FIRST approach.
+
+Product: {title}
+Target Audience: {target_audience}
+USPs: {usps}
+
+Requirements:
+- Start by describing a COMMON PAIN POINT your audience faces
+- Show empathy and understanding
+- Introduce the product as THE solution
+- Use conversational, relatable tone
+- Include [visual cues] showing the problem then the solution
+- Tell a mini-story: Problem → Realization → Solution
+- End with "Finally, there's a solution..." style CTA
+- Word count: 120-160 words
+- Use COMPLETELY DIFFERENT language than Script 1
+
+Format as:
+### SCRIPT [2] ###
+[Style: Problem/Solution (30-45s)]
+[Your script here]
+""")
+            ])
+            
+            chain2 = prompt2 | self.llm | StrOutputParser()
+            result2 = await chain2.ainvoke({
+                "title": title,
+                "target_audience": target_audience,
+                "usps": usps
+            })
+            scripts.append(result2)
+            
+            # SCRIPT 3: Storytelling, emotional, lifestyle-focused
+            prompt3 = ChatPromptTemplate.from_messages([
+                ("system", "You are a creative copywriter specializing in lifestyle and emotional storytelling for social media."),
+                ("human", """Create a SINGLE 45-60 second ad script for this product. Make it an EMOTIONAL JOURNEY with LIFESTYLE FOCUS.
+
+Product: {title}
+Target Audience: {target_audience}
+USPs: {usps}
+
+Requirements:
+- Open with ATMOSPHERIC scene-setting (paint a picture)
+- Introduce a CHARACTER and their aspirations/lifestyle
+- Show the product transforming their experience
+- Use SENSORY DETAILS (how it feels, looks, sounds)
+- Tell a complete story arc with emotional payoff
+- Use warm, aspirational, intimate tone
+- Include [visual cues] that paint scenes and moments
+- End with lifestyle/aspirational CTA
+- Word count: 150-200 words
+- Use COMPLETELY DIFFERENT approach than Scripts 1 & 2 - no shock, no education, pure emotion
+
+Format as:
+### SCRIPT [3] ###
+[Style: Storytelling (45-60s)]
+[Your script here]
+""")
+            ])
+            
+            chain3 = prompt3 | self.llm | StrOutputParser()
+            result3 = await chain3.ainvoke({
+                "title": title,
+                "target_audience": target_audience,
+                "usps": usps
+            })
+            scripts.append(result3)
+            
+            # Combine all results
+            result = "\n\n".join(scripts)
+            
         else:
             # Refinement
             latest_feedback = feedback_history[-1]
@@ -250,7 +310,7 @@ USPs: {usps}
 
 User Feedback: {feedback}
 
-Refine the 3 scripts addressing the user's feedback. 
+Refine the 3 scripts addressing the user's feedback. Keep them DIFFERENT from each other.
 IMPORTANT: Return exactly 3 scripts using the SAME format:
 
 ### SCRIPT [1] ###
@@ -273,7 +333,13 @@ IMPORTANT: Return exactly 3 scripts using the SAME format:
                 "feedback": latest_feedback
             })
         
-        return self._parse_scripts(result)
+        scripts = self._parse_scripts(result)
+        print(f"\n✅ FINAL SCRIPTS GENERATED: {len(scripts)} scripts")
+        for i, script in enumerate(scripts, 1):
+            print(f"\n📌 SCRIPT {i} SUMMARY:")
+            print(f"   Length: {len(script)} chars")
+            print(f"   First 100 chars: {script[:100]}...")
+        return scripts
     
     async def refine_script(self, script: str, feedback: str) -> str:
         """Refine a single selected script"""
@@ -390,17 +456,17 @@ Output only the prompt, no additional commentary.
 
 
 class NavigationAgent:
-    """Agent for determining navigation intent from user messages"""
+    """Agent for determining navigation intent from user messages - NOW WITH SMART UNDERSTANDING"""
     
     def __init__(self):
         self.llm = ChatOpenAI(
             model="gpt-4o",
-            temperature=0,
+            temperature=0.3,
             openai_api_key=Config.OPENAI_API_KEY
         )
     
     async def analyze_intent(self, state: Dict) -> Dict[str, Any]:
-        """Analyze user message to determine navigation intent"""
+        """Analyze user message to determine navigation intent WITH SMART UNDERSTANDING"""
         messages = state.get("messages", [])
         if not messages:
             return {"intent": "continue"}
@@ -418,48 +484,42 @@ class NavigationAgent:
         current_step = state.get("current_step", "scrape")
         
         prompt = ChatPromptTemplate.from_messages([
-            ("system", """You are a navigation router for an ad campaign generation workflow.
-Your job is to determine where the user wants to go based on their message and the current step.
+            ("system", """You are a SMART NAVIGATION ROUTER for an ad campaign generation workflow.
+Your job is to understand WHAT THE USER WANTS and route them to the right place, even if they don't explicitly say step names.
 
-Workflow Steps:
-1. "product-url" (Input Product Link)
-2. "product-analysis" (AI Analysis of Product)
-3. "script-selection" (Choose Ad Scripts)
-4. "creative-generation" (Generate Visuals)
-5. "avatar-selection" (Choose Presenter)
-6. "facebook-auth" (Connect Facebook)
-7. "ad-account-selection" (Select Ad Account)
-8. "campaign-creation" (Review & Launch)
+Workflow Steps (5 Main Steps):
+1. "product-url" - Paste product link and get variants/details
+2. "product-analysis" - View AI analysis of product 
+3. "script-selection" - Generate and choose ad scripts
+4. "creative-generation" - Generate images, audio, video
+5. "campaign-preview" - Review and publish campaign
 
-Rules:
-- If user says "next", "looks good", "continue", or approves current output -> return "next"
-- If user says "back", "go back", "previous", "return" -> return "back"
-
-- If user provides a URL (starts with http/https/www) -> return "scrape"
-- If user wants to CHANGE/RESET/NEW URL (e.g., "change url", "new url", "different product", "start over") -> return "change_url"
-- If user wants to change something from a previous step (e.g., "change target audience") -> return the name of that step (e.g., "product-analysis")
-- If user explicitly asks to go to a step (e.g., "go to facebook", "connect facebook") -> return that step name (e.g., "facebook-auth")
-- If user provides feedback for the CURRENT scripts (e.g., "make it funnier", "shorter", "change tone") -> return "refine_script"
-- If user provides feedback for the CURRENT images (e.g., "more vibrant", "realistic") -> return "refine_images"
-- If user specifies a video format (e.g., "story", "reel", "9:16", "square", "1:1", "horizontal", "16:9", "vertical", "4:5") -> return "generate_video" and include the `video_aspect_ratio` in the parameters.
-- If user wants to stop -> return "complete"
-
-IMPORTANT: "change url", "new url", "different url", "start over" should ALWAYS return "change_url".
+SMART UNDERSTANDING RULES:
+- If user provides a URL (http, https, www) -> scrape the product
+- If user says "change url", "different product", "new url", "start over", "change product" -> go back to step 1
+- If user says "next", "continue", "looks good", "approve", "okay" -> move to next step
+- If user says "back", "previous", "go back", "change that" -> go to previous step
+- If user asks about the product details/variants -> stay in product-analysis
+- If user says "generate scripts", "create scripts", "write scripts" -> go to script-selection
+- If user chooses a script (any reference like "script 1", "first one", "that one", "option 2") -> stay in script-selection
+- If user gives feedback about scripts ("make funnier", "shorter", "slower", "change tone") -> refine_script
+- If user says "next", "continue" from script-selection -> go to creative-generation
+- If user wants images/audio/video features -> go to creative-generation
+- If user gives feedback about images ("more colorful", "different style") -> refine_images
+- If user says "ready", "publish", "launch", "done" -> go to campaign-preview
+- If user wants to exit/stop -> return "complete"
 
 Output JSON:
 {{
-    "intent": "next" | "back" | "stay" | "complete" | "change_url" | "step_name" (e.g. "facebook-auth"),
-    "parameters": {{
-        "video_aspect_ratio": "9:16" | "1:1" | "4:5" | "1.91:1" | null
-    }},
-    "reasoning": "brief explanation"
+    "intent": "next" | "back" | "stay" | "complete" | "scrape" | "refine_script" | "refine_images" | "step_name",
+    "reasoning": "brief explanation of why"
 }}
 """),
             ("human", """
 Current Step: {current_step}
 User Message: {user_message}
 
-Determine the navigation intent.
+Understand what the user wants and determine navigation intent.
 """)
         ])
         
@@ -479,7 +539,7 @@ Determine the navigation intent.
 
 
 class GuideAgent:
-    """Agent for providing friendly guidance and next steps"""
+    """Agent for providing SMART guidance on what to type next"""
     
     def __init__(self):
         self.llm = ChatOpenAI(
@@ -489,56 +549,82 @@ class GuideAgent:
         )
     
     async def generate_guidance(self, state: Dict) -> str:
-        """Generate friendly guidance based on current state"""
+        """Generate guidance WITH HINTS on what user should type next"""
         current_step = state.get("current_step", "scrape")
         error = state.get("error")
         
         # Context building
+        product_data = state.get("product_data", {})
         context = {
             "error": error,
             "has_url": bool(state.get("url")),
+            "product_name": product_data.get("title") if product_data else None,
             "has_analysis": bool(state.get("analysis")),
             "has_scripts": bool(state.get("scripts")),
             "selected_script": bool(state.get("selected_script")),
             "has_images": bool(state.get("generated_images")),
-            "has_audio": bool(state.get("audio_file")),
-            "has_video": bool(state.get("video_url"))
         }
         
+        guidance_prompts = {
+            "product-url": """User should: Paste a product URL (from Amazon, Flipkart, etc)
+Example: "https://www.amazon.com/...product-link..."
+Or ask for help: "help me choose a product" """,
+            
+            "product-analysis": """User can:
+- Say "next" to continue to scripts
+- Ask questions about the product (e.g., "what's the target audience?")
+- Ask to change something: "change target audience to..."
+- Provide feedback: "I want to focus on..."
+- Or paste a new URL to analyze a different product""",
+            
+            "script-selection": """User can:
+- Say "script 1" or "choose the first one" to select a script
+- Say "next" after selecting to move forward
+- Ask to refine: "make it funnier" or "shorter"
+- Say "back" to choose a different product
+- Or paste a new URL to start fresh""",
+            
+            "creative-generation": """User can:
+- Say "next" to continue
+- Ask to regenerate images: "create different images"
+- Ask about audio: "add voiceover"
+- Ask about video: "create a reel" or "make it 9:16"
+- Say "back" to change script
+- Or start fresh: "new product" """,
+            
+            "campaign-preview": """User can:
+- Say "publish" or "launch" to publish the campaign
+- Say "back" to change something
+- Ask for changes: "modify the..."
+- Or say "done" when ready"""
+        }
+        
+        step_guidance = guidance_prompts.get(current_step, "")
+        
         prompt = ChatPromptTemplate.from_messages([
-            ("system", """You are a friendly, helpful AI guide for an ad campaign generation tool.
-Your goal is to explain what just happened and guide the user on what to do next.
-Be conversational, encouraging, and concise.
-Use a natural, human-like tone.
+            ("system", """You are a friendly AI assistant for an ad campaign creator.
+Your goal is to:
+1. Celebrate what was just completed
+2. Explain the next step clearly
+3. Give hints on what the user should type (specific examples help!)
+4. Be encouraging and supportive
 
-Workflow Steps:
-1. scrape: User inputs a product URL.
-2. analyze: AI analyzes the product. User can refine.
-3. generate_scripts: AI creates scripts. User can refine.
-4. select_script: User picks one script.
-5. refine_script: User edits the chosen script.
-6. generate_images: AI creates images. User can refine.
-7. refine_images: User edits image prompts.
-8. generate_audio: AI generates voiceover.
-9. select_avatar: User picks an avatar.
-10. generate_video: AI creates the final video.
-
+Keep it conversational, 2-3 sentences max. Include example commands they can type.
+"""),
+            ("human", """
 Current Step: {current_step}
 Context: {context}
+What to suggest: {step_guidance}
 
-Instructions:
-- If there is an error, explain it simply and ask them to try again.
-- If a step just finished successfully, summarize it briefly (e.g., "I've analyzed your product!") and suggest the next logical step.
-- If waiting for input, tell them exactly what to provide (e.g., "Please paste the product URL to get started.").
-- Keep it short (max 2 sentences).
-"""),
-            ("human", "What should I tell the user now?")
+Generate a friendly message with hints on what to type next.
+""")
         ])
         
         chain = prompt | self.llm | StrOutputParser()
         result = await chain.ainvoke({
             "current_step": current_step,
-            "context": str(context)
+            "context": str(context),
+            "step_guidance": step_guidance
         })
         
         return result.strip()

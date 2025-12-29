@@ -186,6 +186,8 @@ def get_or_create_thread(thread_id: Optional[str] = None) -> str:
         thread_id = str(uuid.uuid4())
     
     if thread_id not in active_sessions:
+        from datetime import datetime
+        now = datetime.utcnow().isoformat()
         # Initialize new state
         active_sessions[thread_id] = {
             "current_step": "product-url",
@@ -212,9 +214,15 @@ def get_or_create_thread(thread_id: Optional[str] = None) -> str:
             "video_url": None,
             "video_status": None,
             "error": None,
-            "iteration_count": {}
+            "iteration_count": {},
+            "created_at": now,
+            "updated_at": now
         }
         save_sessions()
+    else:
+        # Update the updated_at timestamp when accessing a thread
+        from datetime import datetime
+        active_sessions[thread_id]["updated_at"] = datetime.utcnow().isoformat()
     
     return thread_id
 
@@ -285,6 +293,30 @@ async def scrape_product(request: ScrapeRequest):
             "error": error_msg
         }
 
+    # If this is a NEW URL (different from the previously scraped URL), clear old product data
+    if state.get("scraped_url") and state.get("scraped_url") != url_to_scrape:
+        print(f"DEBUG: New URL detected. Clearing old product data.")
+        print(f"  Old URL: {state.get('scraped_url')}")
+        print(f"  New URL: {url_to_scrape}")
+        # Clear all old product-related data
+        state["product_data"] = None
+        state["selected_product"] = None
+        state["analysis"] = None
+        state["scripts"] = None
+        state["selected_script"] = None
+        state["selected_script_index"] = None
+        state["generated_images"] = None
+        state["image_generation_prompt"] = None
+        state["audio_file"] = None
+        state["audio_url"] = None
+        state["video_id"] = None
+        state["video_url"] = None
+        # Clear feedback
+        state["analysis_feedback"] = []
+        state["script_feedback"] = []
+        state["script_refinement_feedback"] = []
+        state["image_feedback"] = []
+    
     # Update state
     state["url"] = url_to_scrape
     state["current_step"] = "product-url"
@@ -345,6 +377,7 @@ async def analyze_product(request: AnalyzeRequest):
         "state": result,
         "current_step": result.get("current_step"),
         "analysis": result.get("analysis"),
+        "product_data": result.get("product_data"),
         "error": result.get("error")
     }
 
@@ -624,6 +657,56 @@ async def get_state(thread_id: str):
         "thread_id": thread_id,
         "state": active_sessions[thread_id]
     }
+
+# ==================== THREAD MANAGEMENT ====================
+
+@app.get("/api/threads")
+async def get_threads():
+    """Get all saved threads with metadata"""
+    from datetime import datetime
+    threads = []
+    for thread_id, state in active_sessions.items():
+        # Create thread title from product title or URL
+        title = "New Campaign"
+        if state.get("product_data") and state["product_data"].get("title"):
+            title = state["product_data"]["title"]
+        elif state.get("url"):
+            # Extract domain from URL
+            from urllib.parse import urlparse
+            parsed = urlparse(state.get("url", ""))
+            title = parsed.netloc or "Campaign"
+        
+        # Get timestamps with fallbacks
+        created_at = state.get("created_at")
+        updated_at = state.get("updated_at")
+        
+        # Ensure timestamps are valid ISO format strings
+        # If missing or empty, use current time as fallback
+        if not created_at or created_at == "":
+            created_at = datetime.utcnow().isoformat()
+        if not updated_at or updated_at == "":
+            updated_at = datetime.utcnow().isoformat()
+        
+        threads.append({
+            "id": thread_id,
+            "title": title,
+            "created_at": created_at,
+            "updated_at": updated_at
+        })
+    
+    # Sort by updated_at descending (most recent first)
+    threads.sort(key=lambda t: t.get("updated_at", ""), reverse=True)
+    return {"threads": threads}
+
+@app.delete("/api/threads/{thread_id}")
+async def delete_thread(thread_id: str):
+    """Delete a thread"""
+    if thread_id not in active_sessions:
+        raise HTTPException(status_code=404, detail="Thread not found")
+    
+    del active_sessions[thread_id]
+    save_sessions()
+    return {"status": "deleted", "thread_id": thread_id}
 
 @app.get("/api/workflow/video_status/{video_id}")
 async def get_video_status(video_id: str):
@@ -941,6 +1024,61 @@ Ready to select your ad account?"""
             }
             
             return response_data
+    
+    # Handle "continue", "next", "proceed" intents - just navigate forward
+    if navigation_intent in ["continue", "next", "proceed", "yes"]:
+        # Map current step to next step
+        step_mapping = {
+            "product-analysis": "script-selection",
+            "script-selection": "avatar-selection",
+            "avatar-selection": "creative-generation:images",
+            "creative-generation:images": "creative-generation:audio",
+            "creative-generation:audio": "creative-generation:video",
+            "creative-generation:video": "creative-review",
+            "creative-review": "facebook-auth",
+            "facebook-auth": "ad-account-selection",
+            "ad-account-selection": "campaign-creation"
+        }
+        
+        new_step = step_mapping.get(current_step, current_step)
+        state["current_step"] = new_step
+        state["navigation_intent"] = navigation_intent
+        
+        # Update session
+        workflow.update_state(config, state)
+        active_sessions[thread_id] = state
+        save_sessions()
+        
+        # Generate appropriate response based on new step
+        step_messages = {
+            "script-selection": "Great! Let me generate some ad scripts for your product...",
+            "avatar-selection": "Perfect! Now let's choose an AI presenter for your video.",
+            "creative-generation:images": "Excellent! I'll start generating images for your ad.",
+            "creative-generation:audio": "Now generating audio for your video...",
+            "creative-generation:video": "Creating your video creative...",
+            "creative-review": "Your creatives are ready! Let's review them.",
+            "facebook-auth": "Time to connect your Facebook account.",
+            "ad-account-selection": "Please select your Facebook ad account.",
+            "campaign-creation": "Let's configure your campaign settings."
+        }
+        
+        response_message = step_messages.get(new_step, f"Navigating to {new_step}...")
+        
+        response_data = {
+            "thread_id": thread_id,
+            "state": state,
+            "message": response_message,
+            "current_step": new_step,
+            "is_support_response": False,
+            "navigation_intent": navigation_intent,
+            "error": None
+        }
+        
+        print(f"\n{'='*60}")
+        print(f"➡️ CONTINUE NAVIGATION: {current_step} → {new_step}")
+        print(f"{'='*60}\n")
+        
+        return response_data
     
     # STEP 4: Fallback - Execute workflow for logic-based navigation (e.g. Scrape, Analyze)
     

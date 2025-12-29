@@ -2,7 +2,7 @@ import { CampaignStep } from '@/types/campaign';
 import { cn } from '@/lib/utils';
 import { Check, Link, Sparkles, Settings, Rocket } from 'lucide-react';
 
-// Grouped step configuration - 4 main steps instead of 8
+// Grouped step configuration - 5 main steps for better clarity
 const STEP_GROUPS: {
   id: string;
   label: string;
@@ -16,16 +16,22 @@ const STEP_GROUPS: {
       steps: ['welcome', 'product-url', 'product-analysis']
     },
     {
-      id: 'content',
-      label: 'Content',
+      id: 'scripts',
+      label: 'Scripts',
       icon: Sparkles,
-      steps: ['script-selection', 'avatar-selection', 'creative-generation', 'creative-generation:images', 'creative-generation:audio', 'creative-generation:video', 'creative-review']
+      steps: ['script-selection', 'script-generation', 'script-refinement']
     },
     {
-      id: 'campaign',
+      id: 'avatars',
+      label: 'Avatars',
+      icon: Sparkles,
+      steps: ['avatar-selection']
+    },
+    {
+      id: 'content',
       label: 'Campaign',
       icon: Settings,
-      steps: ['campaign-setup', 'facebook-integration', 'ad-account-selection']
+      steps: ['creative-generation', 'creative-generation:images', 'creative-generation:audio', 'creative-generation:video', 'creative-review', 'campaign-setup', 'facebook-integration', 'ad-account-selection']
     },
     {
       id: 'review',

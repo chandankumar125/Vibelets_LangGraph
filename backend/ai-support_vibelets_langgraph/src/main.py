@@ -298,33 +298,33 @@ async def ask_question(question_request: QuestionRequest, request: Request):
         )
         
         # Schedule background hallucination check
-        if rag_result.get("run_id") and rag_result.get("context"):
-            async def check_hallucination_background():
-                try:
-                    from langsmith import Client as LangSmithClient
-                    check_result = rag_service.check_hallucination(
-                        question=rag_result["question"],
-                        context=rag_result["context"],
-                        answer=rag_result["answer"]
-                    )
+        # if rag_result.get("run_id") and rag_result.get("context"):
+        #     async def check_hallucination_background():
+        #         try:
+        #             from langsmith import Client as LangSmithClient
+        #             check_result = rag_service.check_hallucination(
+        #                 question=rag_result["question"],
+        #                 context=rag_result["context"],
+        #                 answer=rag_result["answer"]
+        #             )
                     
-                    # Submit hallucination score to LangSmith
-                    try:
-                        client = LangSmithClient()
-                        client.create_feedback(
-                            run_id=rag_result["run_id"],
-                            key="hallucination_check",
-                            score=check_result["score"],
-                            comment=f"Evaluation: {check_result['evaluation_result']}"
-                        )
-                    except Exception as e:
-                        logger.warning(f"Failed to submit hallucination feedback to LangSmith: {e}")
-                except Exception as e:
-                    logger.error(f"Background hallucination check failed: {e}")
+        #             # Submit hallucination score to LangSmith
+        #             try:
+        #                 client = LangSmithClient()
+        #                 client.create_feedback(
+        #                     run_id=rag_result["run_id"],
+        #                     key="hallucination_check",
+        #                     score=check_result["score"],
+        #                     comment=f"Evaluation: {check_result['evaluation_result']}"
+        #                 )
+        #             except Exception as e:
+        #                 logger.warning(f"Failed to submit hallucination feedback to LangSmith: {e}")
+        #         except Exception as e:
+        #             logger.error(f"Background hallucination check failed: {e}")
             
-            # Run in background
-            import asyncio
-            asyncio.create_task(check_hallucination_background())
+        #     # Run in background
+        #     import asyncio
+        #     asyncio.create_task(check_hallucination_background())
 
         return QuestionResponse(
             statusCode=200,
@@ -359,23 +359,23 @@ async def submit_feedback(feedback: FeedbackRequest):
         success = await update_message_feedback(feedback.dialog_id, feedback.is_satisfied)
         
         # Submit feedback to LangSmith if run_id is provided
-        if feedback.run_id:
-            try:
-                from langsmith import Client as LangSmithClient
-                client = LangSmithClient()
+        # if feedback.run_id:
+        #     try:
+        #         from langsmith import Client as LangSmithClient
+        #         client = LangSmithClient()
                 
-                # Convert boolean to score (1.0 for satisfied, 0.0 for dissatisfied)
-                score = 1.0 if feedback.is_satisfied else 0.0
+        #         # Convert boolean to score (1.0 for satisfied, 0.0 for dissatisfied)
+        #         score = 1.0 if feedback.is_satisfied else 0.0
                 
-                client.create_feedback(
-                    run_id=feedback.run_id,
-                    key="user_satisfaction",
-                    score=score,
-                    comment="User feedback: " + ("Helpful" if feedback.is_satisfied else "Not Helpful")
-                )
-                logger.info(f"Submitted user feedback to LangSmith: run_id={feedback.run_id}, score={score}")
-            except Exception as e:
-                logger.warning(f"Failed to submit feedback to LangSmith: {e}")
+        #         client.create_feedback(
+        #             run_id=feedback.run_id,
+        #             key="user_satisfaction",
+        #             score=score,
+        #             comment="User feedback: " + ("Helpful" if feedback.is_satisfied else "Not Helpful")
+        #         )
+        #         logger.info(f"Submitted user feedback to LangSmith: run_id={feedback.run_id}, score={score}")
+        #     except Exception as e:
+        #         logger.warning(f"Failed to submit feedback to LangSmith: {e}")
         
         if success:
             return {"status": True, "message": "Feedback recorded"}
@@ -481,13 +481,13 @@ async def ask_question_stream(question_request: QuestionRequest, request: Reques
             
             # Try to capture run_id from LangSmith
             run_id = None
-            try:
-                from langsmith.run_helpers import get_current_run_tree
-                current_run = get_current_run_tree()
-                if current_run:
-                    run_id = str(current_run.id)
-            except Exception as e:
-                logger.warning(f"[ASK-STREAM] Failed to get run_id: {e}")
+            # try:
+            #     from langsmith.run_helpers import get_current_run_tree
+            #     current_run = get_current_run_tree()
+            #     if current_run:
+            #         run_id = str(current_run.id)
+            # except Exception as e:
+            #     logger.warning(f"[ASK-STREAM] Failed to get run_id: {e}")
 
             # ------------------------------
             # SAVE dialog to MongoDB (if enabled)

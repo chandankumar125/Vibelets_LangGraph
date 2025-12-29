@@ -108,6 +108,20 @@ export const avatarOptions: AvatarOption[] = [
     image: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400',
     videoPreview: 'https://www.w3schools.com/html/mov_bbb.mp4',
     style: 'Dynamic & Bold'
+  },
+  {
+    id: 'avatar-9',
+    name: 'Mia',
+    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400',
+    videoPreview: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    style: 'Natural & Friendly'
+  },
+  {
+    id: 'avatar-10',
+    name: 'Leo',
+    image: 'https://images.unsplash.com/photo-1552058544-f2b08422138a?w=400',
+    videoPreview: 'https://www.w3schools.com/html/mov_bbb.mp4',
+    style: 'Confident & Direct'
   }
 ];
 

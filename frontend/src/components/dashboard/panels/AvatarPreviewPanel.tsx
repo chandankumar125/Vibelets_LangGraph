@@ -94,7 +94,6 @@ export const AvatarPreviewPanel = ({ avatars, selectedAvatar, onSelect }: Avatar
                     {avatar.style}
                   </p>
                 </div>
-
                 {/* Play button overlay */}
                 {avatar.videoPreview && (
                   <button

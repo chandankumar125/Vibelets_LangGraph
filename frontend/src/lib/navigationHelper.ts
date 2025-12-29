@@ -58,6 +58,32 @@ export function getAlternativeNavigationOptions(currentStep: CampaignStep): Ques
 
     // Context-specific options based on current step
     switch (currentStep) {
+        case 'facebook-integration':
+            options.push({
+                id: 'nav-connect-facebook',
+                label: '🔗 Connect Facebook',
+                description: 'Authenticate with Facebook'
+            });
+            options.push({
+                id: 'nav-use-existing',
+                label: '✅ Use Existing',
+                description: 'Use saved connection'
+            });
+            break;
+
+        case 'ad-account-selection':
+            options.push({
+                id: 'nav-select-account',
+                label: '📊 Select Account',
+                description: 'Choose ad account'
+            });
+            options.push({
+                id: 'nav-reconnect-facebook',
+                label: '🔄 Reconnect Facebook',
+                description: 'Use different account'
+            });
+            break;
+
         case 'creative-review':
         case 'creative-generation':
         case 'creative-generation:images':
@@ -146,6 +172,6 @@ export function getAlternativeNavigationOptions(currentStep: CampaignStep): Ques
  * (skip confirmation for 'next', 'stay', and 'complete')
  */
 export function shouldConfirmIntent(intent: string): boolean {
-    const skipConfirmation = ['next', 'stay', 'complete'];
+    const skipConfirmation = ['next', 'stay', 'complete', 'scrape', 'product-url', 'change_url', 'new_url', 'start_over'];
     return !skipConfirmation.includes(intent);
 }

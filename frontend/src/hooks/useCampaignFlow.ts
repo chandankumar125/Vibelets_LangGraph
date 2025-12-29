@@ -11,8 +11,10 @@ import { getIntentDescription, getAlternativeNavigationOptions, shouldConfirmInt
 
 // Helper to format insight values that might be arrays or strings
 const formatInsightValue = (value: any): string => {
-  if (Array.isArray(value)) {
-    return value.join(', ');
+  if (typeof value === 'string') return value;
+  if (Array.isArray(value)) return value.join(', ');
+  if (typeof value === 'object' && value !== null) {
+    return Object.entries(value).map(([k, v]) => `${k}: ${v}`).join(', ');
   }
   return String(value);
 };
@@ -22,6 +24,8 @@ const STEP_ORDER: CampaignStep[] = [
   'product-url',
   'product-analysis',
   'script-selection',
+  'script-generation',
+  'script-refinement',
   'avatar-selection',
   'creative-generation',
   'creative-generation:images',
@@ -92,37 +96,50 @@ const getAutoQuickActions = (message: string, currentStep: CampaignStep): Inline
     };
   }
 
-  // 2. SCRIPT GENERATION/SELECTION COMPLETION
+  // 2. SCRIPT SELECTION
+  if (msg.includes('select a style') || msg.includes('choose a script') || msg.includes('which script') || msg.includes('ad scripts')) {
+    return {
+      id: 'script-selection',
+      question: 'Which script style would you like?',
+      options: [
+        { id: 'script-0', label: 'Option 1', icon: 'file-text' },
+        { id: 'script-1', label: 'Option 2', icon: 'file-text' },
+        { id: 'script-2', label: 'Option 3', icon: 'file-text' },
+        { id: 'back', label: '🔙 Go Back', icon: 'arrow-left' }
+      ]
+    };
+  }
+
+  // 3. SCRIPT REVIEW / ACTION
   if (msg.includes('successfully selected') || msg.includes('scripts for your campaign') ||
     msg.includes('successfully refined') || msg.includes('how does that look') ||
-    msg.includes('like the new version') || msg.includes('script 1') || msg.includes('script 2')) {
+    msg.includes('like the new version')) {
     return {
       id: 'script-review',
       question: 'What would you like to do next?',
       options: [
         { id: 'continue', label: '✅ Generate Images', icon: 'image' },
         { id: 'refine', label: '✍️ Refine Script', icon: 'edit' },
-        { id: 'back', label: '🔙 Choose Different Style', icon: 'arrow-left' }
+        { id: 'back', label: '🔙 Choose Different Style', icon: 'arrow-left' },
+        { id: 'start-over', label: '🏠 Start Over', icon: 'home' }
       ]
     };
   }
 
-  // 3. SCRIPT REFINEMENT SPECIFIC
-  if (msg.includes('what would you like to change') || msg.includes('how can i improve') || msg.includes('feedback for the script')) {
+  // 4. AVATAR SELECTION
+  if (msg.includes('select an ai presenter') || msg.includes('choose an avatar') || msg.includes('select an avatar')) {
     return {
-      id: 'script-refinement',
-      question: 'Choose a refinement style:',
+      id: 'avatar-selection',
+      question: 'Who should present your video?',
       options: [
-        { id: 'funnier', label: '🤣 Make it funnier', icon: 'smile' },
-        { id: 'professional', label: '💼 Make it professional', icon: 'briefcase' },
-        { id: 'shorter', label: '✂️ Make it shorter', icon: 'crop' },
-        { id: 'hooks', label: '🪝 Focus on USPs/Hooks', icon: 'zap' },
-        { id: 'back', label: '🔙 Nevermind, Go Back', icon: 'arrow-left' }
+        { id: 'next', label: '✅ Next', icon: 'arrow-right' },
+        { id: 'back', label: '🔙 Go Back', icon: 'arrow-left' },
+        { id: 'start-over', label: '🏠 Start Over', icon: 'home' }
       ]
     };
   }
 
-  // 4. CREATIVE GENERATION COMPLETION
+  // 5. CREATIVE GENERATION COMPLETION
   if (msg.includes('images generated') || msg.includes('creatives are ready') ||
     msg.includes('video is ready') || msg.includes('how do the new creatives look') ||
     msg.includes('tweaks to the images') || msg.includes('refine the images') ||
@@ -136,41 +153,57 @@ const getAutoQuickActions = (message: string, currentStep: CampaignStep): Inline
         { id: 'approve', label: '✅ Looks Great!', icon: 'check' },
         { id: 'refine', label: '🎨 Refine Visuals', icon: 'palette' },
         { id: 'regenerate', label: '🔄 Regenerate Video', icon: 'refresh-cw' },
-        { id: 'back', label: '🔙 Go Back to Scripts', icon: 'arrow-left' }
+        { id: 'back', label: '🔙 Go Back to Scripts', icon: 'arrow-left' },
+        { id: 'start-over', label: '🏠 Start Over', icon: 'home' }
       ]
     };
   }
 
-  // 5. CREATIVE REFINEMENT SPECIFIC
-  if (msg.includes('look more modern') || msg.includes('visual style') || msg.includes('tweak the images')) {
+  // 6. FACEBOOK INTEGRATION
+  if (msg.includes('connect your facebook') || msg.includes('facebook account') ||
+    msg.includes('facebook login') || msg.includes('authenticate') ||
+    currentStep === 'facebook-integration') {
     return {
-      id: 'creative-refinement',
-      question: 'Pick a refinement direction:',
+      id: `facebook-connect-${Date.now()}`,
+      question: 'Ready to connect Facebook?',
       options: [
-        { id: 'modern', label: '✨ More Modern', icon: 'sparkles' },
-        { id: 'vibrant', label: '🌈 More Vibrant', icon: 'palette' },
-        { id: 'minimal', label: '⚪ Minimalist', icon: 'minus' },
+        { id: 'connect', label: '🔗 Connect Facebook', icon: 'link' },
+        { id: 'use-existing', label: '✅ Use Existing Connection', icon: 'check' },
+        { id: 'skip', label: '⏭️ Skip for Now', icon: 'skip-forward' },
         { id: 'back', label: '🔙 Go Back', icon: 'arrow-left' }
       ]
     };
   }
 
-  // 6. CAMPAIGN SETUP / FB CONNECT
-  if (msg.includes('configure') || msg.includes('facebook') || msg.includes('ad account')) {
-    if (!msg.includes('successfully connected')) {
-      return {
-        id: 'generic-confirmation',
-        question: 'What would you like to do?',
-        options: [
-          { id: 'next', label: '✅ Continue', icon: 'arrow-right' },
-          { id: 'back', label: '🔙 Go Back', icon: 'arrow-left' }
-        ]
-      };
-    }
+  // 7. AD ACCOUNT SELECTION
+  if (msg.includes('select your ad account') || msg.includes('choose an ad account') ||
+    msg.includes('ad account') || currentStep === 'ad-account-selection') {
+    return {
+      id: 'ad-account-selection',
+      question: 'Which ad account?',
+      options: [
+        { id: 'select-account', label: '📊 Select Account', icon: 'briefcase' },
+        { id: 'back', label: '🔙 Go Back', icon: 'arrow-left' }
+      ]
+    };
   }
 
-  // 7. GENERIC QUESTION FALLBACK
-  if (message.includes('?') || msg.includes('ready') || msg.includes('proceed') || msg.includes('next')) {
+  // 8. CAMPAIGN PREVIEW / PUBLISH
+  if (msg.includes('campaign preview') || msg.includes('ready to publish') ||
+    msg.includes('review your campaign') || currentStep === 'campaign-preview') {
+    return {
+      id: 'campaign-publish',
+      question: 'Ready to launch?',
+      options: [
+        { id: 'publish', label: '🚀 Publish Campaign', icon: 'send' },
+        { id: 'edit', label: '✏️ Edit Campaign', icon: 'edit' },
+        { id: 'back', label: '🔙 Go Back', icon: 'arrow-left' }
+      ]
+    };
+  }
+
+  // 9. GENERIC QUESTION FALLBACK
+  if (message.includes('?') || msg.includes('ready') || msg.includes('proceed') || msg.includes('next') || msg.includes('what would you like')) {
     return {
       id: 'generic-confirmation',
       question: 'Choose your next step:',
@@ -192,7 +225,9 @@ export const useCampaignFlow = () => {
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, string>>({});
   const [generatedScripts, setGeneratedScripts] = useState<ScriptOption[]>([]);
   const [generatedAvatars, setGeneratedAvatars] = useState<AvatarOption[]>([]);
+  const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [fetchedAdAccounts, setFetchedAdAccounts] = useState<AdAccount[]>([]);
+  const [threadId, setThreadId] = useState<string | null>(localStorage.getItem('vibelets_thread_id'));
 
   // Find the active question that can receive natural language input
   // Find the active question that can receive natural language input
@@ -220,20 +255,13 @@ export const useCampaignFlow = () => {
       const msg = messages[i];
       // Only proceed if message has inlineQuestion AND it matches current step context
       if (msg.inlineQuestion && allowedIds.includes(msg.inlineQuestion.id)) {
-        // ADDITIONAL CHECK: Only allow questions if their step matches current state OR they are universal
-        // AND the message is relatively recent (last 3 messages) to avoid zombie questions
-        const isRecent = (messages.length - 1 - i) <= 2;
-        if (!isRecent && !universalIds.includes(msg.inlineQuestion.id)) {
-          continue;
-        }
-
         if (!selectedAnswers[msg.inlineQuestion.id]) {
           return msg.inlineQuestion;
         }
       }
 
-      // Stop looking if we go too far back
-      if ((messages.length - 1 - i) > 5) break;
+      // OPTIONAL: Break early if we hit a message from a different step to avoid deep history? 
+      // Current filtering by ID is safe enough.
     }
     return null;
   }, [messages, selectedAnswers, state.step]);
@@ -244,6 +272,10 @@ export const useCampaignFlow = () => {
     const newMessage = createMessage(role, content, options);
     setMessages(prev => [...prev, newMessage]);
     return newMessage.id;
+  }, []);
+
+  const removeMessage = useCallback((id: string) => {
+    setMessages(prev => prev.filter(m => m.id !== id));
   }, []);
 
   const simulateTyping = useCallback(async (content: string, options?: { inlineQuestion?: InlineQuestion; stepId?: CampaignStep; showCampaignSlider?: boolean; showFacebookConnect?: boolean }, delay = 1500) => {
@@ -261,6 +293,7 @@ export const useCampaignFlow = () => {
       duration: 5000,
     });
     setState(prev => ({ ...prev, isStepLoading: false, isRegenerating: null }));
+    setIsTyping(false);
     addMessage('assistant', `Sorry, something went wrong while ${context.toLowerCase()}. Please try again or contact support if the issue persists.`);
   }, [addMessage]);
 
@@ -308,20 +341,39 @@ export const useCampaignFlow = () => {
 
       // Update data fields
       // Update data fields
-      if (backendState.product_data) {
-        // Safely merge with existing data to prevent loss of images/price
-        if (prev.productData) {
-          const incomingData = backendState.product_data;
-          const existingData = prev.productData;
 
-          // Check if incoming data has images/content
-          const hasNewImages = incomingData.images && incomingData.images.length > 0;
-          const hasNewContent = incomingData.title && incomingData.title.length > 0;
+      // CRITICAL: Update productUrl from backend to track URL changes
+      if (backendState.url) {
+        newState.productUrl = backendState.url;
+      }
+
+      // CRITICAL FIX: Explicitly handle both presence AND absence of product_data
+      if (backendState.product_data) {
+        const incomingData = backendState.product_data;
+
+        // Extract and process images (handle downloaded_images and relative paths)
+        const rawImages = incomingData.downloaded_images || incomingData.images || [];
+        const processedImages = rawImages.map((img: string) => {
+          if (img.startsWith('http') || img.startsWith('blob')) return img;
+          // Ensure BACKEND_URL is used for local paths
+          // Use relative paths to leverage Vite proxy
+          // const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+          // return `${baseUrl}${img.startsWith('/') ? '' : '/'}${img}`;
+          return img.startsWith('/') ? img : `/${img}`;
+        });
+
+        // Safely merge with existing data to prevent loss of images/price
+        // BUT: If URL changed, don't preserve old images
+        const urlChanged = prev.productUrl && backendState.url && prev.productUrl !== backendState.url;
+
+        if (prev.productData && !urlChanged) {
+          const existingData = prev.productData;
+          const hasNewImages = processedImages.length > 0;
 
           newState.productData = {
             ...incomingData,
-            // Preserve existing images if new ones are missing
-            images: hasNewImages ? incomingData.images : existingData.images,
+            // Preserve existing images if new ones are missing (same URL only)
+            images: hasNewImages ? processedImages : existingData.images,
             // Preserve other fields if missing in incoming
             title: incomingData.title || existingData.title,
             price: (incomingData.price && incomingData.price !== '$0') ? incomingData.price : existingData.price,
@@ -330,9 +382,16 @@ export const useCampaignFlow = () => {
             category: incomingData.category || existingData.category,
             // Ensure screenshot is persisted
             pageScreenshot: incomingData.pageScreenshot || existingData.pageScreenshot,
+            // Preserve variants
+            variants: incomingData.variants || existingData.variants || [],
           };
         } else {
-          newState.productData = backendState.product_data;
+          // Different URL or no previous data - don't preserve old images
+          newState.productData = {
+            ...incomingData,
+            images: processedImages,
+            downloaded_images: processedImages
+          };
         }
 
         // Map analysis to insights if available to display in ProductAnalysisPanel
@@ -359,6 +418,11 @@ export const useCampaignFlow = () => {
             insights: insights
           };
         }
+      } else if (backendState.hasOwnProperty('product_data') && backendState.product_data === null) {
+        // CRITICAL: Backend explicitly cleared product_data (sent null)
+        // This happens when a new URL is provided and backend clears old state
+        console.log('🧹 Backend cleared product_data - syncing frontend state');
+        newState.productData = null;
       }
       if (backendState.selected_script) newState.selectedScript = backendState.selected_script;
 
@@ -378,6 +442,25 @@ export const useCampaignFlow = () => {
           // Clean body but KEEP full content
           const cleanBody = scriptText.replace(/\[Style:\s*.*?\]/i, '').trim();
 
+          // Parse script into components
+          const lines = cleanBody.split('\n').filter(line => line.trim().length > 0);
+
+          // Hook: First 1-2 sentences (opening)
+          const hookLines = lines.slice(0, Math.min(2, lines.length));
+          const hook = hookLines.join(' ').trim();
+
+          // CTA: Last sentence (if it contains action words like "Shop", "Buy", "Get", "Order", "Visit")
+          const lastLine = lines[lines.length - 1] || '';
+          const ctaKeywords = ['shop', 'buy', 'get', 'order', 'visit', 'click', 'discover', 'explore', 'try'];
+          const hasCTA = ctaKeywords.some(keyword => lastLine.toLowerCase().includes(keyword));
+          const cta = hasCTA ? lastLine.trim() : 'Shop Now';
+
+          // Body: Everything between hook and CTA
+          const bodyStartIndex = hookLines.length;
+          const bodyEndIndex = hasCTA ? lines.length - 1 : lines.length;
+          const bodyLines = lines.slice(bodyStartIndex, bodyEndIndex);
+          const body = bodyLines.length > 0 ? bodyLines.join('\n').trim() : cleanBody;
+
           // Use full contents for description to avoid truncation
           const desc = cleanBody;
 
@@ -387,30 +470,38 @@ export const useCampaignFlow = () => {
             description: desc,
             duration: parsedDuration,
             style: parsedStyle,
-            body: cleanBody, // Full body
-            hook: cleanBody.split('\n').find(line => line.trim().length > 0) || '',
-            cta: 'Shop Now',
-            tone: 'Professional'
+            body: body, // Main content (middle section)
+            hook: hook, // Opening (first 1-2 sentences)
+            cta: cta, // Call to action (last sentence or default)
+            tone: 'Professional',
+            content: cleanBody // Full script for editing
           };
         });
         setGeneratedScripts(formattedScripts);
       }
 
       if (backendState.generated_images || backendState.video_url) {
-        newState.generatedImages = backendState.generated_images || [];
+        setGeneratedImages(backendState.generated_images || []);
 
         // Convert to CreativeOptions for UI
         const backendImages = backendState.generated_images || [];
         const imageCreatives: CreativeOption[] = backendImages.map((imgUrl: string, index: number) => ({
           id: `gen-img-${index}`,
           type: 'image',
-          thumbnail: imgUrl.startsWith('http') ? imgUrl : `http://localhost:8000${imgUrl}`,
+          thumbnail: imgUrl.startsWith('http') ? imgUrl : `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}${imgUrl}`,
           name: `Generated Image ${index + 1}`,
           format: 'feed',
           aspectRatio: '1:1'
         }));
 
         const creatives: CreativeOption[] = [...imageCreatives];
+
+        // ISSUE 5 — video_aspect_ratio usage without guarantee
+        const aspectRatio =
+          backendState.video_aspect_ratio ||
+          backendState.state?.video_aspect_ratio ||
+          '9:16';
+        newState.video_aspect_ratio = aspectRatio;
 
         // Add video if present OR if we have a video_id (meaning it's pending)
         if (backendState.video_url || backendState.video_id) {
@@ -422,7 +513,7 @@ export const useCampaignFlow = () => {
             thumbnail: backendState.video_url ? (imageCreatives[0]?.thumbnail || '') : '',
             videoUrl: backendState.video_url,
             format: 'feed',
-            aspectRatio: backendState.video_aspect_ratio || '9:16'
+            aspectRatio: aspectRatio
           });
         }
 
@@ -433,15 +524,14 @@ export const useCampaignFlow = () => {
 
       // Handle available avatars
       if (backendState.available_avatars && Array.isArray(backendState.available_avatars)) {
-        console.log('🎭 Syncing avatars from backend:', backendState.available_avatars.length);
         const mappedAvatars: AvatarOption[] = backendState.available_avatars.map((a: any) => ({
           id: a.avatar_id || a.id,
           name: a.avatar_name || a.name || 'AI Presenter',
           image: a.preview_image_url || a.thumbnail || '',
-          gender: a.gender || 'Unknown',
-          style: a.style || 'Professional',
-          previewVideoUrl: a.preview_video_url || ''
+          videoPreview: a.preview_video_url || undefined,
+          style: a.gender || a.style || 'Professional'
         }));
+
         // Limit to 10 avatars to prevent UI clutter in both panels
         setGeneratedAvatars(mappedAvatars.slice(0, 10));
       }
@@ -455,84 +545,86 @@ export const useCampaignFlow = () => {
     });
   }, []);
 
-  // Restore session on mount
-  useEffect(() => {
-    const restoreSession = async () => {
-      try {
-        console.log('🔄 Attempting to restore session...');
-        const result = await vibeletsAPI.getCurrentState();
+  // Restore session
+  const restoreSession = useCallback(async () => {
+    try {
+      console.log('🔄 Attempting to restore session...');
+      const result = await vibeletsAPI.getCurrentState();
 
-        if (result && result.state) {
-          console.log('✅ Session restored:', result.state);
-          // Sync data (Insights, Scripts, etc.)
-          syncStateFromBackend(result.state);
+      if (result && result.state) {
+        console.log('✅ Session restored:', result.state);
+        console.log('Product data:', result.state.product_data);
+        console.log('Messages count:', result.state.messages?.length || 0);
 
-          // Reconstruct UI state based on restored step
-          // We need to ensure the user has the relevant prompt/chips for the current step
-          const currentStep = result.state.current_step;
+        // FIRST: Sync all backend state (this includes productData with variants)
+        syncStateFromBackend(result.state);
 
-          let restoreMessage = result.state.agent_message || null;
-          let restoreOptions: any = { stepId: currentStep };
-
-          if (currentStep === 'script-selection') {
-            if (!restoreMessage) restoreMessage = "I've restored your generated scripts. Select one from the right panel to proceed.";
-            restoreOptions = {
-              inlineQuestion: {
-                id: 'script-selection',
-                text: 'Which script would you like to use?',
-                type: 'single-select',
-                options: [
-                  { id: 'script-1', label: 'Script 1', value: '0' },
-                  { id: 'script-2', label: 'Script 2', value: '1' },
-                  { id: 'script-3', label: 'Script 3', value: '2' }
-                ]
-              },
-              stepId: 'script-selection'
+        // SECOND: Restore messages after state is synced
+        if (result.state.messages && Array.isArray(result.state.messages) && result.state.messages.length > 0) {
+          // Restore full message history
+          const restoredMessages = result.state.messages.map((m: any) => {
+            const msg: Message = {
+              id: m.id || crypto.randomUUID(),
+              role: m.role || 'user',
+              content: m.content || '',
+              timestamp: m.timestamp ? new Date(m.timestamp) : new Date(),
             };
-          } else if (currentStep === 'product-analysis') {
-            if (!restoreMessage) restoreMessage = "Here is your product analysis. Ready to generate scripts?";
-            restoreOptions = {
-              inlineQuestion: {
-                id: 'product-continue',
-                text: 'Would you like to generate ad scripts based on this analysis?',
-                type: 'confirm',
-                options: [
-                  { id: 'generate-scripts', label: 'Generate Scripts', value: 'yes' }
-                ]
-              },
-              stepId: 'product-analysis'
-            };
-          } else if (currentStep.startsWith('creative-generation')) {
-            if (!restoreMessage) restoreMessage = "I've restored your generated creatives. Let me know if you'd like to make any changes.";
-            restoreOptions = { stepId: currentStep };
-          }
-          // Add other steps as needed...
 
-          if (restoreMessage) {
-            // Add restoration message to chat
-            // We use specific delay to ensure it appears after welcome
-            setTimeout(() => {
-              setMessages(prev => {
-                // Prevent duplicate restore messages
-                const isDuplicate = prev.some(m => m.content === restoreMessage);
-                if (isDuplicate) return prev;
+            // Restore optional properties if present
+            if (m.inlineQuestion) msg.inlineQuestion = m.inlineQuestion;
+            if (m.stepId) msg.stepId = m.stepId;
+            if (m.showCampaignSlider) msg.showCampaignSlider = m.showCampaignSlider;
+            if (m.showFacebookConnect) msg.showFacebookConnect = m.showFacebookConnect;
 
-                return [...prev, createMessage('assistant', restoreMessage, restoreOptions)];
-              });
-            }, 500);
-          }
+            return msg;
+          });
+
+          console.log('Restored messages:', restoredMessages.length);
+          setMessages(restoredMessages);
+        } else {
+          // If new thread or empty, reset to welcome
+          console.log('No messages found, using welcome message');
+          setMessages([INITIAL_WELCOME_MESSAGE]);
         }
-      } catch (err) {
-        console.warn("Failed to restore session:", err);
+      } else {
+        // Should not happen if thread exists, but fallback
+        console.warn('No state returned from backend');
+        setMessages([INITIAL_WELCOME_MESSAGE]);
+        setState(initialState);
       }
-    };
-
-    // Check if we have a thread first
-    if (localStorage.getItem('vibelets_thread_id')) {
-      restoreSession();
+    } catch (err) {
+      console.warn("Failed to restore session:", err);
+      // Fallback
+      setMessages([INITIAL_WELCOME_MESSAGE]);
+      setState(initialState);
     }
   }, [syncStateFromBackend]);
 
+  // Load a specific thread
+  const loadThread = useCallback(async (threadId: string) => {
+    vibeletsAPI.setThreadId(threadId);
+    setThreadId(threadId); // Update local state to trigger UI update
+    await restoreSession(); // This will fetch state for new thread ID
+  }, [restoreSession]);
+
+  // Start a new thread
+  const startNewThread = useCallback(() => {
+    vibeletsAPI.createNewThread();
+    setThreadId(null); // Clear local state
+    setState(initialState);
+    setMessages([INITIAL_WELCOME_MESSAGE]);
+    setSelectedAnswers({}); // Reset selected answers for new thread
+    // Optionally trigger a backend ping to create the thread ID early?
+    // No, we can wait for first action like scrape.
+  }, []);
+
+  // Restore session on mount ONLY if thread ID exists
+  useEffect(() => {
+    // If we have a stored thread ID, try to load it
+    if (localStorage.getItem('vibelets_thread_id')) {
+      restoreSession();
+    }
+  }, []); // Only on mount
 
   const handleUserMessage = useCallback(async (content: string) => {
     const sanitizedContent = content.trim();
@@ -546,29 +638,60 @@ export const useCampaignFlow = () => {
 
     if (isUrl && (state.step === 'welcome' || state.step === 'product-url')) {
       addMessage('user', sanitizedContent);
-      // Clear old product data when analyzing new URL
+      // COMPLETELY CLEAR OLD PRODUCT CONTEXT when new URL is provided
       setState(prev => ({
         ...prev,
         productUrl: potentialUrl,
-        productData: null,  // Clear old data
+        // Clear ALL old product-related data
+        productData: null,
+        analysis: null,
+        scripts: null,
+        selectedScript: null,
+        selectedScriptIndex: null,
+        generatedImages: null,
+        audioFile: null,
+        audioUrl: null,
+        videoId: null,
+        videoUrl: null,
+        // Clear feedback
+        analysisFeedback: [],
+        scriptFeedback: [],
+        scriptRefinementFeedback: [],
+        imageFeedback: [],
+        // Reset step
         step: 'product-analysis',
         isStepLoading: true
       }));
 
       await simulateTyping("Perfect! Analyzing your product page now... 🔍", { stepId: 'product-analysis' }, 1000);
 
+      setIsTyping(true);
       try {
         // CALL BACKEND - Scrape product
         const scrapeResult = await vibeletsAPI.scrapeProduct(potentialUrl);
 
         if (scrapeResult.error) {
+          setIsTyping(false);
           throw new Error(scrapeResult.error);
         }
 
         const scrapedProduct = scrapeResult.product_data;
 
+        // CRITICAL FIX: If backend returns null product_data, it means scraping failed
+        // We should NOT create fake fallback data - instead, clear state and show error
+        if (!scrapedProduct) {
+          setIsTyping(false);
+          setState(prev => ({
+            ...prev,
+            productData: null,
+            isStepLoading: false
+          }));
+          throw new Error('Failed to scrape product data. Please check the URL and try again.');
+        }
+
         // CALL BACKEND - Analyze product
         const analysisResult = await vibeletsAPI.analyzeProduct();
+        setIsTyping(false);
 
         if (analysisResult.error) {
           throw new Error(analysisResult.error);
@@ -576,24 +699,11 @@ export const useCampaignFlow = () => {
 
         const productAnalysis = analysisResult.analysis;
 
-        // Helper function to format insight values
-        const formatInsightValue = (value: any): string => {
-          if (typeof value === 'string') {
-            return value;
-          } else if (Array.isArray(value)) {
-            return value.join(', ');
-          } else if (typeof value === 'object' && value !== null) {
-            return Object.entries(value)
-              .map(([k, v]) => `${k}: ${v}`)
-              .join(', ');
-          }
-          return String(value);
-        };
-
         // Generate insights from analysis
         const insights: ProductInsight[] = [];
 
         if (productAnalysis) {
+          // Category
           if (productAnalysis.category) {
             insights.push({
               label: 'Product Category',
@@ -601,10 +711,14 @@ export const useCampaignFlow = () => {
               icon: 'tag'
             });
           }
+
+          // Key Features
           if (productAnalysis.features) {
             const featuresValue = Array.isArray(productAnalysis.features) ? productAnalysis.features.join(', ') : formatInsightValue(productAnalysis.features);
             insights.push({ label: 'Key Features', value: featuresValue, icon: 'list' });
           }
+
+          // Target Audience
           if (productAnalysis.target_audience) {
             insights.push({
               label: 'Target Audience',
@@ -612,20 +726,33 @@ export const useCampaignFlow = () => {
               icon: 'users'
             });
           }
+
+          // Key USPs
           if (productAnalysis.usps) {
             const uspsValue = Array.isArray(productAnalysis.usps) ? productAnalysis.usps.join(', ') : formatInsightValue(productAnalysis.usps);
             insights.push({ label: 'Key USPs', value: uspsValue, icon: 'star' });
           }
+
+          // Pain Points
           if (productAnalysis.pain_points) {
             const painValue = Array.isArray(productAnalysis.pain_points) ? productAnalysis.pain_points.join(', ') : formatInsightValue(productAnalysis.pain_points);
-            insights.push({ label: 'Pain Points', value: painValue, icon: 'alert-circle' });
+            insights.push({ label: 'Pain Points Solved', value: painValue, icon: 'alert-circle' });
           }
+
+          // Marketing Angles
           if (productAnalysis.marketing_angles) {
             const anglesValue = Array.isArray(productAnalysis.marketing_angles) ? productAnalysis.marketing_angles.join(', ') : formatInsightValue(productAnalysis.marketing_angles);
             insights.push({ label: 'Marketing Angles', value: anglesValue, icon: 'trending-up' });
           }
+
+          // Positioning
           if (productAnalysis.positioning) {
-            insights.push({ label: 'Positioning', value: formatInsightValue(productAnalysis.positioning), icon: 'target' });
+            insights.push({ label: 'Market Positioning', value: formatInsightValue(productAnalysis.positioning), icon: 'target' });
+          }
+
+          // CTA if available
+          if (productAnalysis.call_to_action || productAnalysis.cta) {
+            insights.push({ label: 'Recommended CTA', value: productAnalysis.call_to_action || productAnalysis.cta, icon: 'dollar-sign' });
           }
         }
 
@@ -640,21 +767,58 @@ export const useCampaignFlow = () => {
           title: scrapedProduct?.title || 'Product',
           price: scrapedProduct?.price || '$0',
           description: scrapedProduct?.description || '',
-          images: productImages,
           sku: scrapedProduct?.sku || '',
           category: productAnalysis?.category || scrapedProduct?.category || '',
-          pageScreenshot: productImages[0] || '',
-          insights: insights,
+          images: productImages,
+
+          // image helpers
+          downloaded_images: scrapedProduct?.downloaded_images || [],
+          main_image: productImages[0],
+          pageScreenshot: productImages[0],
+
+          // variants
+          variants: scrapedProduct?.variants || [],
+          variants_count: scrapedProduct?.variants?.length || 0,
+
+          // AI
+          insights,
+
+          // meta
+          confidence: scrapedProduct?.confidence,
+          raw_text: scrapedProduct?.raw_text,
         };
 
+
         setState(prev => ({ ...prev, productData, isStepLoading: false }));
+
+        // Create options with dynamic variants if available
+        const defaultContinueOption = { id: 'continue', label: 'Continue', description: 'Proceed with this product' };
+
+        let variantOptions: QuestionOption[] = [];
+        if (productData.variants && productData.variants.length > 0) {
+          variantOptions = productData.variants.slice(0, 3).map((v, idx) => ({
+            id: `variant-${idx}`,
+            label: `Select ${v.value || v.name}`,
+            description: v.price ? `Price: ${v.price}` : 'Select this variant',
+            icon: 'layers'
+          }));
+
+          // If we have variants, renaming the default continue to be more specific
+          if (variantOptions.length > 0) {
+            defaultContinueOption.label = 'Use Main Product';
+            defaultContinueOption.description = 'Proceed with main item';
+          }
+        }
 
         const continueQuestion: InlineQuestion = {
           id: 'product-continue',
           question: 'Ready to create your ad?',
           options: [
-            { id: 'continue', label: 'Continue', description: 'Proceed to script selection' },
-            { id: 'change', label: 'Change URL', description: 'Use a different product' }
+            defaultContinueOption,
+            ...variantOptions,
+            { id: 'change', label: 'Change URL', description: 'Use a different product' },
+            { id: 'back', label: 'Go Back', description: 'Re-enter URL' },
+            { id: 'start-over', label: 'Start Over', description: 'Reset campaign' }
           ]
         };
 
@@ -675,10 +839,12 @@ export const useCampaignFlow = () => {
     // Optimistically add message so user sees it immediately
     const tempMessageId = addMessage('user', sanitizedContent);
 
+    setIsTyping(true);
     try {
       console.log('📤 Calling backend chat API with message:', sanitizedContent);
       const response = await vibeletsAPI.chat(sanitizedContent);
       console.log('📥 Backend response:', response);
+      setIsTyping(false);
 
       if (response.error) {
         throw new Error(response.error);
@@ -686,6 +852,9 @@ export const useCampaignFlow = () => {
 
       // Sync state if backend provides it (this will handle navigation/step changes)
       if (response.state) {
+        if (response.thread_id && response.thread_id !== threadId) {
+          setThreadId(response.thread_id);
+        }
         syncStateFromBackend(response.state);
       }
 
@@ -697,19 +866,16 @@ export const useCampaignFlow = () => {
             step: 'product-url',
             productUrl: null,
             productData: null,
-            generatedScripts: [],
             isStepLoading: false
           }));
+          setGeneratedScripts([]);
         }
       }
 
       // Check if it's a support response
       if (response.is_support_response) {
-        // Inform user about redirection
-        addMessage('assistant', "Redirecting to Help & Support... 💬");
-
-        // Short delay for user to see the message
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Remove the optimistic user message from main chat since it's strictly support
+        removeMessage(tempMessageId);
 
         // Return proper structure for ChatPanel to handle opening the assistant
         return {
@@ -729,14 +895,13 @@ export const useCampaignFlow = () => {
       console.log('🧭 Navigation intent:', navigationIntent);
 
       // RESET/CHANGE URL LOGIC
-      if (['change_url', 'start_over', 'restart', 'new_url'].includes(navigationIntent)) {
+      if (['change_url', 'start_over', 'restart', 'new_url', 'scrape', 'product-url'].includes(navigationIntent)) {
         console.log('🔄 Resetting flow for new product');
         setState(prev => ({
           ...prev,
           step: 'product-url',
           productUrl: '',
           productData: null,
-          generatedScripts: [],
           selectedAnswers: {}, // Clear selected answers to reset flow
           isStepLoading: false
         }));
@@ -746,9 +911,17 @@ export const useCampaignFlow = () => {
       }
 
       // DIRECT NAVIGATION - No loading, no re-analyzing
-      const directIntents = ['back', 'previous', 'next', 'continue', 'select_media', 'generate_video', 'generate_images', 'select_avatar', 'select_script', 'refine_script', 'refine_images'];
+      const directIntents = [
+        'back', 'previous', 'next', 'continue', 'proceed', 'scrape', 'product-url',
+        'change_url', 'new_url', 'start_over', 'restart',
+        'select_media', 'generate_video', 'generate_images',
+        'select_avatar', 'select_script', 'generate_scripts', 'analyze', 'refine_script', 'refine_images',
+        'view_scripts', 'show_scripts', 'go_to_scripts', 'script-selection', 'scripts', // Enhanced script intents
+        'creative-generation', 'avatar-selection', 'ad-account-selection', 'campaign-preview', // Step names
+        'facebook-auth', 'facebook-integration' // Facebook intents
+      ];
 
-      if (directIntents.includes(navigationIntent)) {
+      if (directIntents.includes(navigationIntent) || navigationIntent.includes('go_to_')) {
 
         // Map backend step to frontend step (keeping existing mapping)
         const stepMapping: Record<string, CampaignStep> = {
@@ -757,6 +930,11 @@ export const useCampaignFlow = () => {
           'generate_scripts': 'script-selection',
           'select_script': 'script-selection',
           'refine_script': 'script-selection',
+          'view_scripts': 'script-selection',
+          'show_scripts': 'script-selection',
+          'go_to_scripts': 'script-selection',
+          'script-selection': 'script-selection',
+          'scripts': 'script-selection',
           'generate_images': 'creative-generation',
           'avatar-selection': 'avatar-selection',
           'facebook-auth': 'facebook-integration',
@@ -765,7 +943,7 @@ export const useCampaignFlow = () => {
           'select_media': 'creative-review'
         };
 
-        const newStep = stepMapping[response.current_step] || response.current_step as CampaignStep;
+        const newStep = stepMapping[response.current_step] || (response.current_step ? response.current_step as CampaignStep : state.step);
 
         // UPDATE STATE: Sync with backend (important for scripts/avatars/video)
         if (response.state) {
@@ -780,7 +958,13 @@ export const useCampaignFlow = () => {
         }
 
         // Show the backend's message with auto quick actions
-        const autoQuestion = getAutoQuickActions(response.message, newStep);
+        let autoQuestion = getAutoQuickActions(response.message, newStep);
+
+        // If keyword detection fails, fallback to step-specific defaults
+        if (!autoQuestion) {
+          autoQuestion = getStepQuestion(newStep);
+        }
+
         await simulateTyping(response.message, {
           inlineQuestion: autoQuestion,
           stepId: newStep
@@ -843,7 +1027,7 @@ export const useCampaignFlow = () => {
     } catch (error) {
       handleError(error, 'Processing your message');
     }
-  }, [state.step, addMessage, handleError, syncStateFromBackend, simulateTyping]);
+  }, [state.step, addMessage, removeMessage, handleError, syncStateFromBackend, simulateTyping]);
 
 
   const goToStep = useCallback(async (targetStep: CampaignStep) => {
@@ -890,38 +1074,42 @@ export const useCampaignFlow = () => {
       // Allow going back purely on frontend for UI speed, but sync with backend
       setState(prev => {
         const newState = { ...prev, step: targetStep };
-        // ... (existing reset logic) ...
-        if (targetIndex <= STEP_ORDER.indexOf('product-analysis')) {
-          newState.productData = null;
+
+        // Reset DOWNSTREAM data based on target step - but be less aggressive when going back
+        // We only clear data if we are definitively jumping back to a point that invalidates everything.
+        if (targetIndex <= STEP_ORDER.indexOf('product-url')) {
+          // If going back to URL input, we naturally expect to start a new product session eventually,
+          // but we might just want to see the URL input again.
+          // Don't clear productData here if it already exists, let 'start-over' or 'change_url' do it.
+          newState.facebookConnected = false;
+          newState.selectedAdAccount = null;
+        } else if (targetIndex <= STEP_ORDER.indexOf('product-analysis')) {
           newState.selectedScript = null;
           newState.selectedAvatar = null;
           newState.creatives = [];
           newState.selectedCreative = null;
           newState.campaignConfig = null;
-          newState.facebookConnected = false;
-          newState.selectedAdAccount = null;
         } else if (targetIndex <= STEP_ORDER.indexOf('script-selection')) {
-          newState.selectedScript = null;
           newState.selectedAvatar = null;
           newState.creatives = [];
           newState.selectedCreative = null;
           newState.campaignConfig = null;
         } else if (targetIndex <= STEP_ORDER.indexOf('avatar-selection')) {
-          newState.selectedAvatar = null;
           newState.creatives = [];
           newState.selectedCreative = null;
           newState.campaignConfig = null;
         } else if (targetIndex <= STEP_ORDER.indexOf('creative-review')) {
-          newState.selectedCreative = null;
-          newState.campaignConfig = null;
-        } else if (targetIndex <= STEP_ORDER.indexOf('campaign-setup')) {
           newState.campaignConfig = null;
         }
         newState.stepHistory = [...prev.stepHistory, targetStep];
         return newState;
       });
 
-      addMessage('assistant', `No problem! Let's go back and make changes. ${getStepPrompt(targetStep)}`, { stepId: targetStep });
+      const targetStepQuestion = getStepQuestion(targetStep);
+      addMessage('assistant', `No problem! Let's go back and make changes. ${getStepPrompt(targetStep)}`, {
+        stepId: targetStep,
+        inlineQuestion: targetStepQuestion
+      });
 
       // Notify backend of navigation (best effort)
       try {
@@ -931,6 +1119,7 @@ export const useCampaignFlow = () => {
           'product-analysis': 'analyze',
           'script-generation': 'generate_scripts',
           'script-selection': 'script-selection',
+          'script-refinement': 'refine_scripts',
           'avatar-selection': 'avatar-selection',
           'creative-generation': 'generate_images', // approx
           'creative-generation:images': 'generate_images',
@@ -953,6 +1142,109 @@ export const useCampaignFlow = () => {
     }
   }, [state.step, addMessage]);
 
+  const getStepQuestion = useCallback((step: CampaignStep): InlineQuestion | undefined => {
+    const currentIndex = STEP_ORDER.indexOf(step);
+    const hasNextHistory = currentIndex < STEP_ORDER.length - 1 && (
+      (step === 'product-url' && state.productData) ||
+      (step === 'product-analysis' && generatedScripts.length > 0) ||
+      (step === 'script-selection' && state.selectedScript) ||
+      (step === 'avatar-selection' && state.selectedAvatar) ||
+      (step === 'creative-review' && state.selectedCreative)
+    );
+
+    const backOption = currentIndex > 1 ? { id: 'back', label: '🔙 Go Back', icon: 'arrow-left' as const } : null;
+    const nextOption = hasNextHistory ? { id: 'next', label: '✅ Next Step', icon: 'arrow-right' as const } : null;
+
+    switch (step) {
+      case 'product-url':
+        return {
+          id: 'product-url-actions',
+          question: state.productData ? `I've analyzed ${state.productData.title}. Want to continue?` : 'Ready to analyze your product?',
+          options: [
+            ...(nextOption ? [nextOption] : []),
+            { id: 'start-over', label: '🏠 Start Over', icon: 'rotate-ccw' }
+          ]
+        };
+      case 'product-analysis':
+        return {
+          id: 'product-continue',
+          question: 'Ready to continue to script generation?',
+          options: [
+            { id: 'continue', label: '✅ Yes, Generate Scripts', icon: 'zap' },
+            ...(nextOption ? [nextOption] : []),
+            { id: 'change', label: '🔗 Change product', icon: 'link' },
+            ...(backOption ? [backOption] : [])
+          ]
+        };
+      case 'script-selection':
+        if (generatedScripts && generatedScripts.length > 0) {
+          return {
+            id: 'script-selection',
+            question: 'Which script style would you like to proceed with?',
+            options: [
+              ...generatedScripts.map((s, i) => ({
+                id: `script-${i}`,
+                label: s.style ? `${s.style} (${s.duration})` : s.name,
+                description: s.name,
+                icon: 'file-text' as const
+              })),
+              ...(nextOption ? [nextOption] : []),
+              ...(backOption ? [backOption] : [])
+            ]
+          };
+        }
+        break;
+      case 'avatar-selection':
+        const avatars = generatedAvatars && generatedAvatars.length > 0 ? generatedAvatars : avatarOptions;
+        return {
+          id: 'avatar-selection',
+          question: 'Select an AI presenter for your video:',
+          options: [
+            ...avatars.slice(0, 10).map(a => ({
+              id: a.id,
+              label: a.name,
+              description: a.style,
+              icon: 'user' as const
+            })),
+            { id: 'approve-avatar', label: '✅ Confirm & Next', icon: 'check' },
+            ...(nextOption ? [nextOption] : []),
+            ...(backOption ? [backOption] : []),
+            { id: 'start-over', label: '🏠 Start Over', icon: 'rotate-ccw' }
+          ],
+          hideOptionsInChat: true
+        };
+      case 'creative-review':
+        if (state.creatives && state.creatives.length > 0) {
+          return {
+            id: 'creative-selection',
+            question: 'Select your preferred creative:',
+            options: [
+              ...state.creatives.map(c => ({
+                id: c.id,
+                label: c.name,
+                description: c.type === 'video' ? 'Video format' : 'Image format'
+              })),
+              { id: 'approve-creative', label: '✅ Approve & Next', icon: 'check' },
+              ...(nextOption ? [nextOption] : []),
+              { id: 'custom-creative', label: '📤 Upload My Own', description: 'Use your own image or video' },
+              ...(backOption ? [backOption] : [])
+            ]
+          };
+        }
+        break;
+      case 'campaign-setup':
+        return {
+          id: 'generic-confirmation',
+          question: 'What would you like to do next?',
+          options: [
+            { id: 'next', label: '✅ Continue', icon: 'arrow-right' },
+            ...(backOption ? [backOption] : [])
+          ]
+        };
+    }
+    return undefined;
+  }, [generatedScripts, generatedAvatars, state.creatives, state.productData, state.selectedScript, state.selectedAvatar, state.selectedCreative]);
+
   const getStepPrompt = (step: CampaignStep): string => {
     const prompts: Record<CampaignStep, string> = {
       'welcome': "Paste your product URL to begin.",
@@ -960,6 +1252,7 @@ export const useCampaignFlow = () => {
       'product-analysis': "Analyzing your product...",
       'script-generation': "Generating ad scripts...",
       'script-selection': "Choose a script style for your ad.",
+      'script-refinement': "Refine and customize your script.",
       'avatar-selection': "Select an AI presenter.",
       'creative-generation': "Generating your creatives...",
       'creative-generation:images': "Generating AI images...",
@@ -993,23 +1286,47 @@ export const useCampaignFlow = () => {
       if (answerId === 'back') {
         if (!skipUserMessage) addMessage('user', "🔙 Go Back");
         const currentIndex = STEP_ORDER.indexOf(state.step);
-        if (currentIndex > 0) {
-          const prevStep = STEP_ORDER[currentIndex - 1];
+        if (currentIndex > 1) { // PREVENT GOING BACK TO 'welcome' (index 0)
+          let prevIndex = currentIndex - 1;
+
+          // Special logic: If strictly inside creative generation or sub-steps, go back ONE step only 
+          // (to allow reviewing previous generated item), unless it's a main step jump.
+          const isSubStep = state.step.includes(':');
+
+          if (!isSubStep) {
+            // Standard behavior: Find the nearest previous navigable MAIN step (skip intermediate sub-steps with colons)
+            while (prevIndex > 1 && STEP_ORDER[prevIndex].includes(':')) {
+              prevIndex--;
+            }
+          }
+          // If isSubStep is true, we simply go to prevIndex (which is currentIndex - 1), effectively going back 1 granular step.
+
+          const prevStep = STEP_ORDER[prevIndex];
           await goToStep(prevStep);
         }
         return;
       }
 
+      if (answerId === 'start-over') {
+        if (!skipUserMessage) addMessage('user', "🏠 Start Over");
+        await goToStep('product-url');
+        setState(prev => ({ ...prev, productData: null, messages: [INITIAL_WELCOME_MESSAGE] }));
+        return;
+      }
+
       if (answerId === 'next' || answerId === 'continue') {
-        // Only trigger generic "next" if the questionId isn't specifically handling it below
-        if (questionId === 'generic-confirmation' || questionId === 'navigation-options') {
-          if (!skipUserMessage) addMessage('user', "✅ Continue");
-          const currentIndex = STEP_ORDER.indexOf(state.step);
-          if (currentIndex < STEP_ORDER.length - 1) {
-            await goToStep(STEP_ORDER[currentIndex + 1]);
+        if (!skipUserMessage) addMessage('user', "✅ Next Step");
+        const currentIndex = STEP_ORDER.indexOf(state.step);
+        if (currentIndex < STEP_ORDER.length - 1) {
+          // Find the nearest next navigable step (skip intermediate sub-steps with colons)
+          let nextIndex = currentIndex + 1;
+          while (nextIndex < STEP_ORDER.length - 1 && STEP_ORDER[nextIndex].includes(':')) {
+            nextIndex++;
           }
-          return;
+          const nextStep = STEP_ORDER[nextIndex];
+          await goToStep(nextStep);
         }
+        return;
       }
 
 
@@ -1023,9 +1340,9 @@ export const useCampaignFlow = () => {
             step: 'product-url',
             productUrl: null,
             productData: null,
-            generatedScripts: [],
             isStepLoading: false
           }));
+          setGeneratedScripts([]);
 
           // Notify backend we are changing URL (reset)
           await vibeletsAPI.navigate('change_url');
@@ -1034,8 +1351,33 @@ export const useCampaignFlow = () => {
           return;
         }
 
-        if (answerId === 'continue' || answerId === 'yes') {
-          if (!skipUserMessage) addMessage('user', "Let's continue!");
+        if (answerId === 'continue' || answerId === 'yes' || answerId.startsWith('variant-')) {
+
+          // Handle Variant Selection Logic
+          if (answerId.startsWith('variant-')) {
+            const idx = parseInt(answerId.split('-')[1]);
+            const variant = state.productData?.variants?.[idx];
+            if (variant) {
+              if (!skipUserMessage) addMessage('user', `Selected variant: ${variant.value || variant.name}`);
+
+              // Update product data with variant details
+              setState(prev => {
+                if (!prev.productData) return prev;
+                return {
+                  ...prev,
+                  productData: {
+                    ...prev.productData,
+                    title: `${prev.productData.title} - ${variant.value || variant.name}`,
+                    price: variant.price || prev.productData.price,
+                    // If variant has specific image, we could swap main_image here too
+                  }
+                };
+              });
+            }
+          } else {
+            if (!skipUserMessage) addMessage('user', "Let's continue!");
+          }
+
           setState(prev => ({ ...prev, isStepLoading: true }));
 
           try {
@@ -1070,13 +1412,23 @@ export const useCampaignFlow = () => {
               if (styleMatch) {
                 parsedStyle = styleMatch[1].trim();
                 parsedDuration = styleMatch[2] ? styleMatch[2].trim() : parsedDuration;
+                console.log(`✅ Style matched for script ${index}: "${parsedStyle}" | Duration: "${parsedDuration}"`);
               } else {
                 // Fallback: Try to find "Style:" and "Duration:" lines if formatted differently
                 const styleLine = scriptText.match(/Style:\s*(.*)/i);
                 const durationLine = scriptText.match(/Duration:\s*(.*)/i);
 
-                if (styleLine) parsedStyle = styleLine[1].trim();
-                if (durationLine) parsedDuration = durationLine[1].trim();
+                if (styleLine) {
+                  parsedStyle = styleLine[1].trim();
+                  console.log(`⚠️ Using fallback style line for script ${index}: "${parsedStyle}"`);
+                }
+                if (durationLine) {
+                  parsedDuration = durationLine[1].trim();
+                  console.log(`⚠️ Using fallback duration line for script ${index}: "${parsedDuration}"`);
+                }
+                if (!styleLine && !durationLine) {
+                  console.log(`❌ No style/duration found for script ${index}, using defaults`);
+                }
               }
 
               // Clean body by removing the [Style: ...] header or Style/Duration lines
@@ -1105,26 +1457,19 @@ export const useCampaignFlow = () => {
               };
             });
 
+            // Log final formatted scripts
+            console.log('🎬 Formatted scripts with parsed styles:', formattedScripts.map(s => ({
+              id: s.id,
+              name: s.name,
+              style: s.style,
+              duration: s.duration
+            })));
+
             // Advance step to script selection
             setState(prev => ({ ...prev, step: 'script-selection', isStepLoading: false }));
 
             console.log('🎬 Formatted scripts:', formattedScripts);
             setGeneratedScripts(formattedScripts);
-
-            // Helper function to format insight values
-            const formatInsightValue = (value: any): string => {
-              if (typeof value === 'string') {
-                return value;
-              } else if (Array.isArray(value)) {
-                return value.join(', ');
-              } else if (typeof value === 'object' && value !== null) {
-                // Format object as readable text instead of JSON
-                return Object.entries(value)
-                  .map(([k, v]) => `${k}: ${v}`)
-                  .join(', ');
-              }
-              return String(value);
-            };
 
             // Generate insights from analysis
             const insights: ProductInsight[] = [];
@@ -1205,12 +1550,26 @@ export const useCampaignFlow = () => {
               title: scrapedProduct?.title || existingProductData?.title || 'Product',
               price: scrapedProduct?.price || existingProductData?.price || '$0',
               description: scrapedProduct?.description || existingProductData?.description || '',
-              images: productImages,
               sku: scrapedProduct?.sku || existingProductData?.sku || '',
               category: productAnalysis?.category || scrapedProduct?.category || existingProductData?.category || '',
-              pageScreenshot: productImages[0] || existingProductData?.pageScreenshot || '',
+              images: productImages,
+
+              downloaded_images: scrapedProduct?.downloaded_images || existingProductData?.downloaded_images || [],
+              main_image: productImages[0] || existingProductData?.main_image,
+              pageScreenshot: productImages[0] || existingProductData?.pageScreenshot,
+
+              variants: scrapedProduct?.variants || existingProductData?.variants || [],
+              variants_count:
+                scrapedProduct?.variants?.length ??
+                existingProductData?.variants_count ??
+                0,
+
               insights: insights.length > 0 ? insights : existingProductData?.insights || [],
+
+              confidence: scrapedProduct?.confidence ?? existingProductData?.confidence,
+              raw_text: scrapedProduct?.raw_text ?? existingProductData?.raw_text,
             };
+
 
             setState(prev => ({ ...prev, productData, isStepLoading: false }));
 
@@ -1253,7 +1612,6 @@ export const useCampaignFlow = () => {
           setState(prev => ({
             ...prev,
             selectedScript,
-            step: 'creative-generation',
             isStepLoading: true
           }));
 
@@ -1261,21 +1619,127 @@ export const useCampaignFlow = () => {
             // Notify backend of selection
             await vibeletsAPI.selectScript(scriptIndex);
 
-            setState(prev => ({ ...prev, isStepLoading: true }));
+            // Fetch real HeyGen avatars if move to avatar selection
+            let avatarsToUse = generatedAvatars;
+            if (avatarsToUse.length === 0) {
+              try {
+                const avatarResponse = await vibeletsAPI.getAvatars();
+                if (avatarResponse.avatars && avatarResponse.avatars.length > 0) {
+                  avatarsToUse = avatarResponse.avatars.map((a: any) => ({
+                    id: a.avatar_id || a.id,
+                    name: a.avatar_name || a.name || 'AI Presenter',
+                    image: a.preview_image_url || a.thumbnail || '',
+                    videoPreview: a.preview_video_url || undefined,
+                    style: a.style || 'Professional'
+                  }));
+                  setGeneratedAvatars(avatarsToUse.slice(0, 10));
+                }
+              } catch (err) {
+                console.error('Failed to fetch avatars:', err);
+              }
+            }
 
-            // Prepare for avatar selection - use backend provided avatars if available, else mock
-            const optionsToUse = generatedAvatars && generatedAvatars.length > 0 ? generatedAvatars : avatarOptions;
+            // Fallback to mock if still empty (should not happen if API key is valid)
+            const finalAvatars = avatarsToUse.length > 0 ? avatarsToUse : avatarOptions;
+
+            const refinementQuestion: InlineQuestion = {
+              id: 'script-refinement',
+              question: 'Would you like to refine or customize this script before proceeding?',
+              options: [
+                { id: 'refine', label: '✏️ Refine Script', description: 'Edit and customize the script' },
+                { id: 'next', label: '✅ Next', description: 'Keep script and continue' },
+                { id: 'back', label: '🔙 Go Back', description: 'Return to script selection' },
+                { id: 'start-over', label: '🏠 Start Over', description: 'Reset campaign' }
+              ],
+              hideOptionsInChat: true
+            };
+
+            setState(prev => ({ ...prev, isStepLoading: false }));
+
+            await simulateTyping(
+              `Perfect! I've selected that script. 📝\n\nWould you like to refine this script or proceed to select your AI avatar?`,
+              { inlineQuestion: refinementQuestion, stepId: 'script-refinement' },
+              1000
+            );
+
+            setState(prev => ({
+              ...prev,
+              step: 'script-refinement',
+              stepHistory: [...prev.stepHistory, 'script-refinement'],
+              isStepLoading: false
+            }));
+
+          } catch (error) {
+            console.error('❌ Script selection failed:', error);
+            handleError(error, 'Selecting script');
+            setState(prev => ({ ...prev, isStepLoading: false }));
+          }
+        }
+      } else if (questionId === 'script-refinement') {
+        // Handle script refinement options
+        if (answerId === 'refine') {
+          // User wants to refine the script - show the refinement panel
+          if (!skipUserMessage) addMessage('user', 'I want to refine this script');
+
+          setState(prev => ({
+            ...prev,
+            isStepLoading: false
+          }));
+
+          // The RightPanel will now show ScriptRefinementPanel due to step being script-refinement
+          // No need to change state.step, it's already there
+
+        } else if (answerId === 'next' || answerId === 'skip') {
+          // User wants to skip refinement and move to avatar selection
+          if (!skipUserMessage) addMessage('user', 'Let\'s proceed without refinement');
+
+          setState(prev => ({ ...prev, isStepLoading: true }));
+
+          try {
+            // Fetch real HeyGen avatars
+            let avatarsToUse = generatedAvatars;
+            if (avatarsToUse.length === 0) {
+              try {
+                const avatarResponse = await vibeletsAPI.getAvatars();
+                if (avatarResponse.avatars && avatarResponse.avatars.length > 0) {
+                  avatarsToUse = avatarResponse.avatars.map((a: any) => ({
+                    id: a.avatar_id || a.id,
+                    name: a.avatar_name || a.name || 'AI Presenter',
+                    image: a.preview_image_url || a.thumbnail || '',
+                    videoPreview: a.preview_video_url || undefined,
+                    style: a.style || 'Professional'
+                  }));
+                  setGeneratedAvatars(avatarsToUse.slice(0, 10));
+                }
+              } catch (err) {
+                console.error('Failed to fetch avatars:', err);
+              }
+            }
+
+            const finalAvatars = avatarsToUse.length > 0 ? avatarsToUse : avatarOptions;
+            const avatarChips = finalAvatars.slice(0, 10).map(a => ({
+              id: a.id,
+              label: a.name,
+              description: a.style,
+              icon: 'user'
+            }));
 
             const avatarQuestion: InlineQuestion = {
               id: 'avatar-selection',
-              question: 'Select an AI presenter for your video from the panel on the right:',
+              question: 'Select an AI presenter for your video from the panel on the right or from the suggestions below:',
               options: [
-                { id: 'back', label: '🔙 Go Back', description: 'Return to script selection' }
-              ]
+                ...avatarChips,
+                { id: 'next', label: '✅ Next', description: 'Confirm selection' },
+                { id: 'back', label: '🔙 Go Back', description: 'Return to script refinement' },
+                { id: 'start-over', label: '🏠 Start Over', description: 'Reset campaign' }
+              ],
+              hideOptionsInChat: true
             };
 
+            setState(prev => ({ ...prev, isStepLoading: false }));
+
             await simulateTyping(
-              `Great choice! I've saved that script. 📝\n\nNow, select an AI avatar to present your video ad:`,
+              `Great! Let's proceed. 🎬\n\nNow, select an AI avatar to present your video ad:`,
               { inlineQuestion: avatarQuestion, stepId: 'avatar-selection' },
               1000
             );
@@ -1286,13 +1750,15 @@ export const useCampaignFlow = () => {
               stepHistory: [...prev.stepHistory, 'avatar-selection'],
               isStepLoading: false
             }));
-
-
           } catch (error) {
-            console.error('❌ Script selection failed:', error);
-            handleError(error, 'Selecting script');
+            console.error('❌ Avatar fetch failed:', error);
+            handleError(error, 'Loading avatars');
             setState(prev => ({ ...prev, isStepLoading: false }));
           }
+        } else if (answerId === 'back') {
+          setState(prev => ({ ...prev, step: 'script-selection', isStepLoading: false }));
+          if (!skipUserMessage) addMessage('user', 'Go back');
+          return;
         }
       } else if (questionId === 'avatar-selection') {
 
@@ -1306,8 +1772,23 @@ export const useCampaignFlow = () => {
           return;
         }
 
-        const optionsToUse = generatedAvatars.length > 0 ? generatedAvatars : avatarOptions;
-        const avatar = optionsToUse.find(a => a.id === answerId);
+        if (answerId === 'start-over') {
+          handleQuestionAnswerInternal('navigation-options', 'nav-start-over', false);
+          return;
+        }
+
+        let avatarIdToUse = answerId;
+        if (answerId === 'next') {
+          if (state.selectedAvatar) {
+            avatarIdToUse = state.selectedAvatar.id;
+          } else {
+            toast.error('Please select an avatar first', { description: 'Choose a presenter from the right panel.' });
+            return;
+          }
+        }
+
+        const optionsToUse = generatedAvatars && generatedAvatars.length > 0 ? generatedAvatars : avatarOptions;
+        const avatar = optionsToUse.find(a => a.id === avatarIdToUse);
         if (!avatar) {
           toast.error('Avatar not found', { description: 'Please select a valid avatar' });
           return;
@@ -1329,20 +1810,22 @@ export const useCampaignFlow = () => {
           setState(prev => ({ ...prev, step: 'creative-generation', stepHistory: [...prev.stepHistory, 'creative-generation'] }));
 
           // CHECK FOR EXISTING DATA
-          let generatedImages = state.generatedImages || [];
+          let currentImages = generatedImages || [];
           let audioUrl = null;
           let videoUrl = null;
           let videoStatus = null;
           let videoId = null;
 
           // Only generate images if we don't have them
-          if (generatedImages.length === 0) {
+          if (currentImages.length === 0) {
             console.log('🖼️ Generating images...');
             const imagesResult = await vibeletsAPI.generateImages(undefined, 2);
-            generatedImages = imagesResult.generated_images || [];
-            console.log('🖼️ Images generated:', generatedImages);
+            const newImages = imagesResult.generated_images || [];
+            setGeneratedImages(newImages);
+            currentImages = newImages;
+            console.log('🖼️ Images generated:', newImages);
           } else {
-            console.log('🖼️ Using existing images:', generatedImages);
+            console.log('🖼️ Using existing images:', currentImages);
             await simulateTyping(
               `✅ Found existing images!`,
               {},
@@ -1432,12 +1915,12 @@ export const useCampaignFlow = () => {
               id: 'video-creative',
               type: 'video',
               name: 'AI Generated Video',
-              thumbnail: generatedImages[0] || '',
+              thumbnail: currentImages[0] || '',
               videoUrl: videoUrl,
               format: 'feed',
               aspectRatio: '9:16'
             },
-            ...generatedImages.slice(0, 2).map((imgUrl, idx) => ({
+            ...currentImages.slice(0, 2).map((imgUrl, idx) => ({
               id: `image-creative-${idx}`,
               type: 'image' as const,
               name: `Generated Image ${idx + 1}`,
@@ -1447,7 +1930,9 @@ export const useCampaignFlow = () => {
             }))
           ];
 
-          setState(prev => ({ ...prev, creatives, generatedImages, isStepLoading: false }));
+          setState(prev => ({ ...prev, creatives, isStepLoading: false }));
+
+          setGeneratedImages(currentImages);
 
           const creativeQuestion: InlineQuestion = {
             id: 'creative-selection',
@@ -1458,12 +1943,15 @@ export const useCampaignFlow = () => {
                 label: c.name,
                 description: c.type === 'video' ? 'Video format' : 'Image format'
               })),
-              { id: 'custom-creative', label: '📤 Upload My Own', description: 'Use your own image or video' }
+              { id: 'custom-creative', label: '📤 Upload My Own', description: 'Use your own image or video' },
+              { id: 'back', label: '🔙 Go Back', description: 'Previous step' },
+              { id: 'start-over', label: '🏠 Start Over', description: 'Reset campaign' },
+              { id: 'next', label: '✅ Next', description: 'Confirm selection' }
             ]
           };
 
           await simulateTyping(
-            `Done! I've generated your creatives:\n• ${videoUrl ? '1 AI Video with ' + avatar.name : 'Processing video...'}\n• ${generatedImages.length} AI-Generated Images\n\nWhich one would you like to use?`,
+            `Done! I've generated your creatives:\n• ${videoUrl ? '1 AI Video with ' + avatar.name : 'Processing video...'}\n• ${currentImages.length} AI-Generated Images\n\nWhich one would you like to use?`,
             { inlineQuestion: creativeQuestion, stepId: 'creative-review' },
             1500
           );
@@ -1486,10 +1974,10 @@ export const useCampaignFlow = () => {
           // Find creative from generated creatives (not mock)
           let creative = state.creatives.find(c => c.id === answerId);
 
-          // Fallback: If not found in creatives, try to reconstruct from generatedImages
-          if (!creative && answerId.startsWith('image-creative-') && state.generatedImages) {
+          // Fallback: If not found in creatives, try to reconstruct from generatedImages fallback
+          if (!creative && answerId.startsWith('image-creative-') && generatedImages.length > 0) {
             const idx = parseInt(answerId.split('-').pop() || '0', 10);
-            const imgUrl = state.generatedImages[idx];
+            const imgUrl = generatedImages[idx];
             if (imgUrl) {
               console.log(`♻️ Reconstructed creative ${answerId} from generatedImages fallback`);
               creative = {
@@ -1526,7 +2014,7 @@ export const useCampaignFlow = () => {
             );
 
             // Show campaign config UI
-            setState(prev => ({ ...prev, step: 'campaign-setup', stepHistory: [...prev.stepHistory, 'campaign-setup'], isStepLoading: false, showCampaignSlider: true }));
+            setState(prev => ({ ...prev, step: 'campaign-setup', stepHistory: [...prev.stepHistory, 'campaign-setup'], isStepLoading: false }));
 
             await simulateTyping(
               `Fill in the campaign details in the panel, then we'll connect to Facebook! 👉`,
@@ -1601,15 +2089,15 @@ export const useCampaignFlow = () => {
             const imageCreatives: CreativeOption[] = backendImages.map((imgUrl: string, index: number) => ({
               id: `regen-img-${index}`,
               type: 'image',
-              thumbnail: imgUrl.startsWith('http') ? imgUrl : `http://localhost:8000${imgUrl}`,
+              thumbnail: imgUrl.startsWith('http') ? imgUrl : (imgUrl.startsWith('/') ? imgUrl : `/${imgUrl}`),
               name: `Regenerated Image ${index + 1}`,
               format: 'feed',
               aspectRatio: '1:1'
             }));
 
+            setGeneratedImages(backendImages);
             setState(prev => {
               const newState = { ...prev };
-              newState.generatedImages = backendImages;
 
               // If we had a video, keep it, but update images
               const existingVideo = prev.creatives.find(c => c.type === 'video');
@@ -1671,6 +2159,20 @@ export const useCampaignFlow = () => {
             handleQuestionAnswerInternal('product-continue', 'continue', true);
           } else if (state.step === 'script-selection') {
             handleQuestionAnswerInternal('script-review', 'continue', true);
+          } else if (state.step === 'avatar-selection') {
+            if (!state.selectedAvatar) {
+              toast.error('Please select an avatar first.');
+              return;
+            }
+            goToStep('creative-generation');
+          } else if (state.step === 'product-url') {
+            if (!state.productUrl) {
+              toast.error('Please enter a product URL.');
+              return;
+            }
+            // Block next if simply clicking next without entry
+            toast.error('Please enter a valid product URL.');
+            return;
           } else if (state.step === 'creative-review') {
             handleQuestionAnswerInternal('creative-review', 'approve', true);
           } else {
@@ -1710,6 +2212,21 @@ export const useCampaignFlow = () => {
           };
           const instruction = labels[answerId] || answerId;
           handleUserMessage(instruction);
+        }
+      } else if (questionId.startsWith('facebook-connect')) {
+        if (answerId === 'connect') {
+          await handleFacebookConnect();
+        } else if (answerId === 'use-existing') {
+          await handleFacebookUseExisting();
+        } else if (answerId === 'skip') {
+          if (!skipUserMessage) addMessage('user', "Skip for now");
+          await simulateTyping("Okay, skipping Facebook connection for now. You can connect later in settings.", {}, 800);
+          setState(prev => ({ ...prev, step: 'campaign-preview' })); // Skip to preview/end
+        } else if (answerId === 'back') {
+          const currentIndex = STEP_ORDER.indexOf(state.step);
+          if (currentIndex > 0) {
+            goToStep(STEP_ORDER[currentIndex - 1]);
+          }
         }
       } else if (questionId === 'ad-account-selection') {
         console.log('🏦 Selecting ad account:', answerId);
@@ -1803,9 +2320,11 @@ export const useCampaignFlow = () => {
       }
       // Handle navigation options (detected intent + alternatives)
       else if (questionId === 'navigation-options') {
-        // Find the confirmation from the message with this question
-        const questionMessage = messages.find(m => m.inlineQuestion?.id === 'navigation-options');
-        const confirmation = questionMessage?.inlineQuestion?.metadata?.confirmation;
+        // Find the MOST RECENT confirmation context
+        // Priority 1: Message metadata from the last navigation question
+        // Priority 2: Current pending intent in state
+        const questionMessage = [...messages].reverse().find(m => m.inlineQuestion?.id === 'navigation-options');
+        const confirmation = questionMessage?.inlineQuestion?.metadata?.confirmation || state.pendingIntentConfirmation;
 
         if (!confirmation) {
           console.error('❌ No confirmation found in question metadata!');
@@ -1844,16 +2363,9 @@ export const useCampaignFlow = () => {
           } else if (intent === 'refine_campaign') {
             // Go to campaign setup
             await goToStep('campaign-setup');
-          } else if (intent === 'script-selection' || intent === 'generate_scripts') { // Handle specific script selection intent explicitly
-            await goToStep('script-selection');
           } else {
-            // For unknown intents, try to map based on description or show message
-            // If it looks like a navigation step name, try to go there
-            if (STEP_ORDER.includes(intent as CampaignStep)) {
-              await goToStep(intent as CampaignStep);
-            } else {
-              await simulateTyping(`Done! I've navigated as requested.`, { stepId: state.step }, 500);
-            }
+            // For unknown intents, show message
+            await simulateTyping(`Done! I've navigated as requested.`, { stepId: state.step }, 500);
           }
         } else {
           // Handle alternative navigation option
@@ -1897,6 +2409,13 @@ export const useCampaignFlow = () => {
                 { stepId: 'creative-review' },
                 800
               );
+            } else if (answerId === 'nav-connect-facebook' || answerId === 'nav-reconnect-facebook') {
+              await handleFacebookConnect();
+            } else if (answerId === 'nav-use-existing') {
+              await handleFacebookUseExisting();
+            } else if (answerId === 'nav-select-account') {
+              setState(prev => ({ ...prev, step: 'ad-account-selection' }));
+              await simulateTyping("Please select an ad account from the list.", { stepId: 'ad-account-selection' }, 500);
             }
 
             setState(prev => ({ ...prev, isStepLoading: false }));
@@ -1908,9 +2427,13 @@ export const useCampaignFlow = () => {
     } catch (error) {
       handleError(error, 'Processing your selection');
     }
-  }, [state.campaignConfig, state.selectedCreative, state.selectedAdAccount, state.creatives, state.generatedImages, state.pendingIntentConfirmation, state.productData, generatedScripts, generatedAvatars, fetchedAdAccounts, addMessage, simulateTyping, handleError]);
+  }, [state.campaignConfig, state.selectedCreative, state.selectedAdAccount, state.creatives, generatedImages, state.pendingIntentConfirmation, state.productData, generatedScripts, generatedAvatars, fetchedAdAccounts, addMessage, simulateTyping, handleError]);
 
   // Legacy functions for backward compatibility (now handled via inline questions)
+  const displayAvatars = useMemo(() => {
+    return generatedAvatars.length > 0 ? generatedAvatars : avatarOptions;
+  }, [generatedAvatars]);
+
   const selectScript = useCallback(async (script: ScriptOption) => {
     await handleQuestionAnswerInternal('script-selection', script.id, false);
   }, [handleQuestionAnswerInternal]);
@@ -1994,7 +2517,29 @@ export const useCampaignFlow = () => {
   const handleFacebookConnect = useCallback(async () => {
     try {
       addMessage('user', "Connecting Facebook account...");
-      setState(prev => ({ ...prev, isStepLoading: true }));
+      setState(prev => {
+        // Self-healing: If campaign config is missing (skipped step), generate default
+        if (!prev.campaignConfig) {
+          const productTitle = prev.productData?.title || 'Campaign';
+          const defaultConfig: CampaignConfig = {
+            campaignName: sanitizeInput(productTitle),
+            objective: 'Sales',
+            budgetType: 'daily',
+            adSetName: sanitizeInput(productTitle),
+            budgetAmount: '50',
+            duration: '14',
+            fbPixelId: '',
+            fbPageId: '',
+            adName: sanitizeInput(productTitle),
+            primaryText: prev.productData?.description?.slice(0, 125) || 'Check out this amazing product!',
+            cta: 'Shop Now',
+            websiteUrl: prev.productUrl || ''
+          };
+          console.log('🔧 Auto-generating default campaign config (step was skipped)');
+          return { ...prev, campaignConfig: defaultConfig, isStepLoading: true };
+        }
+        return { ...prev, isStepLoading: true };
+      });
 
       const appId = import.meta.env.VITE_FACEBOOK_APP_ID;
       console.log('🔍 Facebook App ID:', appId ? `${appId.substring(0, 4)}...` : 'MISSING');
@@ -2143,7 +2688,29 @@ export const useCampaignFlow = () => {
   const handleFacebookUseExisting = useCallback(async () => {
     try {
       addMessage('user', "Using my signed-in Facebook account");
-      setState(prev => ({ ...prev, facebookConnected: true, isStepLoading: true }));
+      setState(prev => {
+        // Self-healing: If campaign config is missing (skipped step), generate default
+        if (!prev.campaignConfig) {
+          const productTitle = prev.productData?.title || 'Campaign';
+          const defaultConfig: CampaignConfig = {
+            campaignName: sanitizeInput(productTitle),
+            objective: 'Sales',
+            budgetType: 'daily',
+            adSetName: sanitizeInput(productTitle),
+            budgetAmount: '50',
+            duration: '14',
+            fbPixelId: '',
+            fbPageId: '',
+            adName: sanitizeInput(productTitle),
+            primaryText: prev.productData?.description?.slice(0, 125) || 'Check out this amazing product!',
+            cta: 'Shop Now',
+            websiteUrl: prev.productUrl || ''
+          };
+          console.log('🔧 Auto-generating default campaign config (step was skipped)');
+          return { ...prev, campaignConfig: defaultConfig, facebookConnected: true, isStepLoading: true };
+        }
+        return { ...prev, facebookConnected: true, isStepLoading: true };
+      });
 
       await simulateTyping("Using your connected Facebook account...", {}, 500);
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -2362,6 +2929,45 @@ export const useCampaignFlow = () => {
       // Sync state from backend results
       const BACKEND_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
+      // Generate insights from analysis
+      const insights: ProductInsight[] = [];
+
+      if (productAnalysis) {
+        if (productAnalysis.category) {
+          insights.push({
+            label: 'Product Category',
+            value: formatInsightValue(productAnalysis.category),
+            icon: 'tag'
+          });
+        }
+        if (productAnalysis.features) {
+          const featuresValue = Array.isArray(productAnalysis.features) ? productAnalysis.features.join(', ') : formatInsightValue(productAnalysis.features);
+          insights.push({ label: 'Key Features', value: featuresValue, icon: 'list' });
+        }
+        if (productAnalysis.target_audience) {
+          insights.push({
+            label: 'Target Audience',
+            value: formatInsightValue(productAnalysis.target_audience),
+            icon: 'users'
+          });
+        }
+        if (productAnalysis.usps) {
+          const uspsValue = Array.isArray(productAnalysis.usps) ? productAnalysis.usps.join(', ') : formatInsightValue(productAnalysis.usps);
+          insights.push({ label: 'Key USPs', value: uspsValue, icon: 'star' });
+        }
+        if (productAnalysis.pain_points) {
+          const painValue = Array.isArray(productAnalysis.pain_points) ? productAnalysis.pain_points.join(', ') : formatInsightValue(productAnalysis.pain_points);
+          insights.push({ label: 'Pain Points', value: painValue, icon: 'alert-circle' });
+        }
+        if (productAnalysis.marketing_angles) {
+          const anglesValue = Array.isArray(productAnalysis.marketing_angles) ? productAnalysis.marketing_angles.join(', ') : formatInsightValue(productAnalysis.marketing_angles);
+          insights.push({ label: 'Marketing Angles', value: anglesValue, icon: 'trending-up' });
+        }
+        if (productAnalysis.positioning) {
+          insights.push({ label: 'Positioning', value: formatInsightValue(productAnalysis.positioning), icon: 'target' });
+        }
+      }
+
       // Preserve existing data if backend returns empty
       const existingData = state.productData;
 
@@ -2377,11 +2983,26 @@ export const useCampaignFlow = () => {
         title: scrapedProduct?.title || existingData?.title || 'Product',
         price: scrapedProduct?.price || existingData?.price || '$0',
         description: scrapedProduct?.description || existingData?.description || '',
-        images: productImages,
-        category: productAnalysis?.category || existingData?.category || '',
         sku: scrapedProduct?.sku || existingData?.sku || '',
+        category: productAnalysis?.category || existingData?.category || '',
+        images: productImages,
+
+        downloaded_images: scrapedProduct?.downloaded_images || existingData?.downloaded_images || [],
+        main_image: productImages[0] || existingData?.main_image,
+        pageScreenshot: productImages[0] || existingData?.pageScreenshot,
+
+        variants: scrapedProduct?.variants || existingData?.variants || [],
+        variants_count:
+          scrapedProduct?.variants?.length ??
+          existingData?.variants_count ??
+          0,
+
         insights: insights.length > 0 ? insights : existingData?.insights || [],
+
+        confidence: scrapedProduct?.confidence ?? existingData?.confidence,
+        raw_text: scrapedProduct?.raw_text ?? existingData?.raw_text,
       };
+
 
       setState(prev => ({
         ...prev,
@@ -2415,7 +3036,7 @@ export const useCampaignFlow = () => {
         return s;
       });
 
-      setState(prev => ({ ...prev, isRegenerating: null, generatedScripts: formattedScripts }));
+      setState(prev => ({ ...prev, isRegenerating: null }));
 
       const scriptQuestion: InlineQuestion = {
         id: 'script-selection',
@@ -2634,9 +3255,13 @@ export const useCampaignFlow = () => {
     handleRecommendationAction,
     refreshPerformanceDashboard,
     handleCloneCreative,
-    generatedAvatars,
+    generatedAvatars: displayAvatars,
     selectScript,
     selectAvatar,
     selectCreative,
+    // Thread Management
+    threadId,
+    loadThread,
+    startNewThread,
   };
 };

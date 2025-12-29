@@ -17,7 +17,7 @@ load_dotenv()
 class ImageGenerator:
     def __init__(self):
         self.client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
-        self.model_id = "imagen-3.0-generate-001"
+        self.model_id = "imagen-3.0-generate-002"
         self.save_dir = "static/generated_images"
         os.makedirs(self.save_dir, exist_ok=True)
 
@@ -178,7 +178,7 @@ class ImageGenerator:
                 print(f"DEBUG: Calling Nano Banana Pro with model models/nano-banana-pro-preview...")
                 try:
                     resp = self.client.models.generate_content(
-                        model="models/nano-banana-pro-preview",
+                        model="imagen-3.0-generate-002",
                         contents=[refined_prompt],
                         config=types.GenerateContentConfig(
                             response_modalities=["image"],

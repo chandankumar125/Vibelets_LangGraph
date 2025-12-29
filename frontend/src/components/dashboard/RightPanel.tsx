@@ -2,6 +2,7 @@ import { CampaignState, CampaignStep, ScriptOption, CreativeOption, AIRecommenda
 import { WelcomePanel } from './panels/WelcomePanel';
 import { ProductAnalysisPanel } from './panels/ProductAnalysisPanel';
 import { ScriptPreviewPanel } from './panels/ScriptPreviewPanel';
+import { ScriptRefinementPanel } from './panels/ScriptRefinementPanel';
 import { AvatarPreviewPanel } from './panels/AvatarPreviewPanel';
 import { CreativeGenerationPanel } from './panels/CreativeGenerationPanel';
 import { CreativeGalleryPanel } from './panels/CreativeGalleryPanel';
@@ -65,6 +66,7 @@ export const RightPanel = ({
 }: RightPanelProps) => {
   const viewportRef = useRef<HTMLDivElement>(null);
   const scriptSectionRef = useRef<HTMLDivElement>(null);
+  const scriptRefinementSectionRef = useRef<HTMLDivElement>(null);
   const avatarSectionRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to the relevant section when step changes
@@ -72,16 +74,36 @@ export const RightPanel = ({
     const timer = setTimeout(() => {
       if (!viewportRef.current) return;
 
-      // Scroll to specific section based on current step
-      if (state.step === 'script-selection' && scriptSectionRef.current) {
-        scriptSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else if (state.step === 'avatar-selection' && avatarSectionRef.current) {
-        avatarSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      } else {
-        // For other steps, scroll to top
-        viewportRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+      // For script refinement, immediately scroll to bottom (where the action buttons are)
+      if (state.step === 'script-refinement') {
+        setTimeout(() => {
+          if (scriptRefinementSectionRef.current) {
+            scriptRefinementSectionRef.current.scrollIntoView({ behavior: 'auto', block: 'end' });
+          }
+        }, 50);
+        return;
       }
-    }, 150);
+
+      // For script selection, scroll to the script section
+      if (state.step === 'script-selection') {
+        setTimeout(() => {
+          if (scriptSectionRef.current) {
+            scriptSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+          }
+        }, 100);
+        return;
+      }
+
+      // For avatar selection, scroll to avatar section
+      if (state.step === 'avatar-selection') {
+        setTimeout(() => {
+          if (avatarSectionRef.current) {
+            avatarSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+          }
+        }, 100);
+        return;
+      }
+    }, 50);
     return () => clearTimeout(timer);
   }, [state.step]);
 
@@ -138,6 +160,29 @@ export const RightPanel = ({
           </>
         );
 
+      case 'script-refinement':
+        return (
+          <div ref={scriptRefinementSectionRef}>
+            <ProductAnalysisPanel productData={state.productData} productUrl={state.productUrl} isAnalyzing={false} />
+            <ScriptRefinementPanel
+              selectedScript={state.selectedScript}
+              isRefining={false}
+              onRefinedScriptSubmit={(refinedScript) => {
+                if (onSelectScript) {
+                  // Update state with refined script
+                  onSelectScript(refinedScript);
+                  // Navigate to avatar selection after confirming refined script
+                  onStepClick('avatar-selection');
+                }
+              }}
+              onCancel={() => {
+                // Navigate back to script selection
+                onStepClick('script-selection');
+              }}
+            />
+          </div>
+        );
+
       case 'avatar-selection':
         return (
           <>
@@ -159,6 +204,7 @@ export const RightPanel = ({
             <CreativeGalleryPanel
               creatives={state.creatives}
               selectedCreative={state.selectedCreative}
+              onSelect={onSelectCreative || (() => { })}
               isRegenerating={state.isRegenerating === 'creatives'}
               onRegenerate={onRegenerateCreatives}
             />

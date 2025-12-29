@@ -77,7 +77,7 @@ class VibeletsAPI {
    * Scrape product URL
    */
   async scrapeProduct(url: string): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/scrape`, {
+    const response = await fetch(`/api/workflow/scrape`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -102,7 +102,7 @@ class VibeletsAPI {
    * Analyze product
    */
   async analyzeProduct(feedback?: string): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/analyze`, {
+    const response = await fetch(`/api/workflow/analyze`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -122,7 +122,7 @@ class VibeletsAPI {
    * Generate scripts
    */
   async generateScripts(feedback?: string): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/generate_scripts`, {
+    const response = await fetch(`/api/workflow/generate_scripts`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -142,7 +142,7 @@ class VibeletsAPI {
    * Select a script
    */
   async selectScript(scriptIndex: number): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/select_script`, {
+    const response = await fetch(`/api/workflow/select_script`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -162,7 +162,7 @@ class VibeletsAPI {
    * Refine selected script
    */
   async refineScript(feedback: string): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/refine_script`, {
+    const response = await fetch(`/api/workflow/refine_script`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -182,7 +182,7 @@ class VibeletsAPI {
    * Generate images
    */
   async generateImages(feedback?: string, numImages: number = 2): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/generate_images`, {
+    const response = await fetch(`/api/workflow/generate_images`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -203,7 +203,7 @@ class VibeletsAPI {
    * Refine images
    */
   async refineImages(feedback: string): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/refine_images`, {
+    const response = await fetch(`/api/workflow/refine_images`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -223,7 +223,7 @@ class VibeletsAPI {
    * Generate audio
    */
   async generateAudio(): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/generate_audio`, {
+    const response = await fetch(`/api/workflow/generate_audio`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -242,7 +242,7 @@ class VibeletsAPI {
    * Get available avatars
    */
   async getAvatars(): Promise<{ thread_id: string; avatars: any[] }> {
-    const response = await fetch(`${API_BASE_URL}/workflow/avatars?thread_id=${this.getThreadId()}`, {
+    const response = await fetch(`/api/workflow/avatars?thread_id=${this.getThreadId()}`, {
       method: 'GET'
     });
 
@@ -257,7 +257,7 @@ class VibeletsAPI {
    * Select avatar
    */
   async selectAvatar(avatarId: string): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/select_avatar`, {
+    const response = await fetch(`/api/workflow/select_avatar`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -277,7 +277,7 @@ class VibeletsAPI {
    * Generate video
    */
   async generateVideo(aspectRatio?: string): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/generate_video`, {
+    const response = await fetch(`/api/workflow/generate_video`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -297,7 +297,7 @@ class VibeletsAPI {
    * Check status of video generation
    */
   async getVideoStatus(videoId: string): Promise<any> {
-    const response = await fetch(`${API_BASE_URL}/workflow/video_status/${videoId}`);
+    const response = await fetch(`/api/workflow/video_status/${videoId}`);
     if (!response.ok) {
       throw new Error(`Failed to check video status: ${response.statusText}`);
     }
@@ -308,7 +308,7 @@ class VibeletsAPI {
    * Navigate to a specific step
    */
   async navigate(navigationIntent: string, message?: string): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/navigate`, {
+    const response = await fetch(`/api/workflow/navigate`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -322,14 +322,18 @@ class VibeletsAPI {
       throw new Error(`Failed to navigate: ${response.statusText}`);
     }
 
-    return await response.json();
+    const data = await response.json();
+    if (data.thread_id) {
+      this.setThreadId(data.thread_id);
+    }
+    return data;
   }
 
   /**
    * Send a chat message
    */
   async chat(message: string, navigationIntent?: string): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/chat`, {
+    const response = await fetch(`/api/workflow/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -343,7 +347,11 @@ class VibeletsAPI {
       throw new Error(`Failed to send chat message: ${response.statusText}`);
     }
 
-    return await response.json();
+    const data = await response.json();
+    if (data.thread_id) {
+      this.setThreadId(data.thread_id);
+    }
+    return data;
   }
 
   /**
@@ -351,7 +359,7 @@ class VibeletsAPI {
    */
   async getState(): Promise<{ thread_id: string; state: WorkflowState }> {
     const threadId = this.getThreadId();
-    const response = await fetch(`${API_BASE_URL}/workflow/state/${threadId}`, {
+    const response = await fetch(`/api/workflow/state/${threadId}`, {
       method: 'GET'
     });
 
@@ -367,7 +375,7 @@ class VibeletsAPI {
    */
   async* streamWorkflow(message?: string): AsyncGenerator<any, void, unknown> {
     const threadId = this.getThreadId();
-    const url = `${API_BASE_URL}/workflow/stream?thread_id=${threadId}${message ? `&message=${encodeURIComponent(message)}` : ''}`;
+    const url = `/api/workflow/stream?thread_id=${threadId}${message ? `&message=${encodeURIComponent(message)}` : ''}`;
 
     const response = await fetch(url);
 
@@ -411,7 +419,7 @@ class VibeletsAPI {
    * Authenticate with Facebook
    */
   async authenticateFacebook(accessToken: string): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/facebook_auth`, {
+    const response = await fetch(`/api/workflow/facebook_auth`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -431,7 +439,7 @@ class VibeletsAPI {
    * Select Facebook Ad Account
    */
   async selectAdAccount(adAccountId: string): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/select_ad_account`, {
+    const response = await fetch(`/api/workflow/select_ad_account`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -451,7 +459,7 @@ class VibeletsAPI {
    * Select media for Facebook ad
    */
   async selectMedia(mediaType: 'image' | 'video', mediaUrl: string): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/select_media`, {
+    const response = await fetch(`/api/workflow/select_media`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -472,7 +480,7 @@ class VibeletsAPI {
    * Generate campaign preview
    */
   async previewCampaign(): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/preview_campaign`, {
+    const response = await fetch(`/api/workflow/preview_campaign`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -491,7 +499,7 @@ class VibeletsAPI {
    * Refine campaign configuration
    */
   async refineCampaign(feedback: string): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/refine_campaign`, {
+    const response = await fetch(`/api/workflow/refine_campaign`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -511,7 +519,7 @@ class VibeletsAPI {
    * Publish campaign to Facebook
    */
   async publishCampaign(): Promise<ApiResponse> {
-    const response = await fetch(`${API_BASE_URL}/workflow/publish_campaign`, {
+    const response = await fetch(`/api/workflow/publish_campaign`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -531,7 +539,7 @@ class VibeletsAPI {
    */
   async getCurrentState(): Promise<ApiResponse> {
     const threadId = this.getThreadId();
-    const response = await fetch(`${API_BASE_URL}/workflow/state/${threadId}`);
+    const response = await fetch(`/api/workflow/state/${threadId}`);
 
     if (!response.ok) {
       // If no state found, return empty state
@@ -551,10 +559,59 @@ class VibeletsAPI {
   }
 
   /**
+   * Thread Management
+   */
+
+  /**
+   * Get all threads
+   */
+  async getThreads(): Promise<{ threads: any[] }> {
+    const response = await fetch(`/api/threads`);
+    if (!response.ok) {
+      throw new Error(`Failed to get threads: ${response.statusText}`);
+    }
+    return await response.json();
+  }
+
+  /**
+   * Delete a thread
+   */
+  async deleteThread(threadId: string): Promise<void> {
+    const response = await fetch(`/api/threads/${threadId}`, {
+      method: 'DELETE'
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to delete thread: ${response.statusText}`);
+    }
+    // If deleted thread was active, reset session
+    if (this.threadId === threadId) {
+      this.resetSession();
+    }
+  }
+
+  /**
+   * Set current thread ID (load a previous chat)
+   */
+  setThreadId(threadId: string): void {
+    this.threadId = threadId;
+    localStorage.setItem('vibelets_thread_id', threadId);
+  }
+
+  /**
+   * Create new thread (reset current session)
+   */
+  createNewThread(): void {
+    this.resetSession();
+  }
+
+  /**
    * Generic POST request
    */
   async post(endpoint: string, body: any): Promise<any> {
-    const url = endpoint.startsWith('http') ? endpoint : `http://localhost:8000${endpoint}`;
+    // Use relative path to leverage Vite proxy in development and avoid CORS
+    // const baseUrl = import.meta.env.VITE_API_BASE_URL ? import.meta.env.VITE_API_BASE_URL.replace('/api', '') : 'http://localhost:8000';
+    // const url = endpoint.startsWith('http') ? endpoint : `${baseUrl}${endpoint}`;
+    const url = endpoint;
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

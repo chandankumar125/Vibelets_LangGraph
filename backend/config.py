@@ -5,6 +5,7 @@ class Config:
     ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
     HEYGEN_API_KEY = os.getenv("HEYGEN_API_KEY")
     FACEBOOK_APP_ID = os.getenv("FACEBOOK_APP_ID")
+    FIRECRAWL_API_KEY = os.getenv("FIRECRAWL_API_KEY")
     
     # API Endpoints
     ELEVENLABS_TTS_URL = "https://api.elevenlabs.io/v1/text-to-speech"

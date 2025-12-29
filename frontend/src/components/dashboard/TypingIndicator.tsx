@@ -8,10 +8,13 @@ export const TypingIndicator = () => {
       </div>
       <div className="flex-1 space-y-1">
         <p className="text-xs font-medium text-muted-foreground">Vibelets AI</p>
-        <div className="flex gap-1 items-center h-6">
-          <span className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-          <span className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-          <span className="w-2 h-2 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+        <div className="flex gap-2 items-center h-6">
+          <div className="flex gap-1 items-center">
+            <span className="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+            <span className="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+            <span className="w-1.5 h-1.5 bg-primary/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+          </div>
+          <p className="text-xs text-muted-foreground animate-pulse ml-1">Analyzing your request...</p>
         </div>
       </div>
     </div>

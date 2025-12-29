@@ -1,8 +1,8 @@
 import logging
 from typing import List, Dict, Any, Tuple, Optional
 from openai import OpenAI
-from langsmith import traceable, Client as LangSmithClient
-from langsmith.run_helpers import get_current_run_tree
+# from langsmith import traceable, Client as LangSmithClient
+# from langsmith.run_helpers import get_current_run_tree
 from src.config import settings
 from src.database import db_manager
 from src.document_processor import doc_processor
@@ -11,11 +11,18 @@ from src.models import RAGResponse, TrainResponse
 logger = logging.getLogger(__name__)
 
 # Initialize LangSmith client for feedback submission
-try:
-    langsmith_client = LangSmithClient()
-except Exception as e:
-    logger.warning(f"LangSmith client initialization failed: {e}. Tracing will be disabled.")
-    langsmith_client = None
+# try:
+#     langsmith_client = LangSmithClient()
+# except Exception as e:
+#     logger.warning(f"LangSmith client initialization failed: {e}. Tracing will be disabled.")
+#     langsmith_client = None
+langsmith_client = None
+
+# Mock traceable decorator since we are disabling it
+def traceable(**kwargs):
+    def decorator(func):
+        return func
+    return decorator
 
 
 class RAGService:
@@ -96,18 +103,18 @@ class RAGService:
             logger.info(f"Answering question: {question[:100]}...")
             
             # Add metadata to current trace
-            try:
-                from langsmith.run_helpers import get_current_run_tree
-                current_run = get_current_run_tree()
-                if current_run and thread_id:
-                    # Add thread context as metadata
-                    current_run.extra = {
-                        "thread_id": thread_id,
-                        "user_id": user_id,
-                        "company_id": company_id
-                    }
-            except Exception as e:
-                logger.warning(f"Failed to add metadata to trace: {e}")
+            # try:
+            #     from langsmith.run_helpers import get_current_run_tree
+            #     current_run = get_current_run_tree()
+            #     if current_run and thread_id:
+            #         # Add thread context as metadata
+            #         current_run.extra = {
+            #             "thread_id": thread_id,
+            #             "user_id": user_id,
+            #             "company_id": company_id
+            #         }
+            # except Exception as e:
+            #     logger.warning(f"Failed to add metadata to trace: {e}")
             
             # Check if database has data
             stats = db_manager.get_collection_stats()
@@ -162,12 +169,12 @@ class RAGService:
             
             # Get the current run ID from LangSmith
             run_id = None
-            try:
-                current_run = get_current_run_tree()
-                if current_run:
-                    run_id = str(current_run.id)
-            except Exception as e:
-                logger.warning(f"Failed to get LangSmith run ID: {e}")
+            # try:
+            #     current_run = get_current_run_tree()
+            #     if current_run:
+            #         run_id = str(current_run.id)
+            # except Exception as e:
+            #     logger.warning(f"Failed to get LangSmith run ID: {e}")
             
             # Return both RAG response and run_id
             return {
@@ -289,17 +296,17 @@ Your helpful response:"""
             logger.info(f"Answering question with streaming: {question[:100]}...")
             
             # Add metadata to current trace
-            try:
-                from langsmith.run_helpers import get_current_run_tree
-                current_run = get_current_run_tree()
-                if current_run and thread_id:
-                    current_run.extra = {
-                        "thread_id": thread_id,
-                        "user_id": user_id,
-                        "company_id": company_id
-                    }
-            except Exception as e:
-                logger.warning(f"Failed to add metadata to trace: {e}")
+            # try:
+            #     from langsmith.run_helpers import get_current_run_tree
+            #     current_run = get_current_run_tree()
+            #     if current_run and thread_id:
+            #         current_run.extra = {
+            #             "thread_id": thread_id,
+            #             "user_id": user_id,
+            #             "company_id": company_id
+            #         }
+            # except Exception as e:
+            #     logger.warning(f"Failed to add metadata to trace: {e}")
             
             # Check if database has data
             stats = db_manager.get_collection_stats()

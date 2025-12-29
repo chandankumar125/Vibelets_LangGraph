@@ -3,6 +3,34 @@
  */
 
 export const isValidUrl = (url: string): boolean => {
+  // Quick rejection for obvious non-URLs
+  const trimmed = url.trim();
+
+  // Reject if it contains common conversational patterns
+  const conversationalPatterns = [
+    /^(i'?ve|i'?m|let'?s|please|thanks|yes|no|ok|continue|next|back|select)/i,
+    /\b(selected|continue|let's|variant|option)\b/i,
+    /(^|\s)(the|a|an|this|that|these|those)\s/i
+  ];
+
+  if (conversationalPatterns.some(pattern => pattern.test(trimmed))) {
+    return false;
+  }
+
+  // Reject if it has too many spaces (URLs typically don't have many spaces)
+  const spaceCount = (trimmed.match(/\s/g) || []).length;
+  if (spaceCount > 2) {
+    return false;
+  }
+
+  // Must start with http:// or https:// OR look like a domain
+  const startsWithProtocol = /^https?:\/\//i.test(trimmed);
+  const looksLikeDomain = /^[a-z0-9][a-z0-9-]*\.[a-z]{2,}/i.test(trimmed);
+
+  if (!startsWithProtocol && !looksLikeDomain) {
+    return false;
+  }
+
   try {
     const parsed = new URL(url.startsWith('http') ? url : `https://${url}`);
     // Protocol must be http or https
@@ -11,8 +39,10 @@ export const isValidUrl = (url: string): boolean => {
     const validHost = parsed.hostname.includes('.') || parsed.hostname === 'localhost';
     // Hostname must be at least 3 chars
     const validLength = parsed.hostname.length >= 3;
+    // Hostname should not contain spaces or quotes
+    const noSpaces = !parsed.hostname.includes(' ') && !parsed.hostname.includes("'") && !parsed.hostname.includes('"');
 
-    return validProtocol && validHost && validLength;
+    return validProtocol && validHost && validLength && noSpaces;
   } catch {
     return false;
   }

@@ -7,6 +7,19 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+import json
+from config import Config
+
+def get_support_service() -> 'SupportService': # Singleton access
+    """Get support service instance"""
+    global _support_service
+    if _support_service is None:
+        _support_service = SupportService()
+    return _support_service
+
 class SupportService:
     """Intelligent support service with optional RAG"""
     
@@ -15,13 +28,18 @@ class SupportService:
         self.rag_available = False
         self.rag_service = None
         self._try_init_rag()
+        self.llm = ChatOpenAI(
+            model="gpt-4o",
+            temperature=0,
+            openai_api_key=Config.OPENAI_API_KEY
+        )
     
     def _try_init_rag(self):
         """Try to initialize RAG, fall back gracefully if unavailable"""
         try:
             # Pre-import chromadb to ensure it's available
             import chromadb
-            print(f"✅ ChromaDB available: {chromadb.__version__}")
+            # print(f"✅ ChromaDB available: {chromadb.__version__}")
             
             import sys
             from pathlib import Path
@@ -38,92 +56,74 @@ class SupportService:
             self.rag_service = RAGService()
             
             # Check if trained
-            stats = db_manager.get_collection_stats()
-            if stats.get("total_chunks", 0) > 0:
-                self.rag_available = True
-                print(f"✅ RAG system loaded: {stats['total_chunks']} chunks available")
-            else:
-                print("⚠️  RAG database empty - using intelligent fallback")
+            # stats = db_manager.get_collection_stats()
+            # if stats.get("total_chunks", 0) > 0:
+            self.rag_available = True
+            #     print(f"✅ RAG system loaded")
+            # else:
+            #     print("⚠️  RAG database empty")
                 
         except Exception as e:
             # RAG failed to load - use intelligent fallback
-            print(f"ℹ️  RAG unavailable (using intelligent fallback): {e}")
+            # print(f"ℹ️  RAG unavailable (using intelligent fallback): {e}")
             self.rag_available = False
     
     async def is_navigation_query(self, message: str, current_step: str) -> Dict[str, Any]:
-        """Classify navigation vs support"""
-        message_lower = message.lower().strip()
+        """Classify navigation vs support using LLM"""
         
-        # Confirmation = navigation
-        if message_lower in ['yes', 'ok', 'sure', 'yeah', 'yep', 'yup', 'y', 'k', 'okay']:
-            return {
-                "is_navigation": True,
-                "intent": "navigation",
-                "confidence": 0.95,
-                "reasoning": "User confirmed"
-            }
-            
-        # Numeric selection (1-5)
-        if message.strip().isdigit() and 1 <= int(message.strip()) <= 5:
-            return {
-                "is_navigation": True,
-                "intent": "navigation",
-                "confidence": 0.95,
-                "reasoning": "Numeric selection"
-            }
-        
-        # Navigation/Instruction keywords (Action-oriented)
-        nav_keywords = ['next', 'continue', 'back', 'previous', 'go to', 'change url', 
-                        'new url', 'start over', 'restart', 'http', 'www', '.com', 'https',
-                        'proceed', 'confirm', 'go ahead', 'forward', 'move on',
-                        'refine', 'refining', 'edit', 'edits', 'tweak', 'tweaks',
-                        'make', 'change', 'shorter', 'longer', 'funny', 'funnier', 'professional',
-                        'serious', 'add', 'remove', 'focus', 'highlight', 'tone', 'style',
-                        'rewrite', 'regenerate', 'again', 'try', 'fix', 'improve']
-        
-        # Support/Question keywords
-        support_keywords = ['how', 'what', 'where', 'why', 'can you', 'help', 'stuck', 'error', 'bug', 'support', 'contact']
-        
-        has_nav_keyword = any(keyword in message_lower for keyword in nav_keywords)
-        has_support_keyword = any(keyword in message_lower for keyword in support_keywords)
-        is_question = '?' in message or message_lower.startswith(('how', 'what', 'can'))
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", """You are a classification agent for an ad campaign workflow tool.
+Your job is to classify the USER MESSAGE into one of two categories: 'navigation' or 'support'.
 
-        # If it looks like a refinement instruction (starts with "make", "add", etc.) and we are in relevant steps
-        instruction_steps = ['product-analysis', 'script-selection', 'creative-generation', 'creative-review']
-        is_instruction = any(message_lower.startswith(v) for v in ['make', 'change', 'add', 'remove', 'rewrite', 'use', 'focus'])
-        
-        if (has_nav_keyword or is_instruction) and not (is_question and 'how' in message_lower):
-            return {
-                "is_navigation": True,
-                "intent": "navigation",
-                "confidence": 0.9,
-                "reasoning": "Instruction or workflow command"
-            }
-            
-        if is_question or has_support_keyword:
-            return {
-                "is_navigation": False,
-                "intent": "support",
-                "confidence": 0.9,
-                "reasoning": "Looks like a help question"
-            }
-        
-        # If in a generating/reviewing step, default to navigation (instruction) for ambiguous inputs
-        if current_step in instruction_steps:
-             return {
-                "is_navigation": True,
-                "intent": "navigation",
-                "confidence": 0.7,
-                "reasoning": "Ambiguous input in active workflow step"
-            }
+Definitions:
+- 'navigation': The user is trying to perform an action within the workflow, control the workflow, provide inputs (URL, feedback, choices), or move between steps.
+- 'support': The user is asking for help, asking specific "how to" questions, reporting errors, or asking general questions unrelated to performing the immediate task.
 
-        # Safe fallback for completely unknown input
-        return {
-            "is_navigation": False,
-            "intent": "support",
-            "confidence": 0.5,
-            "reasoning": "Generic support fallback"
-        }
+Workflow Context:
+The user is currently at step: "{current_step}"
+
+Examples:
+- "next", "continue", "go back" -> navigation
+- "use this url: ..." -> navigation
+- "I want option 2" -> navigation
+- "make the script funnier" -> navigation (refining inputs)
+- "how do I connect facebook?" -> support
+- "what does this error mean?" -> support
+- "start over" -> navigation
+- "change the target audience" -> navigation
+- "why is the video not generating?" -> support
+
+Output valid JSON only:
+{{
+    "is_navigation": boolean,
+    "intent": "navigation" or "support",
+    "confidence": float (0.0 to 1.0),
+    "reasoning": "brief explanation"
+}}
+"""),
+            ("human", "User Message: {message}")
+        ])
+        
+        chain = prompt | self.llm | StrOutputParser()
+        
+        try:
+            result_str = await chain.ainvoke({
+                "current_step": current_step,
+                "message": message
+            })
+            
+            cleaned = result_str.replace("```json", "").replace("```", "").strip()
+            return json.loads(cleaned)
+        except Exception as e:
+            print(f"LLM Classification failed: {e}")
+            # Fallback to simple heuristic
+            is_help = any(w in message.lower() for w in ['help', 'how to', 'what is', 'error', 'bug'])
+            return {
+                "is_navigation": not is_help,
+                "intent": "support" if is_help else "navigation",
+                "confidence": 0.5,
+                "reasoning": "Fallback heuristic"
+            }
     
     async def get_support_response(self, question: str, current_step: str = None, top_k: int = 5) -> Dict[str, Any]:
         """Get support response - RAG if available, intelligent fallback otherwise"""
@@ -141,21 +141,19 @@ class SupportService:
             except Exception as e:
                 print(f"⚠️  RAG query failed, using fallback: {e}")
         
-        # If we reach here, RAG failed or is unavailable.
-        # User requested NO HARDCODED KEYWORDS.
+        # LLM Fallback (General Knowledge)
+        prompt = ChatPromptTemplate.from_messages([
+            ("system", "You are a helpful support assistant for an Ad Campaign Generator tool. The user has a question."),
+            ("human", "{question}")
+        ])
+        chain = prompt | self.llm | StrOutputParser()
+        answer = await chain.ainvoke({"question": question})
+
         return {
-            "answer": "I'm encountering an issue connecting to my knowledge base. Please ask again or contact support if this persists.",
-            "confidence": 0.0,
+            "answer": answer,
+            "confidence": 0.7,
             "sources": [],
             "suggested_actions": []
         }
 
-# Singleton
 _support_service = None
-
-def get_support_service() -> SupportService: # Singleton access
-    """Get support service instance"""
-    global _support_service
-    if _support_service is None:
-        _support_service = SupportService()
-    return _support_service

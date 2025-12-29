@@ -1,19 +1,20 @@
 import { useRef, useEffect, useCallback, useState, useMemo } from 'react';
-import { Message, CampaignStep, InlineQuestion } from '@/types/campaign';
+import { Message, CampaignStep, InlineQuestion, ProductVariant } from '@/types/campaign';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
 import { TypingIndicator } from './TypingIndicator';
 import { AssistantChatMessage } from './AssistantChatMessage';
-import { SuggestionChips } from './SuggestionChips';
+import { VariantsPanel } from './panels/VariantsPanel';
 import { useAssistantChat } from '@/hooks/useAssistantChat';
 import { MessageCircle, X, Trash2, Pencil, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
 
 interface ChatPanelProps {
   messages: Message[];
   isTyping: boolean;
-  onSendMessage: (message: string) => Promise<any> | void;
+  onSendMessage: (message: string) => Promise<Record<string, unknown>> | void;
   onQuestionAnswer: (questionId: string, answerId: string) => void;
   onCampaignConfigComplete?: (config: Record<string, string>) => void;
   onFacebookConnect?: () => void;
@@ -24,6 +25,8 @@ interface ChatPanelProps {
   onThreadTitleChange?: (title: string) => void;
   currentStep?: CampaignStep;
   selectedAnswers?: Record<string, string>;
+  productVariants?: ProductVariant[];
+  productUrl?: string;
 }
 
 export const ChatPanel = ({
@@ -39,7 +42,9 @@ export const ChatPanel = ({
   threadTitle = 'New Campaign',
   onThreadTitleChange,
   currentStep = 'welcome',
-  selectedAnswers = {}
+  selectedAnswers = {},
+  productVariants = [],
+  productUrl
 }: ChatPanelProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const assistantScrollRef = useRef<HTMLDivElement>(null);
@@ -65,74 +70,53 @@ export const ChatPanel = ({
 
   // Scroll campaign chat
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (scrollRef.current) {
-        scrollRef.current.scrollTo({
-          top: scrollRef.current.scrollHeight,
-          behavior: 'smooth'
-        });
-      }
-    }, 100);
-    return () => clearTimeout(timeoutId);
+    // Use multiple scroll attempts to ensure it works
+    if (scrollRef.current) {
+      // Immediate scroll
+      scrollRef.current.scrollTo({
+        top: scrollRef.current.scrollHeight,
+        behavior: 'auto'
+      });
+
+      // Delayed smooth scroll
+      const timeoutId = setTimeout(() => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollTo({
+            top: scrollRef.current.scrollHeight,
+            behavior: 'smooth'
+          });
+        }
+      }, 50);
+
+      return () => clearTimeout(timeoutId);
+    }
   }, [messages, isTyping]);
 
   // Scroll assistant chat
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (assistantScrollRef.current && isAssistantOpen) {
-        assistantScrollRef.current.scrollTo({
-          top: assistantScrollRef.current.scrollHeight,
-          behavior: 'smooth'
-        });
-      }
-    }, 100);
-    return () => clearTimeout(timeoutId);
+    // Use multiple scroll attempts to ensure it works
+    if (assistantScrollRef.current && isAssistantOpen) {
+      // Immediate scroll
+      assistantScrollRef.current.scrollTo({
+        top: assistantScrollRef.current.scrollHeight,
+        behavior: 'auto'
+      });
+
+      // Delayed smooth scroll
+      const timeoutId = setTimeout(() => {
+        if (assistantScrollRef.current && isAssistantOpen) {
+          assistantScrollRef.current.scrollTo({
+            top: assistantScrollRef.current.scrollHeight,
+            behavior: 'smooth'
+          });
+        }
+      }, 50);
+
+      return () => clearTimeout(timeoutId);
+    }
   }, [assistantMessages, assistantIsTyping, isAssistantOpen]);
 
-  // Find the active question that needs chip selection (last unanswered question)
-  const activeQuestion: InlineQuestion | null = useMemo(() => {
-    const chipQuestionIds = ['product-continue', 'script-selection', 'avatar-selection', 'creative-selection', 'creative-review', 'ad-account-selection', 'script-review', 'generic-confirmation', 'script-refinement', 'creative-refinement', 'navigation-options'];
-
-    // Mapping question IDs to valid steps
-    const ALL_STEPS: CampaignStep[] = ['welcome', 'product-url', 'product-analysis', 'script-selection', 'script-generation', 'avatar-selection', 'creative-generation', 'creative-generation:images', 'creative-generation:audio', 'creative-generation:video', 'creative-review', 'campaign-setup', 'facebook-integration', 'ad-account-selection', 'campaign-preview', 'publishing'];
-
-    const validStepsForQuestion: Record<string, CampaignStep[]> = {
-      'product-continue': ['product-url', 'welcome', 'product-analysis', 'script-selection'],
-      'script-selection': ['script-selection', 'script-generation', 'product-analysis'],
-      'avatar-selection': ['avatar-selection', 'creative-generation', 'script-selection'],
-      'creative-selection': ALL_STEPS,
-      'creative-review': ALL_STEPS,
-      'ad-account-selection': ['ad-account-selection', 'facebook-integration'],
-      'script-review': ALL_STEPS,
-      'generic-confirmation': ALL_STEPS,
-      'navigation-options': ALL_STEPS,
-      'script-refinement': ['script-selection', 'script-generation'],
-      'creative-refinement': ['creative-review', 'creative-generation']
-    };
-
-    for (let i = messages.length - 1; i >= 0; i--) {
-      const msg = messages[i];
-      if (msg.inlineQuestion && chipQuestionIds.includes(msg.inlineQuestion.id)) {
-        // Strict Step Validation: Only show chips if current step matches the question's context
-        const allowedSteps = validStepsForQuestion[msg.inlineQuestion.id];
-        if (allowedSteps && !allowedSteps.includes(currentStep)) {
-          continue; // Skip irrelevant old questions
-        }
-
-        // Check if already answered
-        if (!selectedAnswers[msg.inlineQuestion.id]) {
-          return msg.inlineQuestion;
-        }
-      }
-    }
-    return null;
-  }, [messages, selectedAnswers, currentStep]);
-
-  const handleChipSelect = useCallback((optionId: string) => {
-    if (activeQuestion) {
-      onQuestionAnswer(activeQuestion.id, optionId);
-    }
-  }, [activeQuestion, onQuestionAnswer]);
+  // NO MORE ACTIVE QUESTIONS - All navigation via LLM understanding
 
   const handleSendMessage = useCallback(async (message: string) => {
     // Send to main flow, which handles optimistic updates and direction
@@ -315,13 +299,8 @@ export const ChatPanel = ({
           </Button>
         </div>
 
-        {/* Floating Suggestion Chips */}
-        <SuggestionChips
-          activeQuestion={activeQuestion}
-          onSelect={handleChipSelect}
-          currentStep={currentStep}
-          disabled={disabled || isTyping}
-        />
+        {/* NO QUICK ACTIONS - User navigates via chat only */}
+
 
         <ChatInput
           onSend={handleSendMessage}

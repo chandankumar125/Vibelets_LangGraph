@@ -20,18 +20,34 @@ class HeyGenAvatarIntegrator:
     def get_avatars(self):
         """Fetch available avatars from HeyGen API."""
         url = f"{self.base_url}/v2/avatars"
+        print(f"DEBUG: Fetching avatars from HeyGen. API Key present: {bool(self.heygen_api_key)}")
+        if not self.heygen_api_key:
+            print("ERROR: HEYGEN_API_KEY is missing!")
+            return []
+            
         try:
             # Copy headers and remove Content-Type for GET request
             headers = self.headers.copy()
             if "Content-Type" in headers:
                 del headers["Content-Type"]
+            
             response = requests.get(url, headers=headers)
+            if not response.ok:
+                print(f"ERROR: HeyGen API returned {response.status_code}: {response.text}")
             response.raise_for_status()
+            
             data = response.json()
             avatars = data.get("data", {}).get("avatars", [])
+            print(f"SUCCESS: Found {len(avatars)} avatars from HeyGen API.")
+            
+            # Log names of first 3 to verify they are real
+            if avatars:
+                sample_names = [a.get("avatar_name", "Unknown") for a in avatars[:3]]
+                print(f"DEBUG: Sample avatars: {', '.join(sample_names)}")
+                
             return avatars
         except requests.exceptions.RequestException as e:
-            print(f"Error fetching avatars: {e}")
+            print(f"CRITICAL: Error fetching avatars: {e}")
             return []
 
     def upload_asset(self, file_path):

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,11 +11,11 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { 
-  Coins, 
-  LogOut, 
-  User, 
-  Settings, 
+import {
+  Coins,
+  LogOut,
+  User,
+  Settings,
   ChevronDown
 } from 'lucide-react';
 import vibeLogo from '@/assets/vibelets-logo-unified.png';
@@ -41,6 +42,7 @@ export const DashboardHeader = () => {
     <header className="h-16 flex-shrink-0 bg-background/95 backdrop-blur-sm shadow-lg shadow-foreground/5 px-4 flex items-center justify-between">
       {/* Left - Logo */}
       <div className="flex items-center gap-3">
+        <SidebarTrigger />
         <img src={vibeLogo} alt="Vibelets" className="h-7" />
       </div>
 
@@ -48,7 +50,7 @@ export const DashboardHeader = () => {
       <div className="flex items-center gap-3">
         {/* Theme Toggle */}
         <ThemeToggle />
-        
+
         {/* Credits Badge - clean static design */}
         <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-muted/50 border border-border/50 transition-all duration-300 hover:bg-muted cursor-pointer">
           <Coins className="w-4 h-4 text-primary" />
@@ -59,8 +61,8 @@ export const DashboardHeader = () => {
         {/* Profile Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               className="flex items-center gap-2 px-2 py-1.5 h-auto hover:bg-muted/50 rounded-xl"
             >
               <Avatar className="h-8 w-8 border border-border">
@@ -100,7 +102,7 @@ export const DashboardHeader = () => {
               <span className="text-xs text-primary font-medium">{user.credits}</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem 
+            <DropdownMenuItem
               className="cursor-pointer text-destructive focus:text-destructive"
               onClick={handleLogout}
             >

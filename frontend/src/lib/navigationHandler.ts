@@ -36,6 +36,14 @@ const STEP_PATTERNS: Record<string, { patterns: RegExp[]; step: CampaignStep }> 
         ],
         step: 'script-selection'
     },
+    scriptRefinement: {
+        patterns: [
+            /^(refine|refine script|edit script|script refinement|refine scripts)$/i,
+            /^(improve|improve script|modify script|customize script|change script)$/i,
+            /^(diff|difference|compare|script diff)$/i
+        ],
+        step: 'script-refinement'
+    },
     avatarSelection: {
         patterns: [
             /^(avatar|avatars|choose avatar|select avatar|avatar selection)$/i,
@@ -323,6 +331,7 @@ export const getStepDescription = (step: CampaignStep): string => {
         'product-url': 'Enter product URL',
         'product-analysis': 'Product analysis and insights',
         'script-selection': 'Choose ad script',
+        'script-generation': 'Generate ad script',
         'avatar-selection': 'Select avatar/spokesperson',
         'creative-generation': 'Generate creative assets',
         'creative-generation:images': 'Generate images',

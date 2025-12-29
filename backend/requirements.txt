@@ -17,3 +17,6 @@ facebook-business
 httpx
 chromadb
 PyPDF2
+firecrawl-py
+validators
+openai

@@ -6,13 +6,15 @@ interface SuggestionChipsProps {
   onSelect: (optionId: string) => void;
   currentStep: CampaignStep;
   disabled?: boolean;
+  selectedId?: string;
 }
 
 export const SuggestionChips = ({
   activeQuestion,
   onSelect,
   currentStep,
-  disabled
+  disabled,
+  selectedId
 }: SuggestionChipsProps) => {
   if (!activeQuestion || disabled) return null;
 
@@ -25,23 +27,29 @@ export const SuggestionChips = ({
         <span className="text-xs text-muted-foreground mr-1">
           {isCompactQuestion ? 'Quick actions:' : 'Suggestions:'}
         </span>
-        {activeQuestion.options.map((option, index) => (
-          <button
-            key={option.id}
-            onClick={() => onSelect(option.id)}
-            disabled={disabled}
-            style={{ animationDelay: `${index * 40}ms` }}
-            className={cn(
-              "px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 animate-fade-in",
-              "hover:shadow-md active:scale-95",
-              isCustomOption(option.id)
-                ? "bg-secondary/15 text-secondary border border-secondary/25 hover:bg-secondary/25 hover:border-secondary/40"
-                : "bg-background border border-border hover:bg-muted hover:border-primary/30 text-foreground"
-            )}
-          >
-            {option.label}
-          </button>
-        ))}
+        {activeQuestion.options.map((option, index) => {
+          const isSelected = selectedId === option.id;
+          return (
+            <button
+              key={option.id}
+              onClick={() => onSelect(option.id)}
+              disabled={disabled}
+              style={{ animationDelay: `${index * 40}ms` }}
+              className={cn(
+                "px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 animate-fade-in flex items-center gap-1.5",
+                "hover:shadow-md active:scale-95",
+                isSelected
+                  ? "bg-primary text-primary-foreground border-primary shadow-sm"
+                  : isCustomOption(option.id)
+                    ? "bg-secondary/15 text-secondary border border-secondary/25 hover:bg-secondary/25 hover:border-secondary/40"
+                    : "bg-background border border-border hover:bg-muted hover:border-primary/30 text-foreground"
+              )}
+            >
+              {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+              {option.label}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

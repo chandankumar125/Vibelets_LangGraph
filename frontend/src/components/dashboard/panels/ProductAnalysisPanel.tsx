@@ -1,10 +1,19 @@
 import { ProductData } from '@/types/campaign';
-import { Loader2, Package, DollarSign, Tag, FileText, Image, TrendingUp, Star, Users, Video, CircleDollarSign, ExternalLink, Sparkles, RefreshCw } from 'lucide-react';
+import {
+  Loader2, Package, DollarSign, Tag, FileText, Image,
+  TrendingUp, Star, Users, Video, CircleDollarSign,
+  ExternalLink, Sparkles, RefreshCw, Layers, Eye, ZoomIn, X
+} from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ImageLightbox } from '@/components/ui/image-lightbox';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 import { cn } from '@/lib/utils';
+import { useState } from 'react';
+import { VariantsPanel } from './VariantsPanel';
+
 interface ProductAnalysisPanelProps {
   productData: ProductData | null;
   productUrl: string | null;
@@ -21,14 +30,12 @@ const insightIcons: Record<string, React.ElementType> = {
   'dollar-sign': CircleDollarSign,
 };
 
-// Helper function to format insight values (handles objects and arrays)
 const formatInsightValue = (value: any): string => {
-  if (typeof value === 'string') {
-    return value;
-  } else if (Array.isArray(value)) {
+  if (typeof value === 'string') return value;
+  if (Array.isArray(value)) {
     return value.map(v => typeof v === 'object' ? JSON.stringify(v) : String(v)).join(', ');
-  } else if (typeof value === 'object' && value !== null) {
-    // Convert object to readable format
+  }
+  if (typeof value === 'object' && value !== null) {
     return Object.entries(value)
       .map(([k, v]) => `${k}: ${typeof v === 'object' ? JSON.stringify(v) : v}`)
       .join(', ');
@@ -36,88 +43,21 @@ const formatInsightValue = (value: any): string => {
   return String(value);
 };
 
-export const ProductAnalysisPanel = ({ productData, productUrl, isAnalyzing, isRegenerating, onRegenerate }: ProductAnalysisPanelProps) => {
+export const ProductAnalysisPanel = ({
+  productData,
+  productUrl,
+  isAnalyzing,
+  isRegenerating,
+  onRegenerate
+}: ProductAnalysisPanelProps) => {
+  const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
+
   if (isAnalyzing) {
     return (
       <div className="flex flex-col h-full p-6 animate-fade-in">
-        {/* Skeleton Page Screenshot */}
-        <div className="relative rounded-xl overflow-hidden border border-border bg-muted mb-6">
-          <div className="aspect-video bg-muted relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-muted via-muted-foreground/5 to-muted animate-[shimmer_2s_infinite]"
-              style={{ backgroundSize: '200% 100%', animation: 'shimmer 2s infinite linear' }} />
-            <div className="flex items-center justify-center h-full">
-              <div className="text-center">
-                <Loader2 className="w-10 h-10 text-primary animate-spin mx-auto mb-3" />
-                <p className="text-sm font-medium text-muted-foreground">Capturing page screenshot...</p>
-              </div>
-            </div>
-          </div>
-          <div className="absolute bottom-4 left-4 right-4 z-20">
-            <div className="flex items-center gap-2 text-xs text-muted-foreground bg-background/80 backdrop-blur-sm rounded-lg px-3 py-2">
-              <ExternalLink className="w-3 h-3" />
-              <span className="truncate">{productUrl}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Skeleton Product Details */}
-        <Card className="border-border mb-4">
-          <CardHeader className="pb-3">
-            <div className="h-6 w-3/4 bg-muted rounded animate-pulse" />
-            <div className="h-5 w-20 bg-muted rounded animate-pulse mt-2" />
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-3 rounded-lg bg-muted/50">
-                <div className="h-3 w-12 bg-muted rounded animate-pulse mb-2" />
-                <div className="h-6 w-16 bg-muted rounded animate-pulse" />
-              </div>
-              <div className="p-3 rounded-lg bg-muted/50">
-                <div className="h-3 w-12 bg-muted rounded animate-pulse mb-2" />
-                <div className="h-6 w-20 bg-muted rounded animate-pulse" />
-              </div>
-            </div>
-            <div>
-              <div className="h-3 w-20 bg-muted rounded animate-pulse mb-2" />
-              <div className="space-y-2">
-                <div className="h-4 w-full bg-muted rounded animate-pulse" />
-                <div className="h-4 w-5/6 bg-muted rounded animate-pulse" />
-                <div className="h-4 w-4/6 bg-muted rounded animate-pulse" />
-              </div>
-            </div>
-            <div>
-              <div className="h-3 w-24 bg-muted rounded animate-pulse mb-2" />
-              <div className="grid grid-cols-3 gap-2">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="aspect-square rounded-lg bg-muted animate-pulse" style={{ animationDelay: `${i * 150}ms` }} />
-                ))}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Analysis Progress */}
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-foreground">Analyzing Your Product</h2>
-          <div className="space-y-3">
-            {[
-              { label: 'Extracting product details', done: true },
-              { label: 'Analyzing images', done: true },
-              { label: 'Generating insights', done: false },
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-3 animate-fade-in" style={{ animationDelay: `${i * 200}ms` }}>
-                {item.done ? (
-                  <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center">
-                    <Sparkles className="w-3 h-3 text-primary" />
-                  </div>
-                ) : (
-                  <Loader2 className="w-5 h-5 text-primary animate-spin" />
-                )}
-                <span className={cn("text-sm", item.done ? "text-foreground" : "text-muted-foreground")}>
-                  {item.label}
-                </span>
-              </div>
-            ))}
+        <div className="relative rounded-xl overflow-hidden border bg-muted mb-6">
+          <div className="aspect-video flex items-center justify-center">
+            <Loader2 className="w-10 h-10 animate-spin text-primary" />
           </div>
         </div>
       </div>
@@ -126,103 +66,159 @@ export const ProductAnalysisPanel = ({ productData, productUrl, isAnalyzing, isR
 
   if (!productData) return null;
 
-  // DEBUG: Log product data to see what's available
-  console.log('ProductAnalysisPanel - productData:', productData);
-  console.log('ProductAnalysisPanel - images:', productData.images);
-  console.log('ProductAnalysisPanel - pageScreenshot:', productData.pageScreenshot);
+  /* Normalize Images */
+  const normalizedImages: string[] =
+    (productData as any).downloaded_images?.length
+      ? (productData as any).downloaded_images
+      : productData.images?.length
+        ? productData.images
+        : [];
+
+  const mainImage: string | null =
+    productData.pageScreenshot ||
+    (productData as any).main_image ||
+    normalizedImages[0] ||
+    null;
+
+  const similarImages: string[] = normalizedImages.slice(1);
+
+  const price: string =
+    productData.price && productData.price !== 'Price not found'
+      ? productData.price
+      : 'Price not found';
 
   return (
-    <div className="p-6 space-y-6 animate-fade-in">
-      {/* Page Screenshot Preview */}
-      {(productData.pageScreenshot || (productData.images && productData.images.length > 0)) ? (
-        <div className="relative rounded-xl overflow-hidden border border-border bg-white">
-          <ImageLightbox
-            src={productData.pageScreenshot || productData.images[0]}
-            alt="Product page preview"
-            className="w-full min-h-[300px] object-contain"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent pointer-events-none" />
-          <div className="absolute bottom-0 left-0 right-0 p-4 pointer-events-none">
-            <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
+    <div className="p-6 space-y-6 animate-fade-in overflow-y-auto h-full">
+
+      {/* Main Image - Expandable */}
+      {mainImage ? (
+        <div
+          className="relative rounded-xl overflow-hidden border bg-white group cursor-pointer hover:shadow-lg transition-shadow"
+          onClick={() => setFullscreenImage(mainImage)}
+        >
+          <div className="relative w-full bg-gradient-to-b from-transparent via-white to-background/10">
+            <img
+              src={mainImage}
+              alt="Product preview"
+              className="w-full h-[280px] object-contain group-hover:scale-110 transition-transform duration-300"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <Badge className="gap-2 bg-black/80 border-white/20 hover:bg-black/90">
+                <ZoomIn className="w-4 h-4" />
+                Click to Expand
+              </Badge>
+            </div>
+          </div>
+          <div className="absolute bottom-3 left-3 z-10">
+            <Badge variant="secondary">
               <Sparkles className="w-3 h-3 mr-1" />
               AI Analyzed
             </Badge>
           </div>
         </div>
       ) : (
-        <div className="relative rounded-xl overflow-hidden border border-border bg-muted/50 min-h-[300px] flex items-center justify-center">
-          <div className="text-center text-muted-foreground">
-            <Image className="w-16 h-16 mx-auto mb-2 opacity-50" />
-            <p className="text-sm">No product image available</p>
-          </div>
+        <div className="h-[280px] flex items-center justify-center bg-muted/50 rounded-xl">
+          <Image className="w-16 h-16 opacity-50" />
         </div>
       )}
 
-      {/* Product Info */}
+      {/* Product Info Card */}
       <Card className="border-primary/20">
         <CardHeader className="pb-3">
-          <CardTitle className="text-lg flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2">
             <Package className="w-5 h-5 text-primary" />
             {productData.title}
           </CardTitle>
-          <Badge variant="outline" className="w-fit">{productData.category}</Badge>
+          {productData.category && (
+            <Badge variant="outline">{productData.category}</Badge>
+          )}
         </CardHeader>
+
         <CardContent className="space-y-4">
+
+          {/* Price + SKU */}
           <div className="grid grid-cols-2 gap-4">
             <div className="p-3 rounded-lg bg-muted/50">
               <div className="flex items-center gap-2 text-muted-foreground mb-1">
                 <DollarSign className="w-4 h-4" />
                 <span className="text-xs">Price</span>
               </div>
-              <p className="font-bold text-lg text-foreground">{productData.price}</p>
+              <p className="font-bold text-lg">{price}</p>
             </div>
+
             <div className="p-3 rounded-lg bg-muted/50">
               <div className="flex items-center gap-2 text-muted-foreground mb-1">
                 <Tag className="w-4 h-4" />
                 <span className="text-xs">SKU</span>
               </div>
-              <p className="font-bold text-lg text-foreground">{productData.sku}</p>
+              <p className="font-bold text-lg font-mono">{productData.sku || '—'}</p>
             </div>
           </div>
 
+          {/* Description */}
           <div>
             <div className="flex items-center gap-2 mb-2 text-muted-foreground">
               <FileText className="w-4 h-4" />
               <span className="text-xs">Description</span>
             </div>
-            <p className="text-sm text-foreground">{productData.description}</p>
+            <p className="text-sm line-clamp-3">{productData.description || 'No description available.'}</p>
           </div>
 
-          <div>
-            <div className="flex items-center gap-2 mb-2 text-muted-foreground">
-              <Image className="w-4 h-4" />
-              <span className="text-xs">Product Images</span>
-            </div>
-            {productData.images && productData.images.length > 0 ? (
-              <div className="grid grid-cols-3 gap-2">
-                {productData.images.slice(0, 3).map((img, i) => (
-                  <ImageLightbox
-                    key={i}
-                    src={img}
-                    alt={`Product ${i + 1}`}
-                    className="w-full h-24 rounded-lg bg-muted ring-2 ring-transparent hover:ring-primary/50 transition-all object-contain"
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="flex items-center justify-center h-24 rounded-lg bg-muted/50 border border-dashed border-muted-foreground/30">
-                <p className="text-xs text-muted-foreground">No product images found</p>
-              </div>
-            )}
-          </div>
         </CardContent>
       </Card>
 
-      {/* AI Insights */}
-      {productData.insights && (
+      {/* Product Variants */}
+      {productData.variants && productData.variants.length > 0 && (
+        <VariantsPanel
+          variants={productData.variants}
+          productUrl={productUrl || undefined}
+          showQuickActions={true}
+          onVariantSelect={(variant) => {
+            console.log('Variant selected:', variant);
+            // Variant selection will be handled via chat message
+          }}
+        />
+      )}
+
+      {/* Product Gallery */}
+      {similarImages.length > 0 && (
         <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+          <div className="flex items-center gap-2">
+            <Image className="w-4 h-4 text-primary" />
+            <span className="text-sm font-semibold">Product Gallery</span>
+            <Badge variant="outline" className="text-xs">
+              {similarImages.length} images
+            </Badge>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {similarImages.map((img, i) => (
+              <div
+                key={i}
+                className="relative rounded-lg overflow-hidden border bg-white group cursor-pointer hover:shadow-md transition-shadow"
+                onClick={() => setFullscreenImage(img)}
+              >
+                <img
+                  src={img}
+                  alt={`Product ${i + 2}`}
+                  className="w-full h-48 object-contain bg-muted group-hover:scale-110 transition-transform duration-300"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                  <ZoomIn className="w-5 h-5 text-white drop-shadow" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* AI Insights */}
+      {productData.insights?.length && (
+        <div className="space-y-3">
+          <div className="flex justify-between items-center">
+            <h3 className="text-sm font-semibold flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
               AI Insights
             </h3>
@@ -232,35 +228,66 @@ export const ProductAnalysisPanel = ({ productData, productUrl, isAnalyzing, isR
                 size="sm"
                 onClick={onRegenerate}
                 disabled={isRegenerating}
-                className="h-7 text-xs text-muted-foreground hover:text-foreground"
               >
                 <RefreshCw className={cn("w-3 h-3 mr-1", isRegenerating && "animate-spin")} />
-                {isRegenerating ? 'Regenerating...' : 'Refresh insights'}
+                Refresh
               </Button>
             )}
           </div>
-          <div className="grid grid-cols-1 gap-3">
-            {productData.insights.map((insight, i) => {
-              const Icon = insightIcons[insight.icon] || Star;
-              const formattedValue = formatInsightValue(insight.value);
-              return (
-                <div key={i} className={cn(
-                  "flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-primary/5 to-accent/5 border border-primary/10",
-                  isRegenerating && "opacity-50"
-                )}>
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Icon className="w-4 h-4 text-primary" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs text-muted-foreground mb-1">{insight.label}</p>
-                    <p className="text-sm font-medium text-foreground leading-relaxed break-words whitespace-normal">{formattedValue}</p>
-                  </div>
+
+          {productData.insights.map((insight, i) => {
+            const insightIcons: Record<string, React.ElementType> = {
+              'trending-up': TrendingUp,
+              'star': Star,
+              'users': Users,
+              'video': Video,
+              'dollar-sign': CircleDollarSign,
+            };
+            const Icon = insightIcons[insight.icon] || Star;
+            return (
+              <div
+                key={i}
+                className="flex gap-3 p-3 rounded-lg bg-primary/5 border border-primary/10"
+              >
+                <div className="w-8 h-8 flex items-center justify-center rounded-full bg-primary/10">
+                  <Icon className="w-4 h-4 text-primary" />
                 </div>
-              );
-            })}
-          </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">{insight.label}</p>
+                  <p className="text-sm font-medium">
+                    {formatInsightValue(insight.value)}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
+
+      {/* Fullscreen Image Modal */}
+      <Dialog open={!!fullscreenImage} onOpenChange={() => setFullscreenImage(null)}>
+        <DialogContent className="max-w-5xl w-[95vw] h-[95vh] p-0 bg-background/95 backdrop-blur-sm border-border">
+          <VisuallyHidden>
+            <div>Product Image Fullscreen</div>
+          </VisuallyHidden>
+          <button
+            onClick={() => setFullscreenImage(null)}
+            className="absolute top-3 right-3 z-50 p-2 rounded-full bg-background/80 hover:bg-background border border-border shadow-md transition-colors"
+          >
+            <X className="w-5 h-5 text-foreground" />
+          </button>
+          {fullscreenImage && (
+            <div className="relative w-full h-full flex items-center justify-center">
+              <img
+                src={fullscreenImage}
+                alt="Full screen product image"
+                className="w-full h-full object-contain"
+              />
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 };

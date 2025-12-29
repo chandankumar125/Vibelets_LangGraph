@@ -5,6 +5,8 @@ Supports bidirectional navigation and context-aware memory
 from typing import Dict, Any, Literal
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
+
+# ... existing imports ...
 from state_schema import WorkflowState
 from scraper import ProductScraper
 from agents import AnalysisAgent, ScriptGenerationAgent, ImageGenerationAgent, NavigationAgent, GuideAgent
@@ -123,20 +125,44 @@ class AdCampaignWorkflow:
     
     async def _route_node(self, state: WorkflowState) -> Dict[str, Any]:
         """Entry point node that determines navigation"""
-        # Check for explicit Facebook campaign intent in user message
+        # Check for explicit intent in user message
         messages = state.get("messages", [])
         if messages:
             last_msg = messages[-1]
             if last_msg.get("role") == "user" and last_msg.get("content"):
                 content = last_msg.get("content", "").lower()
+                
+                # 1. Facebook Start Intent
                 if "facebook" in content and ("campaign" in content or "create" in content or "start" in content):
                     print("Detected explicit Facebook campaign intent")
                     intent = "facebook_auth"
-                    # Generate guidance immediately
                     temp_state = state.copy()
                     temp_state["current_step"] = intent
                     agent_message = "Starting Facebook campaign creation. Please authenticate to continue."
                     return {"navigation_intent": intent, "agent_message": agent_message}
+
+                # 2. Switch Ad Account Intent
+                if "account" in content and ("switch" in content or "change" in content or "different" in content or "another" in content or "choose" in content or "select" in content or "pick" in content):
+                    if state.get("facebook_access_token"):
+                        print("Detected intent to switch ad account")
+                        intent = "select_ad_account"
+                        return {"navigation_intent": intent, "agent_message": "Sure, let's switch ad accounts."}
+                    else:
+                        print("Detected intent to switch account, but not authenticated -> Redirecting to Auth")
+                        intent = "facebook_auth"
+                        return {"navigation_intent": intent, "agent_message": "Please connect your Facebook account first before selecting an ad account."}
+
+        # Try to detect script selection intent directly for speed/reliability
+        messages = state.get("messages", [])
+        if messages:
+            last_msg = messages[-1]
+            if last_msg.get("role") == "user" and last_msg.get("content"):
+                content = last_msg.get("content", "").lower()
+                import re
+                if re.search(r'\b(script|option|choice)\s*\d+\b', content):
+                    print(f"DEBUG: Direct script selection detected: {content}")
+                    intent = "select_script"
+                    state["navigation_intent"] = intent
 
         # Analyze intent using agent if not already provided
         intent = state.get("navigation_intent")
@@ -272,26 +298,37 @@ class AdCampaignWorkflow:
             return state
         
         print(f"DEBUG: Scraping new URL: {url}")
-        product_data = self.scraper.scrape_url(url)
-        
-        if "error" in product_data:
-            state["error"] = product_data["error"]
+        try:
+            product_data = self.scraper.scrape_url(url)
+            
+            if "error" in product_data:
+                state["error"] = product_data["error"]
+                return state
+            
+            state["product_data"] = product_data
+            state["selected_product"] = product_data  # Default to the scraped product
+            state["scraped_url"] = url # Mark this URL as successfully scraped
+            
+            # Handle store selection if needed
+            if product_data.get("is_store") and product_data.get("products"):
+                # For now, use first product or let frontend handle selection
+                # Frontend can update selected_product via API
+                pass
+            
+            # Update iteration count
+            if "iteration_count" not in state:
+                state["iteration_count"] = {}
+            state["iteration_count"]["scrape"] = state["iteration_count"].get("scrape", 0) + 1
+            
+        except Exception as e:
+            error_msg = str(e)
+            print(f"ERROR in scrape_node: {error_msg}")
+            # Check if it's an API key issue
+            if "api key" in error_msg.lower() or "unauthorized" in error_msg.lower():
+                state["error"] = "Firecrawl API key not configured. Please set FIRECRAWL_API_KEY environment variable."
+            else:
+                state["error"] = f"Failed to scrape product: {error_msg}"
             return state
-        
-        state["product_data"] = product_data
-        state["selected_product"] = product_data  # Default to the scraped product
-        state["scraped_url"] = url # Mark this URL as successfully scraped
-        
-        # Handle store selection if needed
-        if product_data.get("is_store") and product_data.get("products"):
-            # For now, use first product or let frontend handle selection
-            # Frontend can update selected_product via API
-            pass
-        
-        # Update iteration count
-        if "iteration_count" not in state:
-            state["iteration_count"] = {}
-        state["iteration_count"]["scrape"] = state["iteration_count"].get("scrape", 0) + 1
         
         return state
     
@@ -320,9 +357,31 @@ class AdCampaignWorkflow:
         if state.get("analysis"):
             product_data["current_analysis"] = state["analysis"]
         
-        # Generate or refine analysis
-        analysis = await self.analysis_agent.analyze(product_data, feedback_history)
-        state["analysis"] = analysis
+        try:
+            # Generate or refine analysis
+            analysis = await self.analysis_agent.analyze(product_data, feedback_history)
+            
+            # Apply corrections if AI found missing info (like price or SKU) in raw text
+            if isinstance(analysis, dict) and "corrections" in analysis:
+                corrections = analysis.pop("corrections")
+                if corrections:
+                    print(f"DEBUG: Applying AI corrections to product data: {corrections}")
+                    for k, v in corrections.items():
+                        if v and v != "None":
+                            product_data[k] = v
+                    state["product_data"] = product_data
+                    state["selected_product"] = product_data
+
+            state["analysis"] = analysis
+            
+        except Exception as e:
+            error_msg = str(e)
+            print(f"ERROR in analyze_node: {error_msg}")
+            if "api key" in error_msg.lower() or "openai" in error_msg.lower():
+                state["error"] = "OpenAI API key not configured. Please set OPENAI_API_KEY environment variable."
+            else:
+                state["error"] = f"Failed to analyze product: {error_msg}"
+            return state
         
         # Update iteration count
         if "iteration_count" not in state:
@@ -526,7 +585,7 @@ class AdCampaignWorkflow:
 
         # Generate images using agent
         product_url = product_data.get("url")
-        print("DEBUG: Invoking ImageGenerationAgent (using Nano Banana Pro model)...")
+        print("DEBUG: Invoking ImageGenerationAgent...")
         images = self.image_agent.generate_images(
             product_url, 
             image_prompt, 
@@ -595,7 +654,7 @@ class AdCampaignWorkflow:
         if not state.get("available_avatars"):
             avatars = self.heygen.get_avatars()
             # User requested to limit number of avatars displayed/fetched
-            state["available_avatars"] = avatars[:9] if avatars else []
+            state["available_avatars"] = avatars[:10] if avatars else []
         
         # Avatar selection is handled by frontend
         # This node just validates that an avatar is selected
@@ -742,6 +801,15 @@ class AdCampaignWorkflow:
             last_msg = messages[-1]
             if last_msg.get("role") == "user" and last_msg.get("content"):
                 content = last_msg.get("content", "")
+                content_lower = content.lower()
+                
+                # Check for explicit SWITCH intent
+                if "switch" in content_lower or "change" in content_lower or "different" in content_lower:
+                    print("DEBUG: Clearing selected ad account for switch")
+                    state["selected_ad_account_id"] = None
+                    return state
+                
+                
                 # Check for "Select account X" pattern or just an ID
                 import re
                 # Look for numeric ID (usually 15+ digits for FB)
