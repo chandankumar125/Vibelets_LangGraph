@@ -155,7 +155,7 @@ export function ThreadSidebar({ currentThreadId, onSelectThread, onNewThread }: 
                                                     </SidebarMenuAction>
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent className="w-48" side="right" align="start">
-                                                    <DropdownMenuItem onClick={(e) => handleDeleteThread(e as any, thread.id)}>
+                                                    <DropdownMenuItem onClick={(e) => handleDeleteThread(e as React.MouseEvent, thread.id)}>
                                                         <Trash2 className="text-muted-foreground mr-2 h-4 w-4" />
                                                         <span>Delete Campaign</span>
                                                     </DropdownMenuItem>

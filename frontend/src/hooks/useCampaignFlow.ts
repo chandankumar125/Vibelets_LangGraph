@@ -5,7 +5,7 @@ import { createMockPerformanceDashboard } from '@/data/mockPerformanceData';
 import { toast } from 'sonner';
 import { isValidUrl, sanitizeInput, validateCampaignConfig, formatErrorMessage } from '@/lib/validation';
 import { matchUserInputToOption, looksLikeUrl, detectNavigationIntent } from '@/lib/nlpMatcher';
-import { vibeletsAPI } from '@/lib/api';
+import { vibeletsAPI, WorkflowState } from '@/lib/api';
 import { getIntentDescription, getAlternativeNavigationOptions, shouldConfirmIntent } from '@/lib/navigationHelper';
 
 
@@ -298,7 +298,7 @@ export const useCampaignFlow = () => {
   }, [addMessage]);
 
   // Sync state from backend response
-  const syncStateFromBackend = useCallback((backendState: any) => {
+  const syncStateFromBackend = useCallback((backendState: WorkflowState | null | undefined) => {
     if (!backendState) return;
 
     setState(prev => {
@@ -326,7 +326,7 @@ export const useCampaignFlow = () => {
           'publish_campaign': 'publishing'
         };
 
-        const mappedStep = stepMapping[backendState.current_step] || backendState.current_step as CampaignStep;
+        const mappedStep = stepMapping[backendState.current_step as string] || backendState.current_step as CampaignStep;
 
         // Only update step if we are NOT in the middle of a frontend-controlled regeneration
         const isRegeneratingLocally = prev.isRegenerating !== null || prev.isStepLoading;

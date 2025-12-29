@@ -41,6 +41,8 @@ export interface WorkflowState {
   campaign_config?: any;
   campaign_preview?: string;
   publish_status?: string;
+  video_aspect_ratio?: '1:1' | '4:5' | '9:16' | '1.91:1';
+  state?: WorkflowState;
 }
 
 export interface ApiResponse<T = any> {
